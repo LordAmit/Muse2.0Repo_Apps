@@ -1,0 +1,506 @@
+record `de.cketti.library.changelog.ChangeLog` @kind class @AccessFlag PUBLIC {
+  `android.content.Context` `de.cketti.library.changelog.ChangeLog.mContext` @AccessFlag PROTECTED_FINAL;
+  `java.lang.String` `de.cketti.library.changelog.ChangeLog.mCss` @AccessFlag PROTECTED_FINAL;
+  `int` `de.cketti.library.changelog.ChangeLog.mCurrentVersionCode` @AccessFlag PRIVATE;
+  `java.lang.String` `de.cketti.library.changelog.ChangeLog.mCurrentVersionName` @AccessFlag PRIVATE;
+  `int` `de.cketti.library.changelog.ChangeLog.mLastVersionCode` @AccessFlag PRIVATE;
+}
+global `java.lang.String` `@@de.cketti.library.changelog.ChangeLog.DEFAULT_CSS` @AccessFlag PUBLIC_STATIC_FINAL;
+global `java.lang.String` `@@de.cketti.library.changelog.ChangeLog.LOG_TAG` @AccessFlag PROTECTED_STATIC_FINAL;
+global `int` `@@de.cketti.library.changelog.ChangeLog.NO_VERSION` @AccessFlag PROTECTED_STATIC_FINAL;
+global `java.lang.String` `@@de.cketti.library.changelog.ChangeLog.VERSION_KEY` @AccessFlag PROTECTED_STATIC_FINAL;
+procedure `void` `<init>`(`de.cketti.library.changelog.ChangeLog` v2 @kind this, `android.content.Context` v3 @kind object @name `context`) @signature `Lde/cketti/library/changelog/ChangeLog;.<init>:(Landroid/content/Context;)V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+
+  #L0c5120.  call temp:= `getDefaultSharedPreferences`(v3) @signature `Landroid/preference/PreferenceManager;.getDefaultSharedPreferences:(Landroid/content/Context;)Landroid/content/SharedPreferences;` @kind static;
+  #L0c5126.  v0:= temp @kind object;
+  #L0c5128.  v1:= "h1 { margin-left: 0px; font-size: 1.2em; }\nli { margin-left: 0px; }\nul { padding-left: 2em; }" @kind object;
+  #L0c512c.  call `<init>`(v2, v3, v0, v1) @signature `Lde/cketti/library/changelog/ChangeLog;.<init>:(Landroid/content/Context;Landroid/content/SharedPreferences;Ljava/lang/String;)V` @kind direct;
+  #L0c5132.  return @kind void;
+}
+procedure `void` `<init>`(`de.cketti.library.changelog.ChangeLog` v6 @kind this, `android.content.Context` v7 @kind object @name `context`, `android.content.SharedPreferences` v8 @kind object @name `preferences`, `java.lang.String` v9 @kind object @name `css`) @signature `Lde/cketti/library/changelog/ChangeLog;.<init>:(Landroid/content/Context;Landroid/content/SharedPreferences;Ljava/lang/String;)V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L0c5144.  v5:= -1I;
+  #L0c5146.  call `<init>`(v6) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L0c514c.  v6.`de.cketti.library.changelog.ChangeLog.mContext` @type ^`android.content.Context` := v7 @kind object;
+  #L0c5150.  v6.`de.cketti.library.changelog.ChangeLog.mCss` @type ^`java.lang.String` := v9 @kind object;
+  #L0c5154.  v2:= "ckChangeLog_last_version_code" @kind object;
+  #L0c5158.  call temp:= `getInt`(v8, v2, v5) @signature `Landroid/content/SharedPreferences;.getInt:(Ljava/lang/String;I)I` @kind interface;
+  #L0c515e.  v2:= temp;
+  #L0c5160.  v6.`de.cketti.library.changelog.ChangeLog.mLastVersionCode` @type ^`int` := v2;
+  #Try_start0.  
+  #L0c5164.  call temp:= `getPackageManager`(v7) @signature `Landroid/content/Context;.getPackageManager:()Landroid/content/pm/PackageManager;` @kind virtual;
+  #L0c516a.  v2:= temp @kind object;
+  #L0c516c.  call temp:= `getPackageName`(v7) @signature `Landroid/content/Context;.getPackageName:()Ljava/lang/String;` @kind virtual;
+  #L0c5172.  v3:= temp @kind object;
+  #L0c5174.  v4:= 0I;
+  #L0c5176.  call temp:= `getPackageInfo`(v2, v3, v4) @signature `Landroid/content/pm/PackageManager;.getPackageInfo:(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;` @kind virtual;
+  #L0c517c.  v1:= temp @kind object;
+  #L0c517e.  v2:= v1.`android.content.pm.PackageInfo.versionCode` @type ^`int`;
+  #L0c5182.  v6.`de.cketti.library.changelog.ChangeLog.mCurrentVersionCode` @type ^`int` := v2;
+  #L0c5186.  v2:= v1.`android.content.pm.PackageInfo.versionName` @type ^`java.lang.String` @kind object;
+  #L0c518a.  v6.`de.cketti.library.changelog.ChangeLog.mCurrentVersionName` @type ^`java.lang.String` := v2 @kind object;
+  #Try_end0.  
+  #L0c518e.  return @kind void;
+  #L0c5190.  v0:= Exception @type ^`android.content.pm.PackageManager$NameNotFoundException` @kind object;
+  #L0c5192.  v6.`de.cketti.library.changelog.ChangeLog.mCurrentVersionCode` @type ^`int` := v5;
+  #L0c5196.  v2:= "ckChangeLog" @kind object;
+  #L0c519a.  v3:= "Could not get version information from manifest!" @kind object;
+  #L0c519e.  call temp:= `e`(v2, v3, v0) @signature `Landroid/util/Log;.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I` @kind static;
+  #L0c51a4.  goto L0c518e;
+  catch `android.content.pm.PackageManager$NameNotFoundException` @[Try_start0..Try_end0] goto L0c5190;
+}
+procedure `void` `<init>`(`de.cketti.library.changelog.ChangeLog` v1 @kind this, `android.content.Context` v2 @kind object @name `context`, `java.lang.String` v3 @kind object @name `css`) @signature `Lde/cketti/library/changelog/ChangeLog;.<init>:(Landroid/content/Context;Ljava/lang/String;)V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L0c51c4.  call temp:= `getDefaultSharedPreferences`(v2) @signature `Landroid/preference/PreferenceManager;.getDefaultSharedPreferences:(Landroid/content/Context;)Landroid/content/SharedPreferences;` @kind static;
+  #L0c51ca.  v0:= temp @kind object;
+  #L0c51cc.  call `<init>`(v1, v2, v0, v3) @signature `Lde/cketti/library/changelog/ChangeLog;.<init>:(Landroid/content/Context;Landroid/content/SharedPreferences;Ljava/lang/String;)V` @kind direct;
+  #L0c51d2.  return @kind void;
+}
+procedure `boolean` `parseReleaseTag`(`de.cketti.library.changelog.ChangeLog` v9 @kind this, `org.xmlpull.v1.XmlPullParser` v10 @kind object @name `xml`, `boolean` v11 @name `full`, `android.util.SparseArray` v12 @kind object) @signature `Lde/cketti/library/changelog/ChangeLog;.parseReleaseTag:(Lorg/xmlpull/v1/XmlPullParser;ZLandroid/util/SparseArray;)Z` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+
+  #L0c51e4.  v8:= 0I;
+  #L0c51e6.  v7:= "version" @kind object;
+  #L0c51ea.  call temp:= `getAttributeValue`(v10, v8, v7) @signature `Lorg/xmlpull/v1/XmlPullParser;.getAttributeValue:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;` @kind interface;
+  #L0c51f0.  v4:= temp @kind object;
+  #L0c51f2.  v7:= 0I;
+  #Try_start0.  
+  #L0c51f4.  v8:= "versioncode" @kind object;
+  #L0c51f8.  call temp:= `getAttributeValue`(v10, v7, v8) @signature `Lorg/xmlpull/v1/XmlPullParser;.getAttributeValue:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;` @kind interface;
+  #L0c51fe.  v6:= temp @kind object;
+  #L0c5200.  call temp:= `parseInt`(v6) @signature `Ljava/lang/Integer;.parseInt:(Ljava/lang/String;)I` @kind static;
+  #Try_end0.  
+  #L0c5206.  v5:= temp;
+  #L0c5208.  if v11 != 0 then goto L0c521e;
+  #L0c520c.  v7:= v9.`de.cketti.library.changelog.ChangeLog.mLastVersionCode` @type ^`int`;
+  #L0c5210.  if v5 > v7 then goto L0c521e;
+  #L0c5214.  v7:= 1I;
+  #L0c5216.  return v7;
+  #L0c5218.  v1:= Exception @type ^`java.lang.NumberFormatException` @kind object;
+  #L0c521a.  v5:= -1I;
+  #L0c521c.  goto L0c5208;
+  #L0c521e.  call temp:= `getEventType`(v10) @signature `Lorg/xmlpull/v1/XmlPullParser;.getEventType:()I` @kind interface;
+  #L0c5224.  v2:= temp;
+  #L0c5226.  v0:= new `java.util.ArrayList`;
+  #L0c522a.  call `<init>`(v0) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L0c5230.  v7:= 3I;
+  #L0c5232.  if v2 != v7 then goto L0c524e;
+  #L0c5236.  call temp:= `getName`(v10) @signature `Lorg/xmlpull/v1/XmlPullParser;.getName:()Ljava/lang/String;` @kind interface;
+  #L0c523c.  v7:= temp @kind object;
+  #L0c523e.  v8:= "change" @kind object;
+  #L0c5242.  call temp:= `equals`(v7, v8) @signature `Ljava/lang/String;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L0c5248.  v7:= temp;
+  #L0c524a.  if v7 == 0 then goto L0c528c;
+  #L0c524e.  v7:= 2I;
+  #L0c5250.  if v2 != v7 then goto L0c5282;
+  #L0c5254.  call temp:= `getName`(v10) @signature `Lorg/xmlpull/v1/XmlPullParser;.getName:()Ljava/lang/String;` @kind interface;
+  #L0c525a.  v7:= temp @kind object;
+  #L0c525c.  v8:= "change" @kind object;
+  #L0c5260.  call temp:= `equals`(v7, v8) @signature `Ljava/lang/String;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L0c5266.  v7:= temp;
+  #L0c5268.  if v7 == 0 then goto L0c5282;
+  #L0c526c.  call temp:= `next`(v10) @signature `Lorg/xmlpull/v1/XmlPullParser;.next:()I` @kind interface;
+  #L0c5272.  v2:= temp;
+  #L0c5274.  call temp:= `getText`(v10) @signature `Lorg/xmlpull/v1/XmlPullParser;.getText:()Ljava/lang/String;` @kind interface;
+  #L0c527a.  v7:= temp @kind object;
+  #L0c527c.  call temp:= `add`(v0, v7) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L0c5282.  call temp:= `next`(v10) @signature `Lorg/xmlpull/v1/XmlPullParser;.next:()I` @kind interface;
+  #L0c5288.  v2:= temp;
+  #L0c528a.  goto L0c5230;
+  #L0c528c.  v3:= new `de.cketti.library.changelog.ChangeLog$ReleaseItem`;
+  #L0c5290.  call `<init>`(v3, v5, v4, v0) @signature `Lde/cketti/library/changelog/ChangeLog$ReleaseItem;.<init>:(ILjava/lang/String;Ljava/util/List;)V` @kind direct;
+  #L0c5296.  call `put`(v12, v5, v3) @signature `Landroid/util/SparseArray;.put:(ILjava/lang/Object;)V` @kind virtual;
+  #L0c529c.  v7:= 0I;
+  #L0c529e.  goto L0c5216;
+  catch `java.lang.NumberFormatException` @[Try_start0..Try_end0] goto L0c5218;
+}
+procedure `java.util.List` `getChangeLog`(`de.cketti.library.changelog.ChangeLog` v8 @kind this, `boolean` v9 @name `full`) @signature `Lde/cketti/library/changelog/ChangeLog;.getChangeLog:(Z)Ljava/util/List;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+
+  #L0c52c0.  call temp:= `getMasterChangeLog`(v8, v9) @signature `Lde/cketti/library/changelog/ChangeLog;.getMasterChangeLog:(Z)Landroid/util/SparseArray;` @kind virtual;
+  #L0c52c6.  v4:= temp @kind object;
+  #L0c52c8.  call temp:= `getLocalizedChangeLog`(v8, v9) @signature `Lde/cketti/library/changelog/ChangeLog;.getLocalizedChangeLog:(Z)Landroid/util/SparseArray;` @kind virtual;
+  #L0c52ce.  v0:= temp @kind object;
+  #L0c52d0.  v5:= new `java.util.ArrayList`;
+  #L0c52d4.  call temp:= `size`(v4) @signature `Landroid/util/SparseArray;.size:()I` @kind virtual;
+  #L0c52da.  v7:= temp;
+  #L0c52dc.  call `<init>`(v5, v7) @signature `Ljava/util/ArrayList;.<init>:(I)V` @kind direct;
+  #L0c52e2.  v1:= 0I;
+  #L0c52e4.  call temp:= `size`(v4) @signature `Landroid/util/SparseArray;.size:()I` @kind virtual;
+  #L0c52ea.  v3:= temp;
+  #L0c52ec.  if v1 >= v3 then goto L0c5318;
+  #L0c52f0.  call temp:= `keyAt`(v4, v1) @signature `Landroid/util/SparseArray;.keyAt:(I)I` @kind virtual;
+  #L0c52f6.  v2:= temp;
+  #L0c52f8.  call temp:= `get`(v4, v2) @signature `Landroid/util/SparseArray;.get:(I)Ljava/lang/Object;` @kind virtual;
+  #L0c52fe.  v7:= temp @kind object;
+  #L0c5300.  call temp:= `get`(v0, v2, v7) @signature `Landroid/util/SparseArray;.get:(ILjava/lang/Object;)Ljava/lang/Object;` @kind virtual;
+  #L0c5306.  v6:= temp @kind object;
+  #L0c5308.  v6:= (`de.cketti.library.changelog.ChangeLog$ReleaseItem`) v6 @kind object;
+  #L0c530c.  call temp:= `add`(v5, v6) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L0c5312.  v1:= v1 + 1;
+  #L0c5316.  goto L0c52ec;
+  #L0c5318.  call temp:= `getChangeLogComparator`(v8) @signature `Lde/cketti/library/changelog/ChangeLog;.getChangeLogComparator:()Ljava/util/Comparator;` @kind virtual;
+  #L0c531e.  v7:= temp @kind object;
+  #L0c5320.  call `sort`(v5, v7) @signature `Ljava/util/Collections;.sort:(Ljava/util/List;Ljava/util/Comparator;)V` @kind static;
+  #L0c5326.  return v5 @kind object;
+}
+procedure `java.util.Comparator` `getChangeLogComparator`(`de.cketti.library.changelog.ChangeLog` v1 @kind this) @signature `Lde/cketti/library/changelog/ChangeLog;.getChangeLogComparator:()Ljava/util/Comparator;` @AccessFlag PROTECTED {
+    temp;
+    v0;
+
+  #L0c5338.  v0:= new `de.cketti.library.changelog.ChangeLog$3`;
+  #L0c533c.  call `<init>`(v0, v1) @signature `Lde/cketti/library/changelog/ChangeLog$3;.<init>:(Lde/cketti/library/changelog/ChangeLog;)V` @kind direct;
+  #L0c5342.  return v0 @kind object;
+}
+procedure `int` `getCurrentVersionCode`(`de.cketti.library.changelog.ChangeLog` v1 @kind this) @signature `Lde/cketti/library/changelog/ChangeLog;.getCurrentVersionCode:()I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L0c5354.  v0:= v1.`de.cketti.library.changelog.ChangeLog.mCurrentVersionCode` @type ^`int`;
+  #L0c5358.  return v0;
+}
+procedure `java.lang.String` `getCurrentVersionName`(`de.cketti.library.changelog.ChangeLog` v1 @kind this) @signature `Lde/cketti/library/changelog/ChangeLog;.getCurrentVersionName:()Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L0c536c.  v0:= v1.`de.cketti.library.changelog.ChangeLog.mCurrentVersionName` @type ^`java.lang.String` @kind object;
+  #L0c5370.  return v0 @kind object;
+}
+procedure `android.app.AlertDialog` `getDialog`(`de.cketti.library.changelog.ChangeLog` v7 @kind this, `boolean` v8 @name `full`) @signature `Lde/cketti/library/changelog/ChangeLog;.getDialog:(Z)Landroid/app/AlertDialog;` @AccessFlag PROTECTED {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L0c5384.  v1:= 0I;
+  #L0c5386.  v0:= new `android.webkit.WebView`;
+  #L0c538a.  v2:= v7.`de.cketti.library.changelog.ChangeLog.mContext` @type ^`android.content.Context` @kind object;
+  #L0c538e.  call `<init>`(v0, v2) @signature `Landroid/webkit/WebView;.<init>:(Landroid/content/Context;)V` @kind direct;
+  #L0c5394.  call temp:= `getLog`(v7, v8) @signature `Lde/cketti/library/changelog/ChangeLog;.getLog:(Z)Ljava/lang/String;` @kind virtual;
+  #L0c539a.  v2:= temp @kind object;
+  #L0c539c.  v3:= "text/html" @kind object;
+  #L0c53a0.  v4:= "UTF-8" @kind object;
+  #L0c53a4.  v5:= v1 @kind object;
+  #L0c53a6.  call `loadDataWithBaseURL`(v0, v1, v2, v3, v4, v5) @signature `Landroid/webkit/WebView;.loadDataWithBaseURL:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V` @kind virtual;
+  #L0c53ac.  v6:= new `android.app.AlertDialog$Builder`;
+  #L0c53b0.  v1:= v7.`de.cketti.library.changelog.ChangeLog.mContext` @type ^`android.content.Context` @kind object;
+  #L0c53b4.  call `<init>`(v6, v1) @signature `Landroid/app/AlertDialog$Builder;.<init>:(Landroid/content/Context;)V` @kind direct;
+  #L0c53ba.  v1:= v7.`de.cketti.library.changelog.ChangeLog.mContext` @type ^`android.content.Context` @kind object;
+  #L0c53be.  call temp:= `getResources`(v1) @signature `Landroid/content/Context;.getResources:()Landroid/content/res/Resources;` @kind virtual;
+  #L0c53c4.  v2:= temp @kind object;
+  #L0c53c6.  if v8 == 0 then goto L0c543a;
+  #L0c53ca.  v1:= `@@de.cketti.library.changelog.R$string.changelog_full_title` @type ^`int`;
+  #L0c53ce.  call temp:= `getString`(v2, v1) @signature `Landroid/content/res/Resources;.getString:(I)Ljava/lang/String;` @kind virtual;
+  #L0c53d4.  v1:= temp @kind object;
+  #L0c53d6.  call temp:= `setTitle`(v6, v1) @signature `Landroid/app/AlertDialog$Builder;.setTitle:(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;` @kind virtual;
+  #L0c53dc.  v1:= temp @kind object;
+  #L0c53de.  call temp:= `setView`(v1, v0) @signature `Landroid/app/AlertDialog$Builder;.setView:(Landroid/view/View;)Landroid/app/AlertDialog$Builder;` @kind virtual;
+  #L0c53e4.  v1:= temp @kind object;
+  #L0c53e6.  v2:= 0I;
+  #L0c53e8.  call temp:= `setCancelable`(v1, v2) @signature `Landroid/app/AlertDialog$Builder;.setCancelable:(Z)Landroid/app/AlertDialog$Builder;` @kind virtual;
+  #L0c53ee.  v1:= temp @kind object;
+  #L0c53f0.  v2:= v7.`de.cketti.library.changelog.ChangeLog.mContext` @type ^`android.content.Context` @kind object;
+  #L0c53f4.  call temp:= `getResources`(v2) @signature `Landroid/content/Context;.getResources:()Landroid/content/res/Resources;` @kind virtual;
+  #L0c53fa.  v2:= temp @kind object;
+  #L0c53fc.  v3:= `@@de.cketti.library.changelog.R$string.changelog_ok_button` @type ^`int`;
+  #L0c5400.  call temp:= `getString`(v2, v3) @signature `Landroid/content/res/Resources;.getString:(I)Ljava/lang/String;` @kind virtual;
+  #L0c5406.  v2:= temp @kind object;
+  #L0c5408.  v3:= new `de.cketti.library.changelog.ChangeLog$1`;
+  #L0c540c.  call `<init>`(v3, v7) @signature `Lde/cketti/library/changelog/ChangeLog$1;.<init>:(Lde/cketti/library/changelog/ChangeLog;)V` @kind direct;
+  #L0c5412.  call temp:= `setPositiveButton`(v1, v2, v3) @signature `Landroid/app/AlertDialog$Builder;.setPositiveButton:(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;` @kind virtual;
+  #L0c5418.  if v8 != 0 then goto L0c5430;
+  #L0c541c.  v1:= `@@de.cketti.library.changelog.R$string.changelog_show_full` @type ^`int`;
+  #L0c5420.  v2:= new `de.cketti.library.changelog.ChangeLog$2`;
+  #L0c5424.  call `<init>`(v2, v7) @signature `Lde/cketti/library/changelog/ChangeLog$2;.<init>:(Lde/cketti/library/changelog/ChangeLog;)V` @kind direct;
+  #L0c542a.  call temp:= `setNegativeButton`(v6, v1, v2) @signature `Landroid/app/AlertDialog$Builder;.setNegativeButton:(ILandroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;` @kind virtual;
+  #L0c5430.  call temp:= `create`(v6) @signature `Landroid/app/AlertDialog$Builder;.create:()Landroid/app/AlertDialog;` @kind virtual;
+  #L0c5436.  v1:= temp @kind object;
+  #L0c5438.  return v1 @kind object;
+  #L0c543a.  v1:= `@@de.cketti.library.changelog.R$string.changelog_title` @type ^`int`;
+  #L0c543e.  goto L0c53ce;
+}
+procedure `java.lang.String` `getFullLog`(`de.cketti.library.changelog.ChangeLog` v1 @kind this) @signature `Lde/cketti/library/changelog/ChangeLog;.getFullLog:()Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L0c5450.  v0:= 1I;
+  #L0c5452.  call temp:= `getLog`(v1, v0) @signature `Lde/cketti/library/changelog/ChangeLog;.getLog:(Z)Ljava/lang/String;` @kind virtual;
+  #L0c5458.  v0:= temp @kind object;
+  #L0c545a.  return v0 @kind object;
+}
+procedure `android.app.AlertDialog` `getFullLogDialog`(`de.cketti.library.changelog.ChangeLog` v1 @kind this) @signature `Lde/cketti/library/changelog/ChangeLog;.getFullLogDialog:()Landroid/app/AlertDialog;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L0c546c.  v0:= 1I;
+  #L0c546e.  call temp:= `getDialog`(v1, v0) @signature `Lde/cketti/library/changelog/ChangeLog;.getDialog:(Z)Landroid/app/AlertDialog;` @kind virtual;
+  #L0c5474.  v0:= temp @kind object;
+  #L0c5476.  return v0 @kind object;
+}
+procedure `int` `getLastVersionCode`(`de.cketti.library.changelog.ChangeLog` v1 @kind this) @signature `Lde/cketti/library/changelog/ChangeLog;.getLastVersionCode:()I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L0c5488.  v0:= v1.`de.cketti.library.changelog.ChangeLog.mLastVersionCode` @type ^`int`;
+  #L0c548c.  return v0;
+}
+procedure `android.util.SparseArray` `getLocalizedChangeLog`(`de.cketti.library.changelog.ChangeLog` v1 @kind this, `boolean` v2 @name `full`) @signature `Lde/cketti/library/changelog/ChangeLog;.getLocalizedChangeLog:(Z)Landroid/util/SparseArray;` @AccessFlag PROTECTED {
+    temp;
+    v0;
+
+  #L0c54a0.  v0:= `@@de.cketti.library.changelog.R$xml.changelog` @type ^`int`;
+  #L0c54a4.  call temp:= `readChangeLogFromResource`(v1, v0, v2) @signature `Lde/cketti/library/changelog/ChangeLog;.readChangeLogFromResource:(IZ)Landroid/util/SparseArray;` @kind virtual;
+  #L0c54aa.  v0:= temp @kind object;
+  #L0c54ac.  return v0 @kind object;
+}
+procedure `java.lang.String` `getLog`(`de.cketti.library.changelog.ChangeLog` v1 @kind this) @signature `Lde/cketti/library/changelog/ChangeLog;.getLog:()Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L0c54c0.  v0:= 0I;
+  #L0c54c2.  call temp:= `getLog`(v1, v0) @signature `Lde/cketti/library/changelog/ChangeLog;.getLog:(Z)Ljava/lang/String;` @kind virtual;
+  #L0c54c8.  v0:= temp @kind object;
+  #L0c54ca.  return v0 @kind object;
+}
+procedure `java.lang.String` `getLog`(`de.cketti.library.changelog.ChangeLog` v10 @kind this, `boolean` v11 @name `full`) @signature `Lde/cketti/library/changelog/ChangeLog;.getLog:(Z)Ljava/lang/String;` @AccessFlag PROTECTED {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+
+  #L0c54dc.  v5:= new `java.lang.StringBuilder`;
+  #L0c54e0.  call `<init>`(v5) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L0c54e6.  v7:= "<html><head><style type=\"text/css\">" @kind object;
+  #L0c54ea.  call temp:= `append`(v5, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L0c54f0.  v7:= v10.`de.cketti.library.changelog.ChangeLog.mCss` @type ^`java.lang.String` @kind object;
+  #L0c54f4.  call temp:= `append`(v5, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L0c54fa.  v7:= "</style></head><body>" @kind object;
+  #L0c54fe.  call temp:= `append`(v5, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L0c5504.  v7:= v10.`de.cketti.library.changelog.ChangeLog.mContext` @type ^`android.content.Context` @kind object;
+  #L0c5508.  call temp:= `getResources`(v7) @signature `Landroid/content/Context;.getResources:()Landroid/content/res/Resources;` @kind virtual;
+  #L0c550e.  v7:= temp @kind object;
+  #L0c5510.  v8:= `@@de.cketti.library.changelog.R$string.changelog_version_format` @type ^`int`;
+  #L0c5514.  call temp:= `getString`(v7, v8) @signature `Landroid/content/res/Resources;.getString:(I)Ljava/lang/String;` @kind virtual;
+  #L0c551a.  v6:= temp @kind object;
+  #L0c551c.  call temp:= `getChangeLog`(v10, v11) @signature `Lde/cketti/library/changelog/ChangeLog;.getChangeLog:(Z)Ljava/util/List;` @kind virtual;
+  #L0c5522.  v1:= temp @kind object;
+  #L0c5524.  call temp:= `iterator`(v1) @signature `Ljava/util/List;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L0c552a.  v2:= temp @kind object;
+  #L0c552c.  call temp:= `hasNext`(v2) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L0c5532.  v7:= temp;
+  #L0c5534.  if v7 == 0 then goto L0c55c2;
+  #L0c5538.  call temp:= `next`(v2) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L0c553e.  v4:= temp @kind object;
+  #L0c5540.  v4:= (`de.cketti.library.changelog.ChangeLog$ReleaseItem`) v4 @kind object;
+  #L0c5544.  v7:= "<h1>" @kind object;
+  #L0c5548.  call temp:= `append`(v5, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L0c554e.  v7:= 1I;
+  #L0c5550.  v7:= new `java.lang.Object`[v7];
+  #L0c5554.  v8:= 0I;
+  #L0c5556.  v9:= v4.`de.cketti.library.changelog.ChangeLog$ReleaseItem.versionName` @type ^`java.lang.String` @kind object;
+  #L0c555a.  v7[v8]:= v9 @kind object;
+  #L0c555e.  call temp:= `format`(v6, v7) @signature `Ljava/lang/String;.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;` @kind static;
+  #L0c5564.  v7:= temp @kind object;
+  #L0c5566.  call temp:= `append`(v5, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L0c556c.  v7:= "</h1><ul>" @kind object;
+  #L0c5570.  call temp:= `append`(v5, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L0c5576.  v7:= v4.`de.cketti.library.changelog.ChangeLog$ReleaseItem.changes` @type ^`java.util.List` @kind object;
+  #L0c557a.  call temp:= `iterator`(v7) @signature `Ljava/util/List;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L0c5580.  v3:= temp @kind object;
+  #L0c5582.  call temp:= `hasNext`(v3) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L0c5588.  v7:= temp;
+  #L0c558a.  if v7 == 0 then goto L0c55b6;
+  #L0c558e.  call temp:= `next`(v3) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L0c5594.  v0:= temp @kind object;
+  #L0c5596.  v0:= (`java.lang.String`) v0 @kind object;
+  #L0c559a.  v7:= "<li>" @kind object;
+  #L0c559e.  call temp:= `append`(v5, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L0c55a4.  call temp:= `append`(v5, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L0c55aa.  v7:= "</li>" @kind object;
+  #L0c55ae.  call temp:= `append`(v5, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L0c55b4.  goto L0c5582;
+  #L0c55b6.  v7:= "</ul>" @kind object;
+  #L0c55ba.  call temp:= `append`(v5, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L0c55c0.  goto L0c552c;
+  #L0c55c2.  v7:= "</body></html>" @kind object;
+  #L0c55c6.  call temp:= `append`(v5, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L0c55cc.  call temp:= `toString`(v5) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L0c55d2.  v7:= temp @kind object;
+  #L0c55d4.  return v7 @kind object;
+}
+procedure `android.app.AlertDialog` `getLogDialog`(`de.cketti.library.changelog.ChangeLog` v1 @kind this) @signature `Lde/cketti/library/changelog/ChangeLog;.getLogDialog:()Landroid/app/AlertDialog;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L0c55e8.  call temp:= `isFirstRunEver`(v1) @signature `Lde/cketti/library/changelog/ChangeLog;.isFirstRunEver:()Z` @kind virtual;
+  #L0c55ee.  v0:= temp;
+  #L0c55f0.  call temp:= `getDialog`(v1, v0) @signature `Lde/cketti/library/changelog/ChangeLog;.getDialog:(Z)Landroid/app/AlertDialog;` @kind virtual;
+  #L0c55f6.  v0:= temp @kind object;
+  #L0c55f8.  return v0 @kind object;
+}
+procedure `android.util.SparseArray` `getMasterChangeLog`(`de.cketti.library.changelog.ChangeLog` v1 @kind this, `boolean` v2 @name `full`) @signature `Lde/cketti/library/changelog/ChangeLog;.getMasterChangeLog:(Z)Landroid/util/SparseArray;` @AccessFlag PROTECTED {
+    temp;
+    v0;
+
+  #L0c560c.  v0:= `@@de.cketti.library.changelog.R$xml.changelog_master` @type ^`int`;
+  #L0c5610.  call temp:= `readChangeLogFromResource`(v1, v0, v2) @signature `Lde/cketti/library/changelog/ChangeLog;.readChangeLogFromResource:(IZ)Landroid/util/SparseArray;` @kind virtual;
+  #L0c5616.  v0:= temp @kind object;
+  #L0c5618.  return v0 @kind object;
+}
+procedure `boolean` `isFirstRun`(`de.cketti.library.changelog.ChangeLog` v2 @kind this) @signature `Lde/cketti/library/changelog/ChangeLog;.isFirstRun:()Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L0c562c.  v0:= v2.`de.cketti.library.changelog.ChangeLog.mLastVersionCode` @type ^`int`;
+  #L0c5630.  v1:= v2.`de.cketti.library.changelog.ChangeLog.mCurrentVersionCode` @type ^`int`;
+  #L0c5634.  if v0 >= v1 then goto L0c563c;
+  #L0c5638.  v0:= 1I;
+  #L0c563a.  return v0;
+  #L0c563c.  v0:= 0I;
+  #L0c563e.  goto L0c563a;
+}
+procedure `boolean` `isFirstRunEver`(`de.cketti.library.changelog.ChangeLog` v2 @kind this) @signature `Lde/cketti/library/changelog/ChangeLog;.isFirstRunEver:()Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L0c5650.  v0:= v2.`de.cketti.library.changelog.ChangeLog.mLastVersionCode` @type ^`int`;
+  #L0c5654.  v1:= -1I;
+  #L0c5656.  if v0 != v1 then goto L0c565e;
+  #L0c565a.  v0:= 1I;
+  #L0c565c.  return v0;
+  #L0c565e.  v0:= 0I;
+  #L0c5660.  goto L0c565c;
+}
+procedure `android.util.SparseArray` `readChangeLog`(`de.cketti.library.changelog.ChangeLog` v5 @kind this, `org.xmlpull.v1.XmlPullParser` v6 @kind object @name `xml`, `boolean` v7 @name `full`) @signature `Lde/cketti/library/changelog/ChangeLog;.readChangeLog:(Lorg/xmlpull/v1/XmlPullParser;Z)Landroid/util/SparseArray;` @AccessFlag PROTECTED {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L0c5674.  v2:= new `android.util.SparseArray`;
+  #L0c5678.  call `<init>`(v2) @signature `Landroid/util/SparseArray;.<init>:()V` @kind direct;
+  #Try_start0.  
+  #L0c567e.  call temp:= `getEventType`(v6) @signature `Lorg/xmlpull/v1/XmlPullParser;.getEventType:()I` @kind interface;
+  #L0c5684.  v1:= temp;
+  #L0c5686.  v3:= 1I;
+  #L0c5688.  if v1 == v3 then goto L0c56b6;
+  #L0c568c.  v3:= 2I;
+  #L0c568e.  if v1 != v3 then goto L0c56b8;
+  #L0c5692.  call temp:= `getName`(v6) @signature `Lorg/xmlpull/v1/XmlPullParser;.getName:()Ljava/lang/String;` @kind interface;
+  #L0c5698.  v3:= temp @kind object;
+  #L0c569a.  v4:= "release" @kind object;
+  #L0c569e.  call temp:= `equals`(v3, v4) @signature `Ljava/lang/String;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L0c56a4.  v3:= temp;
+  #L0c56a6.  if v3 == 0 then goto L0c56b8;
+  #L0c56aa.  call temp:= `parseReleaseTag`(v5, v6, v7, v2) @signature `Lde/cketti/library/changelog/ChangeLog;.parseReleaseTag:(Lorg/xmlpull/v1/XmlPullParser;ZLandroid/util/SparseArray;)Z` @kind direct;
+  #L0c56b0.  v3:= temp;
+  #L0c56b2.  if v3 == 0 then goto L0c56b8;
+  #L0c56b6.  return v2 @kind object;
+  #L0c56b8.  call temp:= `next`(v6) @signature `Lorg/xmlpull/v1/XmlPullParser;.next:()I` @kind interface;
+  #Try_end0.  
+  #L0c56be.  v1:= temp;
+  #L0c56c0.  goto L0c5686;
+  #L0c56c2.  v0:= Exception @type ^`org.xmlpull.v1.XmlPullParserException` @kind object;
+  #L0c56c4.  v3:= "ckChangeLog" @kind object;
+  #L0c56c8.  call temp:= `getMessage`(v0) @signature `Lorg/xmlpull/v1/XmlPullParserException;.getMessage:()Ljava/lang/String;` @kind virtual;
+  #L0c56ce.  v4:= temp @kind object;
+  #L0c56d0.  call temp:= `e`(v3, v4, v0) @signature `Landroid/util/Log;.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I` @kind static;
+  #L0c56d6.  goto L0c56b6;
+  #L0c56d8.  v0:= Exception @type ^`java.io.IOException` @kind object;
+  #L0c56da.  v3:= "ckChangeLog" @kind object;
+  #L0c56de.  call temp:= `getMessage`(v0) @signature `Ljava/io/IOException;.getMessage:()Ljava/lang/String;` @kind virtual;
+  #L0c56e4.  v4:= temp @kind object;
+  #L0c56e6.  call temp:= `e`(v3, v4, v0) @signature `Landroid/util/Log;.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I` @kind static;
+  #L0c56ec.  goto L0c56b6;
+  catch `org.xmlpull.v1.XmlPullParserException` @[Try_start0..Try_end0] goto L0c56c2;
+  catch `java.io.IOException` @[Try_start0..Try_end0] goto L0c56d8;
+}
+procedure `android.util.SparseArray` `readChangeLogFromResource`(`de.cketti.library.changelog.ChangeLog` v2 @kind this, `int` v3 @name `resId`, `boolean` v4 @name `full`) @signature `Lde/cketti/library/changelog/ChangeLog;.readChangeLogFromResource:(IZ)Landroid/util/SparseArray;` @AccessFlag PROTECTED_FINAL {
+    temp;
+    v0;
+    v1;
+
+  #L0c5710.  v1:= v2.`de.cketti.library.changelog.ChangeLog.mContext` @type ^`android.content.Context` @kind object;
+  #L0c5714.  call temp:= `getResources`(v1) @signature `Landroid/content/Context;.getResources:()Landroid/content/res/Resources;` @kind virtual;
+  #L0c571a.  v1:= temp @kind object;
+  #L0c571c.  call temp:= `getXml`(v1, v3) @signature `Landroid/content/res/Resources;.getXml:(I)Landroid/content/res/XmlResourceParser;` @kind virtual;
+  #L0c5722.  v0:= temp @kind object;
+  #Try_start0.  
+  #L0c5724.  call temp:= `readChangeLog`(v2, v0, v4) @signature `Lde/cketti/library/changelog/ChangeLog;.readChangeLog:(Lorg/xmlpull/v1/XmlPullParser;Z)Landroid/util/SparseArray;` @kind virtual;
+  #Try_end0.  
+  #L0c572a.  v1:= temp @kind object;
+  #L0c572c.  call `close`(v0) @signature `Landroid/content/res/XmlResourceParser;.close:()V` @kind interface;
+  #L0c5732.  return v1 @kind object;
+  #L0c5734.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L0c5736.  call `close`(v0) @signature `Landroid/content/res/XmlResourceParser;.close:()V` @kind interface;
+  #L0c573c.  throw v1;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L0c5734;
+}
+procedure `void` `skipLogDialog`(`de.cketti.library.changelog.ChangeLog` v0 @kind this) @signature `Lde/cketti/library/changelog/ChangeLog;.skipLogDialog:()V` @AccessFlag PUBLIC {
+    temp;
+
+  #L0c575c.  call `updateVersionInPreferences`(v0) @signature `Lde/cketti/library/changelog/ChangeLog;.updateVersionInPreferences:()V` @kind virtual;
+  #L0c5762.  return @kind void;
+}
+procedure `void` `updateVersionInPreferences`(`de.cketti.library.changelog.ChangeLog` v4 @kind this) @signature `Lde/cketti/library/changelog/ChangeLog;.updateVersionInPreferences:()V` @AccessFlag PROTECTED {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L0c5774.  v2:= v4.`de.cketti.library.changelog.ChangeLog.mContext` @type ^`android.content.Context` @kind object;
+  #L0c5778.  call temp:= `getDefaultSharedPreferences`(v2) @signature `Landroid/preference/PreferenceManager;.getDefaultSharedPreferences:(Landroid/content/Context;)Landroid/content/SharedPreferences;` @kind static;
+  #L0c577e.  v1:= temp @kind object;
+  #L0c5780.  call temp:= `edit`(v1) @signature `Landroid/content/SharedPreferences;.edit:()Landroid/content/SharedPreferences$Editor;` @kind interface;
+  #L0c5786.  v0:= temp @kind object;
+  #L0c5788.  v2:= "ckChangeLog_last_version_code" @kind object;
+  #L0c578c.  v3:= v4.`de.cketti.library.changelog.ChangeLog.mCurrentVersionCode` @type ^`int`;
+  #L0c5790.  call temp:= `putInt`(v0, v2, v3) @signature `Landroid/content/SharedPreferences$Editor;.putInt:(Ljava/lang/String;I)Landroid/content/SharedPreferences$Editor;` @kind interface;
+  #L0c5796.  call temp:= `commit`(v0) @signature `Landroid/content/SharedPreferences$Editor;.commit:()Z` @kind interface;
+  #L0c579c.  return @kind void;
+}

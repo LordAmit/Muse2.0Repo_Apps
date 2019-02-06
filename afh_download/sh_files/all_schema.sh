@@ -1,0 +1,9 @@
+sh clean_project_folder.sh
+echo afh_download SINK
+sh afh_download_SINK.sh
+echo afh_download REACHABILITY
+sh afh_download_REACHABILITY.sh
+echo afh_download TAINTSINK
+sh afh_download_TAINTSINK.sh
+echo afh_download COMPLEXREACHABILITY
+sh afh_download_COMPLEXREACHABILITY.sh

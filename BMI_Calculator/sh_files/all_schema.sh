@@ -1,0 +1,9 @@
+sh clean_project_folder.sh
+echo BMI_Calculator SINK
+sh BMI_Calculator_SINK.sh
+echo BMI_Calculator REACHABILITY
+sh BMI_Calculator_REACHABILITY.sh
+echo BMI_Calculator TAINTSINK
+sh BMI_Calculator_TAINTSINK.sh
+echo BMI_Calculator COMPLEXREACHABILITY
+sh BMI_Calculator_COMPLEXREACHABILITY.sh
