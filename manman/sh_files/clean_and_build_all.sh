@@ -1,0 +1,12 @@
+cd /home/amit/muse/output/manman/schemas/SINK/manman/
+/home/amit/muse/output/manman/schemas/SINK/manman/gradlew clean
+/home/amit/muse/output/manman/schemas/SINK/manman/gradlew build
+cd /home/amit/muse/output/manman/schemas/REACHABILITY/manman/
+/home/amit/muse/output/manman/schemas/REACHABILITY/manman/gradlew clean
+/home/amit/muse/output/manman/schemas/REACHABILITY/manman/gradlew build
+cd /home/amit/muse/output/manman/schemas/TAINTSINK/manman/
+/home/amit/muse/output/manman/schemas/TAINTSINK/manman/gradlew clean
+/home/amit/muse/output/manman/schemas/TAINTSINK/manman/gradlew build
+cd /home/amit/muse/output/manman/schemas/COMPLEXREACHABILITY/manman/
+/home/amit/muse/output/manman/schemas/COMPLEXREACHABILITY/manman/gradlew clean
+/home/amit/muse/output/manman/schemas/COMPLEXREACHABILITY/manman/gradlew build
