@@ -1,0 +1,12 @@
+cd /home/amit/muse/output/CalendarTrigger/schemas/SINK/CalendarTrigger/
+/home/amit/muse/output/CalendarTrigger/schemas/SINK/CalendarTrigger/gradlew clean
+/home/amit/muse/output/CalendarTrigger/schemas/SINK/CalendarTrigger/gradlew build
+cd /home/amit/muse/output/CalendarTrigger/schemas/REACHABILITY/CalendarTrigger/
+/home/amit/muse/output/CalendarTrigger/schemas/REACHABILITY/CalendarTrigger/gradlew clean
+/home/amit/muse/output/CalendarTrigger/schemas/REACHABILITY/CalendarTrigger/gradlew build
+cd /home/amit/muse/output/CalendarTrigger/schemas/TAINTSINK/CalendarTrigger/
+/home/amit/muse/output/CalendarTrigger/schemas/TAINTSINK/CalendarTrigger/gradlew clean
+/home/amit/muse/output/CalendarTrigger/schemas/TAINTSINK/CalendarTrigger/gradlew build
+cd /home/amit/muse/output/CalendarTrigger/schemas/COMPLEXREACHABILITY/CalendarTrigger/
+/home/amit/muse/output/CalendarTrigger/schemas/COMPLEXREACHABILITY/CalendarTrigger/gradlew clean
+/home/amit/muse/output/CalendarTrigger/schemas/COMPLEXREACHABILITY/CalendarTrigger/gradlew build

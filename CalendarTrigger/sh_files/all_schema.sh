@@ -1,0 +1,9 @@
+sh clean_project_folder.sh
+echo CalendarTrigger SINK
+sh CalendarTrigger_SINK.sh
+echo CalendarTrigger REACHABILITY
+sh CalendarTrigger_REACHABILITY.sh
+echo CalendarTrigger TAINTSINK
+sh CalendarTrigger_TAINTSINK.sh
+echo CalendarTrigger COMPLEXREACHABILITY
+sh CalendarTrigger_COMPLEXREACHABILITY.sh
