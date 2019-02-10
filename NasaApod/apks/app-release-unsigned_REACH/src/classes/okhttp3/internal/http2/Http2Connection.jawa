@@ -1,0 +1,1146 @@
+record `okhttp3.internal.http2.Http2Connection` @kind class @AccessFlag PUBLIC_FINAL extends `java.io.Closeable` @kind interface {
+  `boolean` `okhttp3.internal.http2.Http2Connection.awaitingPong` @AccessFlag PRIVATE;
+  `long` `okhttp3.internal.http2.Http2Connection.bytesLeftInWriteWindow` @AccessFlag ;
+  `boolean` `okhttp3.internal.http2.Http2Connection.client` @AccessFlag FINAL;
+  `java.util.Set` `okhttp3.internal.http2.Http2Connection.currentPushRequests` @AccessFlag FINAL;
+  `java.lang.String` `okhttp3.internal.http2.Http2Connection.hostname` @AccessFlag FINAL;
+  `int` `okhttp3.internal.http2.Http2Connection.lastGoodStreamId` @AccessFlag ;
+  `okhttp3.internal.http2.Http2Connection$Listener` `okhttp3.internal.http2.Http2Connection.listener` @AccessFlag FINAL;
+  `int` `okhttp3.internal.http2.Http2Connection.nextStreamId` @AccessFlag ;
+  `okhttp3.internal.http2.Settings` `okhttp3.internal.http2.Http2Connection.okHttpSettings` @AccessFlag ;
+  `okhttp3.internal.http2.Settings` `okhttp3.internal.http2.Http2Connection.peerSettings` @AccessFlag FINAL;
+  `java.util.concurrent.ExecutorService` `okhttp3.internal.http2.Http2Connection.pushExecutor` @AccessFlag PRIVATE_FINAL;
+  `okhttp3.internal.http2.PushObserver` `okhttp3.internal.http2.Http2Connection.pushObserver` @AccessFlag FINAL;
+  `okhttp3.internal.http2.Http2Connection$ReaderRunnable` `okhttp3.internal.http2.Http2Connection.readerRunnable` @AccessFlag FINAL;
+  `boolean` `okhttp3.internal.http2.Http2Connection.receivedInitialPeerSettings` @AccessFlag ;
+  `boolean` `okhttp3.internal.http2.Http2Connection.shutdown` @AccessFlag ;
+  `java.net.Socket` `okhttp3.internal.http2.Http2Connection.socket` @AccessFlag FINAL;
+  `java.util.Map` `okhttp3.internal.http2.Http2Connection.streams` @AccessFlag FINAL;
+  `long` `okhttp3.internal.http2.Http2Connection.unacknowledgedBytesRead` @AccessFlag ;
+  `okhttp3.internal.http2.Http2Writer` `okhttp3.internal.http2.Http2Connection.writer` @AccessFlag FINAL;
+  `java.util.concurrent.ScheduledExecutorService` `okhttp3.internal.http2.Http2Connection.writerExecutor` @AccessFlag PRIVATE_FINAL;
+}
+global `boolean` `@@okhttp3.internal.http2.Http2Connection.$assertionsDisabled` @AccessFlag STATIC_FINAL_SYNTHETIC;
+global `int` `@@okhttp3.internal.http2.Http2Connection.OKHTTP_CLIENT_WINDOW_SIZE` @AccessFlag PRIVATE_STATIC_FINAL;
+global `java.util.concurrent.ExecutorService` `@@okhttp3.internal.http2.Http2Connection.listenerExecutor` @AccessFlag PRIVATE_STATIC_FINAL;
+procedure `void` `<clinit>`() @signature `Lokhttp3/internal/http2/Http2Connection;.<clinit>:()V` @AccessFlag STATIC_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+
+  #L1a5268.  v8:= 1I;
+  #L1a526a.  v2:= 0I;
+  #L1a526c.  v0:= constclass @type ^`okhttp3.internal.http2.Http2Connection` @kind object;
+  #L1a5270.  call temp:= `desiredAssertionStatus`(v0) @signature `Ljava/lang/Class;.desiredAssertionStatus:()Z` @kind virtual;
+  #L1a5276.  v0:= temp;
+  #L1a5278.  if v0 != 0 then goto L1a52b6;
+  #L1a527c.  v0:= v8;
+  #L1a527e.  `@@okhttp3.internal.http2.Http2Connection.$assertionsDisabled` @type ^`boolean` := v0 @kind boolean;
+  #L1a5282.  v1:= new `java.util.concurrent.ThreadPoolExecutor`;
+  #L1a5286.  v3:= 2147483647I;
+  #L1a528c.  v4:= 60L;
+  #L1a5290.  v6:= `@@java.util.concurrent.TimeUnit.SECONDS` @type ^`java.util.concurrent.TimeUnit` @kind object;
+  #L1a5294.  v7:= new `java.util.concurrent.SynchronousQueue`;
+  #L1a5298.  call `<init>`(v7) @signature `Ljava/util/concurrent/SynchronousQueue;.<init>:()V` @kind direct;
+  #L1a529e.  v0:= "OkHttp Http2Connection" @kind object;
+  #L1a52a2.  call temp:= `threadFactory`(v0, v8) @signature `Lokhttp3/internal/Util;.threadFactory:(Ljava/lang/String;Z)Ljava/util/concurrent/ThreadFactory;` @kind static;
+  #L1a52a8.  v8:= temp @kind object;
+  #L1a52aa.  call `<init>`(v1, v2, v3, v4, v6, v7, v8) @signature `Ljava/util/concurrent/ThreadPoolExecutor;.<init>:(IIJLjava/util/concurrent/TimeUnit;Ljava/util/concurrent/BlockingQueue;Ljava/util/concurrent/ThreadFactory;)V` @kind direct;
+  #L1a52b0.  `@@okhttp3.internal.http2.Http2Connection.listenerExecutor` @type ^`java.util.concurrent.ExecutorService` := v1 @kind object;
+  #L1a52b4.  return @kind void;
+  #L1a52b6.  v0:= v2;
+  #L1a52b8.  goto L1a527e;
+}
+procedure `void` `<init>`(`okhttp3.internal.http2.Http2Connection` v12 @kind this, `okhttp3.internal.http2.Http2Connection$Builder` v13 @kind object @name `builder`) @signature `Lokhttp3/internal/http2/Http2Connection;.<init>:(Lokhttp3/internal/http2/Http2Connection$Builder;)V` @AccessFlag CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+    v11;
+
+  #L1a52cc.  v11:= 7I;
+  #L1a52ce.  v9:= 1I;
+  #L1a52d0.  v10:= 0I;
+  #L1a52d2.  call `<init>`(v12) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L1a52d8.  v0:= new `java.util.LinkedHashMap`;
+  #L1a52dc.  call `<init>`(v0) @signature `Ljava/util/LinkedHashMap;.<init>:()V` @kind direct;
+  #L1a52e2.  v12.`okhttp3.internal.http2.Http2Connection.streams` @type ^`java.util.Map` := v0 @kind object;
+  #L1a52e6.  v0:= 0L;
+  #L1a52ea.  v12.`okhttp3.internal.http2.Http2Connection.unacknowledgedBytesRead` @type ^`long` := v0 @kind wide;
+  #L1a52ee.  v0:= new `okhttp3.internal.http2.Settings`;
+  #L1a52f2.  call `<init>`(v0) @signature `Lokhttp3/internal/http2/Settings;.<init>:()V` @kind direct;
+  #L1a52f8.  v12.`okhttp3.internal.http2.Http2Connection.okHttpSettings` @type ^`okhttp3.internal.http2.Settings` := v0 @kind object;
+  #L1a52fc.  v0:= new `okhttp3.internal.http2.Settings`;
+  #L1a5300.  call `<init>`(v0) @signature `Lokhttp3/internal/http2/Settings;.<init>:()V` @kind direct;
+  #L1a5306.  v12.`okhttp3.internal.http2.Http2Connection.peerSettings` @type ^`okhttp3.internal.http2.Settings` := v0 @kind object;
+  #L1a530a.  v12.`okhttp3.internal.http2.Http2Connection.receivedInitialPeerSettings` @type ^`boolean` := v10 @kind boolean;
+  #L1a530e.  v0:= new `java.util.LinkedHashSet`;
+  #L1a5312.  call `<init>`(v0) @signature `Ljava/util/LinkedHashSet;.<init>:()V` @kind direct;
+  #L1a5318.  v12.`okhttp3.internal.http2.Http2Connection.currentPushRequests` @type ^`java.util.Set` := v0 @kind object;
+  #L1a531c.  v0:= v13.`okhttp3.internal.http2.Http2Connection$Builder.pushObserver` @type ^`okhttp3.internal.http2.PushObserver` @kind object;
+  #L1a5320.  v12.`okhttp3.internal.http2.Http2Connection.pushObserver` @type ^`okhttp3.internal.http2.PushObserver` := v0 @kind object;
+  #L1a5324.  v0:= v13.`okhttp3.internal.http2.Http2Connection$Builder.client` @type ^`boolean` @kind boolean;
+  #L1a5328.  v12.`okhttp3.internal.http2.Http2Connection.client` @type ^`boolean` := v0 @kind boolean;
+  #L1a532c.  v0:= v13.`okhttp3.internal.http2.Http2Connection$Builder.listener` @type ^`okhttp3.internal.http2.Http2Connection$Listener` @kind object;
+  #L1a5330.  v12.`okhttp3.internal.http2.Http2Connection.listener` @type ^`okhttp3.internal.http2.Http2Connection$Listener` := v0 @kind object;
+  #L1a5334.  v0:= v13.`okhttp3.internal.http2.Http2Connection$Builder.client` @type ^`boolean` @kind boolean;
+  #L1a5338.  if v0 == 0 then goto L1a5484;
+  #L1a533c.  v0:= v9;
+  #L1a533e.  v12.`okhttp3.internal.http2.Http2Connection.nextStreamId` @type ^`int` := v0;
+  #L1a5342.  v0:= v13.`okhttp3.internal.http2.Http2Connection$Builder.client` @type ^`boolean` @kind boolean;
+  #L1a5346.  if v0 == 0 then goto L1a5356;
+  #L1a534a.  v0:= v12.`okhttp3.internal.http2.Http2Connection.nextStreamId` @type ^`int`;
+  #L1a534e.  v0:= v0 + 2;
+  #L1a5352.  v12.`okhttp3.internal.http2.Http2Connection.nextStreamId` @type ^`int` := v0;
+  #L1a5356.  v0:= v13.`okhttp3.internal.http2.Http2Connection$Builder.client` @type ^`boolean` @kind boolean;
+  #L1a535a.  if v0 == 0 then goto L1a536c;
+  #L1a535e.  v0:= v12.`okhttp3.internal.http2.Http2Connection.okHttpSettings` @type ^`okhttp3.internal.http2.Settings` @kind object;
+  #L1a5362.  v1:= 16777216I;
+  #L1a5366.  call temp:= `set`(v0, v11, v1) @signature `Lokhttp3/internal/http2/Settings;.set:(II)Lokhttp3/internal/http2/Settings;` @kind virtual;
+  #L1a536c.  v0:= v13.`okhttp3.internal.http2.Http2Connection$Builder.hostname` @type ^`java.lang.String` @kind object;
+  #L1a5370.  v12.`okhttp3.internal.http2.Http2Connection.hostname` @type ^`java.lang.String` := v0 @kind object;
+  #L1a5374.  v0:= new `java.util.concurrent.ScheduledThreadPoolExecutor`;
+  #L1a5378.  v1:= "OkHttp %s Writer" @kind object;
+  #L1a537c.  v2:= new `java.lang.Object`[v9];
+  #L1a5380.  v3:= v12.`okhttp3.internal.http2.Http2Connection.hostname` @type ^`java.lang.String` @kind object;
+  #L1a5384.  v2[v10]:= v3 @kind object;
+  #L1a5388.  call temp:= `format`(v1, v2) @signature `Lokhttp3/internal/Util;.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;` @kind static;
+  #L1a538e.  v1:= temp @kind object;
+  #L1a5390.  call temp:= `threadFactory`(v1, v10) @signature `Lokhttp3/internal/Util;.threadFactory:(Ljava/lang/String;Z)Ljava/util/concurrent/ThreadFactory;` @kind static;
+  #L1a5396.  v1:= temp @kind object;
+  #L1a5398.  call `<init>`(v0, v9, v1) @signature `Ljava/util/concurrent/ScheduledThreadPoolExecutor;.<init>:(ILjava/util/concurrent/ThreadFactory;)V` @kind direct;
+  #L1a539e.  v12.`okhttp3.internal.http2.Http2Connection.writerExecutor` @type ^`java.util.concurrent.ScheduledExecutorService` := v0 @kind object;
+  #L1a53a2.  v0:= v13.`okhttp3.internal.http2.Http2Connection$Builder.pingIntervalMillis` @type ^`int`;
+  #L1a53a6.  if v0 == 0 then goto L1a53ce;
+  #L1a53aa.  v0:= v12.`okhttp3.internal.http2.Http2Connection.writerExecutor` @type ^`java.util.concurrent.ScheduledExecutorService` @kind object;
+  #L1a53ae.  v1:= new `okhttp3.internal.http2.Http2Connection$PingRunnable`;
+  #L1a53b2.  call `<init>`(v1, v12, v10, v10, v10) @signature `Lokhttp3/internal/http2/Http2Connection$PingRunnable;.<init>:(Lokhttp3/internal/http2/Http2Connection;ZII)V` @kind direct;
+  #L1a53b8.  v2:= v13.`okhttp3.internal.http2.Http2Connection$Builder.pingIntervalMillis` @type ^`int`;
+  #L1a53bc.  v2:= (`long`) v2 @kind i2l;
+  #L1a53be.  v4:= v13.`okhttp3.internal.http2.Http2Connection$Builder.pingIntervalMillis` @type ^`int`;
+  #L1a53c2.  v4:= (`long`) v4 @kind i2l;
+  #L1a53c4.  v6:= `@@java.util.concurrent.TimeUnit.MILLISECONDS` @type ^`java.util.concurrent.TimeUnit` @kind object;
+  #L1a53c8.  call temp:= `scheduleAtFixedRate`(v0, v1, v2, v4, v6) @signature `Ljava/util/concurrent/ScheduledExecutorService;.scheduleAtFixedRate:(Ljava/lang/Runnable;JJLjava/util/concurrent/TimeUnit;)Ljava/util/concurrent/ScheduledFuture;` @kind interface;
+  #L1a53ce.  v1:= new `java.util.concurrent.ThreadPoolExecutor`;
+  #L1a53d2.  v4:= 60L;
+  #L1a53d6.  v6:= `@@java.util.concurrent.TimeUnit.SECONDS` @type ^`java.util.concurrent.TimeUnit` @kind object;
+  #L1a53da.  v7:= new `java.util.concurrent.LinkedBlockingQueue`;
+  #L1a53de.  call `<init>`(v7) @signature `Ljava/util/concurrent/LinkedBlockingQueue;.<init>:()V` @kind direct;
+  #L1a53e4.  v0:= "OkHttp %s Push Observer" @kind object;
+  #L1a53e8.  v2:= new `java.lang.Object`[v9];
+  #L1a53ec.  v3:= v12.`okhttp3.internal.http2.Http2Connection.hostname` @type ^`java.lang.String` @kind object;
+  #L1a53f0.  v2[v10]:= v3 @kind object;
+  #L1a53f4.  call temp:= `format`(v0, v2) @signature `Lokhttp3/internal/Util;.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;` @kind static;
+  #L1a53fa.  v0:= temp @kind object;
+  #L1a53fc.  call temp:= `threadFactory`(v0, v9) @signature `Lokhttp3/internal/Util;.threadFactory:(Ljava/lang/String;Z)Ljava/util/concurrent/ThreadFactory;` @kind static;
+  #L1a5402.  v8:= temp @kind object;
+  #L1a5404.  v2:= v10;
+  #L1a5406.  v3:= v9;
+  #L1a5408.  call `<init>`(v1, v2, v3, v4, v6, v7, v8) @signature `Ljava/util/concurrent/ThreadPoolExecutor;.<init>:(IIJLjava/util/concurrent/TimeUnit;Ljava/util/concurrent/BlockingQueue;Ljava/util/concurrent/ThreadFactory;)V` @kind direct;
+  #L1a540e.  v12.`okhttp3.internal.http2.Http2Connection.pushExecutor` @type ^`java.util.concurrent.ExecutorService` := v1 @kind object;
+  #L1a5412.  v0:= v12.`okhttp3.internal.http2.Http2Connection.peerSettings` @type ^`okhttp3.internal.http2.Settings` @kind object;
+  #L1a5416.  v1:= 65535I;
+  #L1a541c.  call temp:= `set`(v0, v11, v1) @signature `Lokhttp3/internal/http2/Settings;.set:(II)Lokhttp3/internal/http2/Settings;` @kind virtual;
+  #L1a5422.  v0:= v12.`okhttp3.internal.http2.Http2Connection.peerSettings` @type ^`okhttp3.internal.http2.Settings` @kind object;
+  #L1a5426.  v1:= 5I;
+  #L1a5428.  v2:= 16384I;
+  #L1a542c.  call temp:= `set`(v0, v1, v2) @signature `Lokhttp3/internal/http2/Settings;.set:(II)Lokhttp3/internal/http2/Settings;` @kind virtual;
+  #L1a5432.  v0:= v12.`okhttp3.internal.http2.Http2Connection.peerSettings` @type ^`okhttp3.internal.http2.Settings` @kind object;
+  #L1a5436.  call temp:= `getInitialWindowSize`(v0) @signature `Lokhttp3/internal/http2/Settings;.getInitialWindowSize:()I` @kind virtual;
+  #L1a543c.  v0:= temp;
+  #L1a543e.  v0:= (`long`) v0 @kind i2l;
+  #L1a5440.  v12.`okhttp3.internal.http2.Http2Connection.bytesLeftInWriteWindow` @type ^`long` := v0 @kind wide;
+  #L1a5444.  v0:= v13.`okhttp3.internal.http2.Http2Connection$Builder.socket` @type ^`java.net.Socket` @kind object;
+  #L1a5448.  v12.`okhttp3.internal.http2.Http2Connection.socket` @type ^`java.net.Socket` := v0 @kind object;
+  #L1a544c.  v0:= new `okhttp3.internal.http2.Http2Writer`;
+  #L1a5450.  v1:= v13.`okhttp3.internal.http2.Http2Connection$Builder.sink` @type ^`okio.BufferedSink` @kind object;
+  #L1a5454.  v2:= v12.`okhttp3.internal.http2.Http2Connection.client` @type ^`boolean` @kind boolean;
+  #L1a5458.  call `<init>`(v0, v1, v2) @signature `Lokhttp3/internal/http2/Http2Writer;.<init>:(Lokio/BufferedSink;Z)V` @kind direct;
+  #L1a545e.  v12.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` := v0 @kind object;
+  #L1a5462.  v0:= new `okhttp3.internal.http2.Http2Connection$ReaderRunnable`;
+  #L1a5466.  v1:= new `okhttp3.internal.http2.Http2Reader`;
+  #L1a546a.  v2:= v13.`okhttp3.internal.http2.Http2Connection$Builder.source` @type ^`okio.BufferedSource` @kind object;
+  #L1a546e.  v3:= v12.`okhttp3.internal.http2.Http2Connection.client` @type ^`boolean` @kind boolean;
+  #L1a5472.  call `<init>`(v1, v2, v3) @signature `Lokhttp3/internal/http2/Http2Reader;.<init>:(Lokio/BufferedSource;Z)V` @kind direct;
+  #L1a5478.  call `<init>`(v0, v12, v1) @signature `Lokhttp3/internal/http2/Http2Connection$ReaderRunnable;.<init>:(Lokhttp3/internal/http2/Http2Connection;Lokhttp3/internal/http2/Http2Reader;)V` @kind direct;
+  #L1a547e.  v12.`okhttp3.internal.http2.Http2Connection.readerRunnable` @type ^`okhttp3.internal.http2.Http2Connection$ReaderRunnable` := v0 @kind object;
+  #L1a5482.  return @kind void;
+  #L1a5484.  v0:= 2I;
+  #L1a5486.  goto L1a533e;
+}
+procedure `void` `access$000`(`okhttp3.internal.http2.Http2Connection` v0 @kind object @name `x0`) @signature `Lokhttp3/internal/http2/Http2Connection;.access$000:(Lokhttp3/internal/http2/Http2Connection;)V` @AccessFlag STATIC_SYNTHETIC {
+    temp;
+
+  #L1a549c.  call `failConnection`(v0) @signature `Lokhttp3/internal/http2/Http2Connection;.failConnection:()V` @kind direct;
+  #L1a54a2.  return @kind void;
+}
+procedure `java.util.concurrent.ExecutorService` `access$100`() @signature `Lokhttp3/internal/http2/Http2Connection;.access$100:()Ljava/util/concurrent/ExecutorService;` @AccessFlag STATIC_SYNTHETIC {
+    temp;
+    v0;
+
+  #L1a54b4.  v0:= `@@okhttp3.internal.http2.Http2Connection.listenerExecutor` @type ^`java.util.concurrent.ExecutorService` @kind object;
+  #L1a54b8.  return v0 @kind object;
+}
+procedure `java.util.concurrent.ScheduledExecutorService` `access$200`(`okhttp3.internal.http2.Http2Connection` v1 @kind object @name `x0`) @signature `Lokhttp3/internal/http2/Http2Connection;.access$200:(Lokhttp3/internal/http2/Http2Connection;)Ljava/util/concurrent/ScheduledExecutorService;` @AccessFlag STATIC_SYNTHETIC {
+    temp;
+    v0;
+
+  #L1a54cc.  v0:= v1.`okhttp3.internal.http2.Http2Connection.writerExecutor` @type ^`java.util.concurrent.ScheduledExecutorService` @kind object;
+  #L1a54d0.  return v0 @kind object;
+}
+procedure `boolean` `access$302`(`okhttp3.internal.http2.Http2Connection` v0 @kind object @name `x0`, `boolean` v1 @name `x1`) @signature `Lokhttp3/internal/http2/Http2Connection;.access$302:(Lokhttp3/internal/http2/Http2Connection;Z)Z` @AccessFlag STATIC_SYNTHETIC {
+    temp;
+
+  #L1a54e4.  v0.`okhttp3.internal.http2.Http2Connection.awaitingPong` @type ^`boolean` := v1 @kind boolean;
+  #L1a54e8.  return v1;
+}
+procedure `void` `failConnection`(`okhttp3.internal.http2.Http2Connection` v2 @kind this) @signature `Lokhttp3/internal/http2/Http2Connection;.failConnection:()V` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+
+  #Try_start0.  
+  #L1a54fc.  v0:= `@@okhttp3.internal.http2.ErrorCode.PROTOCOL_ERROR` @type ^`okhttp3.internal.http2.ErrorCode` @kind object;
+  #L1a5500.  v1:= `@@okhttp3.internal.http2.ErrorCode.PROTOCOL_ERROR` @type ^`okhttp3.internal.http2.ErrorCode` @kind object;
+  #L1a5504.  call `close`(v2, v0, v1) @signature `Lokhttp3/internal/http2/Http2Connection;.close:(Lokhttp3/internal/http2/ErrorCode;Lokhttp3/internal/http2/ErrorCode;)V` @kind virtual;
+  #Try_end0.  
+  #L1a550a.  return @kind void;
+  #L1a550c.  v0:= Exception @type ^`java.io.IOException` @kind object;
+  #L1a550e.  goto L1a550a;
+  catch `java.io.IOException` @[Try_start0..Try_end0] goto L1a550c;
+}
+procedure `okhttp3.internal.http2.Http2Stream` `newStream`(`okhttp3.internal.http2.Http2Connection` v12 @kind this, `int` v13 @name `associatedStreamId`, `java.util.List` v14 @kind object, `boolean` v15 @name `out`) @signature `Lokhttp3/internal/http2/Http2Connection;.newStream:(ILjava/util/List;Z)Lokhttp3/internal/http2/Http2Stream;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+    v11;
+
+  #L1a5530.  if v15 != 0 then goto L1a5578;
+  #L1a5534.  v3:= 1I;
+  #L1a5536.  v4:= 0I;
+  #L1a5538.  v7:= v12.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a553c.  @monitorenter v7
+  #Try_start0.  
+  #L1a553e.  @monitorenter v12
+  #Try_end0.  
+  #Try_start1.  
+  #L1a5540.  v2:= v12.`okhttp3.internal.http2.Http2Connection.nextStreamId` @type ^`int`;
+  #L1a5544.  v5:= 1073741823I;
+  #L1a554a.  if v2 <= v5 then goto L1a5558;
+  #L1a554e.  v2:= `@@okhttp3.internal.http2.ErrorCode.REFUSED_STREAM` @type ^`okhttp3.internal.http2.ErrorCode` @kind object;
+  #L1a5552.  call `shutdown`(v12, v2) @signature `Lokhttp3/internal/http2/Http2Connection;.shutdown:(Lokhttp3/internal/http2/ErrorCode;)V` @kind virtual;
+  #L1a5558.  v2:= v12.`okhttp3.internal.http2.Http2Connection.shutdown` @type ^`boolean` @kind boolean;
+  #L1a555c.  if v2 == 0 then goto L1a557c;
+  #L1a5560.  v2:= new `okhttp3.internal.http2.ConnectionShutdownException`;
+  #L1a5564.  call `<init>`(v2) @signature `Lokhttp3/internal/http2/ConnectionShutdownException;.<init>:()V` @kind direct;
+  #L1a556a.  throw v2;
+  #L1a556c.  v2:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1a556e.  @monitorexit v12
+  #Try_end1.  
+  #Try_start2.  
+  #L1a5570.  throw v2;
+  #L1a5572.  v2:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1a5574.  @monitorexit v7
+  #Try_end2.  
+  #L1a5576.  throw v2;
+  #L1a5578.  v3:= 0I;
+  #L1a557a.  goto L1a5536;
+  #Try_start3.  
+  #L1a557c.  v1:= v12.`okhttp3.internal.http2.Http2Connection.nextStreamId` @type ^`int`;
+  #L1a5580.  v2:= v12.`okhttp3.internal.http2.Http2Connection.nextStreamId` @type ^`int`;
+  #L1a5584.  v2:= v2 + 2;
+  #L1a5588.  v12.`okhttp3.internal.http2.Http2Connection.nextStreamId` @type ^`int` := v2;
+  #L1a558c.  v0:= new `okhttp3.internal.http2.Http2Stream`;
+  #L1a5590.  v2:= v12 @kind object;
+  #L1a5592.  v5:= v14 @kind object;
+  #L1a5594.  call `<init>`(v0, v1, v2, v3, v4, v5) @signature `Lokhttp3/internal/http2/Http2Stream;.<init>:(ILokhttp3/internal/http2/Http2Connection;ZZLjava/util/List;)V` @kind direct;
+  #L1a559a.  if v15 == 0 then goto L1a55be;
+  #L1a559e.  v8:= v12.`okhttp3.internal.http2.Http2Connection.bytesLeftInWriteWindow` @type ^`long` @kind wide;
+  #L1a55a2.  v10:= 0L;
+  #L1a55a6.  v2:= lcmp(v8, v10);
+  #L1a55aa.  if v2 == 0 then goto L1a55be;
+  #L1a55ae.  v8:= v0.`okhttp3.internal.http2.Http2Stream.bytesLeftInWriteWindow` @type ^`long` @kind wide;
+  #L1a55b2.  v10:= 0L;
+  #L1a55b6.  v2:= lcmp(v8, v10);
+  #L1a55ba.  if v2 != 0 then goto L1a5600;
+  #L1a55be.  v6:= 1I;
+  #L1a55c0.  call temp:= `isOpen`(v0) @signature `Lokhttp3/internal/http2/Http2Stream;.isOpen:()Z` @kind virtual;
+  #L1a55c6.  v2:= temp;
+  #L1a55c8.  if v2 == 0 then goto L1a55de;
+  #L1a55cc.  v2:= v12.`okhttp3.internal.http2.Http2Connection.streams` @type ^`java.util.Map` @kind object;
+  #L1a55d0.  call temp:= `valueOf`(v1) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L1a55d6.  v5:= temp @kind object;
+  #L1a55d8.  call temp:= `put`(v2, v5, v0) @signature `Ljava/util/Map;.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;` @kind interface;
+  #L1a55de.  @monitorexit v12
+  #Try_end3.  
+  #L1a55e0.  if v13 != 0 then goto L1a5604;
+  #Try_start4.  
+  #L1a55e4.  v2:= v12.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a55e8.  call `synStream`(v2, v3, v1, v13, v14) @signature `Lokhttp3/internal/http2/Http2Writer;.synStream:(ZIILjava/util/List;)V` @kind virtual;
+  #L1a55ee.  @monitorexit v7
+  #Try_end4.  
+  #L1a55f0.  if v6 == 0 then goto L1a55fe;
+  #L1a55f4.  v2:= v12.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a55f8.  call `flush`(v2) @signature `Lokhttp3/internal/http2/Http2Writer;.flush:()V` @kind virtual;
+  #L1a55fe.  return v0 @kind object;
+  #L1a5600.  v6:= 0I;
+  #L1a5602.  goto L1a55c0;
+  #Try_start5.  
+  #L1a5604.  v2:= v12.`okhttp3.internal.http2.Http2Connection.client` @type ^`boolean` @kind boolean;
+  #L1a5608.  if v2 == 0 then goto L1a561c;
+  #L1a560c.  v2:= new `java.lang.IllegalArgumentException`;
+  #L1a5610.  v5:= "client streams shouldn't have associated stream IDs" @kind object;
+  #L1a5614.  call `<init>`(v2, v5) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1a561a.  throw v2;
+  #L1a561c.  v2:= v12.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a5620.  call `pushPromise`(v2, v13, v1, v14) @signature `Lokhttp3/internal/http2/Http2Writer;.pushPromise:(IILjava/util/List;)V` @kind virtual;
+  #Try_end5.  
+  #L1a5626.  goto L1a55ee;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1a5572;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L1a556c;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L1a5572;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L1a556c;
+  catch `java.lang.Throwable` @[Try_start4..Try_end4] goto L1a5572;
+  catch `java.lang.Throwable` @[Try_start5..Try_end5] goto L1a5572;
+}
+procedure `void` `addBytesToWriteWindow`(`okhttp3.internal.http2.Http2Connection` v3 @kind this, `long` v4 @name `delta`) @signature `Lokhttp3/internal/http2/Http2Connection;.addBytesToWriteWindow:(J)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L1a5670.  v0:= v3.`okhttp3.internal.http2.Http2Connection.bytesLeftInWriteWindow` @type ^`long` @kind wide;
+  #L1a5674.  v0:= v0 + v4 @kind long;
+  #L1a5676.  v3.`okhttp3.internal.http2.Http2Connection.bytesLeftInWriteWindow` @type ^`long` := v0 @kind wide;
+  #L1a567a.  v0:= 0L;
+  #L1a567e.  v0:= lcmp(v4, v0);
+  #L1a5682.  if v0 <= 0 then goto L1a568c;
+  #L1a5686.  call `notifyAll`(v3) @signature `Ljava/lang/Object;.notifyAll:()V` @kind virtual;
+  #L1a568c.  return @kind void;
+}
+procedure `void` `awaitPong`(`okhttp3.internal.http2.Http2Connection` v1 @kind this) @signature `Lokhttp3/internal/http2/Http2Connection;.awaitPong:()V` @AccessFlag  {
+    temp;
+    v0;
+
+  #L1a56a0.  @monitorenter v1
+  #Try_start0.  
+  #L1a56a2.  v0:= v1.`okhttp3.internal.http2.Http2Connection.awaitingPong` @type ^`boolean` @kind boolean;
+  #L1a56a6.  if v0 == 0 then goto L1a56b8;
+  #L1a56aa.  call `wait`(v1) @signature `Ljava/lang/Object;.wait:()V` @kind virtual;
+  #Try_end0.  
+  #L1a56b0.  goto L1a56a2;
+  #L1a56b2.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1a56b4.  @monitorexit v1
+  #L1a56b6.  throw v0;
+  #L1a56b8.  @monitorexit v1
+  #L1a56ba.  return @kind void;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1a56b2;
+}
+procedure `void` `close`(`okhttp3.internal.http2.Http2Connection` v2 @kind this) @signature `Lokhttp3/internal/http2/Http2Connection;.close:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L1a56d8.  v0:= `@@okhttp3.internal.http2.ErrorCode.NO_ERROR` @type ^`okhttp3.internal.http2.ErrorCode` @kind object;
+  #L1a56dc.  v1:= `@@okhttp3.internal.http2.ErrorCode.CANCEL` @type ^`okhttp3.internal.http2.ErrorCode` @kind object;
+  #L1a56e0.  call `close`(v2, v0, v1) @signature `Lokhttp3/internal/http2/Http2Connection;.close:(Lokhttp3/internal/http2/ErrorCode;Lokhttp3/internal/http2/ErrorCode;)V` @kind virtual;
+  #L1a56e6.  return @kind void;
+}
+procedure `void` `close`(`okhttp3.internal.http2.Http2Connection` v7 @kind this, `okhttp3.internal.http2.ErrorCode` v8 @kind object @name `connectionCode`, `okhttp3.internal.http2.ErrorCode` v9 @kind object @name `streamCode`) @signature `Lokhttp3/internal/http2/Http2Connection;.close:(Lokhttp3/internal/http2/ErrorCode;Lokhttp3/internal/http2/ErrorCode;)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L1a56f8.  v5:= `@@okhttp3.internal.http2.Http2Connection.$assertionsDisabled` @type ^`boolean` @kind boolean;
+  #L1a56fc.  if v5 != 0 then goto L1a5718;
+  #L1a5700.  call temp:= `holdsLock`(v7) @signature `Ljava/lang/Thread;.holdsLock:(Ljava/lang/Object;)Z` @kind static;
+  #L1a5706.  v5:= temp;
+  #L1a5708.  if v5 == 0 then goto L1a5718;
+  #L1a570c.  v5:= new `java.lang.AssertionError`;
+  #L1a5710.  call `<init>`(v5) @signature `Ljava/lang/AssertionError;.<init>:()V` @kind direct;
+  #L1a5716.  throw v5;
+  #L1a5718.  v4:= 0I;
+  #Try_start0.  
+  #L1a571a.  call `shutdown`(v7, v8) @signature `Lokhttp3/internal/http2/Http2Connection;.shutdown:(Lokhttp3/internal/http2/ErrorCode;)V` @kind virtual;
+  #Try_end0.  
+  #L1a5720.  v3:= 0I;
+  #L1a5722.  @monitorenter v7
+  #Try_start1.  
+  #L1a5724.  v5:= v7.`okhttp3.internal.http2.Http2Connection.streams` @type ^`java.util.Map` @kind object;
+  #L1a5728.  call temp:= `isEmpty`(v5) @signature `Ljava/util/Map;.isEmpty:()Z` @kind interface;
+  #L1a572e.  v5:= temp;
+  #L1a5730.  if v5 != 0 then goto L1a576a;
+  #L1a5734.  v5:= v7.`okhttp3.internal.http2.Http2Connection.streams` @type ^`java.util.Map` @kind object;
+  #L1a5738.  call temp:= `values`(v5) @signature `Ljava/util/Map;.values:()Ljava/util/Collection;` @kind interface;
+  #L1a573e.  v5:= temp @kind object;
+  #L1a5740.  v6:= v7.`okhttp3.internal.http2.Http2Connection.streams` @type ^`java.util.Map` @kind object;
+  #L1a5744.  call temp:= `size`(v6) @signature `Ljava/util/Map;.size:()I` @kind interface;
+  #L1a574a.  v6:= temp;
+  #L1a574c.  v6:= new `okhttp3.internal.http2.Http2Stream`[v6];
+  #L1a5750.  call temp:= `toArray`(v5, v6) @signature `Ljava/util/Collection;.toArray:([Ljava/lang/Object;)[Ljava/lang/Object;` @kind interface;
+  #L1a5756.  v5:= temp @kind object;
+  #L1a5758.  v0:= v5 @kind object;
+  #L1a575a.  v0:= (`okhttp3.internal.http2.Http2Stream`[]) v0 @kind object;
+  #L1a575e.  v3:= v0 @kind object;
+  #L1a5760.  v5:= v7.`okhttp3.internal.http2.Http2Connection.streams` @type ^`java.util.Map` @kind object;
+  #L1a5764.  call `clear`(v5) @signature `Ljava/util/Map;.clear:()V` @kind interface;
+  #L1a576a.  @monitorexit v7
+  #Try_end1.  
+  #L1a576c.  if v3 == 0 then goto L1a579e;
+  #L1a5770.  v6:= length @variable v3;
+  #L1a5772.  v5:= 0I;
+  #L1a5774.  if v5 >= v6 then goto L1a579e;
+  #L1a5778.  v2:= v3[v5] @kind object;
+  #Try_start2.  
+  #L1a577c.  call `close`(v2, v9) @signature `Lokhttp3/internal/http2/Http2Stream;.close:(Lokhttp3/internal/http2/ErrorCode;)V` @kind virtual;
+  #Try_end2.  
+  #L1a5782.  v5:= v5 + 1;
+  #L1a5786.  goto L1a5774;
+  #L1a5788.  v1:= Exception @type ^`java.io.IOException` @kind object;
+  #L1a578a.  v4:= v1 @kind object;
+  #L1a578c.  goto L1a5720;
+  #L1a578e.  v5:= Exception @type ^`java.lang.Throwable` @kind object;
+  #Try_start3.  
+  #L1a5790.  @monitorexit v7
+  #Try_end3.  
+  #L1a5792.  throw v5;
+  #L1a5794.  v1:= Exception @type ^`java.io.IOException` @kind object;
+  #L1a5796.  if v4 == 0 then goto L1a5782;
+  #L1a579a.  v4:= v1 @kind object;
+  #L1a579c.  goto L1a5782;
+  #Try_start4.  
+  #L1a579e.  v5:= v7.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a57a2.  call `close`(v5) @signature `Lokhttp3/internal/http2/Http2Writer;.close:()V` @kind virtual;
+  #Try_end4.  
+  #Try_start5.  
+  #L1a57a8.  v5:= v7.`okhttp3.internal.http2.Http2Connection.socket` @type ^`java.net.Socket` @kind object;
+  #L1a57ac.  call `close`(v5) @signature `Ljava/net/Socket;.close:()V` @kind virtual;
+  #Try_end5.  
+  #L1a57b2.  v5:= v7.`okhttp3.internal.http2.Http2Connection.writerExecutor` @type ^`java.util.concurrent.ScheduledExecutorService` @kind object;
+  #L1a57b6.  call `shutdown`(v5) @signature `Ljava/util/concurrent/ScheduledExecutorService;.shutdown:()V` @kind interface;
+  #L1a57bc.  v5:= v7.`okhttp3.internal.http2.Http2Connection.pushExecutor` @type ^`java.util.concurrent.ExecutorService` @kind object;
+  #L1a57c0.  call `shutdown`(v5) @signature `Ljava/util/concurrent/ExecutorService;.shutdown:()V` @kind interface;
+  #L1a57c6.  if v4 == 0 then goto L1a57dc;
+  #L1a57ca.  throw v4;
+  #L1a57cc.  v1:= Exception @type ^`java.io.IOException` @kind object;
+  #L1a57ce.  if v4 != 0 then goto L1a57a8;
+  #L1a57d2.  v4:= v1 @kind object;
+  #L1a57d4.  goto L1a57a8;
+  #L1a57d6.  v1:= Exception @type ^`java.io.IOException` @kind object;
+  #L1a57d8.  v4:= v1 @kind object;
+  #L1a57da.  goto L1a57b2;
+  #L1a57dc.  return @kind void;
+  catch `java.io.IOException` @[Try_start0..Try_end0] goto L1a5788;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L1a578e;
+  catch `java.io.IOException` @[Try_start2..Try_end2] goto L1a5794;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L1a578e;
+  catch `java.io.IOException` @[Try_start4..Try_end4] goto L1a57cc;
+  catch `java.io.IOException` @[Try_start5..Try_end5] goto L1a57d6;
+}
+procedure `void` `flush`(`okhttp3.internal.http2.Http2Connection` v1 @kind this) @signature `Lokhttp3/internal/http2/Http2Connection;.flush:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L1a5834.  v0:= v1.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a5838.  call `flush`(v0) @signature `Lokhttp3/internal/http2/Http2Writer;.flush:()V` @kind virtual;
+  #L1a583e.  return @kind void;
+}
+procedure `okhttp3.Protocol` `getProtocol`(`okhttp3.internal.http2.Http2Connection` v1 @kind this) @signature `Lokhttp3/internal/http2/Http2Connection;.getProtocol:()Lokhttp3/Protocol;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L1a5850.  v0:= `@@okhttp3.Protocol.HTTP_2` @type ^`okhttp3.Protocol` @kind object;
+  #L1a5854.  return v0 @kind object;
+}
+procedure `okhttp3.internal.http2.Http2Stream` `getStream`(`okhttp3.internal.http2.Http2Connection` v2 @kind this, `int` v3 @name `id`) @signature `Lokhttp3/internal/http2/Http2Connection;.getStream:(I)Lokhttp3/internal/http2/Http2Stream;` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+
+  #L1a5868.  @monitorenter v2
+  #Try_start0.  
+  #L1a586a.  v0:= v2.`okhttp3.internal.http2.Http2Connection.streams` @type ^`java.util.Map` @kind object;
+  #L1a586e.  call temp:= `valueOf`(v3) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L1a5874.  v1:= temp @kind object;
+  #L1a5876.  call temp:= `get`(v0, v1) @signature `Ljava/util/Map;.get:(Ljava/lang/Object;)Ljava/lang/Object;` @kind interface;
+  #L1a587c.  v0:= temp @kind object;
+  #L1a587e.  v0:= (`okhttp3.internal.http2.Http2Stream`) v0 @kind object;
+  #Try_end0.  
+  #L1a5882.  @monitorexit v2
+  #L1a5884.  return v0 @kind object;
+  #L1a5886.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1a5888.  @monitorexit v2
+  #L1a588a.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1a5886;
+}
+procedure `boolean` `isShutdown`(`okhttp3.internal.http2.Http2Connection` v1 @kind this) @signature `Lokhttp3/internal/http2/Http2Connection;.isShutdown:()Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L1a58a8.  @monitorenter v1
+  #Try_start0.  
+  #L1a58aa.  v0:= v1.`okhttp3.internal.http2.Http2Connection.shutdown` @type ^`boolean` @kind boolean;
+  #Try_end0.  
+  #L1a58ae.  @monitorexit v1
+  #L1a58b0.  return v0;
+  #L1a58b2.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1a58b4.  @monitorexit v1
+  #L1a58b6.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1a58b2;
+}
+procedure `int` `maxConcurrentStreams`(`okhttp3.internal.http2.Http2Connection` v2 @kind this) @signature `Lokhttp3/internal/http2/Http2Connection;.maxConcurrentStreams:()I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L1a58d4.  @monitorenter v2
+  #Try_start0.  
+  #L1a58d6.  v0:= v2.`okhttp3.internal.http2.Http2Connection.peerSettings` @type ^`okhttp3.internal.http2.Settings` @kind object;
+  #L1a58da.  v1:= 2147483647I;
+  #L1a58e0.  call temp:= `getMaxConcurrentStreams`(v0, v1) @signature `Lokhttp3/internal/http2/Settings;.getMaxConcurrentStreams:(I)I` @kind virtual;
+  #Try_end0.  
+  #L1a58e6.  v0:= temp;
+  #L1a58e8.  @monitorexit v2
+  #L1a58ea.  return v0;
+  #L1a58ec.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1a58ee.  @monitorexit v2
+  #L1a58f0.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1a58ec;
+}
+procedure `okhttp3.internal.http2.Http2Stream` `newStream`(`okhttp3.internal.http2.Http2Connection` v1 @kind this, `java.util.List` v2 @kind object, `boolean` v3 @name `out`) @signature `Lokhttp3/internal/http2/Http2Connection;.newStream:(Ljava/util/List;Z)Lokhttp3/internal/http2/Http2Stream;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L1a5910.  v0:= 0I;
+  #L1a5912.  call temp:= `newStream`(v1, v0, v2, v3) @signature `Lokhttp3/internal/http2/Http2Connection;.newStream:(ILjava/util/List;Z)Lokhttp3/internal/http2/Http2Stream;` @kind direct;
+  #L1a5918.  v0:= temp @kind object;
+  #L1a591a.  return v0 @kind object;
+}
+procedure `int` `openStreamCount`(`okhttp3.internal.http2.Http2Connection` v1 @kind this) @signature `Lokhttp3/internal/http2/Http2Connection;.openStreamCount:()I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L1a592c.  @monitorenter v1
+  #Try_start0.  
+  #L1a592e.  v0:= v1.`okhttp3.internal.http2.Http2Connection.streams` @type ^`java.util.Map` @kind object;
+  #L1a5932.  call temp:= `size`(v0) @signature `Ljava/util/Map;.size:()I` @kind interface;
+  #Try_end0.  
+  #L1a5938.  v0:= temp;
+  #L1a593a.  @monitorexit v1
+  #L1a593c.  return v0;
+  #L1a593e.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1a5940.  @monitorexit v1
+  #L1a5942.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1a593e;
+}
+procedure `void` `pushDataLater`(`okhttp3.internal.http2.Http2Connection` v9 @kind this, `int` v10 @name `streamId`, `okio.BufferedSource` v11 @kind object @name `source`, `int` v12 @name `byteCount`, `boolean` v13 @name `inFinished`) @signature `Lokhttp3/internal/http2/Http2Connection;.pushDataLater:(ILokio/BufferedSource;IZ)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+
+  #L1a5960.  v5:= new `okio.Buffer`;
+  #L1a5964.  call `<init>`(v5) @signature `Lokio/Buffer;.<init>:()V` @kind direct;
+  #L1a596a.  v0:= (`long`) v12 @kind i2l;
+  #L1a596c.  call `require`(v11, v0) @signature `Lokio/BufferedSource;.require:(J)V` @kind interface;
+  #L1a5972.  v0:= (`long`) v12 @kind i2l;
+  #L1a5974.  call temp:= `read`(v11, v5, v0) @signature `Lokio/BufferedSource;.read:(Lokio/Buffer;J)J` @kind interface;
+  #L1a597a.  call temp:= `size`(v5) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L1a5980.  v0:= temp @kind wide;
+  #L1a5982.  v2:= (`long`) v12 @kind i2l;
+  #L1a5984.  v0:= lcmp(v0, v2);
+  #L1a5988.  if v0 == 0 then goto L1a59ce;
+  #L1a598c.  v0:= new `java.io.IOException`;
+  #L1a5990.  v1:= new `java.lang.StringBuilder`;
+  #L1a5994.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1a599a.  call temp:= `size`(v5) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L1a59a0.  v2:= temp @kind wide;
+  #L1a59a2.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(J)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1a59a8.  v1:= temp @kind object;
+  #L1a59aa.  v2:= " != " @kind object;
+  #L1a59ae.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1a59b4.  v1:= temp @kind object;
+  #L1a59b6.  call temp:= `append`(v1, v12) @signature `Ljava/lang/StringBuilder;.append:(I)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1a59bc.  v1:= temp @kind object;
+  #L1a59be.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1a59c4.  v1:= temp @kind object;
+  #L1a59c6.  call `<init>`(v0, v1) @signature `Ljava/io/IOException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1a59cc.  throw v0;
+  #L1a59ce.  v8:= v9.`okhttp3.internal.http2.Http2Connection.pushExecutor` @type ^`java.util.concurrent.ExecutorService` @kind object;
+  #L1a59d2.  v0:= new `okhttp3.internal.http2.Http2Connection$5`;
+  #L1a59d6.  v2:= "OkHttp %s Push Data[%s]" @kind object;
+  #L1a59da.  v1:= 2I;
+  #L1a59dc.  v3:= new `java.lang.Object`[v1];
+  #L1a59e0.  v1:= 0I;
+  #L1a59e2.  v4:= v9.`okhttp3.internal.http2.Http2Connection.hostname` @type ^`java.lang.String` @kind object;
+  #L1a59e6.  v3[v1]:= v4 @kind object;
+  #L1a59ea.  v1:= 1I;
+  #L1a59ec.  call temp:= `valueOf`(v10) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L1a59f2.  v4:= temp @kind object;
+  #L1a59f4.  v3[v1]:= v4 @kind object;
+  #L1a59f8.  v1:= v9 @kind object;
+  #L1a59fa.  v4:= v10;
+  #L1a59fc.  v6:= v12;
+  #L1a59fe.  v7:= v13;
+  #L1a5a00.  call `<init>`(v0, v1, v2, v3, v4, v5, v6, v7) @signature `Lokhttp3/internal/http2/Http2Connection$5;.<init>:(Lokhttp3/internal/http2/Http2Connection;Ljava/lang/String;[Ljava/lang/Object;ILokio/Buffer;IZ)V` @kind direct;
+  #L1a5a06.  call `execute`(v8, v0) @signature `Ljava/util/concurrent/ExecutorService;.execute:(Ljava/lang/Runnable;)V` @kind interface;
+  #L1a5a0c.  return @kind void;
+}
+procedure `void` `pushHeadersLater`(`okhttp3.internal.http2.Http2Connection` v8 @kind this, `int` v9 @name `streamId`, `java.util.List` v10 @kind object, `boolean` v11 @name `inFinished`) @signature `Lokhttp3/internal/http2/Http2Connection;.pushHeadersLater:(ILjava/util/List;Z)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+
+  #Try_start0.  
+  #L1a5a20.  v7:= v8.`okhttp3.internal.http2.Http2Connection.pushExecutor` @type ^`java.util.concurrent.ExecutorService` @kind object;
+  #L1a5a24.  v0:= new `okhttp3.internal.http2.Http2Connection$4`;
+  #L1a5a28.  v2:= "OkHttp %s Push Headers[%s]" @kind object;
+  #L1a5a2c.  v1:= 2I;
+  #L1a5a2e.  v3:= new `java.lang.Object`[v1];
+  #L1a5a32.  v1:= 0I;
+  #L1a5a34.  v4:= v8.`okhttp3.internal.http2.Http2Connection.hostname` @type ^`java.lang.String` @kind object;
+  #L1a5a38.  v3[v1]:= v4 @kind object;
+  #L1a5a3c.  v1:= 1I;
+  #L1a5a3e.  call temp:= `valueOf`(v9) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L1a5a44.  v4:= temp @kind object;
+  #L1a5a46.  v3[v1]:= v4 @kind object;
+  #L1a5a4a.  v1:= v8 @kind object;
+  #L1a5a4c.  v4:= v9;
+  #L1a5a4e.  v5:= v10 @kind object;
+  #L1a5a50.  v6:= v11;
+  #L1a5a52.  call `<init>`(v0, v1, v2, v3, v4, v5, v6) @signature `Lokhttp3/internal/http2/Http2Connection$4;.<init>:(Lokhttp3/internal/http2/Http2Connection;Ljava/lang/String;[Ljava/lang/Object;ILjava/util/List;Z)V` @kind direct;
+  #L1a5a58.  call `execute`(v7, v0) @signature `Ljava/util/concurrent/ExecutorService;.execute:(Ljava/lang/Runnable;)V` @kind interface;
+  #Try_end0.  
+  #L1a5a5e.  return @kind void;
+  #L1a5a60.  v0:= Exception @type ^`java.util.concurrent.RejectedExecutionException` @kind object;
+  #L1a5a62.  goto L1a5a5e;
+  catch `java.util.concurrent.RejectedExecutionException` @[Try_start0..Try_end0] goto L1a5a60;
+}
+procedure `void` `pushRequestLater`(`okhttp3.internal.http2.Http2Connection` v7 @kind this, `int` v8 @name `streamId`, `java.util.List` v9 @kind object) @signature `Lokhttp3/internal/http2/Http2Connection;.pushRequestLater:(ILjava/util/List;)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L1a5a84.  @monitorenter v7
+  #Try_start0.  
+  #L1a5a86.  v0:= v7.`okhttp3.internal.http2.Http2Connection.currentPushRequests` @type ^`java.util.Set` @kind object;
+  #L1a5a8a.  call temp:= `valueOf`(v8) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L1a5a90.  v1:= temp @kind object;
+  #L1a5a92.  call temp:= `contains`(v0, v1) @signature `Ljava/util/Set;.contains:(Ljava/lang/Object;)Z` @kind interface;
+  #L1a5a98.  v0:= temp;
+  #L1a5a9a.  if v0 == 0 then goto L1a5aac;
+  #L1a5a9e.  v0:= `@@okhttp3.internal.http2.ErrorCode.PROTOCOL_ERROR` @type ^`okhttp3.internal.http2.ErrorCode` @kind object;
+  #L1a5aa2.  call `writeSynResetLater`(v7, v8, v0) @signature `Lokhttp3/internal/http2/Http2Connection;.writeSynResetLater:(ILokhttp3/internal/http2/ErrorCode;)V` @kind virtual;
+  #L1a5aa8.  @monitorexit v7
+  #L1a5aaa.  return @kind void;
+  #L1a5aac.  v0:= v7.`okhttp3.internal.http2.Http2Connection.currentPushRequests` @type ^`java.util.Set` @kind object;
+  #L1a5ab0.  call temp:= `valueOf`(v8) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L1a5ab6.  v1:= temp @kind object;
+  #L1a5ab8.  call temp:= `add`(v0, v1) @signature `Ljava/util/Set;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L1a5abe.  @monitorexit v7
+  #Try_end0.  
+  #Try_start1.  
+  #L1a5ac0.  v6:= v7.`okhttp3.internal.http2.Http2Connection.pushExecutor` @type ^`java.util.concurrent.ExecutorService` @kind object;
+  #L1a5ac4.  v0:= new `okhttp3.internal.http2.Http2Connection$3`;
+  #L1a5ac8.  v2:= "OkHttp %s Push Request[%s]" @kind object;
+  #L1a5acc.  v1:= 2I;
+  #L1a5ace.  v3:= new `java.lang.Object`[v1];
+  #L1a5ad2.  v1:= 0I;
+  #L1a5ad4.  v4:= v7.`okhttp3.internal.http2.Http2Connection.hostname` @type ^`java.lang.String` @kind object;
+  #L1a5ad8.  v3[v1]:= v4 @kind object;
+  #L1a5adc.  v1:= 1I;
+  #L1a5ade.  call temp:= `valueOf`(v8) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L1a5ae4.  v4:= temp @kind object;
+  #L1a5ae6.  v3[v1]:= v4 @kind object;
+  #L1a5aea.  v1:= v7 @kind object;
+  #L1a5aec.  v4:= v8;
+  #L1a5aee.  v5:= v9 @kind object;
+  #L1a5af0.  call `<init>`(v0, v1, v2, v3, v4, v5) @signature `Lokhttp3/internal/http2/Http2Connection$3;.<init>:(Lokhttp3/internal/http2/Http2Connection;Ljava/lang/String;[Ljava/lang/Object;ILjava/util/List;)V` @kind direct;
+  #L1a5af6.  call `execute`(v6, v0) @signature `Ljava/util/concurrent/ExecutorService;.execute:(Ljava/lang/Runnable;)V` @kind interface;
+  #Try_end1.  
+  #L1a5afc.  goto L1a5aaa;
+  #L1a5afe.  v0:= Exception @type ^`java.util.concurrent.RejectedExecutionException` @kind object;
+  #L1a5b00.  goto L1a5aaa;
+  #L1a5b02.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #Try_start2.  
+  #L1a5b04.  @monitorexit v7
+  #Try_end2.  
+  #L1a5b06.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1a5b02;
+  catch `java.util.concurrent.RejectedExecutionException` @[Try_start1..Try_end1] goto L1a5afe;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L1a5b02;
+}
+procedure `void` `pushResetLater`(`okhttp3.internal.http2.Http2Connection` v7 @kind this, `int` v8 @name `streamId`, `okhttp3.internal.http2.ErrorCode` v9 @kind object @name `errorCode`) @signature `Lokhttp3/internal/http2/Http2Connection;.pushResetLater:(ILokhttp3/internal/http2/ErrorCode;)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L1a5b38.  v6:= v7.`okhttp3.internal.http2.Http2Connection.pushExecutor` @type ^`java.util.concurrent.ExecutorService` @kind object;
+  #L1a5b3c.  v0:= new `okhttp3.internal.http2.Http2Connection$6`;
+  #L1a5b40.  v2:= "OkHttp %s Push Reset[%s]" @kind object;
+  #L1a5b44.  v1:= 2I;
+  #L1a5b46.  v3:= new `java.lang.Object`[v1];
+  #L1a5b4a.  v1:= 0I;
+  #L1a5b4c.  v4:= v7.`okhttp3.internal.http2.Http2Connection.hostname` @type ^`java.lang.String` @kind object;
+  #L1a5b50.  v3[v1]:= v4 @kind object;
+  #L1a5b54.  v1:= 1I;
+  #L1a5b56.  call temp:= `valueOf`(v8) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L1a5b5c.  v4:= temp @kind object;
+  #L1a5b5e.  v3[v1]:= v4 @kind object;
+  #L1a5b62.  v1:= v7 @kind object;
+  #L1a5b64.  v4:= v8;
+  #L1a5b66.  v5:= v9 @kind object;
+  #L1a5b68.  call `<init>`(v0, v1, v2, v3, v4, v5) @signature `Lokhttp3/internal/http2/Http2Connection$6;.<init>:(Lokhttp3/internal/http2/Http2Connection;Ljava/lang/String;[Ljava/lang/Object;ILokhttp3/internal/http2/ErrorCode;)V` @kind direct;
+  #L1a5b6e.  call `execute`(v6, v0) @signature `Ljava/util/concurrent/ExecutorService;.execute:(Ljava/lang/Runnable;)V` @kind interface;
+  #L1a5b74.  return @kind void;
+}
+procedure `okhttp3.internal.http2.Http2Stream` `pushStream`(`okhttp3.internal.http2.Http2Connection` v2 @kind this, `int` v3 @name `associatedStreamId`, `java.util.List` v4 @kind object, `boolean` v5 @name `out`) @signature `Lokhttp3/internal/http2/Http2Connection;.pushStream:(ILjava/util/List;Z)Lokhttp3/internal/http2/Http2Stream;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L1a5b88.  v0:= v2.`okhttp3.internal.http2.Http2Connection.client` @type ^`boolean` @kind boolean;
+  #L1a5b8c.  if v0 == 0 then goto L1a5ba0;
+  #L1a5b90.  v0:= new `java.lang.IllegalStateException`;
+  #L1a5b94.  v1:= "Client cannot push requests." @kind object;
+  #L1a5b98.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1a5b9e.  throw v0;
+  #L1a5ba0.  call temp:= `newStream`(v2, v3, v4, v5) @signature `Lokhttp3/internal/http2/Http2Connection;.newStream:(ILjava/util/List;Z)Lokhttp3/internal/http2/Http2Stream;` @kind direct;
+  #L1a5ba6.  v0:= temp @kind object;
+  #L1a5ba8.  return v0 @kind object;
+}
+procedure `boolean` `pushedStream`(`okhttp3.internal.http2.Http2Connection` v1 @kind this, `int` v2 @name `streamId`) @signature `Lokhttp3/internal/http2/Http2Connection;.pushedStream:(I)Z` @AccessFlag  {
+    temp;
+    v0;
+
+  #L1a5bbc.  if v2 == 0 then goto L1a5bcc;
+  #L1a5bc0.  v0:= v2 ^& 1;
+  #L1a5bc4.  if v0 != 0 then goto L1a5bcc;
+  #L1a5bc8.  v0:= 1I;
+  #L1a5bca.  return v0;
+  #L1a5bcc.  v0:= 0I;
+  #L1a5bce.  goto L1a5bca;
+}
+procedure `okhttp3.internal.http2.Http2Stream` `removeStream`(`okhttp3.internal.http2.Http2Connection` v3 @kind this, `int` v4 @name `streamId`) @signature `Lokhttp3/internal/http2/Http2Connection;.removeStream:(I)Lokhttp3/internal/http2/Http2Stream;` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L1a5be0.  @monitorenter v3
+  #Try_start0.  
+  #L1a5be2.  v1:= v3.`okhttp3.internal.http2.Http2Connection.streams` @type ^`java.util.Map` @kind object;
+  #L1a5be6.  call temp:= `valueOf`(v4) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L1a5bec.  v2:= temp @kind object;
+  #L1a5bee.  call temp:= `remove`(v1, v2) @signature `Ljava/util/Map;.remove:(Ljava/lang/Object;)Ljava/lang/Object;` @kind interface;
+  #L1a5bf4.  v0:= temp @kind object;
+  #L1a5bf6.  v0:= (`okhttp3.internal.http2.Http2Stream`) v0 @kind object;
+  #L1a5bfa.  call `notifyAll`(v3) @signature `Ljava/lang/Object;.notifyAll:()V` @kind virtual;
+  #Try_end0.  
+  #L1a5c00.  @monitorexit v3
+  #L1a5c02.  return v0 @kind object;
+  #L1a5c04.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1a5c06.  @monitorexit v3
+  #L1a5c08.  throw v1;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1a5c04;
+}
+procedure `void` `setSettings`(`okhttp3.internal.http2.Http2Connection` v2 @kind this, `okhttp3.internal.http2.Settings` v3 @kind object @name `settings`) @signature `Lokhttp3/internal/http2/Http2Connection;.setSettings:(Lokhttp3/internal/http2/Settings;)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L1a5c28.  v1:= v2.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a5c2c.  @monitorenter v1
+  #Try_start0.  
+  #L1a5c2e.  @monitorenter v2
+  #Try_end0.  
+  #Try_start1.  
+  #L1a5c30.  v0:= v2.`okhttp3.internal.http2.Http2Connection.shutdown` @type ^`boolean` @kind boolean;
+  #L1a5c34.  if v0 == 0 then goto L1a5c50;
+  #L1a5c38.  v0:= new `okhttp3.internal.http2.ConnectionShutdownException`;
+  #L1a5c3c.  call `<init>`(v0) @signature `Lokhttp3/internal/http2/ConnectionShutdownException;.<init>:()V` @kind direct;
+  #L1a5c42.  throw v0;
+  #L1a5c44.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1a5c46.  @monitorexit v2
+  #Try_end1.  
+  #Try_start2.  
+  #L1a5c48.  throw v0;
+  #L1a5c4a.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1a5c4c.  @monitorexit v1
+  #Try_end2.  
+  #L1a5c4e.  throw v0;
+  #Try_start3.  
+  #L1a5c50.  v0:= v2.`okhttp3.internal.http2.Http2Connection.okHttpSettings` @type ^`okhttp3.internal.http2.Settings` @kind object;
+  #L1a5c54.  call `merge`(v0, v3) @signature `Lokhttp3/internal/http2/Settings;.merge:(Lokhttp3/internal/http2/Settings;)V` @kind virtual;
+  #L1a5c5a.  @monitorexit v2
+  #Try_end3.  
+  #Try_start4.  
+  #L1a5c5c.  v0:= v2.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a5c60.  call `settings`(v0, v3) @signature `Lokhttp3/internal/http2/Http2Writer;.settings:(Lokhttp3/internal/http2/Settings;)V` @kind virtual;
+  #L1a5c66.  @monitorexit v1
+  #Try_end4.  
+  #L1a5c68.  return @kind void;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1a5c4a;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L1a5c44;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L1a5c4a;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L1a5c44;
+  catch `java.lang.Throwable` @[Try_start4..Try_end4] goto L1a5c4a;
+}
+procedure `void` `shutdown`(`okhttp3.internal.http2.Http2Connection` v4 @kind this, `okhttp3.internal.http2.ErrorCode` v5 @kind object @name `statusCode`) @signature `Lokhttp3/internal/http2/Http2Connection;.shutdown:(Lokhttp3/internal/http2/ErrorCode;)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L1a5cac.  v2:= v4.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a5cb0.  @monitorenter v2
+  #Try_start0.  
+  #L1a5cb2.  @monitorenter v4
+  #Try_end0.  
+  #Try_start1.  
+  #L1a5cb4.  v1:= v4.`okhttp3.internal.http2.Http2Connection.shutdown` @type ^`boolean` @kind boolean;
+  #L1a5cb8.  if v1 == 0 then goto L1a5cc2;
+  #L1a5cbc.  @monitorexit v4
+  #Try_end1.  
+  #Try_start2.  
+  #L1a5cbe.  @monitorexit v2
+  #Try_end2.  
+  #L1a5cc0.  return @kind void;
+  #L1a5cc2.  v1:= 1I;
+  #Try_start3.  
+  #L1a5cc4.  v4.`okhttp3.internal.http2.Http2Connection.shutdown` @type ^`boolean` := v1 @kind boolean;
+  #L1a5cc8.  v0:= v4.`okhttp3.internal.http2.Http2Connection.lastGoodStreamId` @type ^`int`;
+  #L1a5ccc.  @monitorexit v4
+  #Try_end3.  
+  #Try_start4.  
+  #L1a5cce.  v1:= v4.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a5cd2.  v3:= `@@okhttp3.internal.Util.EMPTY_BYTE_ARRAY` @type ^`byte`[] @kind object;
+  #L1a5cd6.  call `goAway`(v1, v0, v5, v3) @signature `Lokhttp3/internal/http2/Http2Writer;.goAway:(ILokhttp3/internal/http2/ErrorCode;[B)V` @kind virtual;
+  #L1a5cdc.  @monitorexit v2
+  #L1a5cde.  goto L1a5cc0;
+  #L1a5ce0.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1a5ce2.  @monitorexit v2
+  #Try_end4.  
+  #L1a5ce4.  throw v1;
+  #L1a5ce6.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #Try_start5.  
+  #L1a5ce8.  @monitorexit v4
+  #Try_end5.  
+  #Try_start6.  
+  #L1a5cea.  throw v1;
+  #Try_end6.  
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1a5ce0;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L1a5ce6;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L1a5ce0;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L1a5ce6;
+  catch `java.lang.Throwable` @[Try_start4..Try_end4] goto L1a5ce0;
+  catch `java.lang.Throwable` @[Try_start5..Try_end5] goto L1a5ce6;
+  catch `java.lang.Throwable` @[Try_start6..Try_end6] goto L1a5ce0;
+}
+procedure `void` `start`(`okhttp3.internal.http2.Http2Connection` v1 @kind this) @signature `Lokhttp3/internal/http2/Http2Connection;.start:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L1a5d3c.  v0:= 1I;
+  #L1a5d3e.  call `start`(v1, v0) @signature `Lokhttp3/internal/http2/Http2Connection;.start:(Z)V` @kind virtual;
+  #L1a5d44.  return @kind void;
+}
+procedure `void` `start`(`okhttp3.internal.http2.Http2Connection` v6 @kind this, `boolean` v7 @name `sendConnectionPreface`) @signature `Lokhttp3/internal/http2/Http2Connection;.start:(Z)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L1a5d58.  v3:= 65535I;
+  #L1a5d5e.  if v7 == 0 then goto L1a5d9c;
+  #L1a5d62.  v1:= v6.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a5d66.  call `connectionPreface`(v1) @signature `Lokhttp3/internal/http2/Http2Writer;.connectionPreface:()V` @kind virtual;
+  #L1a5d6c.  v1:= v6.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a5d70.  v2:= v6.`okhttp3.internal.http2.Http2Connection.okHttpSettings` @type ^`okhttp3.internal.http2.Settings` @kind object;
+  #L1a5d74.  call `settings`(v1, v2) @signature `Lokhttp3/internal/http2/Http2Writer;.settings:(Lokhttp3/internal/http2/Settings;)V` @kind virtual;
+  #L1a5d7a.  v1:= v6.`okhttp3.internal.http2.Http2Connection.okHttpSettings` @type ^`okhttp3.internal.http2.Settings` @kind object;
+  #L1a5d7e.  call temp:= `getInitialWindowSize`(v1) @signature `Lokhttp3/internal/http2/Settings;.getInitialWindowSize:()I` @kind virtual;
+  #L1a5d84.  v0:= temp;
+  #L1a5d86.  if v0 == v3 then goto L1a5d9c;
+  #L1a5d8a.  v1:= v6.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a5d8e.  v2:= 0I;
+  #L1a5d90.  v3:= v0 - v3 @kind int;
+  #L1a5d94.  v4:= (`long`) v3 @kind i2l;
+  #L1a5d96.  call `windowUpdate`(v1, v2, v4) @signature `Lokhttp3/internal/http2/Http2Writer;.windowUpdate:(IJ)V` @kind virtual;
+  #L1a5d9c.  v1:= new `java.lang.Thread`;
+  #L1a5da0.  v2:= v6.`okhttp3.internal.http2.Http2Connection.readerRunnable` @type ^`okhttp3.internal.http2.Http2Connection$ReaderRunnable` @kind object;
+  #L1a5da4.  call `<init>`(v1, v2) @signature `Ljava/lang/Thread;.<init>:(Ljava/lang/Runnable;)V` @kind direct;
+  #L1a5daa.  call `start`(v1) @signature `Ljava/lang/Thread;.start:()V` @kind virtual;
+  #L1a5db0.  return @kind void;
+}
+procedure `void` `writeData`(`okhttp3.internal.http2.Http2Connection` v10 @kind this, `int` v11 @name `streamId`, `boolean` v12 @name `outFinished`, `okio.Buffer` v13 @kind object @name `buffer`, `long` v14 @name `byteCount`) @signature `Lokhttp3/internal/http2/Http2Connection;.writeData:(IZLokio/Buffer;J)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+
+  #L1a5dc4.  v3:= 0I;
+  #L1a5dc6.  v8:= 0L;
+  #L1a5dca.  v2:= lcmp(v14, v8);
+  #L1a5dce.  if v2 != 0 then goto L1a5e2a;
+  #L1a5dd2.  v2:= v10.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a5dd6.  call `data`(v2, v12, v11, v13, v3) @signature `Lokhttp3/internal/http2/Http2Writer;.data:(ZILokio/Buffer;I)V` @kind virtual;
+  #L1a5ddc.  return @kind void;
+  #Try_start0.  
+  #L1a5dde.  v4:= v10.`okhttp3.internal.http2.Http2Connection.bytesLeftInWriteWindow` @type ^`long` @kind wide;
+  #L1a5de2.  call temp:= `min`(v14, v4) @signature `Ljava/lang/Math;.min:(JJ)J` @kind static;
+  #L1a5de8.  v4:= temp @kind wide;
+  #L1a5dea.  v1:= (`int`) v4 @kind l2i;
+  #L1a5dec.  v2:= v10.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a5df0.  call temp:= `maxDataLength`(v2) @signature `Lokhttp3/internal/http2/Http2Writer;.maxDataLength:()I` @kind virtual;
+  #L1a5df6.  v2:= temp;
+  #L1a5df8.  call temp:= `min`(v1, v2) @signature `Ljava/lang/Math;.min:(II)I` @kind static;
+  #L1a5dfe.  v1:= temp;
+  #L1a5e00.  v4:= v10.`okhttp3.internal.http2.Http2Connection.bytesLeftInWriteWindow` @type ^`long` @kind wide;
+  #L1a5e04.  v6:= (`long`) v1 @kind i2l;
+  #L1a5e06.  v4:= v4 - v6 @kind long;
+  #L1a5e08.  v10.`okhttp3.internal.http2.Http2Connection.bytesLeftInWriteWindow` @type ^`long` := v4 @kind wide;
+  #L1a5e0c.  @monitorexit v10
+  #Try_end0.  
+  #L1a5e0e.  v4:= (`long`) v1 @kind i2l;
+  #L1a5e10.  v14:= v14 - v4 @kind long;
+  #L1a5e12.  v4:= v10.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a5e16.  if v12 == 0 then goto L1a5e84;
+  #L1a5e1a.  v2:= lcmp(v14, v8);
+  #L1a5e1e.  if v2 != 0 then goto L1a5e84;
+  #L1a5e22.  v2:= 1I;
+  #L1a5e24.  call `data`(v4, v2, v11, v13, v1) @signature `Lokhttp3/internal/http2/Http2Writer;.data:(ZILokio/Buffer;I)V` @kind virtual;
+  #L1a5e2a.  v2:= lcmp(v14, v8);
+  #L1a5e2e.  if v2 <= 0 then goto L1a5ddc;
+  #L1a5e32.  @monitorenter v10
+  #Try_start1.  
+  #L1a5e34.  v4:= v10.`okhttp3.internal.http2.Http2Connection.bytesLeftInWriteWindow` @type ^`long` @kind wide;
+  #L1a5e38.  v2:= lcmp(v4, v8);
+  #L1a5e3c.  if v2 > 0 then goto L1a5dde;
+  #L1a5e40.  v2:= v10.`okhttp3.internal.http2.Http2Connection.streams` @type ^`java.util.Map` @kind object;
+  #L1a5e44.  call temp:= `valueOf`(v11) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L1a5e4a.  v4:= temp @kind object;
+  #L1a5e4c.  call temp:= `containsKey`(v2, v4) @signature `Ljava/util/Map;.containsKey:(Ljava/lang/Object;)Z` @kind interface;
+  #L1a5e52.  v2:= temp;
+  #L1a5e54.  if v2 != 0 then goto L1a5e7c;
+  #L1a5e58.  v2:= new `java.io.IOException`;
+  #L1a5e5c.  v3:= "stream closed" @kind object;
+  #L1a5e60.  call `<init>`(v2, v3) @signature `Ljava/io/IOException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1a5e66.  throw v2;
+  #Try_end1.  
+  #L1a5e68.  v0:= Exception @type ^`java.lang.InterruptedException` @kind object;
+  #Try_start2.  
+  #L1a5e6a.  v2:= new `java.io.InterruptedIOException`;
+  #L1a5e6e.  call `<init>`(v2) @signature `Ljava/io/InterruptedIOException;.<init>:()V` @kind direct;
+  #L1a5e74.  throw v2;
+  #L1a5e76.  v2:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1a5e78.  @monitorexit v10
+  #Try_end2.  
+  #L1a5e7a.  throw v2;
+  #Try_start3.  
+  #L1a5e7c.  call `wait`(v10) @signature `Ljava/lang/Object;.wait:()V` @kind virtual;
+  #Try_end3.  
+  #L1a5e82.  goto L1a5e34;
+  #L1a5e84.  v2:= v3;
+  #L1a5e86.  goto L1a5e24;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1a5e76;
+  catch `java.lang.InterruptedException` @[Try_start1..Try_end1] goto L1a5e68;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L1a5e76;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L1a5e76;
+  catch `java.lang.InterruptedException` @[Try_start3..Try_end3] goto L1a5e68;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L1a5e76;
+}
+procedure `void` `writePing`(`okhttp3.internal.http2.Http2Connection` v3 @kind this, `boolean` v4 @name `reply`, `int` v5 @name `payload1`, `int` v6 @name `payload2`) @signature `Lokhttp3/internal/http2/Http2Connection;.writePing:(ZII)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L1a5ec0.  if v4 != 0 then goto L1a5ee4;
+  #L1a5ec4.  @monitorenter v3
+  #Try_start0.  
+  #L1a5ec6.  v1:= v3.`okhttp3.internal.http2.Http2Connection.awaitingPong` @type ^`boolean` @kind boolean;
+  #L1a5eca.  v2:= 1I;
+  #L1a5ecc.  v3.`okhttp3.internal.http2.Http2Connection.awaitingPong` @type ^`boolean` := v2 @kind boolean;
+  #L1a5ed0.  @monitorexit v3
+  #Try_end0.  
+  #L1a5ed2.  if v1 == 0 then goto L1a5ee4;
+  #L1a5ed6.  call `failConnection`(v3) @signature `Lokhttp3/internal/http2/Http2Connection;.failConnection:()V` @kind direct;
+  #L1a5edc.  return @kind void;
+  #L1a5ede.  v2:= Exception @type ^`java.lang.Throwable` @kind object;
+  #Try_start1.  
+  #L1a5ee0.  @monitorexit v3
+  #Try_end1.  
+  #L1a5ee2.  throw v2;
+  #Try_start2.  
+  #L1a5ee4.  v2:= v3.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a5ee8.  call `ping`(v2, v4, v5, v6) @signature `Lokhttp3/internal/http2/Http2Writer;.ping:(ZII)V` @kind virtual;
+  #Try_end2.  
+  #L1a5eee.  goto L1a5edc;
+  #L1a5ef0.  v0:= Exception @type ^`java.io.IOException` @kind object;
+  #L1a5ef2.  call `failConnection`(v3) @signature `Lokhttp3/internal/http2/Http2Connection;.failConnection:()V` @kind direct;
+  #L1a5ef8.  goto L1a5edc;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1a5ede;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L1a5ede;
+  catch `java.io.IOException` @[Try_start2..Try_end2] goto L1a5ef0;
+}
+procedure `void` `writePingAndAwaitPong`(`okhttp3.internal.http2.Http2Connection` v3 @kind this) @signature `Lokhttp3/internal/http2/Http2Connection;.writePingAndAwaitPong:()V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L1a5f2c.  v0:= 0I;
+  #L1a5f2e.  v1:= 1330343787I;
+  #L1a5f34.  v2:= -257978967I;
+  #L1a5f3a.  call `writePing`(v3, v0, v1, v2) @signature `Lokhttp3/internal/http2/Http2Connection;.writePing:(ZII)V` @kind virtual;
+  #L1a5f40.  call `awaitPong`(v3) @signature `Lokhttp3/internal/http2/Http2Connection;.awaitPong:()V` @kind virtual;
+  #L1a5f46.  return @kind void;
+}
+procedure `void` `writeSynReply`(`okhttp3.internal.http2.Http2Connection` v1 @kind this, `int` v2 @name `streamId`, `boolean` v3 @name `outFinished`, `java.util.List` v4 @kind object) @signature `Lokhttp3/internal/http2/Http2Connection;.writeSynReply:(IZLjava/util/List;)V` @AccessFlag  {
+    temp;
+    v0;
+
+  #L1a5f58.  v0:= v1.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a5f5c.  call `synReply`(v0, v3, v2, v4) @signature `Lokhttp3/internal/http2/Http2Writer;.synReply:(ZILjava/util/List;)V` @kind virtual;
+  #L1a5f62.  return @kind void;
+}
+procedure `void` `writeSynReset`(`okhttp3.internal.http2.Http2Connection` v1 @kind this, `int` v2 @name `streamId`, `okhttp3.internal.http2.ErrorCode` v3 @kind object @name `statusCode`) @signature `Lokhttp3/internal/http2/Http2Connection;.writeSynReset:(ILokhttp3/internal/http2/ErrorCode;)V` @AccessFlag  {
+    temp;
+    v0;
+
+  #L1a5f74.  v0:= v1.`okhttp3.internal.http2.Http2Connection.writer` @type ^`okhttp3.internal.http2.Http2Writer` @kind object;
+  #L1a5f78.  call `rstStream`(v0, v2, v3) @signature `Lokhttp3/internal/http2/Http2Writer;.rstStream:(ILokhttp3/internal/http2/ErrorCode;)V` @kind virtual;
+  #L1a5f7e.  return @kind void;
+}
+procedure `void` `writeSynResetLater`(`okhttp3.internal.http2.Http2Connection` v7 @kind this, `int` v8 @name `streamId`, `okhttp3.internal.http2.ErrorCode` v9 @kind object @name `errorCode`) @signature `Lokhttp3/internal/http2/Http2Connection;.writeSynResetLater:(ILokhttp3/internal/http2/ErrorCode;)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #Try_start0.  
+  #L1a5f90.  v6:= v7.`okhttp3.internal.http2.Http2Connection.writerExecutor` @type ^`java.util.concurrent.ScheduledExecutorService` @kind object;
+  #L1a5f94.  v0:= new `okhttp3.internal.http2.Http2Connection$1`;
+  #L1a5f98.  v2:= "OkHttp %s stream %d" @kind object;
+  #L1a5f9c.  v1:= 2I;
+  #L1a5f9e.  v3:= new `java.lang.Object`[v1];
+  #L1a5fa2.  v1:= 0I;
+  #L1a5fa4.  v4:= v7.`okhttp3.internal.http2.Http2Connection.hostname` @type ^`java.lang.String` @kind object;
+  #L1a5fa8.  v3[v1]:= v4 @kind object;
+  #L1a5fac.  v1:= 1I;
+  #L1a5fae.  call temp:= `valueOf`(v8) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L1a5fb4.  v4:= temp @kind object;
+  #L1a5fb6.  v3[v1]:= v4 @kind object;
+  #L1a5fba.  v1:= v7 @kind object;
+  #L1a5fbc.  v4:= v8;
+  #L1a5fbe.  v5:= v9 @kind object;
+  #L1a5fc0.  call `<init>`(v0, v1, v2, v3, v4, v5) @signature `Lokhttp3/internal/http2/Http2Connection$1;.<init>:(Lokhttp3/internal/http2/Http2Connection;Ljava/lang/String;[Ljava/lang/Object;ILokhttp3/internal/http2/ErrorCode;)V` @kind direct;
+  #L1a5fc6.  call `execute`(v6, v0) @signature `Ljava/util/concurrent/ScheduledExecutorService;.execute:(Ljava/lang/Runnable;)V` @kind interface;
+  #Try_end0.  
+  #L1a5fcc.  return @kind void;
+  #L1a5fce.  v0:= Exception @type ^`java.util.concurrent.RejectedExecutionException` @kind object;
+  #L1a5fd0.  goto L1a5fcc;
+  catch `java.util.concurrent.RejectedExecutionException` @[Try_start0..Try_end0] goto L1a5fce;
+}
+procedure `void` `writeWindowUpdateLater`(`okhttp3.internal.http2.Http2Connection` v8 @kind this, `int` v9 @name `streamId`, `long` v10 @name `unacknowledgedBytesRead`) @signature `Lokhttp3/internal/http2/Http2Connection;.writeWindowUpdateLater:(IJ)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+
+  #Try_start0.  
+  #L1a5ff4.  v0:= v8.`okhttp3.internal.http2.Http2Connection.writerExecutor` @type ^`java.util.concurrent.ScheduledExecutorService` @kind object;
+  #L1a5ff8.  v1:= new `okhttp3.internal.http2.Http2Connection$2`;
+  #L1a5ffc.  v3:= "OkHttp Window Update %s stream %d" @kind object;
+  #L1a6000.  v2:= 2I;
+  #L1a6002.  v4:= new `java.lang.Object`[v2];
+  #L1a6006.  v2:= 0I;
+  #L1a6008.  v5:= v8.`okhttp3.internal.http2.Http2Connection.hostname` @type ^`java.lang.String` @kind object;
+  #L1a600c.  v4[v2]:= v5 @kind object;
+  #L1a6010.  v2:= 1I;
+  #L1a6012.  call temp:= `valueOf`(v9) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L1a6018.  v5:= temp @kind object;
+  #L1a601a.  v4[v2]:= v5 @kind object;
+  #L1a601e.  v2:= v8 @kind object;
+  #L1a6020.  v5:= v9;
+  #L1a6022.  v6:= v10 @kind wide;
+  #L1a6024.  call `<init>`(v1, v2, v3, v4, v5, v6) @signature `Lokhttp3/internal/http2/Http2Connection$2;.<init>:(Lokhttp3/internal/http2/Http2Connection;Ljava/lang/String;[Ljava/lang/Object;IJ)V` @kind direct;
+  #L1a602a.  call `execute`(v0, v1) @signature `Ljava/util/concurrent/ScheduledExecutorService;.execute:(Ljava/lang/Runnable;)V` @kind interface;
+  #Try_end0.  
+  #L1a6030.  return @kind void;
+  #L1a6032.  v0:= Exception @type ^`java.util.concurrent.RejectedExecutionException` @kind object;
+  #L1a6034.  goto L1a6030;
+  catch `java.util.concurrent.RejectedExecutionException` @[Try_start0..Try_end0] goto L1a6032;
+}

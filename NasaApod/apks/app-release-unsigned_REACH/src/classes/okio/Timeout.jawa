@@ -1,0 +1,258 @@
+record `okio.Timeout` @kind class @AccessFlag PUBLIC {
+  `long` `okio.Timeout.deadlineNanoTime` @AccessFlag PRIVATE;
+  `boolean` `okio.Timeout.hasDeadline` @AccessFlag PRIVATE;
+  `long` `okio.Timeout.timeoutNanos` @AccessFlag PRIVATE;
+}
+global `okio.Timeout` `@@okio.Timeout.NONE` @AccessFlag PUBLIC_STATIC_FINAL;
+procedure `void` `<clinit>`() @signature `Lokio/Timeout;.<clinit>:()V` @AccessFlag STATIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L1adf2c.  v0:= new `okio.Timeout$1`;
+  #L1adf30.  call `<init>`(v0) @signature `Lokio/Timeout$1;.<init>:()V` @kind direct;
+  #L1adf36.  `@@okio.Timeout.NONE` @type ^`okio.Timeout` := v0 @kind object;
+  #L1adf3a.  return @kind void;
+}
+procedure `void` `<init>`(`okio.Timeout` v0 @kind this) @signature `Lokio/Timeout;.<init>:()V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+
+  #L1adf4c.  call `<init>`(v0) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L1adf52.  return @kind void;
+}
+procedure `okio.Timeout` `clearDeadline`(`okio.Timeout` v1 @kind this) @signature `Lokio/Timeout;.clearDeadline:()Lokio/Timeout;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L1adf64.  v0:= 0I;
+  #L1adf66.  v1.`okio.Timeout.hasDeadline` @type ^`boolean` := v0 @kind boolean;
+  #L1adf6a.  return v1 @kind object;
+}
+procedure `okio.Timeout` `clearTimeout`(`okio.Timeout` v2 @kind this) @signature `Lokio/Timeout;.clearTimeout:()Lokio/Timeout;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L1adf7c.  v0:= 0L;
+  #L1adf80.  v2.`okio.Timeout.timeoutNanos` @type ^`long` := v0 @kind wide;
+  #L1adf84.  return v2 @kind object;
+}
+procedure `okio.Timeout` `deadline`(`okio.Timeout` v5 @kind this, `long` v6 @name `duration`, `java.util.concurrent.TimeUnit` v8 @kind object @name `unit`) @signature `Lokio/Timeout;.deadline:(JLjava/util/concurrent/TimeUnit;)Lokio/Timeout;` @AccessFlag PUBLIC_FINAL {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L1adf98.  v0:= 0L;
+  #L1adf9c.  v0:= lcmp(v6, v0);
+  #L1adfa0.  if v0 > 0 then goto L1adfd6;
+  #L1adfa4.  v0:= new `java.lang.IllegalArgumentException`;
+  #L1adfa8.  v1:= new `java.lang.StringBuilder`;
+  #L1adfac.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1adfb2.  v2:= "duration <= 0: " @kind object;
+  #L1adfb6.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1adfbc.  v1:= temp @kind object;
+  #L1adfbe.  call temp:= `append`(v1, v6) @signature `Ljava/lang/StringBuilder;.append:(J)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1adfc4.  v1:= temp @kind object;
+  #L1adfc6.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1adfcc.  v1:= temp @kind object;
+  #L1adfce.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1adfd4.  throw v0;
+  #L1adfd6.  if v8 != 0 then goto L1adfea;
+  #L1adfda.  v0:= new `java.lang.IllegalArgumentException`;
+  #L1adfde.  v1:= "unit == null" @kind object;
+  #L1adfe2.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1adfe8.  throw v0;
+  #L1adfea.  call temp:= `nanoTime`() @signature `Ljava/lang/System;.nanoTime:()J` @kind static;
+  #L1adff0.  v0:= temp @kind wide;
+  #L1adff2.  call temp:= `toNanos`(v8, v6) @signature `Ljava/util/concurrent/TimeUnit;.toNanos:(J)J` @kind virtual;
+  #L1adff8.  v2:= temp @kind wide;
+  #L1adffa.  v0:= v0 + v2 @kind long;
+  #L1adffc.  call temp:= `deadlineNanoTime`(v5, v0) @signature `Lokio/Timeout;.deadlineNanoTime:(J)Lokio/Timeout;` @kind virtual;
+  #L1ae002.  v0:= temp @kind object;
+  #L1ae004.  return v0 @kind object;
+}
+procedure `long` `deadlineNanoTime`(`okio.Timeout` v2 @kind this) @signature `Lokio/Timeout;.deadlineNanoTime:()J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L1ae018.  v0:= v2.`okio.Timeout.hasDeadline` @type ^`boolean` @kind boolean;
+  #L1ae01c.  if v0 != 0 then goto L1ae030;
+  #L1ae020.  v0:= new `java.lang.IllegalStateException`;
+  #L1ae024.  v1:= "No deadline" @kind object;
+  #L1ae028.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1ae02e.  throw v0;
+  #L1ae030.  v0:= v2.`okio.Timeout.deadlineNanoTime` @type ^`long` @kind wide;
+  #L1ae034.  return v0 @kind wide;
+}
+procedure `okio.Timeout` `deadlineNanoTime`(`okio.Timeout` v1 @kind this, `long` v2 @name `deadlineNanoTime`) @signature `Lokio/Timeout;.deadlineNanoTime:(J)Lokio/Timeout;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L1ae048.  v0:= 1I;
+  #L1ae04a.  v1.`okio.Timeout.hasDeadline` @type ^`boolean` := v0 @kind boolean;
+  #L1ae04e.  v1.`okio.Timeout.deadlineNanoTime` @type ^`long` := v2 @kind wide;
+  #L1ae052.  return v1 @kind object;
+}
+procedure `boolean` `hasDeadline`(`okio.Timeout` v1 @kind this) @signature `Lokio/Timeout;.hasDeadline:()Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L1ae064.  v0:= v1.`okio.Timeout.hasDeadline` @type ^`boolean` @kind boolean;
+  #L1ae068.  return v0;
+}
+procedure `void` `throwIfReached`(`okio.Timeout` v4 @kind this) @signature `Lokio/Timeout;.throwIfReached:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L1ae07c.  call temp:= `interrupted`() @signature `Ljava/lang/Thread;.interrupted:()Z` @kind static;
+  #L1ae082.  v0:= temp;
+  #L1ae084.  if v0 == 0 then goto L1ae098;
+  #L1ae088.  v0:= new `java.io.InterruptedIOException`;
+  #L1ae08c.  v1:= "thread interrupted" @kind object;
+  #L1ae090.  call `<init>`(v0, v1) @signature `Ljava/io/InterruptedIOException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1ae096.  throw v0;
+  #L1ae098.  v0:= v4.`okio.Timeout.hasDeadline` @type ^`boolean` @kind boolean;
+  #L1ae09c.  if v0 == 0 then goto L1ae0ca;
+  #L1ae0a0.  v0:= v4.`okio.Timeout.deadlineNanoTime` @type ^`long` @kind wide;
+  #L1ae0a4.  call temp:= `nanoTime`() @signature `Ljava/lang/System;.nanoTime:()J` @kind static;
+  #L1ae0aa.  v2:= temp @kind wide;
+  #L1ae0ac.  v0:= v0 - v2 @kind long;
+  #L1ae0ae.  v2:= 0L;
+  #L1ae0b2.  v0:= lcmp(v0, v2);
+  #L1ae0b6.  if v0 > 0 then goto L1ae0ca;
+  #L1ae0ba.  v0:= new `java.io.InterruptedIOException`;
+  #L1ae0be.  v1:= "deadline reached" @kind object;
+  #L1ae0c2.  call `<init>`(v0, v1) @signature `Ljava/io/InterruptedIOException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1ae0c8.  throw v0;
+  #L1ae0ca.  return @kind void;
+}
+procedure `okio.Timeout` `timeout`(`okio.Timeout` v3 @kind this, `long` v4 @name `timeout`, `java.util.concurrent.TimeUnit` v6 @kind object @name `unit`) @signature `Lokio/Timeout;.timeout:(JLjava/util/concurrent/TimeUnit;)Lokio/Timeout;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L1ae0dc.  v0:= 0L;
+  #L1ae0e0.  v0:= lcmp(v4, v0);
+  #L1ae0e4.  if v0 >= 0 then goto L1ae11a;
+  #L1ae0e8.  v0:= new `java.lang.IllegalArgumentException`;
+  #L1ae0ec.  v1:= new `java.lang.StringBuilder`;
+  #L1ae0f0.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1ae0f6.  v2:= "timeout < 0: " @kind object;
+  #L1ae0fa.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1ae100.  v1:= temp @kind object;
+  #L1ae102.  call temp:= `append`(v1, v4) @signature `Ljava/lang/StringBuilder;.append:(J)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1ae108.  v1:= temp @kind object;
+  #L1ae10a.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1ae110.  v1:= temp @kind object;
+  #L1ae112.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1ae118.  throw v0;
+  #L1ae11a.  if v6 != 0 then goto L1ae12e;
+  #L1ae11e.  v0:= new `java.lang.IllegalArgumentException`;
+  #L1ae122.  v1:= "unit == null" @kind object;
+  #L1ae126.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1ae12c.  throw v0;
+  #L1ae12e.  call temp:= `toNanos`(v6, v4) @signature `Ljava/util/concurrent/TimeUnit;.toNanos:(J)J` @kind virtual;
+  #L1ae134.  v0:= temp @kind wide;
+  #L1ae136.  v3.`okio.Timeout.timeoutNanos` @type ^`long` := v0 @kind wide;
+  #L1ae13a.  return v3 @kind object;
+}
+procedure `long` `timeoutNanos`(`okio.Timeout` v2 @kind this) @signature `Lokio/Timeout;.timeoutNanos:()J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L1ae14c.  v0:= v2.`okio.Timeout.timeoutNanos` @type ^`long` @kind wide;
+  #L1ae150.  return v0 @kind wide;
+}
+procedure `void` `waitUntilNotified`(`okio.Timeout` v18 @kind this, `java.lang.Object` v19 @kind object @name `monitor`) @signature `Lokio/Timeout;.waitUntilNotified:(Ljava/lang/Object;)V` @AccessFlag PUBLIC_FINAL {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+    v11;
+    v12;
+    v13;
+    v14;
+    v15;
+    v16;
+    v17;
+
+  #Try_start0.  
+  #L1ae164.  call temp:= `hasDeadline`(v18) @signature `Lokio/Timeout;.hasDeadline:()Z` @kind virtual;
+  #L1ae16a.  v5:= temp;
+  #L1ae16c.  call temp:= `timeoutNanos`(v18) @signature `Lokio/Timeout;.timeoutNanos:()J` @kind virtual;
+  #L1ae172.  v10:= temp @kind wide;
+  #L1ae174.  if v5 != 0 then goto L1ae18c;
+  #L1ae178.  v16:= 0L;
+  #L1ae17c.  v16:= lcmp(v10, v16);
+  #L1ae180.  if v16 != 0 then goto L1ae18c;
+  #L1ae184.  call `wait`(v19) @signature `Ljava/lang/Object;.wait:()V` @kind virtual;
+  #L1ae18a.  return @kind void;
+  #L1ae18c.  call temp:= `nanoTime`() @signature `Ljava/lang/System;.nanoTime:()J` @kind static;
+  #L1ae192.  v8:= temp @kind wide;
+  #L1ae194.  if v5 == 0 then goto L1ae22e;
+  #L1ae198.  v16:= 0L;
+  #L1ae19c.  v16:= lcmp(v10, v16);
+  #L1ae1a0.  if v16 == 0 then goto L1ae22e;
+  #L1ae1a4.  call temp:= `deadlineNanoTime`(v18) @signature `Lokio/Timeout;.deadlineNanoTime:()J` @kind virtual;
+  #L1ae1aa.  v16:= temp @kind wide;
+  #L1ae1ac.  v2:= v16 - v8 @kind long;
+  #L1ae1b0.  call temp:= `min`(v10, v2) @signature `Ljava/lang/Math;.min:(JJ)J` @kind static;
+  #L1ae1b6.  v14:= temp @kind wide;
+  #L1ae1b8.  v6:= 0L;
+  #L1ae1bc.  v16:= 0L;
+  #L1ae1c0.  v16:= lcmp(v14, v16);
+  #L1ae1c4.  if v16 <= 0 then goto L1ae204;
+  #L1ae1c8.  v16:= 1000000L;
+  #L1ae1ce.  v12:= v14 / v16 @kind long;
+  #L1ae1d2.  v16:= 1000000L;
+  #L1ae1d8.  v16:= v16 * v12 @kind long;
+  #L1ae1dc.  v16:= v14 - v16 @kind long;
+  #L1ae1e0.  v0:= v16 @kind wide;
+  #L1ae1e4.  v0:= (`int`) v0 @kind l2i;
+  #L1ae1e6.  v16:= v0;
+  #L1ae1ea.  v0:= v19 @kind object;
+  #L1ae1ee.  v1:= v16;
+  #L1ae1f2.  call `wait`(v0, v12, v1) @signature `Ljava/lang/Object;.wait:(JI)V` @kind virtual;
+  #L1ae1f8.  call temp:= `nanoTime`() @signature `Ljava/lang/System;.nanoTime:()J` @kind static;
+  #L1ae1fe.  v16:= temp @kind wide;
+  #L1ae200.  v6:= v16 - v8 @kind long;
+  #L1ae204.  v16:= lcmp(v6, v14);
+  #L1ae208.  if v16 < 0 then goto L1ae18a;
+  #L1ae20c.  v16:= new `java.io.InterruptedIOException`;
+  #L1ae210.  v17:= "timeout" @kind object;
+  #L1ae214.  call `<init>`(v16, v17) @signature `Ljava/io/InterruptedIOException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1ae21a.  throw v16;
+  #Try_end0.  
+  #L1ae21c.  v4:= Exception @type ^`java.lang.InterruptedException` @kind object;
+  #L1ae21e.  v16:= new `java.io.InterruptedIOException`;
+  #L1ae222.  v17:= "interrupted" @kind object;
+  #L1ae226.  call `<init>`(v16, v17) @signature `Ljava/io/InterruptedIOException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1ae22c.  throw v16;
+  #L1ae22e.  if v5 == 0 then goto L1ae240;
+  #Try_start1.  
+  #L1ae232.  call temp:= `deadlineNanoTime`(v18) @signature `Lokio/Timeout;.deadlineNanoTime:()J` @kind virtual;
+  #Try_end1.  
+  #L1ae238.  v16:= temp @kind wide;
+  #L1ae23a.  v14:= v16 - v8 @kind long;
+  #L1ae23e.  goto L1ae1b8;
+  #L1ae240.  v14:= v10 @kind wide;
+  #L1ae242.  goto L1ae1b8;
+  catch `java.lang.InterruptedException` @[Try_start0..Try_end0] goto L1ae21c;
+  catch `java.lang.InterruptedException` @[Try_start1..Try_end1] goto L1ae21c;
+}

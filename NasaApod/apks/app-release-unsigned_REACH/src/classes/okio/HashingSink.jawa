@@ -1,0 +1,192 @@
+record `okio.HashingSink` @kind class @AccessFlag PUBLIC_FINAL extends `okio.ForwardingSink` @kind class {
+  `javax.crypto.Mac` `okio.HashingSink.mac` @AccessFlag PRIVATE_FINAL;
+  `java.security.MessageDigest` `okio.HashingSink.messageDigest` @AccessFlag PRIVATE_FINAL;
+}
+procedure `void` `<init>`(`okio.HashingSink` v2 @kind this, `okio.Sink` v3 @kind object @name `sink`, `java.lang.String` v4 @kind object @name `algorithm`) @signature `Lokio/HashingSink;.<init>:(Lokio/Sink;Ljava/lang/String;)V` @AccessFlag PRIVATE_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+
+  #L248b60.  call `<init>`(v2, v3) @signature `Lokio/ForwardingSink;.<init>:(Lokio/Sink;)V` @kind direct;
+  #Try_start0.  
+  #L248b66.  call temp:= `getInstance`(v4) @signature `Ljava/security/MessageDigest;.getInstance:(Ljava/lang/String;)Ljava/security/MessageDigest;` @kind static;
+  #L248b6c.  v1:= temp @kind object;
+  #L248b6e.  v2.`okio.HashingSink.messageDigest` @type ^`java.security.MessageDigest` := v1 @kind object;
+  #L248b72.  v1:= 0I;
+  #L248b74.  v2.`okio.HashingSink.mac` @type ^`javax.crypto.Mac` := v1 @kind object;
+  #Try_end0.  
+  #L248b78.  return @kind void;
+  #L248b7a.  v0:= Exception @type ^`java.security.NoSuchAlgorithmException` @kind object;
+  #L248b7c.  v1:= new `java.lang.AssertionError`;
+  #L248b80.  call `<init>`(v1) @signature `Ljava/lang/AssertionError;.<init>:()V` @kind direct;
+  #L248b86.  throw v1;
+  catch `java.security.NoSuchAlgorithmException` @[Try_start0..Try_end0] goto L248b7a;
+}
+procedure `void` `<init>`(`okio.HashingSink` v4 @kind this, `okio.Sink` v5 @kind object @name `sink`, `okio.ByteString` v6 @kind object @name `key`, `java.lang.String` v7 @kind object @name `algorithm`) @signature `Lokio/HashingSink;.<init>:(Lokio/Sink;Lokio/ByteString;Ljava/lang/String;)V` @AccessFlag PRIVATE_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L248ba8.  call `<init>`(v4, v5) @signature `Lokio/ForwardingSink;.<init>:(Lokio/Sink;)V` @kind direct;
+  #Try_start0.  
+  #L248bae.  call temp:= `getInstance`(v7) @signature `Ljavax/crypto/Mac;.getInstance:(Ljava/lang/String;)Ljavax/crypto/Mac;` @kind static;
+  #L248bb4.  v1:= temp @kind object;
+  #L248bb6.  v4.`okio.HashingSink.mac` @type ^`javax.crypto.Mac` := v1 @kind object;
+  #L248bba.  v1:= v4.`okio.HashingSink.mac` @type ^`javax.crypto.Mac` @kind object;
+  #L248bbe.  v2:= new `javax.crypto.spec.SecretKeySpec`;
+  #L248bc2.  call temp:= `toByteArray`(v6) @signature `Lokio/ByteString;.toByteArray:()[B` @kind virtual;
+  #L248bc8.  v3:= temp @kind object;
+  #L248bca.  call `<init>`(v2, v3, v7) @signature `Ljavax/crypto/spec/SecretKeySpec;.<init>:([BLjava/lang/String;)V` @kind direct;
+  #L248bd0.  call `init`(v1, v2) @signature `Ljavax/crypto/Mac;.init:(Ljava/security/Key;)V` @kind virtual;
+  #L248bd6.  v1:= 0I;
+  #L248bd8.  v4.`okio.HashingSink.messageDigest` @type ^`java.security.MessageDigest` := v1 @kind object;
+  #Try_end0.  
+  #L248bdc.  return @kind void;
+  #L248bde.  v0:= Exception @type ^`java.security.NoSuchAlgorithmException` @kind object;
+  #L248be0.  v1:= new `java.lang.AssertionError`;
+  #L248be4.  call `<init>`(v1) @signature `Ljava/lang/AssertionError;.<init>:()V` @kind direct;
+  #L248bea.  throw v1;
+  #L248bec.  v0:= Exception @type ^`java.security.InvalidKeyException` @kind object;
+  #L248bee.  v1:= new `java.lang.IllegalArgumentException`;
+  #L248bf2.  call `<init>`(v1, v0) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/Throwable;)V` @kind direct;
+  #L248bf8.  throw v1;
+  catch `java.security.NoSuchAlgorithmException` @[Try_start0..Try_end0] goto L248bde;
+  catch `java.security.InvalidKeyException` @[Try_start0..Try_end0] goto L248bec;
+}
+procedure `okio.HashingSink` `hmacSha1`(`okio.Sink` v2 @kind object @name `sink`, `okio.ByteString` v3 @kind object @name `key`) @signature `Lokio/HashingSink;.hmacSha1:(Lokio/Sink;Lokio/ByteString;)Lokio/HashingSink;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L248c1c.  v0:= new `okio.HashingSink`;
+  #L248c20.  v1:= "HmacSHA1" @kind object;
+  #L248c24.  call `<init>`(v0, v2, v3, v1) @signature `Lokio/HashingSink;.<init>:(Lokio/Sink;Lokio/ByteString;Ljava/lang/String;)V` @kind direct;
+  #L248c2a.  return v0 @kind object;
+}
+procedure `okio.HashingSink` `hmacSha256`(`okio.Sink` v2 @kind object @name `sink`, `okio.ByteString` v3 @kind object @name `key`) @signature `Lokio/HashingSink;.hmacSha256:(Lokio/Sink;Lokio/ByteString;)Lokio/HashingSink;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L248c3c.  v0:= new `okio.HashingSink`;
+  #L248c40.  v1:= "HmacSHA256" @kind object;
+  #L248c44.  call `<init>`(v0, v2, v3, v1) @signature `Lokio/HashingSink;.<init>:(Lokio/Sink;Lokio/ByteString;Ljava/lang/String;)V` @kind direct;
+  #L248c4a.  return v0 @kind object;
+}
+procedure `okio.HashingSink` `hmacSha512`(`okio.Sink` v2 @kind object @name `sink`, `okio.ByteString` v3 @kind object @name `key`) @signature `Lokio/HashingSink;.hmacSha512:(Lokio/Sink;Lokio/ByteString;)Lokio/HashingSink;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L248c5c.  v0:= new `okio.HashingSink`;
+  #L248c60.  v1:= "HmacSHA512" @kind object;
+  #L248c64.  call `<init>`(v0, v2, v3, v1) @signature `Lokio/HashingSink;.<init>:(Lokio/Sink;Lokio/ByteString;Ljava/lang/String;)V` @kind direct;
+  #L248c6a.  return v0 @kind object;
+}
+procedure `okio.HashingSink` `md5`(`okio.Sink` v2 @kind object @name `sink`) @signature `Lokio/HashingSink;.md5:(Lokio/Sink;)Lokio/HashingSink;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L248c7c.  v0:= new `okio.HashingSink`;
+  #L248c80.  v1:= "MD5" @kind object;
+  #L248c84.  call `<init>`(v0, v2, v1) @signature `Lokio/HashingSink;.<init>:(Lokio/Sink;Ljava/lang/String;)V` @kind direct;
+  #L248c8a.  return v0 @kind object;
+}
+procedure `okio.HashingSink` `sha1`(`okio.Sink` v2 @kind object @name `sink`) @signature `Lokio/HashingSink;.sha1:(Lokio/Sink;)Lokio/HashingSink;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L248c9c.  v0:= new `okio.HashingSink`;
+  #L248ca0.  v1:= "SHA-1" @kind object;
+  #L248ca4.  call `<init>`(v0, v2, v1) @signature `Lokio/HashingSink;.<init>:(Lokio/Sink;Ljava/lang/String;)V` @kind direct;
+  #L248caa.  return v0 @kind object;
+}
+procedure `okio.HashingSink` `sha256`(`okio.Sink` v2 @kind object @name `sink`) @signature `Lokio/HashingSink;.sha256:(Lokio/Sink;)Lokio/HashingSink;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L248cbc.  v0:= new `okio.HashingSink`;
+  #L248cc0.  v1:= "SHA-256" @kind object;
+  #L248cc4.  call `<init>`(v0, v2, v1) @signature `Lokio/HashingSink;.<init>:(Lokio/Sink;Ljava/lang/String;)V` @kind direct;
+  #L248cca.  return v0 @kind object;
+}
+procedure `okio.HashingSink` `sha512`(`okio.Sink` v2 @kind object @name `sink`) @signature `Lokio/HashingSink;.sha512:(Lokio/Sink;)Lokio/HashingSink;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L248cdc.  v0:= new `okio.HashingSink`;
+  #L248ce0.  v1:= "SHA-512" @kind object;
+  #L248ce4.  call `<init>`(v0, v2, v1) @signature `Lokio/HashingSink;.<init>:(Lokio/Sink;Ljava/lang/String;)V` @kind direct;
+  #L248cea.  return v0 @kind object;
+}
+procedure `okio.ByteString` `hash`(`okio.HashingSink` v2 @kind this) @signature `Lokio/HashingSink;.hash:()Lokio/ByteString;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L248cfc.  v1:= v2.`okio.HashingSink.messageDigest` @type ^`java.security.MessageDigest` @kind object;
+  #L248d00.  if v1 == 0 then goto L248d1a;
+  #L248d04.  v1:= v2.`okio.HashingSink.messageDigest` @type ^`java.security.MessageDigest` @kind object;
+  #L248d08.  call temp:= `digest`(v1) @signature `Ljava/security/MessageDigest;.digest:()[B` @kind virtual;
+  #L248d0e.  v0:= temp @kind object;
+  #L248d10.  call temp:= `of`(v0) @signature `Lokio/ByteString;.of:([B)Lokio/ByteString;` @kind static;
+  #L248d16.  v1:= temp @kind object;
+  #L248d18.  return v1 @kind object;
+  #L248d1a.  v1:= v2.`okio.HashingSink.mac` @type ^`javax.crypto.Mac` @kind object;
+  #L248d1e.  call temp:= `doFinal`(v1) @signature `Ljavax/crypto/Mac;.doFinal:()[B` @kind virtual;
+  #L248d24.  v0:= temp @kind object;
+  #L248d26.  goto L248d10;
+}
+procedure `void` `write`(`okio.HashingSink` v10 @kind this, `okio.Buffer` v11 @kind object @name `source`, `long` v12 @name `byteCount`) @signature `Lokio/HashingSink;.write:(Lokio/Buffer;J)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+
+  #L248d38.  v0:= v11.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L248d3c.  v2:= 0L;
+  #L248d40.  v4:= v12 @kind wide;
+  #L248d42.  call `checkOffsetAndCount`(v0, v2, v4) @signature `Lokio/Util;.checkOffsetAndCount:(JJJ)V` @kind static;
+  #L248d48.  v6:= 0L;
+  #L248d4c.  v8:= v11.`okio.Buffer.head` @type ^`okio.Segment` @kind object;
+  #L248d50.  v0:= lcmp(v6, v12);
+  #L248d54.  if v0 >= 0 then goto L248daa;
+  #L248d58.  v0:= v12 - v6 @kind long;
+  #L248d5c.  v2:= v8.`okio.Segment.limit` @type ^`int`;
+  #L248d60.  v3:= v8.`okio.Segment.pos` @type ^`int`;
+  #L248d64.  v2:= v2 - v3 @kind int;
+  #L248d66.  v2:= (`long`) v2 @kind i2l;
+  #L248d68.  call temp:= `min`(v0, v2) @signature `Ljava/lang/Math;.min:(JJ)J` @kind static;
+  #L248d6e.  v0:= temp @kind wide;
+  #L248d70.  v9:= (`int`) v0 @kind l2i;
+  #L248d72.  v0:= v10.`okio.HashingSink.messageDigest` @type ^`java.security.MessageDigest` @kind object;
+  #L248d76.  if v0 == 0 then goto L248d96;
+  #L248d7a.  v0:= v10.`okio.HashingSink.messageDigest` @type ^`java.security.MessageDigest` @kind object;
+  #L248d7e.  v1:= v8.`okio.Segment.data` @type ^`byte`[] @kind object;
+  #L248d82.  v2:= v8.`okio.Segment.pos` @type ^`int`;
+  #L248d86.  call `update`(v0, v1, v2, v9) @signature `Ljava/security/MessageDigest;.update:([BII)V` @kind virtual;
+  #L248d8c.  v0:= (`long`) v9 @kind i2l;
+  #L248d8e.  v6:= v6 + v0 @kind long;
+  #L248d90.  v8:= v8.`okio.Segment.next` @type ^`okio.Segment` @kind object;
+  #L248d94.  goto L248d50;
+  #L248d96.  v0:= v10.`okio.HashingSink.mac` @type ^`javax.crypto.Mac` @kind object;
+  #L248d9a.  v1:= v8.`okio.Segment.data` @type ^`byte`[] @kind object;
+  #L248d9e.  v2:= v8.`okio.Segment.pos` @type ^`int`;
+  #L248da2.  call `update`(v0, v1, v2, v9) @signature `Ljavax/crypto/Mac;.update:([BII)V` @kind virtual;
+  #L248da8.  goto L248d8c;
+  #L248daa.  call `write`(v10, v11, v12) @signature `Lokio/ForwardingSink;.write:(Lokio/Buffer;J)V` @kind super;
+  #L248db0.  return @kind void;
+}

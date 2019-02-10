@@ -1,0 +1,463 @@
+record `okhttp3.ConnectionPool` @kind class @AccessFlag PUBLIC_FINAL {
+  `java.lang.Runnable` `okhttp3.ConnectionPool.cleanupRunnable` @AccessFlag PRIVATE_FINAL;
+  `boolean` `okhttp3.ConnectionPool.cleanupRunning` @AccessFlag ;
+  `java.util.Deque` `okhttp3.ConnectionPool.connections` @AccessFlag PRIVATE_FINAL;
+  `long` `okhttp3.ConnectionPool.keepAliveDurationNs` @AccessFlag PRIVATE_FINAL;
+  `int` `okhttp3.ConnectionPool.maxIdleConnections` @AccessFlag PRIVATE_FINAL;
+  `okhttp3.internal.connection.RouteDatabase` `okhttp3.ConnectionPool.routeDatabase` @AccessFlag FINAL;
+}
+global `boolean` `@@okhttp3.ConnectionPool.$assertionsDisabled` @AccessFlag STATIC_FINAL_SYNTHETIC;
+global `java.util.concurrent.Executor` `@@okhttp3.ConnectionPool.executor` @AccessFlag PRIVATE_STATIC_FINAL;
+procedure `void` `<clinit>`() @signature `Lokhttp3/ConnectionPool;.<clinit>:()V` @AccessFlag STATIC_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+
+  #L195494.  v8:= 1I;
+  #L195496.  v2:= 0I;
+  #L195498.  v0:= constclass @type ^`okhttp3.ConnectionPool` @kind object;
+  #L19549c.  call temp:= `desiredAssertionStatus`(v0) @signature `Ljava/lang/Class;.desiredAssertionStatus:()Z` @kind virtual;
+  #L1954a2.  v0:= temp;
+  #L1954a4.  if v0 != 0 then goto L1954e2;
+  #L1954a8.  v0:= v8;
+  #L1954aa.  `@@okhttp3.ConnectionPool.$assertionsDisabled` @type ^`boolean` := v0 @kind boolean;
+  #L1954ae.  v1:= new `java.util.concurrent.ThreadPoolExecutor`;
+  #L1954b2.  v3:= 2147483647I;
+  #L1954b8.  v4:= 60L;
+  #L1954bc.  v6:= `@@java.util.concurrent.TimeUnit.SECONDS` @type ^`java.util.concurrent.TimeUnit` @kind object;
+  #L1954c0.  v7:= new `java.util.concurrent.SynchronousQueue`;
+  #L1954c4.  call `<init>`(v7) @signature `Ljava/util/concurrent/SynchronousQueue;.<init>:()V` @kind direct;
+  #L1954ca.  v0:= "OkHttp ConnectionPool" @kind object;
+  #L1954ce.  call temp:= `threadFactory`(v0, v8) @signature `Lokhttp3/internal/Util;.threadFactory:(Ljava/lang/String;Z)Ljava/util/concurrent/ThreadFactory;` @kind static;
+  #L1954d4.  v8:= temp @kind object;
+  #L1954d6.  call `<init>`(v1, v2, v3, v4, v6, v7, v8) @signature `Ljava/util/concurrent/ThreadPoolExecutor;.<init>:(IIJLjava/util/concurrent/TimeUnit;Ljava/util/concurrent/BlockingQueue;Ljava/util/concurrent/ThreadFactory;)V` @kind direct;
+  #L1954dc.  `@@okhttp3.ConnectionPool.executor` @type ^`java.util.concurrent.Executor` := v1 @kind object;
+  #L1954e0.  return @kind void;
+  #L1954e2.  v0:= v2;
+  #L1954e4.  goto L1954aa;
+}
+procedure `void` `<init>`(`okhttp3.ConnectionPool` v4 @kind this) @signature `Lokhttp3/ConnectionPool;.<init>:()V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L1954f8.  v0:= 5I;
+  #L1954fa.  v2:= 5L;
+  #L1954fe.  v1:= `@@java.util.concurrent.TimeUnit.MINUTES` @type ^`java.util.concurrent.TimeUnit` @kind object;
+  #L195502.  call `<init>`(v4, v0, v2, v1) @signature `Lokhttp3/ConnectionPool;.<init>:(IJLjava/util/concurrent/TimeUnit;)V` @kind direct;
+  #L195508.  return @kind void;
+}
+procedure `void` `<init>`(`okhttp3.ConnectionPool` v4 @kind this, `int` v5 @name `maxIdleConnections`, `long` v6 @name `keepAliveDuration`, `java.util.concurrent.TimeUnit` v8 @kind object @name `timeUnit`) @signature `Lokhttp3/ConnectionPool;.<init>:(IJLjava/util/concurrent/TimeUnit;)V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L19551c.  call `<init>`(v4) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L195522.  v0:= new `okhttp3.ConnectionPool$1`;
+  #L195526.  call `<init>`(v0, v4) @signature `Lokhttp3/ConnectionPool$1;.<init>:(Lokhttp3/ConnectionPool;)V` @kind direct;
+  #L19552c.  v4.`okhttp3.ConnectionPool.cleanupRunnable` @type ^`java.lang.Runnable` := v0 @kind object;
+  #L195530.  v0:= new `java.util.ArrayDeque`;
+  #L195534.  call `<init>`(v0) @signature `Ljava/util/ArrayDeque;.<init>:()V` @kind direct;
+  #L19553a.  v4.`okhttp3.ConnectionPool.connections` @type ^`java.util.Deque` := v0 @kind object;
+  #L19553e.  v0:= new `okhttp3.internal.connection.RouteDatabase`;
+  #L195542.  call `<init>`(v0) @signature `Lokhttp3/internal/connection/RouteDatabase;.<init>:()V` @kind direct;
+  #L195548.  v4.`okhttp3.ConnectionPool.routeDatabase` @type ^`okhttp3.internal.connection.RouteDatabase` := v0 @kind object;
+  #L19554c.  v4.`okhttp3.ConnectionPool.maxIdleConnections` @type ^`int` := v5;
+  #L195550.  call temp:= `toNanos`(v8, v6) @signature `Ljava/util/concurrent/TimeUnit;.toNanos:(J)J` @kind virtual;
+  #L195556.  v0:= temp @kind wide;
+  #L195558.  v4.`okhttp3.ConnectionPool.keepAliveDurationNs` @type ^`long` := v0 @kind wide;
+  #L19555c.  v0:= 0L;
+  #L195560.  v0:= lcmp(v6, v0);
+  #L195564.  if v0 > 0 then goto L19559a;
+  #L195568.  v0:= new `java.lang.IllegalArgumentException`;
+  #L19556c.  v1:= new `java.lang.StringBuilder`;
+  #L195570.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L195576.  v2:= "keepAliveDuration <= 0: " @kind object;
+  #L19557a.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L195580.  v1:= temp @kind object;
+  #L195582.  call temp:= `append`(v1, v6) @signature `Ljava/lang/StringBuilder;.append:(J)Ljava/lang/StringBuilder;` @kind virtual;
+  #L195588.  v1:= temp @kind object;
+  #L19558a.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L195590.  v1:= temp @kind object;
+  #L195592.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L195598.  throw v0;
+  #L19559a.  return @kind void;
+}
+procedure `int` `pruneAndGetAllocationCount`(`okhttp3.ConnectionPool` v8 @kind this, `okhttp3.internal.connection.RealConnection` v9 @kind object @name `connection`, `long` v10 @name `now`) @signature `Lokhttp3/ConnectionPool;.pruneAndGetAllocationCount:(Lokhttp3/internal/connection/RealConnection;J)I` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+
+  #L1955ac.  v3:= v9.`okhttp3.internal.connection.RealConnection.allocations` @type ^`java.util.List` @kind object;
+  #L1955b0.  v0:= 0I;
+  #L1955b2.  call temp:= `size`(v3) @signature `Ljava/util/List;.size:()I` @kind interface;
+  #L1955b8.  v5:= temp;
+  #L1955ba.  if v0 >= v5 then goto L195666;
+  #L1955be.  call temp:= `get`(v3, v0) @signature `Ljava/util/List;.get:(I)Ljava/lang/Object;` @kind interface;
+  #L1955c4.  v2:= temp @kind object;
+  #L1955c6.  v2:= (`java.lang.ref.Reference`) v2 @kind object;
+  #L1955ca.  call temp:= `get`(v2) @signature `Ljava/lang/ref/Reference;.get:()Ljava/lang/Object;` @kind virtual;
+  #L1955d0.  v5:= temp @kind object;
+  #L1955d2.  if v5 == 0 then goto L1955dc;
+  #L1955d6.  v0:= v0 + 1;
+  #L1955da.  goto L1955b2;
+  #L1955dc.  v4:= v2 @kind object;
+  #L1955de.  v4:= (`okhttp3.internal.connection.StreamAllocation$StreamAllocationReference`) v4 @kind object;
+  #L1955e2.  v5:= new `java.lang.StringBuilder`;
+  #L1955e6.  call `<init>`(v5) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1955ec.  v6:= "A connection to " @kind object;
+  #L1955f0.  call temp:= `append`(v5, v6) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1955f6.  v5:= temp @kind object;
+  #L1955f8.  call temp:= `route`(v9) @signature `Lokhttp3/internal/connection/RealConnection;.route:()Lokhttp3/Route;` @kind virtual;
+  #L1955fe.  v6:= temp @kind object;
+  #L195600.  call temp:= `address`(v6) @signature `Lokhttp3/Route;.address:()Lokhttp3/Address;` @kind virtual;
+  #L195606.  v6:= temp @kind object;
+  #L195608.  call temp:= `url`(v6) @signature `Lokhttp3/Address;.url:()Lokhttp3/HttpUrl;` @kind virtual;
+  #L19560e.  v6:= temp @kind object;
+  #L195610.  call temp:= `append`(v5, v6) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L195616.  v5:= temp @kind object;
+  #L195618.  v6:= " was leaked. Did you forget to close a response body?" @kind object;
+  #L19561c.  call temp:= `append`(v5, v6) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L195622.  v5:= temp @kind object;
+  #L195624.  call temp:= `toString`(v5) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L19562a.  v1:= temp @kind object;
+  #L19562c.  call temp:= `get`() @signature `Lokhttp3/internal/platform/Platform;.get:()Lokhttp3/internal/platform/Platform;` @kind static;
+  #L195632.  v5:= temp @kind object;
+  #L195634.  v6:= v4.`okhttp3.internal.connection.StreamAllocation$StreamAllocationReference.callStackTrace` @type ^`java.lang.Object` @kind object;
+  #L195638.  call `logCloseableLeak`(v5, v1, v6) @signature `Lokhttp3/internal/platform/Platform;.logCloseableLeak:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L19563e.  call temp:= `remove`(v3, v0) @signature `Ljava/util/List;.remove:(I)Ljava/lang/Object;` @kind interface;
+  #L195644.  v5:= 1I;
+  #L195646.  v9.`okhttp3.internal.connection.RealConnection.noNewStreams` @type ^`boolean` := v5 @kind boolean;
+  #L19564a.  call temp:= `isEmpty`(v3) @signature `Ljava/util/List;.isEmpty:()Z` @kind interface;
+  #L195650.  v5:= temp;
+  #L195652.  if v5 == 0 then goto L1955b2;
+  #L195656.  v6:= v8.`okhttp3.ConnectionPool.keepAliveDurationNs` @type ^`long` @kind wide;
+  #L19565a.  v6:= v10 - v6 @kind long;
+  #L19565e.  v9.`okhttp3.internal.connection.RealConnection.idleAtNanos` @type ^`long` := v6 @kind wide;
+  #L195662.  v5:= 0I;
+  #L195664.  return v5;
+  #L195666.  call temp:= `size`(v3) @signature `Ljava/util/List;.size:()I` @kind interface;
+  #L19566c.  v5:= temp;
+  #L19566e.  goto L195664;
+}
+procedure `long` `cleanup`(`okhttp3.ConnectionPool` v13 @kind this, `long` v14 @name `now`) @signature `Lokhttp3/ConnectionPool;.cleanup:(J)J` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+    v11;
+    v12;
+
+  #L195680.  v3:= 0I;
+  #L195682.  v2:= 0I;
+  #L195684.  v6:= 0I;
+  #L195686.  v8:= -9223372036854775808L;
+  #L19568a.  @monitorenter v13
+  #Try_start0.  
+  #L19568c.  v7:= v13.`okhttp3.ConnectionPool.connections` @type ^`java.util.Deque` @kind object;
+  #L195690.  call temp:= `iterator`(v7) @signature `Ljava/util/Deque;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L195696.  v1:= temp @kind object;
+  #L195698.  call temp:= `hasNext`(v1) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L19569e.  v7:= temp;
+  #L1956a0.  if v7 == 0 then goto L1956dc;
+  #L1956a4.  call temp:= `next`(v1) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L1956aa.  v0:= temp @kind object;
+  #L1956ac.  v0:= (`okhttp3.internal.connection.RealConnection`) v0 @kind object;
+  #L1956b0.  call temp:= `pruneAndGetAllocationCount`(v13, v0, v14) @signature `Lokhttp3/ConnectionPool;.pruneAndGetAllocationCount:(Lokhttp3/internal/connection/RealConnection;J)I` @kind direct;
+  #L1956b6.  v7:= temp;
+  #L1956b8.  if v7 <= 0 then goto L1956c2;
+  #L1956bc.  v3:= v3 + 1;
+  #L1956c0.  goto L195698;
+  #L1956c2.  v2:= v2 + 1;
+  #L1956c6.  v10:= v0.`okhttp3.internal.connection.RealConnection.idleAtNanos` @type ^`long` @kind wide;
+  #L1956ca.  v4:= v14 - v10 @kind long;
+  #L1956ce.  v7:= lcmp(v4, v8);
+  #L1956d2.  if v7 <= 0 then goto L195698;
+  #L1956d6.  v8:= v4 @kind wide;
+  #L1956d8.  v6:= v0 @kind object;
+  #L1956da.  goto L195698;
+  #L1956dc.  v10:= v13.`okhttp3.ConnectionPool.keepAliveDurationNs` @type ^`long` @kind wide;
+  #L1956e0.  v7:= lcmp(v8, v10);
+  #L1956e4.  if v7 >= 0 then goto L1956f0;
+  #L1956e8.  v7:= v13.`okhttp3.ConnectionPool.maxIdleConnections` @type ^`int`;
+  #L1956ec.  if v2 <= v7 then goto L195710;
+  #L1956f0.  v7:= v13.`okhttp3.ConnectionPool.connections` @type ^`java.util.Deque` @kind object;
+  #L1956f4.  call temp:= `remove`(v7, v6) @signature `Ljava/util/Deque;.remove:(Ljava/lang/Object;)Z` @kind interface;
+  #L1956fa.  @monitorexit v13
+  #Try_end0.  
+  #L1956fc.  call temp:= `socket`(v6) @signature `Lokhttp3/internal/connection/RealConnection;.socket:()Ljava/net/Socket;` @kind virtual;
+  #L195702.  v7:= temp @kind object;
+  #L195704.  call `closeQuietly`(v7) @signature `Lokhttp3/internal/Util;.closeQuietly:(Ljava/net/Socket;)V` @kind static;
+  #L19570a.  v10:= 0L;
+  #L19570e.  return v10 @kind wide;
+  #L195710.  if v2 <= 0 then goto L195724;
+  #Try_start1.  
+  #L195714.  v10:= v13.`okhttp3.ConnectionPool.keepAliveDurationNs` @type ^`long` @kind wide;
+  #L195718.  v10:= v10 - v8 @kind long;
+  #L19571a.  @monitorexit v13
+  #L19571c.  goto L19570e;
+  #L19571e.  v7:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L195720.  @monitorexit v13
+  #Try_end1.  
+  #L195722.  throw v7;
+  #L195724.  if v3 <= 0 then goto L195730;
+  #Try_start2.  
+  #L195728.  v10:= v13.`okhttp3.ConnectionPool.keepAliveDurationNs` @type ^`long` @kind wide;
+  #L19572c.  @monitorexit v13
+  #L19572e.  goto L19570e;
+  #L195730.  v7:= 0I;
+  #L195732.  v13.`okhttp3.ConnectionPool.cleanupRunning` @type ^`boolean` := v7 @kind boolean;
+  #L195736.  v10:= -1L;
+  #L19573a.  @monitorexit v13
+  #Try_end2.  
+  #L19573c.  goto L19570e;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L19571e;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L19571e;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L19571e;
+}
+procedure `boolean` `connectionBecameIdle`(`okhttp3.ConnectionPool` v1 @kind this, `okhttp3.internal.connection.RealConnection` v2 @kind object @name `connection`) @signature `Lokhttp3/ConnectionPool;.connectionBecameIdle:(Lokhttp3/internal/connection/RealConnection;)Z` @AccessFlag  {
+    temp;
+    v0;
+
+  #L19576c.  v0:= `@@okhttp3.ConnectionPool.$assertionsDisabled` @type ^`boolean` @kind boolean;
+  #L195770.  if v0 != 0 then goto L19578c;
+  #L195774.  call temp:= `holdsLock`(v1) @signature `Ljava/lang/Thread;.holdsLock:(Ljava/lang/Object;)Z` @kind static;
+  #L19577a.  v0:= temp;
+  #L19577c.  if v0 != 0 then goto L19578c;
+  #L195780.  v0:= new `java.lang.AssertionError`;
+  #L195784.  call `<init>`(v0) @signature `Ljava/lang/AssertionError;.<init>:()V` @kind direct;
+  #L19578a.  throw v0;
+  #L19578c.  v0:= v2.`okhttp3.internal.connection.RealConnection.noNewStreams` @type ^`boolean` @kind boolean;
+  #L195790.  if v0 != 0 then goto L19579c;
+  #L195794.  v0:= v1.`okhttp3.ConnectionPool.maxIdleConnections` @type ^`int`;
+  #L195798.  if v0 != 0 then goto L1957aa;
+  #L19579c.  v0:= v1.`okhttp3.ConnectionPool.connections` @type ^`java.util.Deque` @kind object;
+  #L1957a0.  call temp:= `remove`(v0, v2) @signature `Ljava/util/Deque;.remove:(Ljava/lang/Object;)Z` @kind interface;
+  #L1957a6.  v0:= 1I;
+  #L1957a8.  return v0;
+  #L1957aa.  call `notifyAll`(v1) @signature `Ljava/lang/Object;.notifyAll:()V` @kind virtual;
+  #L1957b0.  v0:= 0I;
+  #L1957b2.  goto L1957a8;
+}
+procedure `int` `connectionCount`(`okhttp3.ConnectionPool` v1 @kind this) @signature `Lokhttp3/ConnectionPool;.connectionCount:()I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L1957c4.  @monitorenter v1
+  #Try_start0.  
+  #L1957c6.  v0:= v1.`okhttp3.ConnectionPool.connections` @type ^`java.util.Deque` @kind object;
+  #L1957ca.  call temp:= `size`(v0) @signature `Ljava/util/Deque;.size:()I` @kind interface;
+  #Try_end0.  
+  #L1957d0.  v0:= temp;
+  #L1957d2.  @monitorexit v1
+  #L1957d4.  return v0;
+  #L1957d6.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1957d8.  @monitorexit v1
+  #L1957da.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1957d6;
+}
+procedure `java.net.Socket` `deduplicate`(`okhttp3.ConnectionPool` v4 @kind this, `okhttp3.Address` v5 @kind object @name `address`, `okhttp3.internal.connection.StreamAllocation` v6 @kind object @name `streamAllocation`) @signature `Lokhttp3/ConnectionPool;.deduplicate:(Lokhttp3/Address;Lokhttp3/internal/connection/StreamAllocation;)Ljava/net/Socket;` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L1957f8.  v1:= 0I;
+  #L1957fa.  v2:= `@@okhttp3.ConnectionPool.$assertionsDisabled` @type ^`boolean` @kind boolean;
+  #L1957fe.  if v2 != 0 then goto L19581a;
+  #L195802.  call temp:= `holdsLock`(v4) @signature `Ljava/lang/Thread;.holdsLock:(Ljava/lang/Object;)Z` @kind static;
+  #L195808.  v2:= temp;
+  #L19580a.  if v2 != 0 then goto L19581a;
+  #L19580e.  v1:= new `java.lang.AssertionError`;
+  #L195812.  call `<init>`(v1) @signature `Ljava/lang/AssertionError;.<init>:()V` @kind direct;
+  #L195818.  throw v1;
+  #L19581a.  v2:= v4.`okhttp3.ConnectionPool.connections` @type ^`java.util.Deque` @kind object;
+  #L19581e.  call temp:= `iterator`(v2) @signature `Ljava/util/Deque;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L195824.  v2:= temp @kind object;
+  #L195826.  call temp:= `hasNext`(v2) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L19582c.  v3:= temp;
+  #L19582e.  if v3 == 0 then goto L19586a;
+  #L195832.  call temp:= `next`(v2) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L195838.  v0:= temp @kind object;
+  #L19583a.  v0:= (`okhttp3.internal.connection.RealConnection`) v0 @kind object;
+  #L19583e.  call temp:= `isEligible`(v0, v5, v1) @signature `Lokhttp3/internal/connection/RealConnection;.isEligible:(Lokhttp3/Address;Lokhttp3/Route;)Z` @kind virtual;
+  #L195844.  v3:= temp;
+  #L195846.  if v3 == 0 then goto L195826;
+  #L19584a.  call temp:= `isMultiplexed`(v0) @signature `Lokhttp3/internal/connection/RealConnection;.isMultiplexed:()Z` @kind virtual;
+  #L195850.  v3:= temp;
+  #L195852.  if v3 == 0 then goto L195826;
+  #L195856.  call temp:= `connection`(v6) @signature `Lokhttp3/internal/connection/StreamAllocation;.connection:()Lokhttp3/internal/connection/RealConnection;` @kind virtual;
+  #L19585c.  v3:= temp @kind object;
+  #L19585e.  if v0 == v3 then goto L195826;
+  #L195862.  call temp:= `releaseAndAcquire`(v6, v0) @signature `Lokhttp3/internal/connection/StreamAllocation;.releaseAndAcquire:(Lokhttp3/internal/connection/RealConnection;)Ljava/net/Socket;` @kind virtual;
+  #L195868.  v1:= temp @kind object;
+  #L19586a.  return v1 @kind object;
+}
+procedure `void` `evictAll`(`okhttp3.ConnectionPool` v5 @kind this) @signature `Lokhttp3/ConnectionPool;.evictAll:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L19587c.  v1:= new `java.util.ArrayList`;
+  #L195880.  call `<init>`(v1) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L195886.  @monitorenter v5
+  #Try_start0.  
+  #L195888.  v3:= v5.`okhttp3.ConnectionPool.connections` @type ^`java.util.Deque` @kind object;
+  #L19588c.  call temp:= `iterator`(v3) @signature `Ljava/util/Deque;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L195892.  v2:= temp @kind object;
+  #L195894.  call temp:= `hasNext`(v2) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L19589a.  v3:= temp;
+  #L19589c.  if v3 == 0 then goto L1958d6;
+  #L1958a0.  call temp:= `next`(v2) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L1958a6.  v0:= temp @kind object;
+  #L1958a8.  v0:= (`okhttp3.internal.connection.RealConnection`) v0 @kind object;
+  #L1958ac.  v3:= v0.`okhttp3.internal.connection.RealConnection.allocations` @type ^`java.util.List` @kind object;
+  #L1958b0.  call temp:= `isEmpty`(v3) @signature `Ljava/util/List;.isEmpty:()Z` @kind interface;
+  #L1958b6.  v3:= temp;
+  #L1958b8.  if v3 == 0 then goto L195894;
+  #L1958bc.  v3:= 1I;
+  #L1958be.  v0.`okhttp3.internal.connection.RealConnection.noNewStreams` @type ^`boolean` := v3 @kind boolean;
+  #L1958c2.  call temp:= `add`(v1, v0) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L1958c8.  call `remove`(v2) @signature `Ljava/util/Iterator;.remove:()V` @kind interface;
+  #L1958ce.  goto L195894;
+  #L1958d0.  v3:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1958d2.  @monitorexit v5
+  #Try_end0.  
+  #L1958d4.  throw v3;
+  #Try_start1.  
+  #L1958d6.  @monitorexit v5
+  #Try_end1.  
+  #L1958d8.  call temp:= `iterator`(v1) @signature `Ljava/util/List;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L1958de.  v3:= temp @kind object;
+  #L1958e0.  call temp:= `hasNext`(v3) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L1958e6.  v4:= temp;
+  #L1958e8.  if v4 == 0 then goto L195908;
+  #L1958ec.  call temp:= `next`(v3) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L1958f2.  v0:= temp @kind object;
+  #L1958f4.  v0:= (`okhttp3.internal.connection.RealConnection`) v0 @kind object;
+  #L1958f8.  call temp:= `socket`(v0) @signature `Lokhttp3/internal/connection/RealConnection;.socket:()Ljava/net/Socket;` @kind virtual;
+  #L1958fe.  v4:= temp @kind object;
+  #L195900.  call `closeQuietly`(v4) @signature `Lokhttp3/internal/Util;.closeQuietly:(Ljava/net/Socket;)V` @kind static;
+  #L195906.  goto L1958e0;
+  #L195908.  return @kind void;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1958d0;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L1958d0;
+}
+procedure `okhttp3.internal.connection.RealConnection` `get`(`okhttp3.ConnectionPool` v3 @kind this, `okhttp3.Address` v4 @kind object @name `address`, `okhttp3.internal.connection.StreamAllocation` v5 @kind object @name `streamAllocation`, `okhttp3.Route` v6 @kind object @name `route`) @signature `Lokhttp3/ConnectionPool;.get:(Lokhttp3/Address;Lokhttp3/internal/connection/StreamAllocation;Lokhttp3/Route;)Lokhttp3/internal/connection/RealConnection;` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L195930.  v1:= `@@okhttp3.ConnectionPool.$assertionsDisabled` @type ^`boolean` @kind boolean;
+  #L195934.  if v1 != 0 then goto L195950;
+  #L195938.  call temp:= `holdsLock`(v3) @signature `Ljava/lang/Thread;.holdsLock:(Ljava/lang/Object;)Z` @kind static;
+  #L19593e.  v1:= temp;
+  #L195940.  if v1 != 0 then goto L195950;
+  #L195944.  v1:= new `java.lang.AssertionError`;
+  #L195948.  call `<init>`(v1) @signature `Ljava/lang/AssertionError;.<init>:()V` @kind direct;
+  #L19594e.  throw v1;
+  #L195950.  v1:= v3.`okhttp3.ConnectionPool.connections` @type ^`java.util.Deque` @kind object;
+  #L195954.  call temp:= `iterator`(v1) @signature `Ljava/util/Deque;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L19595a.  v1:= temp @kind object;
+  #L19595c.  call temp:= `hasNext`(v1) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L195962.  v2:= temp;
+  #L195964.  if v2 == 0 then goto L19598a;
+  #L195968.  call temp:= `next`(v1) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L19596e.  v0:= temp @kind object;
+  #L195970.  v0:= (`okhttp3.internal.connection.RealConnection`) v0 @kind object;
+  #L195974.  call temp:= `isEligible`(v0, v4, v6) @signature `Lokhttp3/internal/connection/RealConnection;.isEligible:(Lokhttp3/Address;Lokhttp3/Route;)Z` @kind virtual;
+  #L19597a.  v2:= temp;
+  #L19597c.  if v2 == 0 then goto L19595c;
+  #L195980.  v1:= 1I;
+  #L195982.  call `acquire`(v5, v0, v1) @signature `Lokhttp3/internal/connection/StreamAllocation;.acquire:(Lokhttp3/internal/connection/RealConnection;Z)V` @kind virtual;
+  #L195988.  return v0 @kind object;
+  #L19598a.  v0:= 0I;
+  #L19598c.  goto L195988;
+}
+procedure `int` `idleConnectionCount`(`okhttp3.ConnectionPool` v4 @kind this) @signature `Lokhttp3/ConnectionPool;.idleConnectionCount:()I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L1959a0.  @monitorenter v4
+  #L1959a2.  v1:= 0I;
+  #Try_start0.  
+  #L1959a4.  v2:= v4.`okhttp3.ConnectionPool.connections` @type ^`java.util.Deque` @kind object;
+  #L1959a8.  call temp:= `iterator`(v2) @signature `Ljava/util/Deque;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L1959ae.  v2:= temp @kind object;
+  #L1959b0.  call temp:= `hasNext`(v2) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L1959b6.  v3:= temp;
+  #L1959b8.  if v3 == 0 then goto L1959de;
+  #L1959bc.  call temp:= `next`(v2) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L1959c2.  v0:= temp @kind object;
+  #L1959c4.  v0:= (`okhttp3.internal.connection.RealConnection`) v0 @kind object;
+  #L1959c8.  v3:= v0.`okhttp3.internal.connection.RealConnection.allocations` @type ^`java.util.List` @kind object;
+  #L1959cc.  call temp:= `isEmpty`(v3) @signature `Ljava/util/List;.isEmpty:()Z` @kind interface;
+  #Try_end0.  
+  #L1959d2.  v3:= temp;
+  #L1959d4.  if v3 == 0 then goto L1959b0;
+  #L1959d8.  v1:= v1 + 1;
+  #L1959dc.  goto L1959b0;
+  #L1959de.  @monitorexit v4
+  #L1959e0.  return v1;
+  #L1959e2.  v2:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1959e4.  @monitorexit v4
+  #L1959e6.  throw v2;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1959e2;
+}
+procedure `void` `put`(`okhttp3.ConnectionPool` v2 @kind this, `okhttp3.internal.connection.RealConnection` v3 @kind object @name `connection`) @signature `Lokhttp3/ConnectionPool;.put:(Lokhttp3/internal/connection/RealConnection;)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+
+  #L195a04.  v0:= `@@okhttp3.ConnectionPool.$assertionsDisabled` @type ^`boolean` @kind boolean;
+  #L195a08.  if v0 != 0 then goto L195a24;
+  #L195a0c.  call temp:= `holdsLock`(v2) @signature `Ljava/lang/Thread;.holdsLock:(Ljava/lang/Object;)Z` @kind static;
+  #L195a12.  v0:= temp;
+  #L195a14.  if v0 != 0 then goto L195a24;
+  #L195a18.  v0:= new `java.lang.AssertionError`;
+  #L195a1c.  call `<init>`(v0) @signature `Ljava/lang/AssertionError;.<init>:()V` @kind direct;
+  #L195a22.  throw v0;
+  #L195a24.  v0:= v2.`okhttp3.ConnectionPool.cleanupRunning` @type ^`boolean` @kind boolean;
+  #L195a28.  if v0 != 0 then goto L195a40;
+  #L195a2c.  v0:= 1I;
+  #L195a2e.  v2.`okhttp3.ConnectionPool.cleanupRunning` @type ^`boolean` := v0 @kind boolean;
+  #L195a32.  v0:= `@@okhttp3.ConnectionPool.executor` @type ^`java.util.concurrent.Executor` @kind object;
+  #L195a36.  v1:= v2.`okhttp3.ConnectionPool.cleanupRunnable` @type ^`java.lang.Runnable` @kind object;
+  #L195a3a.  call `execute`(v0, v1) @signature `Ljava/util/concurrent/Executor;.execute:(Ljava/lang/Runnable;)V` @kind interface;
+  #L195a40.  v0:= v2.`okhttp3.ConnectionPool.connections` @type ^`java.util.Deque` @kind object;
+  #L195a44.  call temp:= `add`(v0, v3) @signature `Ljava/util/Deque;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L195a4a.  return @kind void;
+}

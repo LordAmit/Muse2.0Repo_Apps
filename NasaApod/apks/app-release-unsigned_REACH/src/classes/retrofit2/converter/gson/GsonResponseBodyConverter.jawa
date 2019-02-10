@@ -1,0 +1,53 @@
+record `retrofit2.converter.gson.GsonResponseBodyConverter` @kind class @AccessFlag FINAL extends `retrofit2.Converter` @kind interface {
+  `com.google.gson.TypeAdapter` `retrofit2.converter.gson.GsonResponseBodyConverter.adapter` @AccessFlag PRIVATE_FINAL;
+  `com.google.gson.Gson` `retrofit2.converter.gson.GsonResponseBodyConverter.gson` @AccessFlag PRIVATE_FINAL;
+}
+procedure `void` `<init>`(`retrofit2.converter.gson.GsonResponseBodyConverter` v0 @kind this, `com.google.gson.Gson` v1 @kind object @name `gson`, `com.google.gson.TypeAdapter` v2 @kind object) @signature `Lretrofit2/converter/gson/GsonResponseBodyConverter;.<init>:(Lcom/google/gson/Gson;Lcom/google/gson/TypeAdapter;)V` @AccessFlag CONSTRUCTOR {
+    temp;
+
+  #L220f54.  call `<init>`(v0) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L220f5a.  v0.`retrofit2.converter.gson.GsonResponseBodyConverter.gson` @type ^`com.google.gson.Gson` := v1 @kind object;
+  #L220f5e.  v0.`retrofit2.converter.gson.GsonResponseBodyConverter.adapter` @type ^`com.google.gson.TypeAdapter` := v2 @kind object;
+  #L220f62.  return @kind void;
+}
+procedure `java.lang.Object` `convert`(`retrofit2.converter.gson.GsonResponseBodyConverter` v1 @kind this, `java.lang.Object` v2 @kind object) @signature `Lretrofit2/converter/gson/GsonResponseBodyConverter;.convert:(Ljava/lang/Object;)Ljava/lang/Object;` @AccessFlag PUBLIC_SYNTHETIC {
+    temp;
+    v0;
+
+  #L220f74.  v2:= (`okhttp3.ResponseBody`) v2 @kind object;
+  #L220f78.  call temp:= `convert`(v1, v2) @signature `Lretrofit2/converter/gson/GsonResponseBodyConverter;.convert:(Lokhttp3/ResponseBody;)Ljava/lang/Object;` @kind virtual;
+  #L220f7e.  v0:= temp @kind object;
+  #L220f80.  return v0 @kind object;
+}
+procedure `java.lang.Object` `convert`(`retrofit2.converter.gson.GsonResponseBodyConverter` v4 @kind this, `okhttp3.ResponseBody` v5 @kind object @name `value`) @signature `Lretrofit2/converter/gson/GsonResponseBodyConverter;.convert:(Lokhttp3/ResponseBody;)Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L220f94.  v2:= v4.`retrofit2.converter.gson.GsonResponseBodyConverter.gson` @type ^`com.google.gson.Gson` @kind object;
+  #L220f98.  call temp:= `charStream`(v5) @signature `Lokhttp3/ResponseBody;.charStream:()Ljava/io/Reader;` @kind virtual;
+  #L220f9e.  v3:= temp @kind object;
+  #L220fa0.  call temp:= `newJsonReader`(v2, v3) @signature `Lcom/google/gson/Gson;.newJsonReader:(Ljava/io/Reader;)Lcom/google/gson/stream/JsonReader;` @kind virtual;
+  #L220fa6.  v0:= temp @kind object;
+  #Try_start0.  
+  #L220fa8.  v2:= v4.`retrofit2.converter.gson.GsonResponseBodyConverter.adapter` @type ^`com.google.gson.TypeAdapter` @kind object;
+  #L220fac.  call temp:= `read`(v2, v0) @signature `Lcom/google/gson/TypeAdapter;.read:(Lcom/google/gson/stream/JsonReader;)Ljava/lang/Object;` @kind virtual;
+  #L220fb2.  v1:= temp @kind object;
+  #L220fb4.  call temp:= `peek`(v0) @signature `Lcom/google/gson/stream/JsonReader;.peek:()Lcom/google/gson/stream/JsonToken;` @kind virtual;
+  #L220fba.  v2:= temp @kind object;
+  #L220fbc.  v3:= `@@com.google.gson.stream.JsonToken.END_DOCUMENT` @type ^`com.google.gson.stream.JsonToken` @kind object;
+  #L220fc0.  if v2 == v3 then goto L220fde;
+  #L220fc4.  v2:= new `com.google.gson.JsonIOException`;
+  #L220fc8.  v3:= "JSON document was not fully consumed." @kind object;
+  #L220fcc.  call `<init>`(v2, v3) @signature `Lcom/google/gson/JsonIOException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L220fd2.  throw v2;
+  #Try_end0.  
+  #L220fd4.  v2:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L220fd6.  call `close`(v5) @signature `Lokhttp3/ResponseBody;.close:()V` @kind virtual;
+  #L220fdc.  throw v2;
+  #L220fde.  call `close`(v5) @signature `Lokhttp3/ResponseBody;.close:()V` @kind virtual;
+  #L220fe4.  return v1 @kind object;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L220fd4;
+}
