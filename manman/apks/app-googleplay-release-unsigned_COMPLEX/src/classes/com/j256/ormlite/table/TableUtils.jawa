@@ -1,0 +1,995 @@
+record `com.j256.ormlite.table.TableUtils` @kind class @AccessFlag PUBLIC {
+}
+global `com.j256.ormlite.logger.Logger` `@@com.j256.ormlite.table.TableUtils.logger` @AccessFlag PRIVATE_STATIC;
+global `com.j256.ormlite.field.FieldType`[] `@@com.j256.ormlite.table.TableUtils.noFieldTypes` @AccessFlag PRIVATE_STATIC_FINAL;
+procedure `void` `<clinit>`() @signature `Lcom/j256/ormlite/table/TableUtils;.<clinit>:()V` @AccessFlag STATIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L16fb30.  v0:= constclass @type ^`com.j256.ormlite.table.TableUtils` @kind object;
+  #L16fb34.  call temp:= `getLogger`(v0) @signature `Lcom/j256/ormlite/logger/LoggerFactory;.getLogger:(Ljava/lang/Class;)Lcom/j256/ormlite/logger/Logger;` @kind static;
+  #L16fb3a.  v0:= temp @kind object;
+  #L16fb3c.  `@@com.j256.ormlite.table.TableUtils.logger` @type ^`com.j256.ormlite.logger.Logger` := v0 @kind object;
+  #L16fb40.  v0:= 0I;
+  #L16fb42.  v0:= new `com.j256.ormlite.field.FieldType`[v0];
+  #L16fb46.  `@@com.j256.ormlite.table.TableUtils.noFieldTypes` @type ^`com.j256.ormlite.field.FieldType`[] := v0 @kind object;
+  #L16fb4a.  return @kind void;
+}
+procedure `void` `<init>`(`com.j256.ormlite.table.TableUtils` v0 @kind this) @signature `Lcom/j256/ormlite/table/TableUtils;.<init>:()V` @AccessFlag PRIVATE_CONSTRUCTOR {
+    temp;
+
+  #L16fb5c.  call `<init>`(v0) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L16fb62.  return @kind void;
+}
+procedure `void` `addCreateIndexStatements`(`com.j256.ormlite.db.DatabaseType` v8 @kind object, `com.j256.ormlite.table.TableInfo` v9 @kind object, `java.util.List` v10 @kind object, `boolean` v11 , `boolean` v12 ) @signature `Lcom/j256/ormlite/table/TableUtils;.addCreateIndexStatements:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Ljava/util/List;ZZ)V` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+
+  #L16fb74.  v3:= 0I;
+  #L16fb76.  v4:= new `java.util.HashMap`;
+  #L16fb7a.  call `<init>`(v4) @signature `Ljava/util/HashMap;.<init>:()V` @kind direct;
+  #L16fb80.  call temp:= `getFieldTypes`(v9) @signature `Lcom/j256/ormlite/table/TableInfo;.getFieldTypes:()[Lcom/j256/ormlite/field/FieldType;` @kind virtual;
+  #L16fb86.  v5:= temp @kind object;
+  #L16fb88.  v6:= length @variable v5;
+  #L16fb8a.  v2:= v3;
+  #L16fb8c.  if v2 >= v6 then goto L16fbea;
+  #L16fb90.  v7:= v5[v2] @kind object;
+  #L16fb94.  if v12 == 0 then goto L16fbae;
+  #L16fb98.  call temp:= `getUniqueIndexName`(v7) @signature `Lcom/j256/ormlite/field/FieldType;.getUniqueIndexName:()Ljava/lang/String;` @kind virtual;
+  #L16fb9e.  v0:= temp @kind object;
+  #L16fba0.  v1:= v0 @kind object;
+  #L16fba2.  if v1 != 0 then goto L16fbba;
+  #L16fba6.  v0:= v2 + 1;
+  #L16fbaa.  v2:= v0;
+  #L16fbac.  goto L16fb8c;
+  #L16fbae.  call temp:= `getIndexName`(v7) @signature `Lcom/j256/ormlite/field/FieldType;.getIndexName:()Ljava/lang/String;` @kind virtual;
+  #L16fbb4.  v0:= temp @kind object;
+  #L16fbb6.  v1:= v0 @kind object;
+  #L16fbb8.  goto L16fba2;
+  #L16fbba.  call temp:= `get`(v4, v1) @signature `Ljava/util/Map;.get:(Ljava/lang/Object;)Ljava/lang/Object;` @kind interface;
+  #L16fbc0.  v0:= temp @kind object;
+  #L16fbc2.  v0:= (`java.util.List`) v0 @kind object;
+  #L16fbc6.  if v0 != 0 then goto L16fbda;
+  #L16fbca.  v0:= new `java.util.ArrayList`;
+  #L16fbce.  call `<init>`(v0) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L16fbd4.  call temp:= `put`(v4, v1, v0) @signature `Ljava/util/Map;.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;` @kind interface;
+  #L16fbda.  call temp:= `getColumnName`(v7) @signature `Lcom/j256/ormlite/field/FieldType;.getColumnName:()Ljava/lang/String;` @kind virtual;
+  #L16fbe0.  v1:= temp @kind object;
+  #L16fbe2.  call temp:= `add`(v0, v1) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L16fbe8.  goto L16fba6;
+  #L16fbea.  v5:= new `java.lang.StringBuilder`;
+  #L16fbee.  v0:= 128I;
+  #L16fbf2.  call `<init>`(v5, v0) @signature `Ljava/lang/StringBuilder;.<init>:(I)V` @kind direct;
+  #L16fbf8.  call temp:= `entrySet`(v4) @signature `Ljava/util/Map;.entrySet:()Ljava/util/Set;` @kind interface;
+  #L16fbfe.  v0:= temp @kind object;
+  #L16fc00.  call temp:= `iterator`(v0) @signature `Ljava/util/Set;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L16fc06.  v4:= temp @kind object;
+  #L16fc08.  call temp:= `hasNext`(v4) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L16fc0e.  v0:= temp;
+  #L16fc10.  if v0 == 0 then goto L16fd1c;
+  #L16fc14.  call temp:= `next`(v4) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L16fc1a.  v0:= temp @kind object;
+  #L16fc1c.  v1:= v0 @kind object;
+  #L16fc1e.  v1:= (`java.util.Map$Entry`) v1 @kind object;
+  #L16fc22.  v0:= `@@com.j256.ormlite.table.TableUtils.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L16fc26.  v2:= "creating index '{}' for table '{}" @kind object;
+  #L16fc2a.  call temp:= `getKey`(v1) @signature `Ljava/util/Map$Entry;.getKey:()Ljava/lang/Object;` @kind interface;
+  #L16fc30.  v6:= temp @kind object;
+  #L16fc32.  call temp:= `getTableName`(v9) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L16fc38.  v7:= temp @kind object;
+  #L16fc3a.  call `info`(v0, v2, v6, v7) @signature `Lcom/j256/ormlite/logger/Logger;.info:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #L16fc40.  v0:= "CREATE " @kind object;
+  #L16fc44.  call temp:= `append`(v5, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fc4a.  if v12 == 0 then goto L16fc58;
+  #L16fc4e.  v0:= "UNIQUE " @kind object;
+  #L16fc52.  call temp:= `append`(v5, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fc58.  v0:= "INDEX " @kind object;
+  #L16fc5c.  call temp:= `append`(v5, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fc62.  if v11 == 0 then goto L16fc7c;
+  #L16fc66.  call temp:= `isCreateIndexIfNotExistsSupported`(v8) @signature `Lcom/j256/ormlite/db/DatabaseType;.isCreateIndexIfNotExistsSupported:()Z` @kind interface;
+  #L16fc6c.  v0:= temp;
+  #L16fc6e.  if v0 == 0 then goto L16fc7c;
+  #L16fc72.  v0:= "IF NOT EXISTS " @kind object;
+  #L16fc76.  call temp:= `append`(v5, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fc7c.  call temp:= `getKey`(v1) @signature `Ljava/util/Map$Entry;.getKey:()Ljava/lang/Object;` @kind interface;
+  #L16fc82.  v0:= temp @kind object;
+  #L16fc84.  v0:= (`java.lang.String`) v0 @kind object;
+  #L16fc88.  call `appendEscapedEntityName`(v8, v5, v0) @signature `Lcom/j256/ormlite/db/DatabaseType;.appendEscapedEntityName:(Ljava/lang/StringBuilder;Ljava/lang/String;)V` @kind interface;
+  #L16fc8e.  v0:= " ON " @kind object;
+  #L16fc92.  call temp:= `append`(v5, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fc98.  call temp:= `getTableName`(v9) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L16fc9e.  v0:= temp @kind object;
+  #L16fca0.  call `appendEscapedEntityName`(v8, v5, v0) @signature `Lcom/j256/ormlite/db/DatabaseType;.appendEscapedEntityName:(Ljava/lang/StringBuilder;Ljava/lang/String;)V` @kind interface;
+  #L16fca6.  v0:= " ( " @kind object;
+  #L16fcaa.  call temp:= `append`(v5, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fcb0.  v2:= 1I;
+  #L16fcb2.  call temp:= `getValue`(v1) @signature `Ljava/util/Map$Entry;.getValue:()Ljava/lang/Object;` @kind interface;
+  #L16fcb8.  v0:= temp @kind object;
+  #L16fcba.  v0:= (`java.util.List`) v0 @kind object;
+  #L16fcbe.  call temp:= `iterator`(v0) @signature `Ljava/util/List;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L16fcc4.  v6:= temp @kind object;
+  #L16fcc6.  v1:= v2;
+  #L16fcc8.  call temp:= `hasNext`(v6) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L16fcce.  v0:= temp;
+  #L16fcd0.  if v0 == 0 then goto L16fcfa;
+  #L16fcd4.  call temp:= `next`(v6) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L16fcda.  v0:= temp @kind object;
+  #L16fcdc.  v0:= (`java.lang.String`) v0 @kind object;
+  #L16fce0.  if v1 == 0 then goto L16fcee;
+  #L16fce4.  v1:= v3;
+  #L16fce6.  call `appendEscapedEntityName`(v8, v5, v0) @signature `Lcom/j256/ormlite/db/DatabaseType;.appendEscapedEntityName:(Ljava/lang/StringBuilder;Ljava/lang/String;)V` @kind interface;
+  #L16fcec.  goto L16fcc8;
+  #L16fcee.  v2:= ", " @kind object;
+  #L16fcf2.  call temp:= `append`(v5, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fcf8.  goto L16fce6;
+  #L16fcfa.  v0:= " )" @kind object;
+  #L16fcfe.  call temp:= `append`(v5, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fd04.  call temp:= `toString`(v5) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L16fd0a.  v0:= temp @kind object;
+  #L16fd0c.  call temp:= `add`(v10, v0) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L16fd12.  call `setLength`(v5, v3) @signature `Ljava/lang/StringBuilder;.setLength:(I)V` @kind virtual;
+  #L16fd18.  goto L16fc08;
+  #L16fd1c.  return @kind void;
+}
+procedure `java.util.List` `addCreateTableStatements`(`com.j256.ormlite.support.ConnectionSource` v3 @kind object, `com.j256.ormlite.table.TableInfo` v4 @kind object, `boolean` v5 ) @signature `Lcom/j256/ormlite/table/TableUtils;.addCreateTableStatements:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/TableInfo;Z)Ljava/util/List;` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16fd30.  v0:= new `java.util.ArrayList`;
+  #L16fd34.  call `<init>`(v0) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L16fd3a.  v1:= new `java.util.ArrayList`;
+  #L16fd3e.  call `<init>`(v1) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L16fd44.  call temp:= `getDatabaseType`(v3) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getDatabaseType:()Lcom/j256/ormlite/db/DatabaseType;` @kind interface;
+  #L16fd4a.  v2:= temp @kind object;
+  #L16fd4c.  call `addCreateTableStatements`(v2, v4, v0, v1, v5) @signature `Lcom/j256/ormlite/table/TableUtils;.addCreateTableStatements:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Ljava/util/List;Ljava/util/List;Z)V` @kind static;
+  #L16fd52.  return v0 @kind object;
+}
+procedure `void` `addCreateTableStatements`(`com.j256.ormlite.db.DatabaseType` v17 @kind object, `com.j256.ormlite.table.TableInfo` v18 @kind object, `java.util.List` v19 @kind object, `java.util.List` v20 @kind object, `boolean` v21 ) @signature `Lcom/j256/ormlite/table/TableUtils;.addCreateTableStatements:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Ljava/util/List;Ljava/util/List;Z)V` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+    v11;
+    v12;
+    v13;
+    v14;
+    v15;
+    v16;
+
+  #L16fd64.  v6:= new `java.lang.StringBuilder`;
+  #L16fd68.  v4:= 256I;
+  #L16fd6c.  call `<init>`(v6, v4) @signature `Ljava/lang/StringBuilder;.<init>:(I)V` @kind direct;
+  #L16fd72.  v4:= "CREATE TABLE " @kind object;
+  #L16fd76.  call temp:= `append`(v6, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fd7c.  if v21 == 0 then goto L16fd96;
+  #L16fd80.  call temp:= `isCreateIfNotExistsSupported`(v17) @signature `Lcom/j256/ormlite/db/DatabaseType;.isCreateIfNotExistsSupported:()Z` @kind interface;
+  #L16fd86.  v4:= temp;
+  #L16fd88.  if v4 == 0 then goto L16fd96;
+  #L16fd8c.  v4:= "IF NOT EXISTS " @kind object;
+  #L16fd90.  call temp:= `append`(v6, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fd96.  call temp:= `getTableName`(v18) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L16fd9c.  v4:= temp @kind object;
+  #L16fd9e.  v0:= v17 @kind object;
+  #L16fda2.  call `appendEscapedEntityName`(v0, v6, v4) @signature `Lcom/j256/ormlite/db/DatabaseType;.appendEscapedEntityName:(Ljava/lang/StringBuilder;Ljava/lang/String;)V` @kind interface;
+  #L16fda8.  v4:= " (" @kind object;
+  #L16fdac.  call temp:= `append`(v6, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fdb2.  v8:= new `java.util.ArrayList`;
+  #L16fdb6.  call `<init>`(v8) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L16fdbc.  v9:= new `java.util.ArrayList`;
+  #L16fdc0.  call `<init>`(v9) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L16fdc6.  v10:= new `java.util.ArrayList`;
+  #L16fdca.  call `<init>`(v10) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L16fdd0.  v12:= 1I;
+  #L16fdd2.  call temp:= `getFieldTypes`(v18) @signature `Lcom/j256/ormlite/table/TableInfo;.getFieldTypes:()[Lcom/j256/ormlite/field/FieldType;` @kind virtual;
+  #L16fdd8.  v14:= temp @kind object;
+  #L16fdda.  v15:= length @variable v14;
+  #L16fddc.  v4:= 0I;
+  #L16fdde.  v13:= v4;
+  #L16fde0.  v4:= v12;
+  #L16fde2.  if v13 >= v15 then goto L16fe6e;
+  #L16fde6.  v7:= v14[v13] @kind object;
+  #L16fdea.  call temp:= `isForeignCollection`(v7) @signature `Lcom/j256/ormlite/field/FieldType;.isForeignCollection:()Z` @kind virtual;
+  #L16fdf0.  v5:= temp;
+  #L16fdf2.  if v5 == 0 then goto L16fe02;
+  #L16fdf6.  v12:= v4;
+  #L16fdf8.  v4:= v13 + 1;
+  #L16fdfc.  v13:= v4;
+  #L16fdfe.  v4:= v12;
+  #L16fe00.  goto L16fde2;
+  #L16fe02.  if v4 == 0 then goto L16fe2e;
+  #L16fe06.  v4:= 0I;
+  #L16fe08.  v12:= v4;
+  #L16fe0a.  call temp:= `getColumnDefinition`(v7) @signature `Lcom/j256/ormlite/field/FieldType;.getColumnDefinition:()Ljava/lang/String;` @kind virtual;
+  #L16fe10.  v4:= temp @kind object;
+  #L16fe12.  if v4 != 0 then goto L16fe3c;
+  #L16fe16.  call temp:= `getTableName`(v18) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L16fe1c.  v5:= temp @kind object;
+  #L16fe1e.  v4:= v17 @kind object;
+  #L16fe22.  v11:= v20 @kind object;
+  #L16fe26.  call `appendColumnArg`(v4, v5, v6, v7, v8, v9, v10, v11) @signature `Lcom/j256/ormlite/db/DatabaseType;.appendColumnArg:(Ljava/lang/String;Ljava/lang/StringBuilder;Lcom/j256/ormlite/field/FieldType;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;)V` @kind interface;
+  #L16fe2c.  goto L16fdf8;
+  #L16fe2e.  v5:= ", " @kind object;
+  #L16fe32.  call temp:= `append`(v6, v5) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fe38.  v12:= v4;
+  #L16fe3a.  goto L16fe0a;
+  #L16fe3c.  call temp:= `getColumnName`(v7) @signature `Lcom/j256/ormlite/field/FieldType;.getColumnName:()Ljava/lang/String;` @kind virtual;
+  #L16fe42.  v5:= temp @kind object;
+  #L16fe44.  v0:= v17 @kind object;
+  #L16fe48.  call `appendEscapedEntityName`(v0, v6, v5) @signature `Lcom/j256/ormlite/db/DatabaseType;.appendEscapedEntityName:(Ljava/lang/StringBuilder;Ljava/lang/String;)V` @kind interface;
+  #L16fe4e.  v5:= 32I;
+  #L16fe52.  call temp:= `append`(v6, v5) @signature `Ljava/lang/StringBuilder;.append:(C)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fe58.  v5:= temp @kind object;
+  #L16fe5a.  call temp:= `append`(v5, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fe60.  v4:= temp @kind object;
+  #L16fe62.  v5:= 32I;
+  #L16fe66.  call temp:= `append`(v4, v5) @signature `Ljava/lang/StringBuilder;.append:(C)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fe6c.  goto L16fdf8;
+  #L16fe6e.  call temp:= `getFieldTypes`(v18) @signature `Lcom/j256/ormlite/table/TableInfo;.getFieldTypes:()[Lcom/j256/ormlite/field/FieldType;` @kind virtual;
+  #L16fe74.  v12:= temp @kind object;
+  #L16fe76.  v11:= v17 @kind object;
+  #L16fe7a.  v13:= v8 @kind object;
+  #L16fe7c.  v14:= v9 @kind object;
+  #L16fe7e.  v15:= v10 @kind object;
+  #L16fe80.  v16:= v20 @kind object;
+  #L16fe84.  call `addPrimaryKeySql`(v11, v12, v13, v14, v15, v16) @signature `Lcom/j256/ormlite/db/DatabaseType;.addPrimaryKeySql:([Lcom/j256/ormlite/field/FieldType;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;)V` @kind interface;
+  #L16fe8a.  call temp:= `getFieldTypes`(v18) @signature `Lcom/j256/ormlite/table/TableInfo;.getFieldTypes:()[Lcom/j256/ormlite/field/FieldType;` @kind virtual;
+  #L16fe90.  v12:= temp @kind object;
+  #L16fe92.  v11:= v17 @kind object;
+  #L16fe96.  v13:= v8 @kind object;
+  #L16fe98.  v14:= v9 @kind object;
+  #L16fe9a.  v15:= v10 @kind object;
+  #L16fe9c.  v16:= v20 @kind object;
+  #L16fea0.  call `addUniqueComboSql`(v11, v12, v13, v14, v15, v16) @signature `Lcom/j256/ormlite/db/DatabaseType;.addUniqueComboSql:([Lcom/j256/ormlite/field/FieldType;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/List;)V` @kind interface;
+  #L16fea6.  call temp:= `iterator`(v8) @signature `Ljava/util/List;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L16feac.  v5:= temp @kind object;
+  #L16feae.  call temp:= `hasNext`(v5) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L16feb4.  v4:= temp;
+  #L16feb6.  if v4 == 0 then goto L16feda;
+  #L16feba.  call temp:= `next`(v5) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L16fec0.  v4:= temp @kind object;
+  #L16fec2.  v4:= (`java.lang.String`) v4 @kind object;
+  #L16fec6.  v7:= ", " @kind object;
+  #L16feca.  call temp:= `append`(v6, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fed0.  v7:= temp @kind object;
+  #L16fed2.  call temp:= `append`(v7, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fed8.  goto L16feae;
+  #L16feda.  v4:= ") " @kind object;
+  #L16fede.  call temp:= `append`(v6, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fee4.  v0:= v17 @kind object;
+  #L16fee8.  call `appendCreateTableSuffix`(v0, v6) @signature `Lcom/j256/ormlite/db/DatabaseType;.appendCreateTableSuffix:(Ljava/lang/StringBuilder;)V` @kind interface;
+  #L16feee.  v0:= v19 @kind object;
+  #L16fef2.  call temp:= `addAll`(v0, v9) @signature `Ljava/util/List;.addAll:(Ljava/util/Collection;)Z` @kind interface;
+  #L16fef8.  call temp:= `toString`(v6) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L16fefe.  v4:= temp @kind object;
+  #L16ff00.  v0:= v19 @kind object;
+  #L16ff04.  call temp:= `add`(v0, v4) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L16ff0a.  v0:= v19 @kind object;
+  #L16ff0e.  call temp:= `addAll`(v0, v10) @signature `Ljava/util/List;.addAll:(Ljava/util/Collection;)Z` @kind interface;
+  #L16ff14.  v4:= 0I;
+  #L16ff16.  v0:= v17 @kind object;
+  #L16ff1a.  v1:= v18 @kind object;
+  #L16ff1e.  v2:= v19 @kind object;
+  #L16ff22.  v3:= v21;
+  #L16ff26.  call `addCreateIndexStatements`(v0, v1, v2, v3, v4) @signature `Lcom/j256/ormlite/table/TableUtils;.addCreateIndexStatements:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Ljava/util/List;ZZ)V` @kind static;
+  #L16ff2c.  v4:= 1I;
+  #L16ff2e.  v0:= v17 @kind object;
+  #L16ff32.  v1:= v18 @kind object;
+  #L16ff36.  v2:= v19 @kind object;
+  #L16ff3a.  v3:= v21;
+  #L16ff3e.  call `addCreateIndexStatements`(v0, v1, v2, v3, v4) @signature `Lcom/j256/ormlite/table/TableUtils;.addCreateIndexStatements:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Ljava/util/List;ZZ)V` @kind static;
+  #L16ff44.  return @kind void;
+}
+procedure `void` `addDropIndexStatements`(`com.j256.ormlite.db.DatabaseType` v7 @kind object, `com.j256.ormlite.table.TableInfo` v8 @kind object, `java.util.List` v9 @kind object) @signature `Lcom/j256/ormlite/table/TableUtils;.addDropIndexStatements:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Ljava/util/List;)V` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L16ff58.  v1:= 0I;
+  #L16ff5a.  v2:= new `java.util.HashSet`;
+  #L16ff5e.  call `<init>`(v2) @signature `Ljava/util/HashSet;.<init>:()V` @kind direct;
+  #L16ff64.  call temp:= `getFieldTypes`(v8) @signature `Lcom/j256/ormlite/table/TableInfo;.getFieldTypes:()[Lcom/j256/ormlite/field/FieldType;` @kind virtual;
+  #L16ff6a.  v3:= temp @kind object;
+  #L16ff6c.  v4:= length @variable v3;
+  #L16ff6e.  v0:= v1;
+  #L16ff70.  if v0 >= v4 then goto L16ffa2;
+  #L16ff74.  v5:= v3[v0] @kind object;
+  #L16ff78.  call temp:= `getIndexName`(v5) @signature `Lcom/j256/ormlite/field/FieldType;.getIndexName:()Ljava/lang/String;` @kind virtual;
+  #L16ff7e.  v6:= temp @kind object;
+  #L16ff80.  if v6 == 0 then goto L16ff8a;
+  #L16ff84.  call temp:= `add`(v2, v6) @signature `Ljava/util/Set;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L16ff8a.  call temp:= `getUniqueIndexName`(v5) @signature `Lcom/j256/ormlite/field/FieldType;.getUniqueIndexName:()Ljava/lang/String;` @kind virtual;
+  #L16ff90.  v5:= temp @kind object;
+  #L16ff92.  if v5 == 0 then goto L16ff9c;
+  #L16ff96.  call temp:= `add`(v2, v5) @signature `Ljava/util/Set;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L16ff9c.  v0:= v0 + 1;
+  #L16ffa0.  goto L16ff70;
+  #L16ffa2.  v3:= new `java.lang.StringBuilder`;
+  #L16ffa6.  v0:= 48I;
+  #L16ffaa.  call `<init>`(v3, v0) @signature `Ljava/lang/StringBuilder;.<init>:(I)V` @kind direct;
+  #L16ffb0.  call temp:= `iterator`(v2) @signature `Ljava/util/Set;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L16ffb6.  v2:= temp @kind object;
+  #L16ffb8.  call temp:= `hasNext`(v2) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L16ffbe.  v0:= temp;
+  #L16ffc0.  if v0 == 0 then goto L17000c;
+  #L16ffc4.  call temp:= `next`(v2) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L16ffca.  v0:= temp @kind object;
+  #L16ffcc.  v0:= (`java.lang.String`) v0 @kind object;
+  #L16ffd0.  v4:= `@@com.j256.ormlite.table.TableUtils.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L16ffd4.  v5:= "dropping index '{}' for table '{}" @kind object;
+  #L16ffd8.  call temp:= `getTableName`(v8) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L16ffde.  v6:= temp @kind object;
+  #L16ffe0.  call `info`(v4, v5, v0, v6) @signature `Lcom/j256/ormlite/logger/Logger;.info:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #L16ffe6.  v4:= "DROP INDEX " @kind object;
+  #L16ffea.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16fff0.  call `appendEscapedEntityName`(v7, v3, v0) @signature `Lcom/j256/ormlite/db/DatabaseType;.appendEscapedEntityName:(Ljava/lang/StringBuilder;Ljava/lang/String;)V` @kind interface;
+  #L16fff6.  call temp:= `toString`(v3) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L16fffc.  v0:= temp @kind object;
+  #L16fffe.  call temp:= `add`(v9, v0) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L170004.  call `setLength`(v3, v1) @signature `Ljava/lang/StringBuilder;.setLength:(I)V` @kind virtual;
+  #L17000a.  goto L16ffb8;
+  #L17000c.  return @kind void;
+}
+procedure `void` `addDropTableStatements`(`com.j256.ormlite.db.DatabaseType` v6 @kind object, `com.j256.ormlite.table.TableInfo` v7 @kind object, `java.util.List` v8 @kind object) @signature `Lcom/j256/ormlite/table/TableUtils;.addDropTableStatements:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Ljava/util/List;)V` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L170020.  v1:= new `java.util.ArrayList`;
+  #L170024.  call `<init>`(v1) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L17002a.  v2:= new `java.util.ArrayList`;
+  #L17002e.  call `<init>`(v2) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L170034.  call temp:= `getFieldTypes`(v7) @signature `Lcom/j256/ormlite/table/TableInfo;.getFieldTypes:()[Lcom/j256/ormlite/field/FieldType;` @kind virtual;
+  #L17003a.  v3:= temp @kind object;
+  #L17003c.  v4:= length @variable v3;
+  #L17003e.  v0:= 0I;
+  #L170040.  if v0 >= v4 then goto L170054;
+  #L170044.  v5:= v3[v0] @kind object;
+  #L170048.  call `dropColumnArg`(v6, v5, v1, v2) @signature `Lcom/j256/ormlite/db/DatabaseType;.dropColumnArg:(Lcom/j256/ormlite/field/FieldType;Ljava/util/List;Ljava/util/List;)V` @kind interface;
+  #L17004e.  v0:= v0 + 1;
+  #L170052.  goto L170040;
+  #L170054.  v0:= new `java.lang.StringBuilder`;
+  #L170058.  v3:= 64I;
+  #L17005c.  call `<init>`(v0, v3) @signature `Ljava/lang/StringBuilder;.<init>:(I)V` @kind direct;
+  #L170062.  v3:= "DROP TABLE " @kind object;
+  #L170066.  call temp:= `append`(v0, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L17006c.  call temp:= `getTableName`(v7) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L170072.  v3:= temp @kind object;
+  #L170074.  call `appendEscapedEntityName`(v6, v0, v3) @signature `Lcom/j256/ormlite/db/DatabaseType;.appendEscapedEntityName:(Ljava/lang/StringBuilder;Ljava/lang/String;)V` @kind interface;
+  #L17007a.  v3:= 32I;
+  #L17007e.  call temp:= `append`(v0, v3) @signature `Ljava/lang/StringBuilder;.append:(C)Ljava/lang/StringBuilder;` @kind virtual;
+  #L170084.  call temp:= `addAll`(v8, v1) @signature `Ljava/util/List;.addAll:(Ljava/util/Collection;)Z` @kind interface;
+  #L17008a.  call temp:= `toString`(v0) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L170090.  v0:= temp @kind object;
+  #L170092.  call temp:= `add`(v8, v0) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L170098.  call temp:= `addAll`(v8, v2) @signature `Ljava/util/List;.addAll:(Ljava/util/Collection;)Z` @kind interface;
+  #L17009e.  return @kind void;
+}
+procedure `int` `clearTable`(`com.j256.ormlite.support.ConnectionSource` v1 @kind object, `com.j256.ormlite.table.DatabaseTableConfig` v2 @kind object) @signature `Lcom/j256/ormlite/table/TableUtils;.clearTable:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/DatabaseTableConfig;)I` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+
+  #L1700b0.  call temp:= `getTableName`(v2) @signature `Lcom/j256/ormlite/table/DatabaseTableConfig;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L1700b6.  v0:= temp @kind object;
+  #L1700b8.  call temp:= `clearTable`(v1, v0) @signature `Lcom/j256/ormlite/table/TableUtils;.clearTable:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/String;)I` @kind static;
+  #L1700be.  v0:= temp;
+  #L1700c0.  return v0;
+}
+procedure `int` `clearTable`(`com.j256.ormlite.support.ConnectionSource` v3 @kind object, `java.lang.Class` v4 @kind object) @signature `Lcom/j256/ormlite/table/TableUtils;.clearTable:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/Class;)I` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L1700d4.  call temp:= `extractTableName`(v4) @signature `Lcom/j256/ormlite/table/DatabaseTableConfig;.extractTableName:(Ljava/lang/Class;)Ljava/lang/String;` @kind static;
+  #L1700da.  v0:= temp @kind object;
+  #L1700dc.  call temp:= `getDatabaseType`(v3) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getDatabaseType:()Lcom/j256/ormlite/db/DatabaseType;` @kind interface;
+  #L1700e2.  v1:= temp @kind object;
+  #L1700e4.  call temp:= `isEntityNamesMustBeUpCase`(v1) @signature `Lcom/j256/ormlite/db/DatabaseType;.isEntityNamesMustBeUpCase:()Z` @kind interface;
+  #L1700ea.  v2:= temp;
+  #L1700ec.  if v2 == 0 then goto L1700f8;
+  #L1700f0.  call temp:= `upCaseEntityName`(v1, v0) @signature `Lcom/j256/ormlite/db/DatabaseType;.upCaseEntityName:(Ljava/lang/String;)Ljava/lang/String;` @kind interface;
+  #L1700f6.  v0:= temp @kind object;
+  #L1700f8.  call temp:= `clearTable`(v3, v0) @signature `Lcom/j256/ormlite/table/TableUtils;.clearTable:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/String;)I` @kind static;
+  #L1700fe.  v0:= temp;
+  #L170100.  return v0;
+}
+procedure `int` `clearTable`(`com.j256.ormlite.support.ConnectionSource` v7 @kind object, `java.lang.String` v8 @kind object) @signature `Lcom/j256/ormlite/table/TableUtils;.clearTable:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/String;)I` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L170114.  call temp:= `getDatabaseType`(v7) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getDatabaseType:()Lcom/j256/ormlite/db/DatabaseType;` @kind interface;
+  #L17011a.  v0:= temp @kind object;
+  #L17011c.  v1:= new `java.lang.StringBuilder`;
+  #L170120.  v2:= 48I;
+  #L170124.  call `<init>`(v1, v2) @signature `Ljava/lang/StringBuilder;.<init>:(I)V` @kind direct;
+  #L17012a.  call temp:= `isTruncateSupported`(v0) @signature `Lcom/j256/ormlite/db/DatabaseType;.isTruncateSupported:()Z` @kind interface;
+  #L170130.  v2:= temp;
+  #L170132.  if v2 == 0 then goto L170194;
+  #L170136.  v2:= "TRUNCATE TABLE " @kind object;
+  #L17013a.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L170140.  call `appendEscapedEntityName`(v0, v1, v8) @signature `Lcom/j256/ormlite/db/DatabaseType;.appendEscapedEntityName:(Ljava/lang/StringBuilder;Ljava/lang/String;)V` @kind interface;
+  #L170146.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L17014c.  v1:= temp @kind object;
+  #L17014e.  v0:= `@@com.j256.ormlite.table.TableUtils.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L170152.  v2:= "clearing table '{}' with '{}" @kind object;
+  #L170156.  call `info`(v0, v2, v8, v1) @signature `Lcom/j256/ormlite/logger/Logger;.info:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #L17015c.  v6:= 0I;
+  #L17015e.  call temp:= `getReadWriteConnection`(v7, v8) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getReadWriteConnection:(Ljava/lang/String;)Lcom/j256/ormlite/support/DatabaseConnection;` @kind interface;
+  #L170164.  v0:= temp @kind object;
+  #Try_start0.  
+  #L170166.  v2:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.EXECUTE` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L17016a.  v3:= `@@com.j256.ormlite.table.TableUtils.noFieldTypes` @type ^`com.j256.ormlite.field.FieldType`[] @kind object;
+  #L17016e.  v4:= -1I;
+  #L170170.  v5:= 0I;
+  #L170172.  call temp:= `compileStatement`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.compileStatement:(Ljava/lang/String;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;[Lcom/j256/ormlite/field/FieldType;IZ)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #Try_end0.  
+  #L170178.  v2:= temp @kind object;
+  #Try_start1.  
+  #L17017a.  call temp:= `runExecute`(v2) @signature `Lcom/j256/ormlite/support/CompiledStatement;.runExecute:()I` @kind interface;
+  #Try_end1.  
+  #L170180.  v1:= temp;
+  #L170182.  v3:= "compiled statement" @kind object;
+  #L170186.  call `closeThrowSqlException`(v2, v3) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L17018c.  call `releaseConnection`(v7, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L170192.  return v1;
+  #L170194.  v2:= "DELETE FROM " @kind object;
+  #L170198.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L17019e.  goto L170140;
+  #L1701a0.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1701a2.  v2:= v6 @kind object;
+  #L1701a4.  v3:= "compiled statement" @kind object;
+  #L1701a8.  call `closeThrowSqlException`(v2, v3) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L1701ae.  call `releaseConnection`(v7, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L1701b4.  throw v1;
+  #L1701b6.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1701b8.  goto L1701a4;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1701a0;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L1701b6;
+}
+procedure `int` `createTable`(`com.j256.ormlite.dao.Dao` v1 @kind object) @signature `Lcom/j256/ormlite/table/TableUtils;.createTable:(Lcom/j256/ormlite/dao/Dao;)I` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+
+  #L1701e4.  v0:= 0I;
+  #L1701e6.  call temp:= `doCreateTable`(v1, v0) @signature `Lcom/j256/ormlite/table/TableUtils;.doCreateTable:(Lcom/j256/ormlite/dao/Dao;Z)I` @kind static;
+  #L1701ec.  v0:= temp;
+  #L1701ee.  return v0;
+}
+procedure `int` `createTable`(`com.j256.ormlite.support.ConnectionSource` v2 @kind object, `com.j256.ormlite.table.DatabaseTableConfig` v3 @kind object) @signature `Lcom/j256/ormlite/table/TableUtils;.createTable:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/DatabaseTableConfig;)I` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L170200.  call temp:= `createDao`(v2, v3) @signature `Lcom/j256/ormlite/dao/DaoManager;.createDao:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/DatabaseTableConfig;)Lcom/j256/ormlite/dao/Dao;` @kind static;
+  #L170206.  v0:= temp @kind object;
+  #L170208.  v1:= 0I;
+  #L17020a.  call temp:= `doCreateTable`(v0, v1) @signature `Lcom/j256/ormlite/table/TableUtils;.doCreateTable:(Lcom/j256/ormlite/dao/Dao;Z)I` @kind static;
+  #L170210.  v0:= temp;
+  #L170212.  return v0;
+}
+procedure `int` `createTable`(`com.j256.ormlite.support.ConnectionSource` v2 @kind object, `java.lang.Class` v3 @kind object) @signature `Lcom/j256/ormlite/table/TableUtils;.createTable:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/Class;)I` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L170224.  call temp:= `createDao`(v2, v3) @signature `Lcom/j256/ormlite/dao/DaoManager;.createDao:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/Class;)Lcom/j256/ormlite/dao/Dao;` @kind static;
+  #L17022a.  v0:= temp @kind object;
+  #L17022c.  v1:= 0I;
+  #L17022e.  call temp:= `doCreateTable`(v0, v1) @signature `Lcom/j256/ormlite/table/TableUtils;.doCreateTable:(Lcom/j256/ormlite/dao/Dao;Z)I` @kind static;
+  #L170234.  v0:= temp;
+  #L170236.  return v0;
+}
+procedure `int` `createTableIfNotExists`(`com.j256.ormlite.support.ConnectionSource` v2 @kind object, `com.j256.ormlite.table.DatabaseTableConfig` v3 @kind object) @signature `Lcom/j256/ormlite/table/TableUtils;.createTableIfNotExists:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/DatabaseTableConfig;)I` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L170248.  call temp:= `createDao`(v2, v3) @signature `Lcom/j256/ormlite/dao/DaoManager;.createDao:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/DatabaseTableConfig;)Lcom/j256/ormlite/dao/Dao;` @kind static;
+  #L17024e.  v0:= temp @kind object;
+  #L170250.  v1:= 1I;
+  #L170252.  call temp:= `doCreateTable`(v0, v1) @signature `Lcom/j256/ormlite/table/TableUtils;.doCreateTable:(Lcom/j256/ormlite/dao/Dao;Z)I` @kind static;
+  #L170258.  v0:= temp;
+  #L17025a.  return v0;
+}
+procedure `int` `createTableIfNotExists`(`com.j256.ormlite.support.ConnectionSource` v2 @kind object, `java.lang.Class` v3 @kind object) @signature `Lcom/j256/ormlite/table/TableUtils;.createTableIfNotExists:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/Class;)I` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L17026c.  call temp:= `createDao`(v2, v3) @signature `Lcom/j256/ormlite/dao/DaoManager;.createDao:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/Class;)Lcom/j256/ormlite/dao/Dao;` @kind static;
+  #L170272.  v0:= temp @kind object;
+  #L170274.  v1:= 1I;
+  #L170276.  call temp:= `doCreateTable`(v0, v1) @signature `Lcom/j256/ormlite/table/TableUtils;.doCreateTable:(Lcom/j256/ormlite/dao/Dao;Z)I` @kind static;
+  #L17027c.  v0:= temp;
+  #L17027e.  return v0;
+}
+procedure `int` `doCreateTable`(`com.j256.ormlite.dao.Dao` v4 @kind object, `boolean` v5 ) @signature `Lcom/j256/ormlite/table/TableUtils;.doCreateTable:(Lcom/j256/ormlite/dao/Dao;Z)I` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L170290.  v0:= instanceof @variable v4 @type ^`com.j256.ormlite.dao.BaseDaoImpl` @kind boolean;
+  #L170294.  if v0 == 0 then goto L1702b6;
+  #L170298.  call temp:= `getConnectionSource`(v4) @signature `Lcom/j256/ormlite/dao/Dao;.getConnectionSource:()Lcom/j256/ormlite/support/ConnectionSource;` @kind interface;
+  #L17029e.  v0:= temp @kind object;
+  #L1702a0.  v4:= (`com.j256.ormlite.dao.BaseDaoImpl`) v4 @kind object;
+  #L1702a4.  call temp:= `getTableInfo`(v4) @signature `Lcom/j256/ormlite/dao/BaseDaoImpl;.getTableInfo:()Lcom/j256/ormlite/table/TableInfo;` @kind virtual;
+  #L1702aa.  v1:= temp @kind object;
+  #L1702ac.  call temp:= `doCreateTable`(v0, v1, v5) @signature `Lcom/j256/ormlite/table/TableUtils;.doCreateTable:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/TableInfo;Z)I` @kind static;
+  #L1702b2.  v0:= temp;
+  #L1702b4.  return v0;
+  #L1702b6.  v0:= new `com.j256.ormlite.table.TableInfo`;
+  #L1702ba.  call temp:= `getConnectionSource`(v4) @signature `Lcom/j256/ormlite/dao/Dao;.getConnectionSource:()Lcom/j256/ormlite/support/ConnectionSource;` @kind interface;
+  #L1702c0.  v1:= temp @kind object;
+  #L1702c2.  v2:= 0I;
+  #L1702c4.  call temp:= `getDataClass`(v4) @signature `Lcom/j256/ormlite/dao/Dao;.getDataClass:()Ljava/lang/Class;` @kind interface;
+  #L1702ca.  v3:= temp @kind object;
+  #L1702cc.  call `<init>`(v0, v1, v2, v3) @signature `Lcom/j256/ormlite/table/TableInfo;.<init>:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/dao/BaseDaoImpl;Ljava/lang/Class;)V` @kind direct;
+  #L1702d2.  call temp:= `getConnectionSource`(v4) @signature `Lcom/j256/ormlite/dao/Dao;.getConnectionSource:()Lcom/j256/ormlite/support/ConnectionSource;` @kind interface;
+  #L1702d8.  v1:= temp @kind object;
+  #L1702da.  call temp:= `doCreateTable`(v1, v0, v5) @signature `Lcom/j256/ormlite/table/TableUtils;.doCreateTable:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/TableInfo;Z)I` @kind static;
+  #L1702e0.  v0:= temp;
+  #L1702e2.  goto L1702b4;
+}
+procedure `int` `doCreateTable`(`com.j256.ormlite.support.ConnectionSource` v8 @kind object, `com.j256.ormlite.table.TableInfo` v9 @kind object, `boolean` v10 ) @signature `Lcom/j256/ormlite/table/TableUtils;.doCreateTable:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/TableInfo;Z)I` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+
+  #L1702f4.  call temp:= `getDatabaseType`(v8) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getDatabaseType:()Lcom/j256/ormlite/db/DatabaseType;` @kind interface;
+  #L1702fa.  v6:= temp @kind object;
+  #L1702fc.  v0:= `@@com.j256.ormlite.table.TableUtils.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L170300.  v1:= "creating table '{}'" @kind object;
+  #L170304.  call temp:= `getTableName`(v9) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L17030a.  v2:= temp @kind object;
+  #L17030c.  call `info`(v0, v1, v2) @signature `Lcom/j256/ormlite/logger/Logger;.info:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L170312.  v2:= new `java.util.ArrayList`;
+  #L170316.  call `<init>`(v2) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L17031c.  v7:= new `java.util.ArrayList`;
+  #L170320.  call `<init>`(v7) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L170326.  call `addCreateTableStatements`(v6, v9, v2, v7, v10) @signature `Lcom/j256/ormlite/table/TableUtils;.addCreateTableStatements:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Ljava/util/List;Ljava/util/List;Z)V` @kind static;
+  #L17032c.  call temp:= `getTableName`(v9) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L170332.  v0:= temp @kind object;
+  #L170334.  call temp:= `getReadWriteConnection`(v8, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getReadWriteConnection:(Ljava/lang/String;)Lcom/j256/ormlite/support/DatabaseConnection;` @kind interface;
+  #L17033a.  v0:= temp @kind object;
+  #Try_start0.  
+  #L17033c.  v1:= "create" @kind object;
+  #L170340.  v3:= 0I;
+  #L170342.  call temp:= `isCreateTableReturnsNegative`(v6) @signature `Lcom/j256/ormlite/db/DatabaseType;.isCreateTableReturnsNegative:()Z` @kind interface;
+  #L170348.  v4:= temp;
+  #L17034a.  call temp:= `isCreateTableReturnsZero`(v6) @signature `Lcom/j256/ormlite/db/DatabaseType;.isCreateTableReturnsZero:()Z` @kind interface;
+  #L170350.  v5:= temp;
+  #L170352.  call temp:= `doStatements`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/table/TableUtils;.doStatements:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/String;Ljava/util/Collection;ZZZ)I` @kind static;
+  #L170358.  v1:= temp;
+  #L17035a.  call temp:= `doCreateTestQueries`(v0, v6, v7) @signature `Lcom/j256/ormlite/table/TableUtils;.doCreateTestQueries:(Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/db/DatabaseType;Ljava/util/List;)I` @kind static;
+  #Try_end0.  
+  #L170360.  v2:= temp;
+  #L170362.  v1:= v1 + v2 @kind int;
+  #L170364.  call `releaseConnection`(v8, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L17036a.  return v1;
+  #L17036c.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L17036e.  call `releaseConnection`(v8, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L170374.  throw v1;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L17036c;
+}
+procedure `int` `doCreateTestQueries`(`com.j256.ormlite.support.DatabaseConnection` v10 @kind object, `com.j256.ormlite.db.DatabaseType` v11 @kind object, `java.util.List` v12 @kind object) @signature `Lcom/j256/ormlite/table/TableUtils;.doCreateTestQueries:(Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/db/DatabaseType;Ljava/util/List;)I` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+
+  #L170394.  v8:= 0I;
+  #L170396.  v7:= 0I;
+  #L170398.  call temp:= `iterator`(v12) @signature `Ljava/util/List;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L17039e.  v9:= temp @kind object;
+  #L1703a0.  v6:= v7;
+  #L1703a2.  call temp:= `hasNext`(v9) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L1703a8.  v0:= temp;
+  #L1703aa.  if v0 == 0 then goto L170460;
+  #L1703ae.  call temp:= `next`(v9) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L1703b4.  v1:= temp @kind object;
+  #L1703b6.  v1:= (`java.lang.String`) v1 @kind object;
+  #Try_start0.  
+  #L1703ba.  v2:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.SELECT` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L1703be.  v3:= `@@com.j256.ormlite.table.TableUtils.noFieldTypes` @type ^`com.j256.ormlite.field.FieldType`[] @kind object;
+  #L1703c2.  v4:= -1I;
+  #L1703c4.  v5:= 0I;
+  #L1703c6.  v0:= v10 @kind object;
+  #L1703c8.  call temp:= `compileStatement`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.compileStatement:(Ljava/lang/String;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;[Lcom/j256/ormlite/field/FieldType;IZ)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #Try_end0.  
+  #L1703ce.  v2:= temp @kind object;
+  #L1703d0.  v0:= 0I;
+  #Try_start1.  
+  #L1703d2.  call temp:= `runQuery`(v2, v0) @signature `Lcom/j256/ormlite/support/CompiledStatement;.runQuery:(Lcom/j256/ormlite/dao/ObjectCache;)Lcom/j256/ormlite/support/DatabaseResults;` @kind interface;
+  #L1703d8.  v4:= temp @kind object;
+  #L1703da.  call temp:= `first`(v4) @signature `Lcom/j256/ormlite/support/DatabaseResults;.first:()Z` @kind interface;
+  #L1703e0.  v0:= temp;
+  #L1703e2.  v3:= v7;
+  #L1703e4.  if v0 == 0 then goto L1703f6;
+  #L1703e8.  v3:= v3 + 1;
+  #L1703ec.  call temp:= `next`(v4) @signature `Lcom/j256/ormlite/support/DatabaseResults;.next:()Z` @kind interface;
+  #L1703f2.  v0:= temp;
+  #L1703f4.  goto L1703e4;
+  #L1703f6.  v0:= `@@com.j256.ormlite.table.TableUtils.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L1703fa.  v4:= "executing create table after-query got {} results: {}" @kind object;
+  #L1703fe.  call temp:= `valueOf`(v3) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L170404.  v3:= temp @kind object;
+  #L170406.  call `info`(v0, v4, v3, v1) @signature `Lcom/j256/ormlite/logger/Logger;.info:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end1.  
+  #L17040c.  v0:= "compiled statement" @kind object;
+  #L170410.  call `closeThrowSqlException`(v2, v0) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L170416.  v0:= v6 + 1;
+  #L17041a.  v6:= v0;
+  #L17041c.  goto L1703a2;
+  #L17041e.  v0:= Exception @type ^`java.sql.SQLException` @kind object;
+  #L170420.  v2:= v8 @kind object;
+  #Try_start2.  
+  #L170422.  v3:= new `java.lang.StringBuilder`;
+  #L170426.  call `<init>`(v3) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L17042c.  v4:= "executing create table after-query failed: " @kind object;
+  #L170430.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L170436.  v3:= temp @kind object;
+  #L170438.  call temp:= `append`(v3, v1) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L17043e.  v1:= temp @kind object;
+  #L170440.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L170446.  v1:= temp @kind object;
+  #L170448.  call temp:= `create`(v1, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L17044e.  v0:= temp @kind object;
+  #L170450.  throw v0;
+  #Try_end2.  
+  #L170452.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L170454.  v1:= "compiled statement" @kind object;
+  #L170458.  call `closeThrowSqlException`(v2, v1) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L17045e.  throw v0;
+  #L170460.  return v6;
+  #L170462.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L170464.  v2:= v8 @kind object;
+  #L170466.  goto L170454;
+  #L170468.  v0:= Exception @type ^`java.sql.SQLException` @kind object;
+  #L17046a.  goto L170422;
+  catch `java.sql.SQLException` @[Try_start0..Try_end0] goto L17041e;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L170462;
+  catch `java.sql.SQLException` @[Try_start1..Try_end1] goto L170468;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L170452;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L170452;
+}
+procedure `int` `doDropTable`(`com.j256.ormlite.db.DatabaseType` v6 @kind object, `com.j256.ormlite.support.ConnectionSource` v7 @kind object, `com.j256.ormlite.table.TableInfo` v8 @kind object, `boolean` v9 ) @signature `Lcom/j256/ormlite/table/TableUtils;.doDropTable:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/TableInfo;Z)I` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L1704a4.  v0:= `@@com.j256.ormlite.table.TableUtils.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L1704a8.  v1:= "dropping table '{}'" @kind object;
+  #L1704ac.  call temp:= `getTableName`(v8) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L1704b2.  v2:= temp @kind object;
+  #L1704b4.  call `info`(v0, v1, v2) @signature `Lcom/j256/ormlite/logger/Logger;.info:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L1704ba.  v2:= new `java.util.ArrayList`;
+  #L1704be.  call `<init>`(v2) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L1704c4.  call `addDropIndexStatements`(v6, v8, v2) @signature `Lcom/j256/ormlite/table/TableUtils;.addDropIndexStatements:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Ljava/util/List;)V` @kind static;
+  #L1704ca.  call `addDropTableStatements`(v6, v8, v2) @signature `Lcom/j256/ormlite/table/TableUtils;.addDropTableStatements:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Ljava/util/List;)V` @kind static;
+  #L1704d0.  call temp:= `getTableName`(v8) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L1704d6.  v0:= temp @kind object;
+  #L1704d8.  call temp:= `getReadWriteConnection`(v7, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getReadWriteConnection:(Ljava/lang/String;)Lcom/j256/ormlite/support/DatabaseConnection;` @kind interface;
+  #L1704de.  v0:= temp @kind object;
+  #Try_start0.  
+  #L1704e0.  v1:= "drop" @kind object;
+  #L1704e4.  call temp:= `isCreateTableReturnsNegative`(v6) @signature `Lcom/j256/ormlite/db/DatabaseType;.isCreateTableReturnsNegative:()Z` @kind interface;
+  #L1704ea.  v4:= temp;
+  #L1704ec.  v5:= 0I;
+  #L1704ee.  v3:= v9;
+  #L1704f0.  call temp:= `doStatements`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/table/TableUtils;.doStatements:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/String;Ljava/util/Collection;ZZZ)I` @kind static;
+  #Try_end0.  
+  #L1704f6.  v1:= temp;
+  #L1704f8.  call `releaseConnection`(v7, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L1704fe.  return v1;
+  #L170500.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L170502.  call `releaseConnection`(v7, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L170508.  throw v1;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L170500;
+}
+procedure `int` `doStatements`(`com.j256.ormlite.support.DatabaseConnection` v10 @kind object, `java.lang.String` v11 @kind object, `java.util.Collection` v12 @kind object, `boolean` v13 , `boolean` v14 , `boolean` v15 ) @signature `Lcom/j256/ormlite/table/TableUtils;.doStatements:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/String;Ljava/util/Collection;ZZZ)I` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+
+  #L170528.  v7:= 0I;
+  #L17052a.  call temp:= `iterator`(v12) @signature `Ljava/util/Collection;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L170530.  v9:= temp @kind object;
+  #L170532.  v6:= v7;
+  #L170534.  call temp:= `hasNext`(v9) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L17053a.  v0:= temp;
+  #L17053c.  if v0 == 0 then goto L1706a0;
+  #L170540.  call temp:= `next`(v9) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L170546.  v1:= temp @kind object;
+  #L170548.  v1:= (`java.lang.String`) v1 @kind object;
+  #L17054c.  v8:= 0I;
+  #Try_start0.  
+  #L17054e.  v2:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.EXECUTE` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L170552.  v3:= `@@com.j256.ormlite.table.TableUtils.noFieldTypes` @type ^`com.j256.ormlite.field.FieldType`[] @kind object;
+  #L170556.  v4:= -1I;
+  #L170558.  v5:= 0I;
+  #L17055a.  v0:= v10 @kind object;
+  #L17055c.  call temp:= `compileStatement`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.compileStatement:(Ljava/lang/String;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;[Lcom/j256/ormlite/field/FieldType;IZ)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #Try_end0.  
+  #L170562.  v2:= temp @kind object;
+  #Try_start1.  
+  #L170564.  call temp:= `runExecute`(v2) @signature `Lcom/j256/ormlite/support/CompiledStatement;.runExecute:()I` @kind interface;
+  #Try_end1.  
+  #L17056a.  v3:= temp;
+  #Try_start2.  
+  #L17056c.  v0:= `@@com.j256.ormlite.table.TableUtils.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L170570.  v4:= "executed {} table statement changed {} rows: {}" @kind object;
+  #L170574.  call temp:= `valueOf`(v3) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L17057a.  v5:= temp @kind object;
+  #L17057c.  call `info`(v0, v4, v11, v5, v1) @signature `Lcom/j256/ormlite/logger/Logger;.info:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end2.  
+  #L170582.  v0:= "compiled statement" @kind object;
+  #L170586.  call `closeThrowSqlException`(v2, v0) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L17058c.  if v3 >= 0 then goto L170648;
+  #L170590.  if v14 != 0 then goto L170696;
+  #L170594.  v0:= new `java.sql.SQLException`;
+  #L170598.  v2:= new `java.lang.StringBuilder`;
+  #L17059c.  call `<init>`(v2) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1705a2.  v4:= "SQL statement " @kind object;
+  #L1705a6.  call temp:= `append`(v2, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1705ac.  v2:= temp @kind object;
+  #L1705ae.  call temp:= `append`(v2, v1) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1705b4.  v1:= temp @kind object;
+  #L1705b6.  v2:= " updated " @kind object;
+  #L1705ba.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1705c0.  v1:= temp @kind object;
+  #L1705c2.  call temp:= `append`(v1, v3) @signature `Ljava/lang/StringBuilder;.append:(I)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1705c8.  v1:= temp @kind object;
+  #L1705ca.  v2:= " rows, we were expecting >= 0" @kind object;
+  #L1705ce.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1705d4.  v1:= temp @kind object;
+  #L1705d6.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1705dc.  v1:= temp @kind object;
+  #L1705de.  call `<init>`(v0, v1) @signature `Ljava/sql/SQLException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1705e4.  throw v0;
+  #L1705e6.  v0:= Exception @type ^`java.sql.SQLException` @kind object;
+  #L1705e8.  v2:= v8 @kind object;
+  #L1705ea.  v3:= v7;
+  #L1705ec.  if v13 == 0 then goto L17060a;
+  #Try_start3.  
+  #L1705f0.  v4:= `@@com.j256.ormlite.table.TableUtils.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L1705f4.  v5:= "ignoring {} error '{}' for statement: {}" @kind object;
+  #L1705f8.  call `info`(v4, v5, v11, v0, v1) @signature `Lcom/j256/ormlite/logger/Logger;.info:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end3.  
+  #L1705fe.  v0:= "compiled statement" @kind object;
+  #L170602.  call `closeThrowSqlException`(v2, v0) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L170608.  goto L17058c;
+  #Try_start4.  
+  #L17060a.  v3:= new `java.lang.StringBuilder`;
+  #L17060e.  call `<init>`(v3) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L170614.  v4:= "SQL statement failed: " @kind object;
+  #L170618.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L17061e.  v3:= temp @kind object;
+  #L170620.  call temp:= `append`(v3, v1) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L170626.  v1:= temp @kind object;
+  #L170628.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L17062e.  v1:= temp @kind object;
+  #L170630.  call temp:= `create`(v1, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L170636.  v0:= temp @kind object;
+  #L170638.  throw v0;
+  #Try_end4.  
+  #L17063a.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L17063c.  v1:= "compiled statement" @kind object;
+  #L170640.  call `closeThrowSqlException`(v2, v1) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L170646.  throw v0;
+  #L170648.  if v3 <= 0 then goto L170696;
+  #L17064c.  if v15 == 0 then goto L170696;
+  #L170650.  v0:= new `java.sql.SQLException`;
+  #L170654.  v2:= new `java.lang.StringBuilder`;
+  #L170658.  call `<init>`(v2) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L17065e.  v4:= "SQL statement updated " @kind object;
+  #L170662.  call temp:= `append`(v2, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L170668.  v2:= temp @kind object;
+  #L17066a.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(I)Ljava/lang/StringBuilder;` @kind virtual;
+  #L170670.  v2:= temp @kind object;
+  #L170672.  v3:= " rows, we were expecting == 0: " @kind object;
+  #L170676.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L17067c.  v2:= temp @kind object;
+  #L17067e.  call temp:= `append`(v2, v1) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L170684.  v1:= temp @kind object;
+  #L170686.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L17068c.  v1:= temp @kind object;
+  #L17068e.  call `<init>`(v0, v1) @signature `Ljava/sql/SQLException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L170694.  throw v0;
+  #L170696.  v0:= v6 + 1;
+  #L17069a.  v6:= v0;
+  #L17069c.  goto L170534;
+  #L1706a0.  return v6;
+  #L1706a2.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1706a4.  v2:= v8 @kind object;
+  #L1706a6.  goto L17063c;
+  #L1706a8.  v0:= Exception @type ^`java.sql.SQLException` @kind object;
+  #L1706aa.  v3:= v7;
+  #L1706ac.  goto L1705ec;
+  #L1706ae.  v0:= Exception @type ^`java.sql.SQLException` @kind object;
+  #L1706b0.  goto L1705ec;
+  catch `java.sql.SQLException` @[Try_start0..Try_end0] goto L1705e6;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1706a2;
+  catch `java.sql.SQLException` @[Try_start1..Try_end1] goto L1706a8;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L17063a;
+  catch `java.sql.SQLException` @[Try_start2..Try_end2] goto L1706ae;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L17063a;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L17063a;
+  catch `java.lang.Throwable` @[Try_start4..Try_end4] goto L17063a;
+}
+procedure `int` `dropTable`(`com.j256.ormlite.dao.Dao` v5 @kind object, `boolean` v6 ) @signature `Lcom/j256/ormlite/table/TableUtils;.dropTable:(Lcom/j256/ormlite/dao/Dao;Z)I` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L170704.  call temp:= `getConnectionSource`(v5) @signature `Lcom/j256/ormlite/dao/Dao;.getConnectionSource:()Lcom/j256/ormlite/support/ConnectionSource;` @kind interface;
+  #L17070a.  v0:= temp @kind object;
+  #L17070c.  call temp:= `getDataClass`(v5) @signature `Lcom/j256/ormlite/dao/Dao;.getDataClass:()Ljava/lang/Class;` @kind interface;
+  #L170712.  v1:= temp @kind object;
+  #L170714.  call temp:= `getDatabaseType`(v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getDatabaseType:()Lcom/j256/ormlite/db/DatabaseType;` @kind interface;
+  #L17071a.  v2:= temp @kind object;
+  #L17071c.  v3:= instanceof @variable v5 @type ^`com.j256.ormlite.dao.BaseDaoImpl` @kind boolean;
+  #L170720.  if v3 == 0 then goto L17073a;
+  #L170724.  v5:= (`com.j256.ormlite.dao.BaseDaoImpl`) v5 @kind object;
+  #L170728.  call temp:= `getTableInfo`(v5) @signature `Lcom/j256/ormlite/dao/BaseDaoImpl;.getTableInfo:()Lcom/j256/ormlite/table/TableInfo;` @kind virtual;
+  #L17072e.  v1:= temp @kind object;
+  #L170730.  call temp:= `doDropTable`(v2, v0, v1, v6) @signature `Lcom/j256/ormlite/table/TableUtils;.doDropTable:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/TableInfo;Z)I` @kind static;
+  #L170736.  v0:= temp;
+  #L170738.  return v0;
+  #L17073a.  v3:= new `com.j256.ormlite.table.TableInfo`;
+  #L17073e.  v4:= 0I;
+  #L170740.  call `<init>`(v3, v0, v4, v1) @signature `Lcom/j256/ormlite/table/TableInfo;.<init>:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/dao/BaseDaoImpl;Ljava/lang/Class;)V` @kind direct;
+  #L170746.  call temp:= `doDropTable`(v2, v0, v3, v6) @signature `Lcom/j256/ormlite/table/TableUtils;.doDropTable:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/TableInfo;Z)I` @kind static;
+  #L17074c.  v0:= temp;
+  #L17074e.  goto L170738;
+}
+procedure `int` `dropTable`(`com.j256.ormlite.support.ConnectionSource` v3 @kind object, `com.j256.ormlite.table.DatabaseTableConfig` v4 @kind object, `boolean` v5 ) @signature `Lcom/j256/ormlite/table/TableUtils;.dropTable:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/DatabaseTableConfig;Z)I` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L170760.  call temp:= `getDatabaseType`(v3) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getDatabaseType:()Lcom/j256/ormlite/db/DatabaseType;` @kind interface;
+  #L170766.  v1:= temp @kind object;
+  #L170768.  call temp:= `createDao`(v3, v4) @signature `Lcom/j256/ormlite/dao/DaoManager;.createDao:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/DatabaseTableConfig;)Lcom/j256/ormlite/dao/Dao;` @kind static;
+  #L17076e.  v0:= temp @kind object;
+  #L170770.  v2:= instanceof @variable v0 @type ^`com.j256.ormlite.dao.BaseDaoImpl` @kind boolean;
+  #L170774.  if v2 == 0 then goto L17078e;
+  #L170778.  v0:= (`com.j256.ormlite.dao.BaseDaoImpl`) v0 @kind object;
+  #L17077c.  call temp:= `getTableInfo`(v0) @signature `Lcom/j256/ormlite/dao/BaseDaoImpl;.getTableInfo:()Lcom/j256/ormlite/table/TableInfo;` @kind virtual;
+  #L170782.  v0:= temp @kind object;
+  #L170784.  call temp:= `doDropTable`(v1, v3, v0, v5) @signature `Lcom/j256/ormlite/table/TableUtils;.doDropTable:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/TableInfo;Z)I` @kind static;
+  #L17078a.  v0:= temp;
+  #L17078c.  return v0;
+  #L17078e.  call `extractFieldTypes`(v4, v3) @signature `Lcom/j256/ormlite/table/DatabaseTableConfig;.extractFieldTypes:(Lcom/j256/ormlite/support/ConnectionSource;)V` @kind virtual;
+  #L170794.  v0:= new `com.j256.ormlite.table.TableInfo`;
+  #L170798.  v2:= 0I;
+  #L17079a.  call `<init>`(v0, v1, v2, v4) @signature `Lcom/j256/ormlite/table/TableInfo;.<init>:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/dao/BaseDaoImpl;Lcom/j256/ormlite/table/DatabaseTableConfig;)V` @kind direct;
+  #L1707a0.  call temp:= `doDropTable`(v1, v3, v0, v5) @signature `Lcom/j256/ormlite/table/TableUtils;.doDropTable:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/TableInfo;Z)I` @kind static;
+  #L1707a6.  v0:= temp;
+  #L1707a8.  goto L17078c;
+}
+procedure `int` `dropTable`(`com.j256.ormlite.support.ConnectionSource` v1 @kind object, `java.lang.Class` v2 @kind object, `boolean` v3 ) @signature `Lcom/j256/ormlite/table/TableUtils;.dropTable:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/Class;Z)I` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+
+  #L1707bc.  call temp:= `createDao`(v1, v2) @signature `Lcom/j256/ormlite/dao/DaoManager;.createDao:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/Class;)Lcom/j256/ormlite/dao/Dao;` @kind static;
+  #L1707c2.  v0:= temp @kind object;
+  #L1707c4.  call temp:= `dropTable`(v0, v3) @signature `Lcom/j256/ormlite/table/TableUtils;.dropTable:(Lcom/j256/ormlite/dao/Dao;Z)I` @kind static;
+  #L1707ca.  v0:= temp;
+  #L1707cc.  return v0;
+}
+procedure `java.util.List` `getCreateTableStatements`(`com.j256.ormlite.support.ConnectionSource` v4 @kind object, `com.j256.ormlite.table.DatabaseTableConfig` v5 @kind object) @signature `Lcom/j256/ormlite/table/TableUtils;.getCreateTableStatements:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/DatabaseTableConfig;)Ljava/util/List;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L1707e0.  v3:= 0I;
+  #L1707e2.  call temp:= `createDao`(v4, v5) @signature `Lcom/j256/ormlite/dao/DaoManager;.createDao:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/DatabaseTableConfig;)Lcom/j256/ormlite/dao/Dao;` @kind static;
+  #L1707e8.  v0:= temp @kind object;
+  #L1707ea.  v1:= instanceof @variable v0 @type ^`com.j256.ormlite.dao.BaseDaoImpl` @kind boolean;
+  #L1707ee.  if v1 == 0 then goto L170808;
+  #L1707f2.  v0:= (`com.j256.ormlite.dao.BaseDaoImpl`) v0 @kind object;
+  #L1707f6.  call temp:= `getTableInfo`(v0) @signature `Lcom/j256/ormlite/dao/BaseDaoImpl;.getTableInfo:()Lcom/j256/ormlite/table/TableInfo;` @kind virtual;
+  #L1707fc.  v0:= temp @kind object;
+  #L1707fe.  call temp:= `addCreateTableStatements`(v4, v0, v3) @signature `Lcom/j256/ormlite/table/TableUtils;.addCreateTableStatements:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/TableInfo;Z)Ljava/util/List;` @kind static;
+  #L170804.  v0:= temp @kind object;
+  #L170806.  return v0 @kind object;
+  #L170808.  call `extractFieldTypes`(v5, v4) @signature `Lcom/j256/ormlite/table/DatabaseTableConfig;.extractFieldTypes:(Lcom/j256/ormlite/support/ConnectionSource;)V` @kind virtual;
+  #L17080e.  v0:= new `com.j256.ormlite.table.TableInfo`;
+  #L170812.  call temp:= `getDatabaseType`(v4) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getDatabaseType:()Lcom/j256/ormlite/db/DatabaseType;` @kind interface;
+  #L170818.  v1:= temp @kind object;
+  #L17081a.  v2:= 0I;
+  #L17081c.  call `<init>`(v0, v1, v2, v5) @signature `Lcom/j256/ormlite/table/TableInfo;.<init>:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/dao/BaseDaoImpl;Lcom/j256/ormlite/table/DatabaseTableConfig;)V` @kind direct;
+  #L170822.  call temp:= `addCreateTableStatements`(v4, v0, v3) @signature `Lcom/j256/ormlite/table/TableUtils;.addCreateTableStatements:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/TableInfo;Z)Ljava/util/List;` @kind static;
+  #L170828.  v0:= temp @kind object;
+  #L17082a.  goto L170806;
+}
+procedure `java.util.List` `getCreateTableStatements`(`com.j256.ormlite.support.ConnectionSource` v3 @kind object, `java.lang.Class` v4 @kind object) @signature `Lcom/j256/ormlite/table/TableUtils;.getCreateTableStatements:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/Class;)Ljava/util/List;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L17083c.  v2:= 0I;
+  #L17083e.  call temp:= `createDao`(v3, v4) @signature `Lcom/j256/ormlite/dao/DaoManager;.createDao:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/Class;)Lcom/j256/ormlite/dao/Dao;` @kind static;
+  #L170844.  v0:= temp @kind object;
+  #L170846.  v1:= instanceof @variable v0 @type ^`com.j256.ormlite.dao.BaseDaoImpl` @kind boolean;
+  #L17084a.  if v1 == 0 then goto L170864;
+  #L17084e.  v0:= (`com.j256.ormlite.dao.BaseDaoImpl`) v0 @kind object;
+  #L170852.  call temp:= `getTableInfo`(v0) @signature `Lcom/j256/ormlite/dao/BaseDaoImpl;.getTableInfo:()Lcom/j256/ormlite/table/TableInfo;` @kind virtual;
+  #L170858.  v0:= temp @kind object;
+  #L17085a.  call temp:= `addCreateTableStatements`(v3, v0, v2) @signature `Lcom/j256/ormlite/table/TableUtils;.addCreateTableStatements:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/TableInfo;Z)Ljava/util/List;` @kind static;
+  #L170860.  v0:= temp @kind object;
+  #L170862.  return v0 @kind object;
+  #L170864.  v0:= new `com.j256.ormlite.table.TableInfo`;
+  #L170868.  v1:= 0I;
+  #L17086a.  call `<init>`(v0, v3, v1, v4) @signature `Lcom/j256/ormlite/table/TableInfo;.<init>:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/dao/BaseDaoImpl;Ljava/lang/Class;)V` @kind direct;
+  #L170870.  call temp:= `addCreateTableStatements`(v3, v0, v2) @signature `Lcom/j256/ormlite/table/TableUtils;.addCreateTableStatements:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/table/TableInfo;Z)Ljava/util/List;` @kind static;
+  #L170876.  v0:= temp @kind object;
+  #L170878.  goto L170862;
+}

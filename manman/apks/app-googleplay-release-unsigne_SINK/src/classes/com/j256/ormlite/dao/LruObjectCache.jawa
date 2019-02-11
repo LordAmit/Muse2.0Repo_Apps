@@ -1,0 +1,174 @@
+record `com.j256.ormlite.dao.LruObjectCache` @kind class @AccessFlag PUBLIC extends `com.j256.ormlite.dao.ObjectCache` @kind interface {
+  `int` `com.j256.ormlite.dao.LruObjectCache.capacity` @AccessFlag PRIVATE_FINAL;
+  `java.util.concurrent.ConcurrentHashMap` `com.j256.ormlite.dao.LruObjectCache.classMaps` @AccessFlag PRIVATE_FINAL;
+}
+procedure `void` `<init>`(`com.j256.ormlite.dao.LruObjectCache` v1 @kind this, `int` v2 ) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.<init>:(I)V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L163ad4.  call `<init>`(v1) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L163ada.  v0:= new `java.util.concurrent.ConcurrentHashMap`;
+  #L163ade.  call `<init>`(v0) @signature `Ljava/util/concurrent/ConcurrentHashMap;.<init>:()V` @kind direct;
+  #L163ae4.  v1.`com.j256.ormlite.dao.LruObjectCache.classMaps` @type ^`java.util.concurrent.ConcurrentHashMap` := v0 @kind object;
+  #L163ae8.  v1.`com.j256.ormlite.dao.LruObjectCache.capacity` @type ^`int` := v2;
+  #L163aec.  return @kind void;
+}
+procedure `java.util.Map` `getMapForClass`(`com.j256.ormlite.dao.LruObjectCache` v1 @kind this, `java.lang.Class` v2 @kind object) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.getMapForClass:(Ljava/lang/Class;)Ljava/util/Map;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+
+  #L163b00.  v0:= v1.`com.j256.ormlite.dao.LruObjectCache.classMaps` @type ^`java.util.concurrent.ConcurrentHashMap` @kind object;
+  #L163b04.  call temp:= `get`(v0, v2) @signature `Ljava/util/concurrent/ConcurrentHashMap;.get:(Ljava/lang/Object;)Ljava/lang/Object;` @kind virtual;
+  #L163b0a.  v0:= temp @kind object;
+  #L163b0c.  v0:= (`java.util.Map`) v0 @kind object;
+  #L163b10.  if v0 != 0 then goto L163b16;
+  #L163b14.  v0:= 0I;
+  #L163b16.  return v0 @kind object;
+}
+procedure `void` `clear`(`com.j256.ormlite.dao.LruObjectCache` v1 @kind this, `java.lang.Class` v2 @kind object) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.clear:(Ljava/lang/Class;)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L163b28.  call temp:= `getMapForClass`(v1, v2) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.getMapForClass:(Ljava/lang/Class;)Ljava/util/Map;` @kind direct;
+  #L163b2e.  v0:= temp @kind object;
+  #L163b30.  if v0 == 0 then goto L163b3a;
+  #L163b34.  call `clear`(v0) @signature `Ljava/util/Map;.clear:()V` @kind interface;
+  #L163b3a.  return @kind void;
+}
+procedure `void` `clearAll`(`com.j256.ormlite.dao.LruObjectCache` v2 @kind this) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.clearAll:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L163b4c.  v0:= v2.`com.j256.ormlite.dao.LruObjectCache.classMaps` @type ^`java.util.concurrent.ConcurrentHashMap` @kind object;
+  #L163b50.  call temp:= `values`(v0) @signature `Ljava/util/concurrent/ConcurrentHashMap;.values:()Ljava/util/Collection;` @kind virtual;
+  #L163b56.  v0:= temp @kind object;
+  #L163b58.  call temp:= `iterator`(v0) @signature `Ljava/util/Collection;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L163b5e.  v1:= temp @kind object;
+  #L163b60.  call temp:= `hasNext`(v1) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L163b66.  v0:= temp;
+  #L163b68.  if v0 == 0 then goto L163b80;
+  #L163b6c.  call temp:= `next`(v1) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L163b72.  v0:= temp @kind object;
+  #L163b74.  v0:= (`java.util.Map`) v0 @kind object;
+  #L163b78.  call `clear`(v0) @signature `Ljava/util/Map;.clear:()V` @kind interface;
+  #L163b7e.  goto L163b60;
+  #L163b80.  return @kind void;
+}
+procedure `java.lang.Object` `get`(`com.j256.ormlite.dao.LruObjectCache` v1 @kind this, `java.lang.Class` v2 @kind object, `java.lang.Object` v3 @kind object) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.get:(Ljava/lang/Class;Ljava/lang/Object;)Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L163b94.  call temp:= `getMapForClass`(v1, v2) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.getMapForClass:(Ljava/lang/Class;)Ljava/util/Map;` @kind direct;
+  #L163b9a.  v0:= temp @kind object;
+  #L163b9c.  if v0 != 0 then goto L163ba4;
+  #L163ba0.  v0:= 0I;
+  #L163ba2.  return v0 @kind object;
+  #L163ba4.  call temp:= `get`(v0, v3) @signature `Ljava/util/Map;.get:(Ljava/lang/Object;)Ljava/lang/Object;` @kind interface;
+  #L163baa.  v0:= temp @kind object;
+  #L163bac.  goto L163ba2;
+}
+procedure `void` `put`(`com.j256.ormlite.dao.LruObjectCache` v1 @kind this, `java.lang.Class` v2 @kind object, `java.lang.Object` v3 @kind object, `java.lang.Object` v4 @kind object) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.put:(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/Object;)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L163bc0.  call temp:= `getMapForClass`(v1, v2) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.getMapForClass:(Ljava/lang/Class;)Ljava/util/Map;` @kind direct;
+  #L163bc6.  v0:= temp @kind object;
+  #L163bc8.  if v0 == 0 then goto L163bd2;
+  #L163bcc.  call temp:= `put`(v0, v3, v4) @signature `Ljava/util/Map;.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;` @kind interface;
+  #L163bd2.  return @kind void;
+}
+procedure `void` `registerClass`(`com.j256.ormlite.dao.LruObjectCache` v2 @kind this, `java.lang.Class` v3 @kind object) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.registerClass:(Ljava/lang/Class;)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L163be4.  @monitorenter v2
+  #Try_start0.  
+  #L163be6.  v0:= v2.`com.j256.ormlite.dao.LruObjectCache.classMaps` @type ^`java.util.concurrent.ConcurrentHashMap` @kind object;
+  #L163bea.  call temp:= `get`(v0, v3) @signature `Ljava/util/concurrent/ConcurrentHashMap;.get:(Ljava/lang/Object;)Ljava/lang/Object;` @kind virtual;
+  #L163bf0.  v0:= temp @kind object;
+  #L163bf2.  v0:= (`java.util.Map`) v0 @kind object;
+  #L163bf6.  if v0 != 0 then goto L163c1a;
+  #L163bfa.  v0:= new `com.j256.ormlite.dao.LruObjectCache$LimitedLinkedHashMap`;
+  #L163bfe.  v1:= v2.`com.j256.ormlite.dao.LruObjectCache.capacity` @type ^`int`;
+  #L163c02.  call `<init>`(v0, v1) @signature `Lcom/j256/ormlite/dao/LruObjectCache$LimitedLinkedHashMap;.<init>:(I)V` @kind direct;
+  #L163c08.  call temp:= `synchronizedMap`(v0) @signature `Ljava/util/Collections;.synchronizedMap:(Ljava/util/Map;)Ljava/util/Map;` @kind static;
+  #L163c0e.  v0:= temp @kind object;
+  #L163c10.  v1:= v2.`com.j256.ormlite.dao.LruObjectCache.classMaps` @type ^`java.util.concurrent.ConcurrentHashMap` @kind object;
+  #L163c14.  call temp:= `put`(v1, v3, v0) @signature `Ljava/util/concurrent/ConcurrentHashMap;.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;` @kind virtual;
+  #Try_end0.  
+  #L163c1a.  @monitorexit v2
+  #L163c1c.  return @kind void;
+  #L163c1e.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L163c20.  @monitorexit v2
+  #L163c22.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L163c1e;
+}
+procedure `void` `remove`(`com.j256.ormlite.dao.LruObjectCache` v1 @kind this, `java.lang.Class` v2 @kind object, `java.lang.Object` v3 @kind object) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.remove:(Ljava/lang/Class;Ljava/lang/Object;)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L163c40.  call temp:= `getMapForClass`(v1, v2) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.getMapForClass:(Ljava/lang/Class;)Ljava/util/Map;` @kind direct;
+  #L163c46.  v0:= temp @kind object;
+  #L163c48.  if v0 == 0 then goto L163c52;
+  #L163c4c.  call temp:= `remove`(v0, v3) @signature `Ljava/util/Map;.remove:(Ljava/lang/Object;)Ljava/lang/Object;` @kind interface;
+  #L163c52.  return @kind void;
+}
+procedure `int` `size`(`com.j256.ormlite.dao.LruObjectCache` v1 @kind this, `java.lang.Class` v2 @kind object) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.size:(Ljava/lang/Class;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L163c64.  call temp:= `getMapForClass`(v1, v2) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.getMapForClass:(Ljava/lang/Class;)Ljava/util/Map;` @kind direct;
+  #L163c6a.  v0:= temp @kind object;
+  #L163c6c.  if v0 != 0 then goto L163c74;
+  #L163c70.  v0:= 0I;
+  #L163c72.  return v0;
+  #L163c74.  call temp:= `size`(v0) @signature `Ljava/util/Map;.size:()I` @kind interface;
+  #L163c7a.  v0:= temp;
+  #L163c7c.  goto L163c72;
+}
+procedure `int` `sizeAll`(`com.j256.ormlite.dao.LruObjectCache` v3 @kind this) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.sizeAll:()I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L163c90.  v0:= 0I;
+  #L163c92.  v1:= v3.`com.j256.ormlite.dao.LruObjectCache.classMaps` @type ^`java.util.concurrent.ConcurrentHashMap` @kind object;
+  #L163c96.  call temp:= `values`(v1) @signature `Ljava/util/concurrent/ConcurrentHashMap;.values:()Ljava/util/Collection;` @kind virtual;
+  #L163c9c.  v1:= temp @kind object;
+  #L163c9e.  call temp:= `iterator`(v1) @signature `Ljava/util/Collection;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L163ca4.  v2:= temp @kind object;
+  #L163ca6.  v1:= v0;
+  #L163ca8.  call temp:= `hasNext`(v2) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L163cae.  v0:= temp;
+  #L163cb0.  if v0 == 0 then goto L163cce;
+  #L163cb4.  call temp:= `next`(v2) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L163cba.  v0:= temp @kind object;
+  #L163cbc.  v0:= (`java.util.Map`) v0 @kind object;
+  #L163cc0.  call temp:= `size`(v0) @signature `Ljava/util/Map;.size:()I` @kind interface;
+  #L163cc6.  v0:= temp;
+  #L163cc8.  v0:= v0 + v1 @kind int;
+  #L163cca.  v1:= v0;
+  #L163ccc.  goto L163ca8;
+  #L163cce.  return v1;
+}
+procedure `java.lang.Object` `updateId`(`com.j256.ormlite.dao.LruObjectCache` v3 @kind this, `java.lang.Class` v4 @kind object, `java.lang.Object` v5 @kind object, `java.lang.Object` v6 @kind object) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.updateId:(Ljava/lang/Class;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L163ce0.  v0:= 0I;
+  #L163ce2.  call temp:= `getMapForClass`(v3, v4) @signature `Lcom/j256/ormlite/dao/LruObjectCache;.getMapForClass:(Ljava/lang/Class;)Ljava/util/Map;` @kind direct;
+  #L163ce8.  v2:= temp @kind object;
+  #L163cea.  if v2 != 0 then goto L163cf0;
+  #L163cee.  return v0 @kind object;
+  #L163cf0.  call temp:= `remove`(v2, v5) @signature `Ljava/util/Map;.remove:(Ljava/lang/Object;)Ljava/lang/Object;` @kind interface;
+  #L163cf6.  v1:= temp @kind object;
+  #L163cf8.  if v1 == 0 then goto L163cee;
+  #L163cfc.  call temp:= `put`(v2, v6, v1) @signature `Ljava/util/Map;.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;` @kind interface;
+  #L163d02.  v0:= v1 @kind object;
+  #L163d04.  goto L163cee;
+}

@@ -1,0 +1,93 @@
+record `com.j256.ormlite.android.apptools.OrmLiteBaseService` @kind class @AccessFlag PUBLIC_ABSTRACT extends `android.app.Service` @kind class {
+  `boolean` `com.j256.ormlite.android.apptools.OrmLiteBaseService.created` @AccessFlag PRIVATE_VOLATILE;
+  `boolean` `com.j256.ormlite.android.apptools.OrmLiteBaseService.destroyed` @AccessFlag PRIVATE_VOLATILE;
+  `com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper` `com.j256.ormlite.android.apptools.OrmLiteBaseService.helper` @AccessFlag PRIVATE_VOLATILE;
+}
+procedure `void` `<init>`(`com.j256.ormlite.android.apptools.OrmLiteBaseService` v1 @kind this) @signature `Lcom/j256/ormlite/android/apptools/OrmLiteBaseService;.<init>:()V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L14d46c.  v0:= 0I;
+  #L14d46e.  call `<init>`(v1) @signature `Landroid/app/Service;.<init>:()V` @kind direct;
+  #L14d474.  v1.`com.j256.ormlite.android.apptools.OrmLiteBaseService.created` @type ^`boolean` := v0 @kind boolean;
+  #L14d478.  v1.`com.j256.ormlite.android.apptools.OrmLiteBaseService.destroyed` @type ^`boolean` := v0 @kind boolean;
+  #L14d47c.  return @kind void;
+}
+procedure `com.j256.ormlite.support.ConnectionSource` `getConnectionSource`(`com.j256.ormlite.android.apptools.OrmLiteBaseService` v1 @kind this) @signature `Lcom/j256/ormlite/android/apptools/OrmLiteBaseService;.getConnectionSource:()Lcom/j256/ormlite/support/ConnectionSource;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L14d490.  call temp:= `getHelper`(v1) @signature `Lcom/j256/ormlite/android/apptools/OrmLiteBaseService;.getHelper:()Lcom/j256/ormlite/android/apptools/OrmLiteSqliteOpenHelper;` @kind virtual;
+  #L14d496.  v0:= temp @kind object;
+  #L14d498.  call temp:= `getConnectionSource`(v0) @signature `Lcom/j256/ormlite/android/apptools/OrmLiteSqliteOpenHelper;.getConnectionSource:()Lcom/j256/ormlite/support/ConnectionSource;` @kind virtual;
+  #L14d49e.  v0:= temp @kind object;
+  #L14d4a0.  return v0 @kind object;
+}
+procedure `com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper` `getHelper`(`com.j256.ormlite.android.apptools.OrmLiteBaseService` v2 @kind this) @signature `Lcom/j256/ormlite/android/apptools/OrmLiteBaseService;.getHelper:()Lcom/j256/ormlite/android/apptools/OrmLiteSqliteOpenHelper;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L14d4b4.  v0:= v2.`com.j256.ormlite.android.apptools.OrmLiteBaseService.helper` @type ^`com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper` @kind object;
+  #L14d4b8.  if v0 != 0 then goto L14d4fc;
+  #L14d4bc.  v0:= v2.`com.j256.ormlite.android.apptools.OrmLiteBaseService.created` @type ^`boolean` @kind boolean;
+  #L14d4c0.  if v0 != 0 then goto L14d4d4;
+  #L14d4c4.  v0:= new `java.lang.IllegalStateException`;
+  #L14d4c8.  v1:= "A call has not been made to onCreate() yet so the helper is null" @kind object;
+  #L14d4cc.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L14d4d2.  throw v0;
+  #L14d4d4.  v0:= v2.`com.j256.ormlite.android.apptools.OrmLiteBaseService.destroyed` @type ^`boolean` @kind boolean;
+  #L14d4d8.  if v0 == 0 then goto L14d4ec;
+  #L14d4dc.  v0:= new `java.lang.IllegalStateException`;
+  #L14d4e0.  v1:= "A call to onDestroy has already been made and the helper cannot be used after that point" @kind object;
+  #L14d4e4.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L14d4ea.  throw v0;
+  #L14d4ec.  v0:= new `java.lang.IllegalStateException`;
+  #L14d4f0.  v1:= "Helper is null for some unknown reason" @kind object;
+  #L14d4f4.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L14d4fa.  throw v0;
+  #L14d4fc.  v0:= v2.`com.j256.ormlite.android.apptools.OrmLiteBaseService.helper` @type ^`com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper` @kind object;
+  #L14d500.  return v0 @kind object;
+}
+procedure `com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper` `getHelperInternal`(`com.j256.ormlite.android.apptools.OrmLiteBaseService` v1 @kind this, `android.content.Context` v2 @kind object) @signature `Lcom/j256/ormlite/android/apptools/OrmLiteBaseService;.getHelperInternal:(Landroid/content/Context;)Lcom/j256/ormlite/android/apptools/OrmLiteSqliteOpenHelper;` @AccessFlag PROTECTED {
+    temp;
+    v0;
+
+  #L14d514.  call temp:= `getHelper`(v2) @signature `Lcom/j256/ormlite/android/apptools/OpenHelperManager;.getHelper:(Landroid/content/Context;)Lcom/j256/ormlite/android/apptools/OrmLiteSqliteOpenHelper;` @kind static;
+  #L14d51a.  v0:= temp @kind object;
+  #L14d51c.  return v0 @kind object;
+}
+procedure `void` `onCreate`(`com.j256.ormlite.android.apptools.OrmLiteBaseService` v1 @kind this) @signature `Lcom/j256/ormlite/android/apptools/OrmLiteBaseService;.onCreate:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L14d530.  v0:= v1.`com.j256.ormlite.android.apptools.OrmLiteBaseService.helper` @type ^`com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper` @kind object;
+  #L14d534.  if v0 != 0 then goto L14d54a;
+  #L14d538.  call temp:= `getHelperInternal`(v1, v1) @signature `Lcom/j256/ormlite/android/apptools/OrmLiteBaseService;.getHelperInternal:(Landroid/content/Context;)Lcom/j256/ormlite/android/apptools/OrmLiteSqliteOpenHelper;` @kind virtual;
+  #L14d53e.  v0:= temp @kind object;
+  #L14d540.  v1.`com.j256.ormlite.android.apptools.OrmLiteBaseService.helper` @type ^`com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper` := v0 @kind object;
+  #L14d544.  v0:= 1I;
+  #L14d546.  v1.`com.j256.ormlite.android.apptools.OrmLiteBaseService.created` @type ^`boolean` := v0 @kind boolean;
+  #L14d54a.  call `onCreate`(v1) @signature `Landroid/app/Service;.onCreate:()V` @kind super;
+  #L14d550.  return @kind void;
+}
+procedure `void` `onDestroy`(`com.j256.ormlite.android.apptools.OrmLiteBaseService` v1 @kind this) @signature `Lcom/j256/ormlite/android/apptools/OrmLiteBaseService;.onDestroy:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L14d564.  call `onDestroy`(v1) @signature `Landroid/app/Service;.onDestroy:()V` @kind super;
+  #L14d56a.  v0:= v1.`com.j256.ormlite.android.apptools.OrmLiteBaseService.helper` @type ^`com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper` @kind object;
+  #L14d56e.  call `releaseHelper`(v1, v0) @signature `Lcom/j256/ormlite/android/apptools/OrmLiteBaseService;.releaseHelper:(Lcom/j256/ormlite/android/apptools/OrmLiteSqliteOpenHelper;)V` @kind virtual;
+  #L14d574.  v0:= 1I;
+  #L14d576.  v1.`com.j256.ormlite.android.apptools.OrmLiteBaseService.destroyed` @type ^`boolean` := v0 @kind boolean;
+  #L14d57a.  return @kind void;
+}
+procedure `void` `releaseHelper`(`com.j256.ormlite.android.apptools.OrmLiteBaseService` v1 @kind this, `com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper` v2 @kind object) @signature `Lcom/j256/ormlite/android/apptools/OrmLiteBaseService;.releaseHelper:(Lcom/j256/ormlite/android/apptools/OrmLiteSqliteOpenHelper;)V` @AccessFlag PROTECTED {
+    temp;
+    v0;
+
+  #L14d58c.  call `releaseHelper`() @signature `Lcom/j256/ormlite/android/apptools/OpenHelperManager;.releaseHelper:()V` @kind static;
+  #L14d592.  v0:= 0I;
+  #L14d594.  v1.`com.j256.ormlite.android.apptools.OrmLiteBaseService.helper` @type ^`com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper` := v0 @kind object;
+  #L14d598.  return @kind void;
+}

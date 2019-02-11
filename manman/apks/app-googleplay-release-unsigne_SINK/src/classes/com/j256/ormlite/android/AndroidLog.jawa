@@ -1,0 +1,240 @@
+record `com.j256.ormlite.android.AndroidLog` @kind class @AccessFlag PUBLIC extends `com.j256.ormlite.logger.Log` @kind interface {
+  `java.lang.String` `com.j256.ormlite.android.AndroidLog.className` @AccessFlag PRIVATE;
+  `boolean`[] `com.j256.ormlite.android.AndroidLog.levelCache` @AccessFlag PRIVATE_FINAL;
+  `int` `com.j256.ormlite.android.AndroidLog.levelCacheC` @AccessFlag PRIVATE_VOLATILE;
+}
+global `java.lang.String` `@@com.j256.ormlite.android.AndroidLog.ALL_LOGS_NAME` @AccessFlag PRIVATE_STATIC_FINAL;
+global `int` `@@com.j256.ormlite.android.AndroidLog.MAX_TAG_LENGTH` @AccessFlag PRIVATE_STATIC_FINAL;
+global `int` `@@com.j256.ormlite.android.AndroidLog.REFRESH_LEVEL_CACHE_EVERY` @AccessFlag PRIVATE_STATIC_FINAL;
+procedure `void` `<init>`(`com.j256.ormlite.android.AndroidLog` v5 @kind this, `java.lang.String` v6 @kind object) @signature `Lcom/j256/ormlite/android/AndroidLog;.<init>:(Ljava/lang/String;)V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L15ce6c.  v0:= 0I;
+  #L15ce6e.  call `<init>`(v5) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L15ce74.  v5.`com.j256.ormlite.android.AndroidLog.levelCacheC` @type ^`int` := v0;
+  #L15ce78.  call temp:= `getSimpleClassName`(v6) @signature `Lcom/j256/ormlite/logger/LoggerFactory;.getSimpleClassName:(Ljava/lang/String;)Ljava/lang/String;` @kind static;
+  #L15ce7e.  v1:= temp @kind object;
+  #L15ce80.  v5.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` := v1 @kind object;
+  #L15ce84.  v1:= v5.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15ce88.  call temp:= `length`(v1) @signature `Ljava/lang/String;.length:()I` @kind virtual;
+  #L15ce8e.  v1:= temp;
+  #L15ce90.  v2:= 23I;
+  #L15ce94.  if v1 <= v2 then goto L15ceac;
+  #L15ce98.  v2:= v5.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15ce9c.  v3:= v1 + -23;
+  #L15cea0.  call temp:= `substring`(v2, v3, v1) @signature `Ljava/lang/String;.substring:(II)Ljava/lang/String;` @kind virtual;
+  #L15cea6.  v1:= temp @kind object;
+  #L15cea8.  v5.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` := v1 @kind object;
+  #L15ceac.  call temp:= `values`() @signature `Lcom/j256/ormlite/logger/Log$Level;.values:()[Lcom/j256/ormlite/logger/Log$Level;` @kind static;
+  #L15ceb2.  v3:= temp @kind object;
+  #L15ceb4.  v4:= length @variable v3;
+  #L15ceb6.  v2:= v0;
+  #L15ceb8.  v1:= v0;
+  #L15ceba.  if v2 >= v4 then goto L15ced8;
+  #L15cebe.  v0:= v3[v2] @kind object;
+  #L15cec2.  call temp:= `levelToAndroidLevel`(v5, v0) @signature `Lcom/j256/ormlite/android/AndroidLog;.levelToAndroidLevel:(Lcom/j256/ormlite/logger/Log$Level;)I` @kind direct;
+  #L15cec8.  v0:= temp;
+  #L15ceca.  if v0 <= v1 then goto L15ceec;
+  #L15cece.  v1:= v2 + 1;
+  #L15ced2.  v2:= v1;
+  #L15ced4.  v1:= v0;
+  #L15ced6.  goto L15ceba;
+  #L15ced8.  v0:= v1 + 1;
+  #L15cedc.  v0:= new `boolean`[v0];
+  #L15cee0.  v5.`com.j256.ormlite.android.AndroidLog.levelCache` @type ^`boolean`[] := v0 @kind object;
+  #L15cee4.  call `refreshLevelCache`(v5) @signature `Lcom/j256/ormlite/android/AndroidLog;.refreshLevelCache:()V` @kind direct;
+  #L15ceea.  return @kind void;
+  #L15ceec.  v0:= v1;
+  #L15ceee.  goto L15cece;
+}
+procedure `boolean` `isLevelEnabledInternal`(`com.j256.ormlite.android.AndroidLog` v1 @kind this, `int` v2 ) @signature `Lcom/j256/ormlite/android/AndroidLog;.isLevelEnabledInternal:(I)Z` @AccessFlag PRIVATE {
+    temp;
+    v0;
+
+  #L15cf00.  v0:= v1.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15cf04.  call temp:= `isLoggable`(v0, v2) @signature `Landroid/util/Log;.isLoggable:(Ljava/lang/String;I)Z` @kind static;
+  #L15cf0a.  v0:= temp;
+  #L15cf0c.  if v0 != 0 then goto L15cf20;
+  #L15cf10.  v0:= "ORMLite" @kind object;
+  #L15cf14.  call temp:= `isLoggable`(v0, v2) @signature `Landroid/util/Log;.isLoggable:(Ljava/lang/String;I)Z` @kind static;
+  #L15cf1a.  v0:= temp;
+  #L15cf1c.  if v0 == 0 then goto L15cf24;
+  #L15cf20.  v0:= 1I;
+  #L15cf22.  return v0;
+  #L15cf24.  v0:= 0I;
+  #L15cf26.  goto L15cf22;
+}
+procedure `int` `levelToAndroidLevel`(`com.j256.ormlite.android.AndroidLog` v4 @kind this, `com.j256.ormlite.logger.Log$Level` v5 @kind object) @signature `Lcom/j256/ormlite/android/AndroidLog;.levelToAndroidLevel:(Lcom/j256/ormlite/logger/Log$Level;)I` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L15cf38.  v1:= 6I;
+  #L15cf3a.  v0:= 4I;
+  #L15cf3c.  v2:= `@@com.j256.ormlite.android.AndroidLog$1.$SwitchMap$com$j256$ormlite$logger$Log$Level` @type ^`int`[] @kind object;
+  #L15cf40.  call temp:= `ordinal`(v5) @signature `Lcom/j256/ormlite/logger/Log$Level;.ordinal:()I` @kind virtual;
+  #L15cf46.  v3:= temp;
+  #L15cf48.  v2:= v2[v3];
+  #L15cf4c.  goto L15cf68;
+  #L15cf52.  return v0;
+  #L15cf54.  v0:= 2I;
+  #L15cf56.  goto L15cf52;
+  #L15cf58.  v0:= 3I;
+  #L15cf5a.  goto L15cf52;
+  #L15cf5c.  v0:= 5I;
+  #L15cf5e.  goto L15cf52;
+  #L15cf60.  v0:= v1;
+  #L15cf62.  goto L15cf52;
+  #L15cf64.  v0:= v1;
+  #L15cf66.  goto L15cf52;
+  #L15cf68.  switch v2
+                  | 1 => goto L15cf54
+                  | 2 => goto L15cf58
+                  | 3 => goto L15cf52
+                  | 4 => goto L15cf5c
+                  | 5 => goto L15cf60
+                  | 6 => goto L15cf64
+                  | else => goto L15cf52;
+}
+procedure `void` `refreshLevelCache`(`com.j256.ormlite.android.AndroidLog` v6 @kind this) @signature `Lcom/j256/ormlite/android/AndroidLog;.refreshLevelCache:()V` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L15cf98.  call temp:= `values`() @signature `Lcom/j256/ormlite/logger/Log$Level;.values:()[Lcom/j256/ormlite/logger/Log$Level;` @kind static;
+  #L15cf9e.  v1:= temp @kind object;
+  #L15cfa0.  v2:= length @variable v1;
+  #L15cfa2.  v0:= 0I;
+  #L15cfa4.  if v0 >= v2 then goto L15cfd4;
+  #L15cfa8.  v3:= v1[v0] @kind object;
+  #L15cfac.  call temp:= `levelToAndroidLevel`(v6, v3) @signature `Lcom/j256/ormlite/android/AndroidLog;.levelToAndroidLevel:(Lcom/j256/ormlite/logger/Log$Level;)I` @kind direct;
+  #L15cfb2.  v3:= temp;
+  #L15cfb4.  v4:= v6.`com.j256.ormlite.android.AndroidLog.levelCache` @type ^`boolean`[] @kind object;
+  #L15cfb8.  v4:= length @variable v4;
+  #L15cfba.  if v3 >= v4 then goto L15cfce;
+  #L15cfbe.  v4:= v6.`com.j256.ormlite.android.AndroidLog.levelCache` @type ^`boolean`[] @kind object;
+  #L15cfc2.  call temp:= `isLevelEnabledInternal`(v6, v3) @signature `Lcom/j256/ormlite/android/AndroidLog;.isLevelEnabledInternal:(I)Z` @kind direct;
+  #L15cfc8.  v5:= temp;
+  #L15cfca.  v4[v3]:= v5 @kind boolean;
+  #L15cfce.  v0:= v0 + 1;
+  #L15cfd2.  goto L15cfa4;
+  #L15cfd4.  return @kind void;
+}
+procedure `boolean` `isLevelEnabled`(`com.j256.ormlite.android.AndroidLog` v2 @kind this, `com.j256.ormlite.logger.Log$Level` v3 @kind object) @signature `Lcom/j256/ormlite/android/AndroidLog;.isLevelEnabled:(Lcom/j256/ormlite/logger/Log$Level;)Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L15cfe8.  v0:= v2.`com.j256.ormlite.android.AndroidLog.levelCacheC` @type ^`int`;
+  #L15cfec.  v0:= v0 + 1;
+  #L15cff0.  v2.`com.j256.ormlite.android.AndroidLog.levelCacheC` @type ^`int` := v0;
+  #L15cff4.  v1:= 200I;
+  #L15cff8.  if v0 < v1 then goto L15d008;
+  #L15cffc.  call `refreshLevelCache`(v2) @signature `Lcom/j256/ormlite/android/AndroidLog;.refreshLevelCache:()V` @kind direct;
+  #L15d002.  v0:= 0I;
+  #L15d004.  v2.`com.j256.ormlite.android.AndroidLog.levelCacheC` @type ^`int` := v0;
+  #L15d008.  call temp:= `levelToAndroidLevel`(v2, v3) @signature `Lcom/j256/ormlite/android/AndroidLog;.levelToAndroidLevel:(Lcom/j256/ormlite/logger/Log$Level;)I` @kind direct;
+  #L15d00e.  v0:= temp;
+  #L15d010.  v1:= v2.`com.j256.ormlite.android.AndroidLog.levelCache` @type ^`boolean`[] @kind object;
+  #L15d014.  v1:= length @variable v1;
+  #L15d016.  if v0 >= v1 then goto L15d024;
+  #L15d01a.  v1:= v2.`com.j256.ormlite.android.AndroidLog.levelCache` @type ^`boolean`[] @kind object;
+  #L15d01e.  v0:= v1[v0] @kind boolean;
+  #L15d022.  return v0;
+  #L15d024.  call temp:= `isLevelEnabledInternal`(v2, v0) @signature `Lcom/j256/ormlite/android/AndroidLog;.isLevelEnabledInternal:(I)Z` @kind direct;
+  #L15d02a.  v0:= temp;
+  #L15d02c.  goto L15d022;
+}
+procedure `void` `log`(`com.j256.ormlite.android.AndroidLog` v2 @kind this, `com.j256.ormlite.logger.Log$Level` v3 @kind object, `java.lang.String` v4 @kind object) @signature `Lcom/j256/ormlite/android/AndroidLog;.log:(Lcom/j256/ormlite/logger/Log$Level;Ljava/lang/String;)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L15d040.  v0:= `@@com.j256.ormlite.android.AndroidLog$1.$SwitchMap$com$j256$ormlite$logger$Log$Level` @type ^`int`[] @kind object;
+  #L15d044.  call temp:= `ordinal`(v3) @signature `Lcom/j256/ormlite/logger/Log$Level;.ordinal:()I` @kind virtual;
+  #L15d04a.  v1:= temp;
+  #L15d04c.  v0:= v0[v1];
+  #L15d050.  goto L15d0ac;
+  #L15d056.  v0:= v2.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15d05a.  call temp:= `i`(v0, v4) @signature `Landroid/util/Log;.i:(Ljava/lang/String;Ljava/lang/String;)I` @kind static;
+  #L15d060.  return @kind void;
+  #L15d062.  v0:= v2.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15d066.  call temp:= `v`(v0, v4) @signature `Landroid/util/Log;.v:(Ljava/lang/String;Ljava/lang/String;)I` @kind static;
+  #L15d06c.  goto L15d060;
+  #L15d06e.  v0:= v2.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15d072.  call temp:= `d`(v0, v4) @signature `Landroid/util/Log;.d:(Ljava/lang/String;Ljava/lang/String;)I` @kind static;
+  #L15d078.  goto L15d060;
+  #L15d07a.  v0:= v2.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15d07e.  call temp:= `i`(v0, v4) @signature `Landroid/util/Log;.i:(Ljava/lang/String;Ljava/lang/String;)I` @kind static;
+  #L15d084.  goto L15d060;
+  #L15d086.  v0:= v2.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15d08a.  call temp:= `w`(v0, v4) @signature `Landroid/util/Log;.w:(Ljava/lang/String;Ljava/lang/String;)I` @kind static;
+  #L15d090.  goto L15d060;
+  #L15d092.  v0:= v2.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15d096.  call temp:= `e`(v0, v4) @signature `Landroid/util/Log;.e:(Ljava/lang/String;Ljava/lang/String;)I` @kind static;
+  #L15d09c.  goto L15d060;
+  #L15d09e.  v0:= v2.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15d0a2.  call temp:= `e`(v0, v4) @signature `Landroid/util/Log;.e:(Ljava/lang/String;Ljava/lang/String;)I` @kind static;
+  #L15d0a8.  goto L15d060;
+  #L15d0aa.  
+  #L15d0ac.  switch v0
+                  | 1 => goto L15d062
+                  | 2 => goto L15d06e
+                  | 3 => goto L15d07a
+                  | 4 => goto L15d086
+                  | 5 => goto L15d092
+                  | 6 => goto L15d09e
+                  | else => goto L15d056;
+}
+procedure `void` `log`(`com.j256.ormlite.android.AndroidLog` v2 @kind this, `com.j256.ormlite.logger.Log$Level` v3 @kind object, `java.lang.String` v4 @kind object, `java.lang.Throwable` v5 @kind object) @signature `Lcom/j256/ormlite/android/AndroidLog;.log:(Lcom/j256/ormlite/logger/Log$Level;Ljava/lang/String;Ljava/lang/Throwable;)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L15d0dc.  v0:= `@@com.j256.ormlite.android.AndroidLog$1.$SwitchMap$com$j256$ormlite$logger$Log$Level` @type ^`int`[] @kind object;
+  #L15d0e0.  call temp:= `ordinal`(v3) @signature `Lcom/j256/ormlite/logger/Log$Level;.ordinal:()I` @kind virtual;
+  #L15d0e6.  v1:= temp;
+  #L15d0e8.  v0:= v0[v1];
+  #L15d0ec.  goto L15d148;
+  #L15d0f2.  v0:= v2.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15d0f6.  call temp:= `i`(v0, v4, v5) @signature `Landroid/util/Log;.i:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I` @kind static;
+  #L15d0fc.  return @kind void;
+  #L15d0fe.  v0:= v2.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15d102.  call temp:= `v`(v0, v4, v5) @signature `Landroid/util/Log;.v:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I` @kind static;
+  #L15d108.  goto L15d0fc;
+  #L15d10a.  v0:= v2.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15d10e.  call temp:= `d`(v0, v4, v5) @signature `Landroid/util/Log;.d:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I` @kind static;
+  #L15d114.  goto L15d0fc;
+  #L15d116.  v0:= v2.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15d11a.  call temp:= `i`(v0, v4, v5) @signature `Landroid/util/Log;.i:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I` @kind static;
+  #L15d120.  goto L15d0fc;
+  #L15d122.  v0:= v2.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15d126.  call temp:= `w`(v0, v4, v5) @signature `Landroid/util/Log;.w:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I` @kind static;
+  #L15d12c.  goto L15d0fc;
+  #L15d12e.  v0:= v2.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15d132.  call temp:= `e`(v0, v4, v5) @signature `Landroid/util/Log;.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I` @kind static;
+  #L15d138.  goto L15d0fc;
+  #L15d13a.  v0:= v2.`com.j256.ormlite.android.AndroidLog.className` @type ^`java.lang.String` @kind object;
+  #L15d13e.  call temp:= `e`(v0, v4, v5) @signature `Landroid/util/Log;.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I` @kind static;
+  #L15d144.  goto L15d0fc;
+  #L15d146.  
+  #L15d148.  switch v0
+                  | 1 => goto L15d0fe
+                  | 2 => goto L15d10a
+                  | 3 => goto L15d116
+                  | 4 => goto L15d122
+                  | 5 => goto L15d12e
+                  | 6 => goto L15d13a
+                  | else => goto L15d0f2;
+}

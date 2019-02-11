@@ -1,0 +1,300 @@
+record `com.j256.ormlite.misc.TransactionManager` @kind class @AccessFlag PUBLIC {
+  `com.j256.ormlite.support.ConnectionSource` `com.j256.ormlite.misc.TransactionManager.connectionSource` @AccessFlag PRIVATE;
+}
+global `java.lang.String` `@@com.j256.ormlite.misc.TransactionManager.SAVE_POINT_PREFIX` @AccessFlag PRIVATE_STATIC_FINAL;
+global `com.j256.ormlite.logger.Logger` `@@com.j256.ormlite.misc.TransactionManager.logger` @AccessFlag PRIVATE_STATIC_FINAL;
+global `java.util.concurrent.atomic.AtomicInteger` `@@com.j256.ormlite.misc.TransactionManager.savePointCounter` @AccessFlag PRIVATE_STATIC;
+procedure `void` `<clinit>`() @signature `Lcom/j256/ormlite/misc/TransactionManager;.<clinit>:()V` @AccessFlag STATIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L156a24.  v0:= constclass @type ^`com.j256.ormlite.misc.TransactionManager` @kind object;
+  #L156a28.  call temp:= `getLogger`(v0) @signature `Lcom/j256/ormlite/logger/LoggerFactory;.getLogger:(Ljava/lang/Class;)Lcom/j256/ormlite/logger/Logger;` @kind static;
+  #L156a2e.  v0:= temp @kind object;
+  #L156a30.  `@@com.j256.ormlite.misc.TransactionManager.logger` @type ^`com.j256.ormlite.logger.Logger` := v0 @kind object;
+  #L156a34.  v0:= new `java.util.concurrent.atomic.AtomicInteger`;
+  #L156a38.  call `<init>`(v0) @signature `Ljava/util/concurrent/atomic/AtomicInteger;.<init>:()V` @kind direct;
+  #L156a3e.  `@@com.j256.ormlite.misc.TransactionManager.savePointCounter` @type ^`java.util.concurrent.atomic.AtomicInteger` := v0 @kind object;
+  #L156a42.  return @kind void;
+}
+procedure `void` `<init>`(`com.j256.ormlite.misc.TransactionManager` v0 @kind this) @signature `Lcom/j256/ormlite/misc/TransactionManager;.<init>:()V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+
+  #L156a54.  call `<init>`(v0) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L156a5a.  return @kind void;
+}
+procedure `void` `<init>`(`com.j256.ormlite.misc.TransactionManager` v0 @kind this, `com.j256.ormlite.support.ConnectionSource` v1 @kind object) @signature `Lcom/j256/ormlite/misc/TransactionManager;.<init>:(Lcom/j256/ormlite/support/ConnectionSource;)V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+
+  #L156a6c.  call `<init>`(v0) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L156a72.  v0.`com.j256.ormlite.misc.TransactionManager.connectionSource` @type ^`com.j256.ormlite.support.ConnectionSource` := v1 @kind object;
+  #L156a76.  call `initialize`(v0) @signature `Lcom/j256/ormlite/misc/TransactionManager;.initialize:()V` @kind virtual;
+  #L156a7c.  return @kind void;
+}
+procedure `java.lang.Object` `callInTransaction`(`com.j256.ormlite.support.ConnectionSource` v1 @kind object, `java.util.concurrent.Callable` v2 @kind object) @signature `Lcom/j256/ormlite/misc/TransactionManager;.callInTransaction:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+
+  #L156a90.  v0:= 0I;
+  #L156a92.  call temp:= `callInTransaction`(v0, v1, v2) @signature `Lcom/j256/ormlite/misc/TransactionManager;.callInTransaction:(Ljava/lang/String;Lcom/j256/ormlite/support/ConnectionSource;Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @kind static;
+  #L156a98.  v0:= temp @kind object;
+  #L156a9a.  return v0 @kind object;
+}
+procedure `java.lang.Object` `callInTransaction`(`com.j256.ormlite.support.DatabaseConnection` v1 @kind object, `com.j256.ormlite.db.DatabaseType` v2 @kind object, `java.util.concurrent.Callable` v3 @kind object) @signature `Lcom/j256/ormlite/misc/TransactionManager;.callInTransaction:(Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/db/DatabaseType;Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+
+  #L156aac.  v0:= 0I;
+  #L156aae.  call temp:= `callInTransaction`(v1, v0, v2, v3) @signature `Lcom/j256/ormlite/misc/TransactionManager;.callInTransaction:(Lcom/j256/ormlite/support/DatabaseConnection;ZLcom/j256/ormlite/db/DatabaseType;Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @kind static;
+  #L156ab4.  v0:= temp @kind object;
+  #L156ab6.  return v0 @kind object;
+}
+procedure `java.lang.Object` `callInTransaction`(`com.j256.ormlite.support.DatabaseConnection` v6 @kind object, `boolean` v7 , `com.j256.ormlite.db.DatabaseType` v8 @kind object, `java.util.concurrent.Callable` v9 @kind object) @signature `Lcom/j256/ormlite/misc/TransactionManager;.callInTransaction:(Lcom/j256/ormlite/support/DatabaseConnection;ZLcom/j256/ormlite/db/DatabaseType;Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L156ac8.  v1:= 0I;
+  #L156aca.  v2:= 1I;
+  #L156acc.  v0:= 0I;
+  #L156ace.  if v7 != 0 then goto L156ade;
+  #Try_start0.  
+  #L156ad2.  call temp:= `isNestedSavePointsSupported`(v8) @signature `Lcom/j256/ormlite/db/DatabaseType;.isNestedSavePointsSupported:()Z` @kind interface;
+  #L156ad8.  v3:= temp;
+  #L156ada.  if v3 == 0 then goto L156c10;
+  #L156ade.  call temp:= `isAutoCommitSupported`(v6) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.isAutoCommitSupported:()Z` @kind interface;
+  #L156ae4.  v0:= temp;
+  #L156ae6.  if v0 == 0 then goto L156b0e;
+  #L156aea.  call temp:= `isAutoCommit`(v6) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.isAutoCommit:()Z` @kind interface;
+  #L156af0.  v0:= temp;
+  #L156af2.  if v0 == 0 then goto L156b0e;
+  #L156af6.  v0:= 0I;
+  #L156af8.  call `setAutoCommit`(v6, v0) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.setAutoCommit:(Z)V` @kind interface;
+  #Try_end0.  
+  #Try_start1.  
+  #L156afe.  v0:= `@@com.j256.ormlite.misc.TransactionManager.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L156b02.  v1:= "had to set auto-commit to false" @kind object;
+  #L156b06.  call `debug`(v0, v1) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;)V` @kind virtual;
+  #Try_end1.  
+  #L156b0c.  v1:= v2;
+  #Try_start2.  
+  #L156b0e.  v0:= new `java.lang.StringBuilder`;
+  #L156b12.  call `<init>`(v0) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L156b18.  v3:= "ORMLITE" @kind object;
+  #L156b1c.  call temp:= `append`(v0, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L156b22.  v0:= temp @kind object;
+  #L156b24.  v3:= `@@com.j256.ormlite.misc.TransactionManager.savePointCounter` @type ^`java.util.concurrent.atomic.AtomicInteger` @kind object;
+  #L156b28.  call temp:= `incrementAndGet`(v3) @signature `Ljava/util/concurrent/atomic/AtomicInteger;.incrementAndGet:()I` @kind virtual;
+  #L156b2e.  v3:= temp;
+  #L156b30.  call temp:= `append`(v0, v3) @signature `Ljava/lang/StringBuilder;.append:(I)Ljava/lang/StringBuilder;` @kind virtual;
+  #L156b36.  v0:= temp @kind object;
+  #L156b38.  call temp:= `toString`(v0) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L156b3e.  v0:= temp @kind object;
+  #L156b40.  call temp:= `setSavePoint`(v6, v0) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.setSavePoint:(Ljava/lang/String;)Ljava/sql/Savepoint;` @kind interface;
+  #L156b46.  v0:= temp @kind object;
+  #L156b48.  if v0 != 0 then goto L156b8a;
+  #L156b4c.  v3:= `@@com.j256.ormlite.misc.TransactionManager.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L156b50.  v4:= "started savePoint transaction" @kind object;
+  #L156b54.  call `debug`(v3, v4) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;)V` @kind virtual;
+  #Try_end2.  
+  #L156b5a.  v3:= v0 @kind object;
+  #L156b5c.  v4:= v2;
+  #Try_start3.  
+  #L156b5e.  call temp:= `call`(v9) @signature `Ljava/util/concurrent/Callable;.call:()Ljava/lang/Object;` @kind interface;
+  #L156b64.  v0:= temp @kind object;
+  #L156b66.  if v4 == 0 then goto L156b70;
+  #L156b6a.  call `commit`(v6, v3) @signature `Lcom/j256/ormlite/misc/TransactionManager;.commit:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/sql/Savepoint;)V` @kind static;
+  #Try_end3.  
+  #L156b70.  if v1 == 0 then goto L156b88;
+  #L156b74.  call `setAutoCommit`(v6, v2) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.setAutoCommit:(Z)V` @kind interface;
+  #L156b7a.  v1:= `@@com.j256.ormlite.misc.TransactionManager.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L156b7e.  v2:= "restored auto-commit to true" @kind object;
+  #L156b82.  call `debug`(v1, v2) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;)V` @kind virtual;
+  #L156b88.  return v0 @kind object;
+  #Try_start4.  
+  #L156b8a.  v3:= `@@com.j256.ormlite.misc.TransactionManager.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L156b8e.  v4:= "started savePoint transaction {}" @kind object;
+  #L156b92.  call temp:= `getSavepointName`(v0) @signature `Ljava/sql/Savepoint;.getSavepointName:()Ljava/lang/String;` @kind interface;
+  #L156b98.  v5:= temp @kind object;
+  #L156b9a.  call `debug`(v3, v4, v5) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end4.  
+  #L156ba0.  goto L156b5a;
+  #L156ba2.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L156ba4.  if v1 == 0 then goto L156bbc;
+  #L156ba8.  call `setAutoCommit`(v6, v2) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.setAutoCommit:(Z)V` @kind interface;
+  #L156bae.  v1:= `@@com.j256.ormlite.misc.TransactionManager.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L156bb2.  v2:= "restored auto-commit to true" @kind object;
+  #L156bb6.  call `debug`(v1, v2) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;)V` @kind virtual;
+  #L156bbc.  throw v0;
+  #L156bbe.  v0:= Exception @type ^`java.sql.SQLException` @kind object;
+  #L156bc0.  if v4 == 0 then goto L156bca;
+  #Try_start5.  
+  #L156bc4.  call `rollBack`(v6, v3) @signature `Lcom/j256/ormlite/misc/TransactionManager;.rollBack:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/sql/Savepoint;)V` @kind static;
+  #Try_end5.  
+  #Try_start6.  
+  #L156bca.  throw v0;
+  #L156bcc.  v3:= Exception @type ^`java.sql.SQLException` @kind object;
+  #L156bce.  v3:= `@@com.j256.ormlite.misc.TransactionManager.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L156bd2.  v4:= "after commit exception, rolling back to save-point also threw exception" @kind object;
+  #L156bd6.  call `error`(v3, v0, v4) @signature `Lcom/j256/ormlite/logger/Logger;.error:(Ljava/lang/Throwable;Ljava/lang/String;)V` @kind virtual;
+  #Try_end6.  
+  #L156bdc.  goto L156bca;
+  #L156bde.  v0:= Exception @type ^`java.lang.Exception` @kind object;
+  #L156be0.  if v4 == 0 then goto L156bea;
+  #Try_start7.  
+  #L156be4.  call `rollBack`(v6, v3) @signature `Lcom/j256/ormlite/misc/TransactionManager;.rollBack:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/sql/Savepoint;)V` @kind static;
+  #Try_end7.  
+  #Try_start8.  
+  #L156bea.  v3:= "Transaction callable threw non-SQL exception" @kind object;
+  #L156bee.  call temp:= `create`(v3, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L156bf4.  v0:= temp @kind object;
+  #L156bf6.  throw v0;
+  #L156bf8.  v3:= Exception @type ^`java.sql.SQLException` @kind object;
+  #L156bfa.  v3:= `@@com.j256.ormlite.misc.TransactionManager.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L156bfe.  v4:= "after commit exception, rolling back to save-point also threw exception" @kind object;
+  #L156c02.  call `error`(v3, v0, v4) @signature `Lcom/j256/ormlite/logger/Logger;.error:(Ljava/lang/Throwable;Ljava/lang/String;)V` @kind virtual;
+  #Try_end8.  
+  #L156c08.  goto L156bea;
+  #L156c0a.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L156c0c.  v1:= v2;
+  #L156c0e.  goto L156ba4;
+  #L156c10.  v3:= v0 @kind object;
+  #L156c12.  v4:= v1;
+  #L156c14.  goto L156b5e;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L156ba2;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L156c0a;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L156ba2;
+  catch `java.sql.SQLException` @[Try_start3..Try_end3] goto L156bbe;
+  catch `java.lang.Exception` @[Try_start3..Try_end3] goto L156bde;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L156ba2;
+  catch `java.lang.Throwable` @[Try_start4..Try_end4] goto L156ba2;
+  catch `java.sql.SQLException` @[Try_start5..Try_end5] goto L156bcc;
+  catch `java.lang.Throwable` @[Try_start5..Try_end5] goto L156ba2;
+  catch `java.lang.Throwable` @[Try_start6..Try_end6] goto L156ba2;
+  catch `java.sql.SQLException` @[Try_start7..Try_end7] goto L156bf8;
+  catch `java.lang.Throwable` @[Try_start7..Try_end7] goto L156ba2;
+  catch `java.lang.Throwable` @[Try_start8..Try_end8] goto L156ba2;
+}
+procedure `java.lang.Object` `callInTransaction`(`java.lang.String` v3 @kind object, `com.j256.ormlite.support.ConnectionSource` v4 @kind object, `java.util.concurrent.Callable` v5 @kind object) @signature `Lcom/j256/ormlite/misc/TransactionManager;.callInTransaction:(Ljava/lang/String;Lcom/j256/ormlite/support/ConnectionSource;Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L156c8c.  call temp:= `getReadWriteConnection`(v4, v3) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getReadWriteConnection:(Ljava/lang/String;)Lcom/j256/ormlite/support/DatabaseConnection;` @kind interface;
+  #L156c92.  v1:= temp @kind object;
+  #Try_start0.  
+  #L156c94.  call temp:= `saveSpecialConnection`(v4, v1) @signature `Lcom/j256/ormlite/support/ConnectionSource;.saveSpecialConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)Z` @kind interface;
+  #L156c9a.  v0:= temp;
+  #L156c9c.  call temp:= `getDatabaseType`(v4) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getDatabaseType:()Lcom/j256/ormlite/db/DatabaseType;` @kind interface;
+  #L156ca2.  v2:= temp @kind object;
+  #L156ca4.  call temp:= `callInTransaction`(v1, v0, v2, v5) @signature `Lcom/j256/ormlite/misc/TransactionManager;.callInTransaction:(Lcom/j256/ormlite/support/DatabaseConnection;ZLcom/j256/ormlite/db/DatabaseType;Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @kind static;
+  #Try_end0.  
+  #L156caa.  v0:= temp @kind object;
+  #L156cac.  call `clearSpecialConnection`(v4, v1) @signature `Lcom/j256/ormlite/support/ConnectionSource;.clearSpecialConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L156cb2.  call `releaseConnection`(v4, v1) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L156cb8.  return v0 @kind object;
+  #L156cba.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L156cbc.  call `clearSpecialConnection`(v4, v1) @signature `Lcom/j256/ormlite/support/ConnectionSource;.clearSpecialConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L156cc2.  call `releaseConnection`(v4, v1) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L156cc8.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L156cba;
+}
+procedure `void` `commit`(`com.j256.ormlite.support.DatabaseConnection` v3 @kind object, `java.sql.Savepoint` v4 @kind object) @signature `Lcom/j256/ormlite/misc/TransactionManager;.commit:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/sql/Savepoint;)V` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L156ce8.  if v4 != 0 then goto L156d08;
+  #L156cec.  v0:= 0I;
+  #L156cee.  call `commit`(v3, v4) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.commit:(Ljava/sql/Savepoint;)V` @kind interface;
+  #L156cf4.  if v0 != 0 then goto L156d12;
+  #L156cf8.  v0:= `@@com.j256.ormlite.misc.TransactionManager.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L156cfc.  v1:= "committed savePoint transaction" @kind object;
+  #L156d00.  call `debug`(v0, v1) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;)V` @kind virtual;
+  #L156d06.  return @kind void;
+  #L156d08.  call temp:= `getSavepointName`(v4) @signature `Ljava/sql/Savepoint;.getSavepointName:()Ljava/lang/String;` @kind interface;
+  #L156d0e.  v0:= temp @kind object;
+  #L156d10.  goto L156cee;
+  #L156d12.  v1:= `@@com.j256.ormlite.misc.TransactionManager.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L156d16.  v2:= "committed savePoint transaction {}" @kind object;
+  #L156d1a.  call `debug`(v1, v2, v0) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L156d20.  goto L156d06;
+}
+procedure `void` `rollBack`(`com.j256.ormlite.support.DatabaseConnection` v3 @kind object, `java.sql.Savepoint` v4 @kind object) @signature `Lcom/j256/ormlite/misc/TransactionManager;.rollBack:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/sql/Savepoint;)V` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L156d34.  if v4 != 0 then goto L156d54;
+  #L156d38.  v0:= 0I;
+  #L156d3a.  call `rollback`(v3, v4) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.rollback:(Ljava/sql/Savepoint;)V` @kind interface;
+  #L156d40.  if v0 != 0 then goto L156d5e;
+  #L156d44.  v0:= `@@com.j256.ormlite.misc.TransactionManager.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L156d48.  v1:= "rolled back savePoint transaction" @kind object;
+  #L156d4c.  call `debug`(v0, v1) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;)V` @kind virtual;
+  #L156d52.  return @kind void;
+  #L156d54.  call temp:= `getSavepointName`(v4) @signature `Ljava/sql/Savepoint;.getSavepointName:()Ljava/lang/String;` @kind interface;
+  #L156d5a.  v0:= temp @kind object;
+  #L156d5c.  goto L156d3a;
+  #L156d5e.  v1:= `@@com.j256.ormlite.misc.TransactionManager.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L156d62.  v2:= "rolled back savePoint transaction {}" @kind object;
+  #L156d66.  call `debug`(v1, v2, v0) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L156d6c.  goto L156d52;
+}
+procedure `java.lang.Object` `callInTransaction`(`com.j256.ormlite.misc.TransactionManager` v1 @kind this, `java.lang.String` v2 @kind object, `java.util.concurrent.Callable` v3 @kind object) @signature `Lcom/j256/ormlite/misc/TransactionManager;.callInTransaction:(Ljava/lang/String;Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L156d80.  v0:= v1.`com.j256.ormlite.misc.TransactionManager.connectionSource` @type ^`com.j256.ormlite.support.ConnectionSource` @kind object;
+  #L156d84.  call temp:= `callInTransaction`(v2, v0, v3) @signature `Lcom/j256/ormlite/misc/TransactionManager;.callInTransaction:(Ljava/lang/String;Lcom/j256/ormlite/support/ConnectionSource;Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @kind static;
+  #L156d8a.  v0:= temp @kind object;
+  #L156d8c.  return v0 @kind object;
+}
+procedure `java.lang.Object` `callInTransaction`(`com.j256.ormlite.misc.TransactionManager` v1 @kind this, `java.util.concurrent.Callable` v2 @kind object) @signature `Lcom/j256/ormlite/misc/TransactionManager;.callInTransaction:(Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L156da0.  v0:= v1.`com.j256.ormlite.misc.TransactionManager.connectionSource` @type ^`com.j256.ormlite.support.ConnectionSource` @kind object;
+  #L156da4.  call temp:= `callInTransaction`(v0, v2) @signature `Lcom/j256/ormlite/misc/TransactionManager;.callInTransaction:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @kind static;
+  #L156daa.  v0:= temp @kind object;
+  #L156dac.  return v0 @kind object;
+}
+procedure `void` `initialize`(`com.j256.ormlite.misc.TransactionManager` v3 @kind this) @signature `Lcom/j256/ormlite/misc/TransactionManager;.initialize:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L156dc0.  v0:= v3.`com.j256.ormlite.misc.TransactionManager.connectionSource` @type ^`com.j256.ormlite.support.ConnectionSource` @kind object;
+  #L156dc4.  if v0 != 0 then goto L156e0a;
+  #L156dc8.  v0:= new `java.lang.IllegalStateException`;
+  #L156dcc.  v1:= new `java.lang.StringBuilder`;
+  #L156dd0.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L156dd6.  v2:= "dataSource was not set on " @kind object;
+  #L156dda.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L156de0.  v1:= temp @kind object;
+  #L156de2.  call temp:= `getClass`(v3) @signature `Ljava/lang/Object;.getClass:()Ljava/lang/Class;` @kind virtual;
+  #L156de8.  v2:= temp @kind object;
+  #L156dea.  call temp:= `getSimpleName`(v2) @signature `Ljava/lang/Class;.getSimpleName:()Ljava/lang/String;` @kind virtual;
+  #L156df0.  v2:= temp @kind object;
+  #L156df2.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L156df8.  v1:= temp @kind object;
+  #L156dfa.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L156e00.  v1:= temp @kind object;
+  #L156e02.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L156e08.  throw v0;
+  #L156e0a.  return @kind void;
+}
+procedure `void` `setConnectionSource`(`com.j256.ormlite.misc.TransactionManager` v0 @kind this, `com.j256.ormlite.support.ConnectionSource` v1 @kind object) @signature `Lcom/j256/ormlite/misc/TransactionManager;.setConnectionSource:(Lcom/j256/ormlite/support/ConnectionSource;)V` @AccessFlag PUBLIC {
+    temp;
+
+  #L156e1c.  v0.`com.j256.ormlite.misc.TransactionManager.connectionSource` @type ^`com.j256.ormlite.support.ConnectionSource` := v1 @kind object;
+  #L156e20.  return @kind void;
+}

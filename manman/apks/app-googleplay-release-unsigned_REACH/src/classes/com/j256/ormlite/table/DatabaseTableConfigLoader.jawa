@@ -1,0 +1,252 @@
+record `com.j256.ormlite.table.DatabaseTableConfigLoader` @kind class @AccessFlag PUBLIC {
+}
+global `java.lang.String` `@@com.j256.ormlite.table.DatabaseTableConfigLoader.CONFIG_FILE_END_MARKER` @AccessFlag PRIVATE_STATIC_FINAL;
+global `java.lang.String` `@@com.j256.ormlite.table.DatabaseTableConfigLoader.CONFIG_FILE_FIELDS_END` @AccessFlag PRIVATE_STATIC_FINAL;
+global `java.lang.String` `@@com.j256.ormlite.table.DatabaseTableConfigLoader.CONFIG_FILE_FIELDS_START` @AccessFlag PRIVATE_STATIC_FINAL;
+global `java.lang.String` `@@com.j256.ormlite.table.DatabaseTableConfigLoader.CONFIG_FILE_START_MARKER` @AccessFlag PRIVATE_STATIC_FINAL;
+global `java.lang.String` `@@com.j256.ormlite.table.DatabaseTableConfigLoader.FIELD_NAME_DATA_CLASS` @AccessFlag PRIVATE_STATIC_FINAL;
+global `java.lang.String` `@@com.j256.ormlite.table.DatabaseTableConfigLoader.FIELD_NAME_TABLE_NAME` @AccessFlag PRIVATE_STATIC_FINAL;
+procedure `void` `<init>`(`com.j256.ormlite.table.DatabaseTableConfigLoader` v0 @kind this) @signature `Lcom/j256/ormlite/table/DatabaseTableConfigLoader;.<init>:()V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+
+  #L169654.  call `<init>`(v0) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L16965a.  return @kind void;
+}
+procedure `com.j256.ormlite.table.DatabaseTableConfig` `fromReader`(`java.io.BufferedReader` v7 @kind object) @signature `Lcom/j256/ormlite/table/DatabaseTableConfigLoader;.fromReader:(Ljava/io/BufferedReader;)Lcom/j256/ormlite/table/DatabaseTableConfig;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L16966c.  v3:= 1I;
+  #L16966e.  v2:= 0I;
+  #L169670.  v0:= new `com.j256.ormlite.table.DatabaseTableConfig`;
+  #L169674.  call `<init>`(v0) @signature `Lcom/j256/ormlite/table/DatabaseTableConfig;.<init>:()V` @kind direct;
+  #L16967a.  v1:= v2;
+  #Try_start0.  
+  #L16967c.  call temp:= `readLine`(v7) @signature `Ljava/io/BufferedReader;.readLine:()Ljava/lang/String;` @kind virtual;
+  #Try_end0.  
+  #L169682.  v4:= temp @kind object;
+  #L169684.  if v4 != 0 then goto L16969e;
+  #L169688.  if v1 == 0 then goto L16974c;
+  #L16968c.  return v0 @kind object;
+  #L16968e.  v0:= Exception @type ^`java.io.IOException` @kind object;
+  #L169690.  v1:= "Could not read DatabaseTableConfig from stream" @kind object;
+  #L169694.  call temp:= `create`(v1, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L16969a.  v0:= temp @kind object;
+  #L16969c.  throw v0;
+  #L16969e.  v5:= "# --table-end--" @kind object;
+  #L1696a2.  call temp:= `equals`(v4, v5) @signature `Ljava/lang/String;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L1696a8.  v5:= temp;
+  #L1696aa.  if v5 != 0 then goto L169688;
+  #L1696ae.  v5:= "# --table-fields-start--" @kind object;
+  #L1696b2.  call temp:= `equals`(v4, v5) @signature `Ljava/lang/String;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L1696b8.  v5:= temp;
+  #L1696ba.  if v5 == 0 then goto L1696c6;
+  #L1696be.  call `readFields`(v7, v0) @signature `Lcom/j256/ormlite/table/DatabaseTableConfigLoader;.readFields:(Ljava/io/BufferedReader;Lcom/j256/ormlite/table/DatabaseTableConfig;)V` @kind static;
+  #L1696c4.  goto L16967c;
+  #L1696c6.  call temp:= `length`(v4) @signature `Ljava/lang/String;.length:()I` @kind virtual;
+  #L1696cc.  v5:= temp;
+  #L1696ce.  if v5 == 0 then goto L16967c;
+  #L1696d2.  v5:= "#" @kind object;
+  #L1696d6.  call temp:= `startsWith`(v4, v5) @signature `Ljava/lang/String;.startsWith:(Ljava/lang/String;)Z` @kind virtual;
+  #L1696dc.  v5:= temp;
+  #L1696de.  if v5 != 0 then goto L16967c;
+  #L1696e2.  v5:= "# --table-start--" @kind object;
+  #L1696e6.  call temp:= `equals`(v4, v5) @signature `Ljava/lang/String;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L1696ec.  v5:= temp;
+  #L1696ee.  if v5 != 0 then goto L16967c;
+  #L1696f2.  v1:= "=" @kind object;
+  #L1696f6.  v5:= -2I;
+  #L1696f8.  call temp:= `split`(v4, v1, v5) @signature `Ljava/lang/String;.split:(Ljava/lang/String;I)[Ljava/lang/String;` @kind virtual;
+  #L1696fe.  v1:= temp @kind object;
+  #L169700.  v5:= length @variable v1;
+  #L169702.  v6:= 2I;
+  #L169704.  if v5 == v6 then goto L16973a;
+  #L169708.  v0:= new `java.sql.SQLException`;
+  #L16970c.  v1:= new `java.lang.StringBuilder`;
+  #L169710.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L169716.  v2:= "DatabaseTableConfig reading from stream cannot parse line: " @kind object;
+  #L16971a.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L169720.  v1:= temp @kind object;
+  #L169722.  call temp:= `append`(v1, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L169728.  v1:= temp @kind object;
+  #L16972a.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L169730.  v1:= temp @kind object;
+  #L169732.  call `<init>`(v0, v1) @signature `Ljava/sql/SQLException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L169738.  throw v0;
+  #L16973a.  v4:= v1[v2] @kind object;
+  #L16973e.  v1:= v1[v3] @kind object;
+  #L169742.  call `readTableField`(v0, v4, v1) @signature `Lcom/j256/ormlite/table/DatabaseTableConfigLoader;.readTableField:(Lcom/j256/ormlite/table/DatabaseTableConfig;Ljava/lang/String;Ljava/lang/String;)V` @kind static;
+  #L169748.  v1:= v3;
+  #L16974a.  goto L16967c;
+  #L16974c.  v0:= 0I;
+  #L16974e.  goto L16968c;
+  catch `java.io.IOException` @[Try_start0..Try_end0] goto L16968e;
+}
+procedure `java.util.List` `loadDatabaseConfigFromReader`(`java.io.BufferedReader` v2 @kind object) @signature `Lcom/j256/ormlite/table/DatabaseTableConfigLoader;.loadDatabaseConfigFromReader:(Ljava/io/BufferedReader;)Ljava/util/List;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L169770.  v0:= new `java.util.ArrayList`;
+  #L169774.  call `<init>`(v0) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L16977a.  call temp:= `fromReader`(v2) @signature `Lcom/j256/ormlite/table/DatabaseTableConfigLoader;.fromReader:(Ljava/io/BufferedReader;)Lcom/j256/ormlite/table/DatabaseTableConfig;` @kind static;
+  #L169780.  v1:= temp @kind object;
+  #L169782.  if v1 != 0 then goto L169788;
+  #L169786.  return v0 @kind object;
+  #L169788.  call temp:= `add`(v0, v1) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L16978e.  goto L16977a;
+}
+procedure `void` `readFields`(`java.io.BufferedReader` v3 @kind object, `com.j256.ormlite.table.DatabaseTableConfig` v4 @kind object) @signature `Lcom/j256/ormlite/table/DatabaseTableConfigLoader;.readFields:(Ljava/io/BufferedReader;Lcom/j256/ormlite/table/DatabaseTableConfig;)V` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L1697a0.  v0:= new `java.util.ArrayList`;
+  #L1697a4.  call `<init>`(v0) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #Try_start0.  
+  #L1697aa.  call temp:= `readLine`(v3) @signature `Ljava/io/BufferedReader;.readLine:()Ljava/lang/String;` @kind virtual;
+  #Try_end0.  
+  #L1697b0.  v1:= temp @kind object;
+  #L1697b2.  if v1 == 0 then goto L1697c6;
+  #L1697b6.  v2:= "# --table-fields-end--" @kind object;
+  #L1697ba.  call temp:= `equals`(v1, v2) @signature `Ljava/lang/String;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L1697c0.  v1:= temp;
+  #L1697c2.  if v1 == 0 then goto L1697de;
+  #L1697c6.  call `setFieldConfigs`(v4, v0) @signature `Lcom/j256/ormlite/table/DatabaseTableConfig;.setFieldConfigs:(Ljava/util/List;)V` @kind virtual;
+  #L1697cc.  return @kind void;
+  #L1697ce.  v0:= Exception @type ^`java.io.IOException` @kind object;
+  #L1697d0.  v1:= "Could not read next field from config file" @kind object;
+  #L1697d4.  call temp:= `create`(v1, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L1697da.  v0:= temp @kind object;
+  #L1697dc.  throw v0;
+  #L1697de.  call temp:= `fromReader`(v3) @signature `Lcom/j256/ormlite/field/DatabaseFieldConfigLoader;.fromReader:(Ljava/io/BufferedReader;)Lcom/j256/ormlite/field/DatabaseFieldConfig;` @kind static;
+  #L1697e4.  v1:= temp @kind object;
+  #L1697e6.  if v1 == 0 then goto L1697c6;
+  #L1697ea.  call temp:= `add`(v0, v1) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L1697f0.  goto L1697aa;
+  catch `java.io.IOException` @[Try_start0..Try_end0] goto L1697ce;
+}
+procedure `void` `readTableField`(`com.j256.ormlite.table.DatabaseTableConfig` v3 @kind object, `java.lang.String` v4 @kind object, `java.lang.String` v5 @kind object) @signature `Lcom/j256/ormlite/table/DatabaseTableConfigLoader;.readTableField:(Lcom/j256/ormlite/table/DatabaseTableConfig;Ljava/lang/String;Ljava/lang/String;)V` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L169814.  v0:= "dataClass" @kind object;
+  #L169818.  call temp:= `equals`(v4, v0) @signature `Ljava/lang/String;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L16981e.  v0:= temp;
+  #L169820.  if v0 == 0 then goto L169868;
+  #Try_start0.  
+  #L169824.  call temp:= `forName`(v5) @signature `Ljava/lang/Class;.forName:(Ljava/lang/String;)Ljava/lang/Class;` @kind static;
+  #L16982a.  v0:= temp @kind object;
+  #L16982c.  call `setDataClass`(v3, v0) @signature `Lcom/j256/ormlite/table/DatabaseTableConfig;.setDataClass:(Ljava/lang/Class;)V` @kind virtual;
+  #Try_end0.  
+  #L169832.  return @kind void;
+  #L169834.  v0:= Exception @type ^`java.lang.ClassNotFoundException` @kind object;
+  #L169836.  v0:= new `java.lang.IllegalArgumentException`;
+  #L16983a.  v1:= new `java.lang.StringBuilder`;
+  #L16983e.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L169844.  v2:= "Unknown class specified for dataClass: " @kind object;
+  #L169848.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16984e.  v1:= temp @kind object;
+  #L169850.  call temp:= `append`(v1, v5) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L169856.  v1:= temp @kind object;
+  #L169858.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L16985e.  v1:= temp @kind object;
+  #L169860.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L169866.  throw v0;
+  #L169868.  v0:= "tableName" @kind object;
+  #L16986c.  call temp:= `equals`(v4, v0) @signature `Ljava/lang/String;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L169872.  v0:= temp;
+  #L169874.  if v0 == 0 then goto L169832;
+  #L169878.  call `setTableName`(v3, v5) @signature `Lcom/j256/ormlite/table/DatabaseTableConfig;.setTableName:(Ljava/lang/String;)V` @kind virtual;
+  #L16987e.  goto L169832;
+  catch `java.lang.ClassNotFoundException` @[Try_start0..Try_end0] goto L169834;
+}
+procedure `void` `write`(`java.io.BufferedWriter` v2 @kind object, `com.j256.ormlite.table.DatabaseTableConfig` v3 @kind object) @signature `Lcom/j256/ormlite/table/DatabaseTableConfigLoader;.write:(Ljava/io/BufferedWriter;Lcom/j256/ormlite/table/DatabaseTableConfig;)V` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #Try_start0.  
+  #L1698a0.  call `writeConfig`(v2, v3) @signature `Lcom/j256/ormlite/table/DatabaseTableConfigLoader;.writeConfig:(Ljava/io/BufferedWriter;Lcom/j256/ormlite/table/DatabaseTableConfig;)V` @kind static;
+  #Try_end0.  
+  #L1698a6.  return @kind void;
+  #L1698a8.  v0:= Exception @type ^`java.io.IOException` @kind object;
+  #L1698aa.  v1:= "Could not write config to writer" @kind object;
+  #L1698ae.  call temp:= `create`(v1, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L1698b4.  v0:= temp @kind object;
+  #L1698b6.  throw v0;
+  catch `java.io.IOException` @[Try_start0..Try_end0] goto L1698a8;
+}
+procedure `void` `writeConfig`(`java.io.BufferedWriter` v3 @kind object, `com.j256.ormlite.table.DatabaseTableConfig` v4 @kind object) @signature `Lcom/j256/ormlite/table/DatabaseTableConfigLoader;.writeConfig:(Ljava/io/BufferedWriter;Lcom/j256/ormlite/table/DatabaseTableConfig;)V` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L1698d8.  v2:= 61I;
+  #L1698dc.  v0:= "# --table-start--" @kind object;
+  #L1698e0.  call temp:= `append`(v3, v0) @signature `Ljava/io/BufferedWriter;.append:(Ljava/lang/CharSequence;)Ljava/io/Writer;` @kind virtual;
+  #L1698e6.  call `newLine`(v3) @signature `Ljava/io/BufferedWriter;.newLine:()V` @kind virtual;
+  #L1698ec.  call temp:= `getDataClass`(v4) @signature `Lcom/j256/ormlite/table/DatabaseTableConfig;.getDataClass:()Ljava/lang/Class;` @kind virtual;
+  #L1698f2.  v0:= temp @kind object;
+  #L1698f4.  if v0 == 0 then goto L169928;
+  #L1698f8.  v0:= "dataClass" @kind object;
+  #L1698fc.  call temp:= `append`(v3, v0) @signature `Ljava/io/BufferedWriter;.append:(Ljava/lang/CharSequence;)Ljava/io/Writer;` @kind virtual;
+  #L169902.  v0:= temp @kind object;
+  #L169904.  call temp:= `append`(v0, v2) @signature `Ljava/io/Writer;.append:(C)Ljava/io/Writer;` @kind virtual;
+  #L16990a.  v0:= temp @kind object;
+  #L16990c.  call temp:= `getDataClass`(v4) @signature `Lcom/j256/ormlite/table/DatabaseTableConfig;.getDataClass:()Ljava/lang/Class;` @kind virtual;
+  #L169912.  v1:= temp @kind object;
+  #L169914.  call temp:= `getName`(v1) @signature `Ljava/lang/Class;.getName:()Ljava/lang/String;` @kind virtual;
+  #L16991a.  v1:= temp @kind object;
+  #L16991c.  call temp:= `append`(v0, v1) @signature `Ljava/io/Writer;.append:(Ljava/lang/CharSequence;)Ljava/io/Writer;` @kind virtual;
+  #L169922.  call `newLine`(v3) @signature `Ljava/io/BufferedWriter;.newLine:()V` @kind virtual;
+  #L169928.  call temp:= `getTableName`(v4) @signature `Lcom/j256/ormlite/table/DatabaseTableConfig;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L16992e.  v0:= temp @kind object;
+  #L169930.  if v0 == 0 then goto L16995c;
+  #L169934.  v0:= "tableName" @kind object;
+  #L169938.  call temp:= `append`(v3, v0) @signature `Ljava/io/BufferedWriter;.append:(Ljava/lang/CharSequence;)Ljava/io/Writer;` @kind virtual;
+  #L16993e.  v0:= temp @kind object;
+  #L169940.  call temp:= `append`(v0, v2) @signature `Ljava/io/Writer;.append:(C)Ljava/io/Writer;` @kind virtual;
+  #L169946.  v0:= temp @kind object;
+  #L169948.  call temp:= `getTableName`(v4) @signature `Lcom/j256/ormlite/table/DatabaseTableConfig;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L16994e.  v1:= temp @kind object;
+  #L169950.  call temp:= `append`(v0, v1) @signature `Ljava/io/Writer;.append:(Ljava/lang/CharSequence;)Ljava/io/Writer;` @kind virtual;
+  #L169956.  call `newLine`(v3) @signature `Ljava/io/BufferedWriter;.newLine:()V` @kind virtual;
+  #L16995c.  v0:= "# --table-fields-start--" @kind object;
+  #L169960.  call temp:= `append`(v3, v0) @signature `Ljava/io/BufferedWriter;.append:(Ljava/lang/CharSequence;)Ljava/io/Writer;` @kind virtual;
+  #L169966.  call `newLine`(v3) @signature `Ljava/io/BufferedWriter;.newLine:()V` @kind virtual;
+  #L16996c.  call temp:= `getFieldConfigs`(v4) @signature `Lcom/j256/ormlite/table/DatabaseTableConfig;.getFieldConfigs:()Ljava/util/List;` @kind virtual;
+  #L169972.  v0:= temp @kind object;
+  #L169974.  if v0 == 0 then goto L1699b0;
+  #L169978.  call temp:= `getFieldConfigs`(v4) @signature `Lcom/j256/ormlite/table/DatabaseTableConfig;.getFieldConfigs:()Ljava/util/List;` @kind virtual;
+  #L16997e.  v0:= temp @kind object;
+  #L169980.  call temp:= `iterator`(v0) @signature `Ljava/util/List;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L169986.  v1:= temp @kind object;
+  #L169988.  call temp:= `hasNext`(v1) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L16998e.  v0:= temp;
+  #L169990.  if v0 == 0 then goto L1699b0;
+  #L169994.  call temp:= `next`(v1) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L16999a.  v0:= temp @kind object;
+  #L16999c.  v0:= (`com.j256.ormlite.field.DatabaseFieldConfig`) v0 @kind object;
+  #L1699a0.  call temp:= `getTableName`(v4) @signature `Lcom/j256/ormlite/table/DatabaseTableConfig;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L1699a6.  v2:= temp @kind object;
+  #L1699a8.  call `write`(v3, v0, v2) @signature `Lcom/j256/ormlite/field/DatabaseFieldConfigLoader;.write:(Ljava/io/BufferedWriter;Lcom/j256/ormlite/field/DatabaseFieldConfig;Ljava/lang/String;)V` @kind static;
+  #L1699ae.  goto L169988;
+  #L1699b0.  v0:= "# --table-fields-end--" @kind object;
+  #L1699b4.  call temp:= `append`(v3, v0) @signature `Ljava/io/BufferedWriter;.append:(Ljava/lang/CharSequence;)Ljava/io/Writer;` @kind virtual;
+  #L1699ba.  call `newLine`(v3) @signature `Ljava/io/BufferedWriter;.newLine:()V` @kind virtual;
+  #L1699c0.  v0:= "# --table-end--" @kind object;
+  #L1699c4.  call temp:= `append`(v3, v0) @signature `Ljava/io/BufferedWriter;.append:(Ljava/lang/CharSequence;)Ljava/io/Writer;` @kind virtual;
+  #L1699ca.  call `newLine`(v3) @signature `Ljava/io/BufferedWriter;.newLine:()V` @kind virtual;
+  #L1699d0.  return @kind void;
+}

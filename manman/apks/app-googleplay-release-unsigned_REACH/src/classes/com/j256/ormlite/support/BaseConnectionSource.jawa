@@ -1,0 +1,165 @@
+record `com.j256.ormlite.support.BaseConnectionSource` @kind class @AccessFlag PUBLIC_ABSTRACT extends `com.j256.ormlite.support.ConnectionSource` @kind interface {
+  `java.lang.ThreadLocal` `com.j256.ormlite.support.BaseConnectionSource.specialConnection` @AccessFlag PRIVATE;
+}
+procedure `void` `<init>`(`com.j256.ormlite.support.BaseConnectionSource` v1 @kind this) @signature `Lcom/j256/ormlite/support/BaseConnectionSource;.<init>:()V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L149ea0.  call `<init>`(v1) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L149ea6.  v0:= new `java.lang.ThreadLocal`;
+  #L149eaa.  call `<init>`(v0) @signature `Ljava/lang/ThreadLocal;.<init>:()V` @kind direct;
+  #L149eb0.  v1.`com.j256.ormlite.support.BaseConnectionSource.specialConnection` @type ^`java.lang.ThreadLocal` := v0 @kind object;
+  #L149eb4.  return @kind void;
+}
+procedure `boolean` `clearSpecial`(`com.j256.ormlite.support.BaseConnectionSource` v3 @kind this, `com.j256.ormlite.support.DatabaseConnection` v4 @kind object, `com.j256.ormlite.logger.Logger` v5 @kind object) @signature `Lcom/j256/ormlite/support/BaseConnectionSource;.clearSpecial:(Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/logger/Logger;)Z` @AccessFlag PROTECTED {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L149ec8.  v0:= v3.`com.j256.ormlite.support.BaseConnectionSource.specialConnection` @type ^`java.lang.ThreadLocal` @kind object;
+  #L149ecc.  call temp:= `get`(v0) @signature `Ljava/lang/ThreadLocal;.get:()Ljava/lang/Object;` @kind virtual;
+  #L149ed2.  v0:= temp @kind object;
+  #L149ed4.  v0:= (`com.j256.ormlite.support.BaseConnectionSource$NestedConnection`) v0 @kind object;
+  #L149ed8.  v1:= 0I;
+  #L149eda.  if v4 != 0 then goto L149ee2;
+  #L149ede.  v0:= v1;
+  #L149ee0.  return v0;
+  #L149ee2.  if v0 != 0 then goto L149ef4;
+  #L149ee6.  v0:= "no connection has been saved when clear() called" @kind object;
+  #L149eea.  call `error`(v5, v0) @signature `Lcom/j256/ormlite/logger/Logger;.error:(Ljava/lang/String;)V` @kind virtual;
+  #L149ef0.  v0:= v1;
+  #L149ef2.  goto L149ee0;
+  #L149ef4.  v2:= v0.`com.j256.ormlite.support.BaseConnectionSource$NestedConnection.connection` @type ^`com.j256.ormlite.support.DatabaseConnection` @kind object;
+  #L149ef8.  if v2 != v4 then goto L149f18;
+  #L149efc.  call temp:= `decrementAndGet`(v0) @signature `Lcom/j256/ormlite/support/BaseConnectionSource$NestedConnection;.decrementAndGet:()I` @kind virtual;
+  #L149f02.  v0:= temp;
+  #L149f04.  if v0 != 0 then goto L149f14;
+  #L149f08.  v0:= v3.`com.j256.ormlite.support.BaseConnectionSource.specialConnection` @type ^`java.lang.ThreadLocal` @kind object;
+  #L149f0c.  v1:= 0I;
+  #L149f0e.  call `set`(v0, v1) @signature `Ljava/lang/ThreadLocal;.set:(Ljava/lang/Object;)V` @kind virtual;
+  #L149f14.  v0:= 1I;
+  #L149f16.  goto L149ee0;
+  #L149f18.  v2:= "connection saved {} is not the one being cleared {}" @kind object;
+  #L149f1c.  v0:= v0.`com.j256.ormlite.support.BaseConnectionSource$NestedConnection.connection` @type ^`com.j256.ormlite.support.DatabaseConnection` @kind object;
+  #L149f20.  call `error`(v5, v2, v0, v4) @signature `Lcom/j256/ormlite/logger/Logger;.error:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #L149f26.  v0:= v1;
+  #L149f28.  goto L149ee0;
+}
+procedure `com.j256.ormlite.support.DatabaseConnection` `getSavedConnection`(`com.j256.ormlite.support.BaseConnectionSource` v1 @kind this) @signature `Lcom/j256/ormlite/support/BaseConnectionSource;.getSavedConnection:()Lcom/j256/ormlite/support/DatabaseConnection;` @AccessFlag PROTECTED {
+    temp;
+    v0;
+
+  #L149f3c.  v0:= v1.`com.j256.ormlite.support.BaseConnectionSource.specialConnection` @type ^`java.lang.ThreadLocal` @kind object;
+  #L149f40.  call temp:= `get`(v0) @signature `Ljava/lang/ThreadLocal;.get:()Ljava/lang/Object;` @kind virtual;
+  #L149f46.  v0:= temp @kind object;
+  #L149f48.  v0:= (`com.j256.ormlite.support.BaseConnectionSource$NestedConnection`) v0 @kind object;
+  #L149f4c.  if v0 != 0 then goto L149f54;
+  #L149f50.  v0:= 0I;
+  #L149f52.  return v0 @kind object;
+  #L149f54.  v0:= v0.`com.j256.ormlite.support.BaseConnectionSource$NestedConnection.connection` @type ^`com.j256.ormlite.support.DatabaseConnection` @kind object;
+  #L149f58.  goto L149f52;
+}
+procedure `com.j256.ormlite.support.DatabaseConnection` `getSpecialConnection`(`com.j256.ormlite.support.BaseConnectionSource` v1 @kind this, `java.lang.String` v2 @kind object) @signature `Lcom/j256/ormlite/support/BaseConnectionSource;.getSpecialConnection:(Ljava/lang/String;)Lcom/j256/ormlite/support/DatabaseConnection;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L149f6c.  v0:= v1.`com.j256.ormlite.support.BaseConnectionSource.specialConnection` @type ^`java.lang.ThreadLocal` @kind object;
+  #L149f70.  call temp:= `get`(v0) @signature `Ljava/lang/ThreadLocal;.get:()Ljava/lang/Object;` @kind virtual;
+  #L149f76.  v0:= temp @kind object;
+  #L149f78.  v0:= (`com.j256.ormlite.support.BaseConnectionSource$NestedConnection`) v0 @kind object;
+  #L149f7c.  if v0 != 0 then goto L149f84;
+  #L149f80.  v0:= 0I;
+  #L149f82.  return v0 @kind object;
+  #L149f84.  v0:= v0.`com.j256.ormlite.support.BaseConnectionSource$NestedConnection.connection` @type ^`com.j256.ormlite.support.DatabaseConnection` @kind object;
+  #L149f88.  goto L149f82;
+}
+procedure `boolean` `isSavedConnection`(`com.j256.ormlite.support.BaseConnectionSource` v2 @kind this, `com.j256.ormlite.support.DatabaseConnection` v3 @kind object) @signature `Lcom/j256/ormlite/support/BaseConnectionSource;.isSavedConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)Z` @AccessFlag PROTECTED {
+    temp;
+    v0;
+    v1;
+
+  #L149f9c.  v1:= 0I;
+  #L149f9e.  v0:= v2.`com.j256.ormlite.support.BaseConnectionSource.specialConnection` @type ^`java.lang.ThreadLocal` @kind object;
+  #L149fa2.  call temp:= `get`(v0) @signature `Ljava/lang/ThreadLocal;.get:()Ljava/lang/Object;` @kind virtual;
+  #L149fa8.  v0:= temp @kind object;
+  #L149faa.  v0:= (`com.j256.ormlite.support.BaseConnectionSource$NestedConnection`) v0 @kind object;
+  #L149fae.  if v0 != 0 then goto L149fb6;
+  #L149fb2.  v0:= v1;
+  #L149fb4.  return v0;
+  #L149fb6.  v0:= v0.`com.j256.ormlite.support.BaseConnectionSource$NestedConnection.connection` @type ^`com.j256.ormlite.support.DatabaseConnection` @kind object;
+  #L149fba.  if v0 != v3 then goto L149fc2;
+  #L149fbe.  v0:= 1I;
+  #L149fc0.  goto L149fb4;
+  #L149fc2.  v0:= v1;
+  #L149fc4.  goto L149fb4;
+}
+procedure `boolean` `isSingleConnection`(`com.j256.ormlite.support.BaseConnectionSource` v3 @kind this, `com.j256.ormlite.support.DatabaseConnection` v4 @kind object, `com.j256.ormlite.support.DatabaseConnection` v5 @kind object) @signature `Lcom/j256/ormlite/support/BaseConnectionSource;.isSingleConnection:(Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/support/DatabaseConnection;)Z` @AccessFlag PROTECTED {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L149fd8.  v0:= 0I;
+  #L149fda.  v1:= 1I;
+  #L149fdc.  call `setAutoCommit`(v4, v1) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.setAutoCommit:(Z)V` @kind interface;
+  #L149fe2.  call `setAutoCommit`(v5, v1) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.setAutoCommit:(Z)V` @kind interface;
+  #L149fe8.  v2:= 0I;
+  #Try_start0.  
+  #L149fea.  call `setAutoCommit`(v4, v2) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.setAutoCommit:(Z)V` @kind interface;
+  #L149ff0.  call temp:= `isAutoCommit`(v5) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.isAutoCommit:()Z` @kind interface;
+  #Try_end0.  
+  #L149ff6.  v2:= temp;
+  #L149ff8.  if v2 == 0 then goto L14a004;
+  #L149ffc.  call `setAutoCommit`(v4, v1) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.setAutoCommit:(Z)V` @kind interface;
+  #L14a002.  return v0;
+  #L14a004.  call `setAutoCommit`(v4, v1) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.setAutoCommit:(Z)V` @kind interface;
+  #L14a00a.  v0:= v1;
+  #L14a00c.  goto L14a002;
+  #L14a00e.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L14a010.  call `setAutoCommit`(v4, v1) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.setAutoCommit:(Z)V` @kind interface;
+  #L14a016.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L14a00e;
+}
+procedure `boolean` `saveSpecial`(`com.j256.ormlite.support.BaseConnectionSource` v4 @kind this, `com.j256.ormlite.support.DatabaseConnection` v5 @kind object) @signature `Lcom/j256/ormlite/support/BaseConnectionSource;.saveSpecial:(Lcom/j256/ormlite/support/DatabaseConnection;)Z` @AccessFlag PROTECTED {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L14a034.  v0:= v4.`com.j256.ormlite.support.BaseConnectionSource.specialConnection` @type ^`java.lang.ThreadLocal` @kind object;
+  #L14a038.  call temp:= `get`(v0) @signature `Ljava/lang/ThreadLocal;.get:()Ljava/lang/Object;` @kind virtual;
+  #L14a03e.  v0:= temp @kind object;
+  #L14a040.  v0:= (`com.j256.ormlite.support.BaseConnectionSource$NestedConnection`) v0 @kind object;
+  #L14a044.  if v0 != 0 then goto L14a060;
+  #L14a048.  v0:= v4.`com.j256.ormlite.support.BaseConnectionSource.specialConnection` @type ^`java.lang.ThreadLocal` @kind object;
+  #L14a04c.  v1:= new `com.j256.ormlite.support.BaseConnectionSource$NestedConnection`;
+  #L14a050.  call `<init>`(v1, v5) @signature `Lcom/j256/ormlite/support/BaseConnectionSource$NestedConnection;.<init>:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind direct;
+  #L14a056.  call `set`(v0, v1) @signature `Ljava/lang/ThreadLocal;.set:(Ljava/lang/Object;)V` @kind virtual;
+  #L14a05c.  v0:= 1I;
+  #L14a05e.  return v0;
+  #L14a060.  v1:= v0.`com.j256.ormlite.support.BaseConnectionSource$NestedConnection.connection` @type ^`com.j256.ormlite.support.DatabaseConnection` @kind object;
+  #L14a064.  if v1 == v5 then goto L14a0b2;
+  #L14a068.  v1:= new `java.sql.SQLException`;
+  #L14a06c.  v2:= new `java.lang.StringBuilder`;
+  #L14a070.  call `<init>`(v2) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L14a076.  v3:= "trying to save connection " @kind object;
+  #L14a07a.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14a080.  v2:= temp @kind object;
+  #L14a082.  call temp:= `append`(v2, v5) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14a088.  v2:= temp @kind object;
+  #L14a08a.  v3:= " but already have saved connection " @kind object;
+  #L14a08e.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14a094.  v2:= temp @kind object;
+  #L14a096.  v0:= v0.`com.j256.ormlite.support.BaseConnectionSource$NestedConnection.connection` @type ^`com.j256.ormlite.support.DatabaseConnection` @kind object;
+  #L14a09a.  call temp:= `append`(v2, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14a0a0.  v0:= temp @kind object;
+  #L14a0a2.  call temp:= `toString`(v0) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L14a0a8.  v0:= temp @kind object;
+  #L14a0aa.  call `<init>`(v1, v0) @signature `Ljava/sql/SQLException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L14a0b0.  throw v1;
+  #L14a0b2.  call `increment`(v0) @signature `Lcom/j256/ormlite/support/BaseConnectionSource$NestedConnection;.increment:()V` @kind virtual;
+  #L14a0b8.  v0:= 0I;
+  #L14a0ba.  goto L14a05e;
+}

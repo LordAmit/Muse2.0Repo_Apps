@@ -1,0 +1,1424 @@
+record `com.j256.ormlite.stmt.StatementExecutor` @kind class @AccessFlag PUBLIC extends `com.j256.ormlite.stmt.GenericRowMapper` @kind interface {
+  `java.lang.String` `com.j256.ormlite.stmt.StatementExecutor.countStarQuery` @AccessFlag PRIVATE;
+  `com.j256.ormlite.dao.Dao` `com.j256.ormlite.stmt.StatementExecutor.dao` @AccessFlag PRIVATE_FINAL;
+  `com.j256.ormlite.db.DatabaseType` `com.j256.ormlite.stmt.StatementExecutor.databaseType` @AccessFlag PRIVATE_FINAL;
+  `com.j256.ormlite.field.FieldType`[] `com.j256.ormlite.stmt.StatementExecutor.ifExistsFieldTypes` @AccessFlag PRIVATE;
+  `java.lang.String` `com.j256.ormlite.stmt.StatementExecutor.ifExistsQuery` @AccessFlag PRIVATE;
+  `java.lang.ThreadLocal` `com.j256.ormlite.stmt.StatementExecutor.localIsInBatchMode` @AccessFlag PRIVATE_FINAL;
+  `com.j256.ormlite.stmt.mapped.MappedDelete` `com.j256.ormlite.stmt.StatementExecutor.mappedDelete` @AccessFlag PRIVATE;
+  `com.j256.ormlite.stmt.mapped.MappedCreate` `com.j256.ormlite.stmt.StatementExecutor.mappedInsert` @AccessFlag PRIVATE;
+  `com.j256.ormlite.stmt.mapped.MappedQueryForFieldEq` `com.j256.ormlite.stmt.StatementExecutor.mappedQueryForId` @AccessFlag PRIVATE;
+  `com.j256.ormlite.stmt.mapped.MappedRefresh` `com.j256.ormlite.stmt.StatementExecutor.mappedRefresh` @AccessFlag PRIVATE;
+  `com.j256.ormlite.stmt.mapped.MappedUpdate` `com.j256.ormlite.stmt.StatementExecutor.mappedUpdate` @AccessFlag PRIVATE;
+  `com.j256.ormlite.stmt.mapped.MappedUpdateId` `com.j256.ormlite.stmt.StatementExecutor.mappedUpdateId` @AccessFlag PRIVATE;
+  `com.j256.ormlite.stmt.PreparedQuery` `com.j256.ormlite.stmt.StatementExecutor.preparedQueryForAll` @AccessFlag PRIVATE;
+  `com.j256.ormlite.dao.RawRowMapper` `com.j256.ormlite.stmt.StatementExecutor.rawRowMapper` @AccessFlag PRIVATE;
+  `com.j256.ormlite.table.TableInfo` `com.j256.ormlite.stmt.StatementExecutor.tableInfo` @AccessFlag PRIVATE_FINAL;
+}
+global `com.j256.ormlite.logger.Logger` `@@com.j256.ormlite.stmt.StatementExecutor.logger` @AccessFlag PRIVATE_STATIC;
+global `com.j256.ormlite.field.FieldType`[] `@@com.j256.ormlite.stmt.StatementExecutor.noFieldTypes` @AccessFlag PRIVATE_STATIC_FINAL;
+procedure `void` `<clinit>`() @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.<clinit>:()V` @AccessFlag STATIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L163ab4.  v0:= constclass @type ^`com.j256.ormlite.stmt.StatementExecutor` @kind object;
+  #L163ab8.  call temp:= `getLogger`(v0) @signature `Lcom/j256/ormlite/logger/LoggerFactory;.getLogger:(Ljava/lang/Class;)Lcom/j256/ormlite/logger/Logger;` @kind static;
+  #L163abe.  v0:= temp @kind object;
+  #L163ac0.  `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` := v0 @kind object;
+  #L163ac4.  v0:= 0I;
+  #L163ac6.  v0:= new `com.j256.ormlite.field.FieldType`[v0];
+  #L163aca.  `@@com.j256.ormlite.stmt.StatementExecutor.noFieldTypes` @type ^`com.j256.ormlite.field.FieldType`[] := v0 @kind object;
+  #L163ace.  return @kind void;
+}
+procedure `void` `<init>`(`com.j256.ormlite.stmt.StatementExecutor` v1 @kind this, `com.j256.ormlite.db.DatabaseType` v2 @kind object, `com.j256.ormlite.table.TableInfo` v3 @kind object, `com.j256.ormlite.dao.Dao` v4 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.<init>:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Lcom/j256/ormlite/dao/Dao;)V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L163ae0.  call `<init>`(v1) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L163ae6.  v0:= new `com.j256.ormlite.stmt.StatementExecutor$1`;
+  #L163aea.  call `<init>`(v0, v1) @signature `Lcom/j256/ormlite/stmt/StatementExecutor$1;.<init>:(Lcom/j256/ormlite/stmt/StatementExecutor;)V` @kind direct;
+  #L163af0.  v1.`com.j256.ormlite.stmt.StatementExecutor.localIsInBatchMode` @type ^`java.lang.ThreadLocal` := v0 @kind object;
+  #L163af4.  v1.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` := v2 @kind object;
+  #L163af8.  v1.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` := v3 @kind object;
+  #L163afc.  v1.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` := v4 @kind object;
+  #L163b00.  return @kind void;
+}
+procedure `void` `assignStatementArguments`(`com.j256.ormlite.stmt.StatementExecutor` v3 @kind this, `com.j256.ormlite.support.CompiledStatement` v4 @kind object, `java.lang.String`[] v5 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.assignStatementArguments:(Lcom/j256/ormlite/support/CompiledStatement;[Ljava/lang/String;)V` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L163b14.  v0:= 0I;
+  #L163b16.  v1:= length @variable v5;
+  #L163b18.  if v0 >= v1 then goto L163b30;
+  #L163b1c.  v1:= v5[v0] @kind object;
+  #L163b20.  v2:= `@@com.j256.ormlite.field.SqlType.STRING` @type ^`com.j256.ormlite.field.SqlType` @kind object;
+  #L163b24.  call `setObject`(v4, v0, v1, v2) @signature `Lcom/j256/ormlite/support/CompiledStatement;.setObject:(ILjava/lang/Object;Lcom/j256/ormlite/field/SqlType;)V` @kind interface;
+  #L163b2a.  v0:= v0 + 1;
+  #L163b2e.  goto L163b16;
+  #L163b30.  return @kind void;
+}
+procedure `java.lang.Object` `doCallBatchTasks`(`com.j256.ormlite.stmt.StatementExecutor` v4 @kind this, `com.j256.ormlite.support.ConnectionSource` v5 @kind object, `java.util.concurrent.Callable` v6 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.doCallBatchTasks:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L163b44.  v2:= 0I;
+  #L163b46.  v0:= v4.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L163b4a.  call temp:= `getTableName`(v0) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L163b50.  v0:= temp @kind object;
+  #L163b52.  call temp:= `getReadWriteConnection`(v5, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getReadWriteConnection:(Ljava/lang/String;)Lcom/j256/ormlite/support/DatabaseConnection;` @kind interface;
+  #L163b58.  v3:= temp @kind object;
+  #Try_start0.  
+  #L163b5a.  v0:= v4.`com.j256.ormlite.stmt.StatementExecutor.localIsInBatchMode` @type ^`java.lang.ThreadLocal` @kind object;
+  #L163b5e.  v1:= 1I;
+  #L163b60.  call temp:= `valueOf`(v1) @signature `Ljava/lang/Boolean;.valueOf:(Z)Ljava/lang/Boolean;` @kind static;
+  #L163b66.  v1:= temp @kind object;
+  #L163b68.  call `set`(v0, v1) @signature `Ljava/lang/ThreadLocal;.set:(Ljava/lang/Object;)V` @kind virtual;
+  #L163b6e.  call temp:= `saveSpecialConnection`(v5, v3) @signature `Lcom/j256/ormlite/support/ConnectionSource;.saveSpecialConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)Z` @kind interface;
+  #Try_end0.  
+  #L163b74.  v1:= temp;
+  #Try_start1.  
+  #L163b76.  call temp:= `doCallBatchTasks`(v4, v3, v1, v6) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.doCallBatchTasks:(Lcom/j256/ormlite/support/DatabaseConnection;ZLjava/util/concurrent/Callable;)Ljava/lang/Object;` @kind direct;
+  #Try_end1.  
+  #L163b7c.  v0:= temp @kind object;
+  #L163b7e.  if v1 == 0 then goto L163b88;
+  #L163b82.  call `clearSpecialConnection`(v5, v3) @signature `Lcom/j256/ormlite/support/ConnectionSource;.clearSpecialConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L163b88.  call `releaseConnection`(v5, v3) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L163b8e.  v1:= v4.`com.j256.ormlite.stmt.StatementExecutor.localIsInBatchMode` @type ^`java.lang.ThreadLocal` @kind object;
+  #L163b92.  call temp:= `valueOf`(v2) @signature `Ljava/lang/Boolean;.valueOf:(Z)Ljava/lang/Boolean;` @kind static;
+  #L163b98.  v2:= temp @kind object;
+  #L163b9a.  call `set`(v1, v2) @signature `Ljava/lang/ThreadLocal;.set:(Ljava/lang/Object;)V` @kind virtual;
+  #L163ba0.  v1:= v4.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L163ba4.  if v1 == 0 then goto L163bb2;
+  #L163ba8.  v1:= v4.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L163bac.  call `notifyChanges`(v1) @signature `Lcom/j256/ormlite/dao/Dao;.notifyChanges:()V` @kind interface;
+  #L163bb2.  return v0 @kind object;
+  #L163bb4.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L163bb6.  v1:= v2;
+  #L163bb8.  if v1 == 0 then goto L163bc2;
+  #L163bbc.  call `clearSpecialConnection`(v5, v3) @signature `Lcom/j256/ormlite/support/ConnectionSource;.clearSpecialConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L163bc2.  call `releaseConnection`(v5, v3) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L163bc8.  v1:= v4.`com.j256.ormlite.stmt.StatementExecutor.localIsInBatchMode` @type ^`java.lang.ThreadLocal` @kind object;
+  #L163bcc.  call temp:= `valueOf`(v2) @signature `Ljava/lang/Boolean;.valueOf:(Z)Ljava/lang/Boolean;` @kind static;
+  #L163bd2.  v2:= temp @kind object;
+  #L163bd4.  call `set`(v1, v2) @signature `Ljava/lang/ThreadLocal;.set:(Ljava/lang/Object;)V` @kind virtual;
+  #L163bda.  v1:= v4.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L163bde.  if v1 == 0 then goto L163bec;
+  #L163be2.  v1:= v4.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L163be6.  call `notifyChanges`(v1) @signature `Lcom/j256/ormlite/dao/Dao;.notifyChanges:()V` @kind interface;
+  #L163bec.  throw v0;
+  #L163bee.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L163bf0.  goto L163bb8;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L163bb4;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L163bee;
+}
+procedure `java.lang.Object` `doCallBatchTasks`(`com.j256.ormlite.stmt.StatementExecutor` v4 @kind this, `com.j256.ormlite.support.DatabaseConnection` v5 @kind object, `boolean` v6 , `java.util.concurrent.Callable` v7 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.doCallBatchTasks:(Lcom/j256/ormlite/support/DatabaseConnection;ZLjava/util/concurrent/Callable;)Ljava/lang/Object;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L163c1c.  v1:= 0I;
+  #L163c1e.  v2:= 1I;
+  #L163c20.  v0:= v4.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L163c24.  call temp:= `isBatchUseTransaction`(v0) @signature `Lcom/j256/ormlite/db/DatabaseType;.isBatchUseTransaction:()Z` @kind interface;
+  #L163c2a.  v0:= temp;
+  #L163c2c.  if v0 == 0 then goto L163c3e;
+  #L163c30.  v0:= v4.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L163c34.  call temp:= `callInTransaction`(v5, v6, v0, v7) @signature `Lcom/j256/ormlite/misc/TransactionManager;.callInTransaction:(Lcom/j256/ormlite/support/DatabaseConnection;ZLcom/j256/ormlite/db/DatabaseType;Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @kind static;
+  #L163c3a.  v0:= temp @kind object;
+  #L163c3c.  return v0 @kind object;
+  #Try_start0.  
+  #L163c3e.  call temp:= `isAutoCommitSupported`(v5) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.isAutoCommitSupported:()Z` @kind interface;
+  #L163c44.  v0:= temp;
+  #L163c46.  if v0 == 0 then goto L163c7a;
+  #L163c4a.  call temp:= `isAutoCommit`(v5) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.isAutoCommit:()Z` @kind interface;
+  #L163c50.  v0:= temp;
+  #L163c52.  if v0 == 0 then goto L163c7a;
+  #L163c56.  v0:= 0I;
+  #L163c58.  call `setAutoCommit`(v5, v0) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.setAutoCommit:(Z)V` @kind interface;
+  #Try_end0.  
+  #Try_start1.  
+  #L163c5e.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L163c62.  v1:= "disabled auto-commit on table {} before batch tasks" @kind object;
+  #L163c66.  v3:= v4.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L163c6a.  call temp:= `getTableName`(v3) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L163c70.  v3:= temp @kind object;
+  #L163c72.  call `debug`(v0, v1, v3) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end1.  
+  #L163c78.  v1:= v2;
+  #Try_start2.  
+  #L163c7a.  call temp:= `call`(v7) @signature `Ljava/util/concurrent/Callable;.call:()Ljava/lang/Object;` @kind interface;
+  #Try_end2.  
+  #L163c80.  v0:= temp @kind object;
+  #L163c82.  if v1 == 0 then goto L163c3c;
+  #L163c86.  call `setAutoCommit`(v5, v2) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.setAutoCommit:(Z)V` @kind interface;
+  #L163c8c.  v1:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L163c90.  v2:= "re-enabled auto-commit on table {} after batch tasks" @kind object;
+  #L163c94.  v3:= v4.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L163c98.  call temp:= `getTableName`(v3) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L163c9e.  v3:= temp @kind object;
+  #L163ca0.  call `debug`(v1, v2, v3) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L163ca6.  goto L163c3c;
+  #L163ca8.  v0:= Exception @type ^`java.sql.SQLException` @kind object;
+  #Try_start3.  
+  #L163caa.  throw v0;
+  #Try_end3.  
+  #L163cac.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L163cae.  if v1 == 0 then goto L163cd2;
+  #L163cb2.  call `setAutoCommit`(v5, v2) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.setAutoCommit:(Z)V` @kind interface;
+  #L163cb8.  v1:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L163cbc.  v2:= "re-enabled auto-commit on table {} after batch tasks" @kind object;
+  #L163cc0.  v3:= v4.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L163cc4.  call temp:= `getTableName`(v3) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L163cca.  v3:= temp @kind object;
+  #L163ccc.  call `debug`(v1, v2, v3) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L163cd2.  throw v0;
+  #L163cd4.  v0:= Exception @type ^`java.lang.Exception` @kind object;
+  #Try_start4.  
+  #L163cd6.  v3:= "Batch tasks callable threw non-SQL exception" @kind object;
+  #L163cda.  call temp:= `create`(v3, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L163ce0.  v0:= temp @kind object;
+  #L163ce2.  throw v0;
+  #Try_end4.  
+  #L163ce4.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L163ce6.  v1:= v2;
+  #L163ce8.  goto L163cae;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L163cac;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L163ce4;
+  catch `java.sql.SQLException` @[Try_start2..Try_end2] goto L163ca8;
+  catch `java.lang.Exception` @[Try_start2..Try_end2] goto L163cd4;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L163cac;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L163cac;
+  catch `java.lang.Throwable` @[Try_start4..Try_end4] goto L163cac;
+}
+procedure `void` `prepareQueryForAll`(`com.j256.ormlite.stmt.StatementExecutor` v4 @kind this) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.prepareQueryForAll:()V` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L163d34.  v0:= v4.`com.j256.ormlite.stmt.StatementExecutor.preparedQueryForAll` @type ^`com.j256.ormlite.stmt.PreparedQuery` @kind object;
+  #L163d38.  if v0 != 0 then goto L163d5e;
+  #L163d3c.  v0:= new `com.j256.ormlite.stmt.QueryBuilder`;
+  #L163d40.  v1:= v4.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L163d44.  v2:= v4.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L163d48.  v3:= v4.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L163d4c.  call `<init>`(v0, v1, v2, v3) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.<init>:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Lcom/j256/ormlite/dao/Dao;)V` @kind direct;
+  #L163d52.  call temp:= `prepare`(v0) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.prepare:()Lcom/j256/ormlite/stmt/PreparedQuery;` @kind virtual;
+  #L163d58.  v0:= temp @kind object;
+  #L163d5a.  v4.`com.j256.ormlite.stmt.StatementExecutor.preparedQueryForAll` @type ^`com.j256.ormlite.stmt.PreparedQuery` := v0 @kind object;
+  #L163d5e.  return @kind void;
+}
+procedure `com.j256.ormlite.stmt.SelectIterator` `buildIterator`(`com.j256.ormlite.stmt.StatementExecutor` v6 @kind this, `com.j256.ormlite.dao.BaseDaoImpl` v7 @kind object, `com.j256.ormlite.support.ConnectionSource` v8 @kind object, `int` v9 , `com.j256.ormlite.dao.ObjectCache` v10 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.buildIterator:(Lcom/j256/ormlite/dao/BaseDaoImpl;Lcom/j256/ormlite/support/ConnectionSource;ILcom/j256/ormlite/dao/ObjectCache;)Lcom/j256/ormlite/stmt/SelectIterator;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L163d70.  call `prepareQueryForAll`(v6) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.prepareQueryForAll:()V` @kind direct;
+  #L163d76.  v3:= v6.`com.j256.ormlite.stmt.StatementExecutor.preparedQueryForAll` @type ^`com.j256.ormlite.stmt.PreparedQuery` @kind object;
+  #L163d7a.  v0:= v6 @kind object;
+  #L163d7c.  v1:= v7 @kind object;
+  #L163d7e.  v2:= v8 @kind object;
+  #L163d80.  v4:= v10 @kind object;
+  #L163d82.  v5:= v9;
+  #L163d84.  call temp:= `buildIterator`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.buildIterator:(Lcom/j256/ormlite/dao/BaseDaoImpl;Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/stmt/PreparedStmt;Lcom/j256/ormlite/dao/ObjectCache;I)Lcom/j256/ormlite/stmt/SelectIterator;` @kind virtual;
+  #L163d8a.  v0:= temp @kind object;
+  #L163d8c.  return v0 @kind object;
+}
+procedure `com.j256.ormlite.stmt.SelectIterator` `buildIterator`(`com.j256.ormlite.stmt.StatementExecutor` v10 @kind this, `com.j256.ormlite.dao.BaseDaoImpl` v11 @kind object, `com.j256.ormlite.support.ConnectionSource` v12 @kind object, `com.j256.ormlite.stmt.PreparedStmt` v13 @kind object, `com.j256.ormlite.dao.ObjectCache` v14 @kind object, `int` v15 ) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.buildIterator:(Lcom/j256/ormlite/dao/BaseDaoImpl;Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/stmt/PreparedStmt;Lcom/j256/ormlite/dao/ObjectCache;I)Lcom/j256/ormlite/stmt/SelectIterator;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+
+  #L163da0.  v9:= 0I;
+  #L163da2.  v0:= v10.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L163da6.  call temp:= `getTableName`(v0) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L163dac.  v0:= temp @kind object;
+  #L163dae.  call temp:= `getReadOnlyConnection`(v12, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getReadOnlyConnection:(Ljava/lang/String;)Lcom/j256/ormlite/support/DatabaseConnection;` @kind interface;
+  #L163db4.  v5:= temp @kind object;
+  #Try_start0.  
+  #L163db6.  v0:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.SELECT` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L163dba.  call temp:= `compile`(v13, v5, v0, v15) @signature `Lcom/j256/ormlite/stmt/PreparedStmt;.compile:(Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;I)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #Try_end0.  
+  #L163dc0.  v6:= temp @kind object;
+  #Try_start1.  
+  #L163dc2.  v0:= new `com.j256.ormlite.stmt.SelectIterator`;
+  #L163dc6.  v1:= v10.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L163dca.  call temp:= `getDataClass`(v1) @signature `Lcom/j256/ormlite/table/TableInfo;.getDataClass:()Ljava/lang/Class;` @kind virtual;
+  #L163dd0.  v1:= temp @kind object;
+  #L163dd2.  call temp:= `getStatement`(v13) @signature `Lcom/j256/ormlite/stmt/PreparedStmt;.getStatement:()Ljava/lang/String;` @kind interface;
+  #L163dd8.  v7:= temp @kind object;
+  #L163dda.  v2:= v11 @kind object;
+  #L163ddc.  v3:= v13 @kind object;
+  #L163dde.  v4:= v12 @kind object;
+  #L163de0.  v8:= v14 @kind object;
+  #L163de2.  call `<init>`(v0, v1, v2, v3, v4, v5, v6, v7, v8) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.<init>:(Ljava/lang/Class;Lcom/j256/ormlite/dao/Dao;Lcom/j256/ormlite/stmt/GenericRowMapper;Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/support/CompiledStatement;Ljava/lang/String;Lcom/j256/ormlite/dao/ObjectCache;)V` @kind direct;
+  #Try_end1.  
+  #L163de8.  v1:= "compiled statement" @kind object;
+  #L163dec.  call `closeThrowSqlException`(v9, v1) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L163df2.  if v9 == 0 then goto L163dfc;
+  #L163df6.  call `releaseConnection`(v12, v9) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L163dfc.  return v0 @kind object;
+  #L163dfe.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L163e00.  v6:= v9 @kind object;
+  #L163e02.  v1:= "compiled statement" @kind object;
+  #L163e06.  call `closeThrowSqlException`(v6, v1) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L163e0c.  if v5 == 0 then goto L163e16;
+  #L163e10.  call `releaseConnection`(v12, v5) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L163e16.  throw v0;
+  #L163e18.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L163e1a.  goto L163e02;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L163dfe;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L163e18;
+}
+procedure `java.lang.Object` `callBatchTasks`(`com.j256.ormlite.stmt.StatementExecutor` v1 @kind this, `com.j256.ormlite.support.ConnectionSource` v2 @kind object, `java.util.concurrent.Callable` v3 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.callBatchTasks:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L163e44.  v0:= v1.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L163e48.  call temp:= `getTableName`(v0) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L163e4e.  v0:= temp @kind object;
+  #L163e50.  call temp:= `isSingleConnection`(v2, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.isSingleConnection:(Ljava/lang/String;)Z` @kind interface;
+  #L163e56.  v0:= temp;
+  #L163e58.  if v0 == 0 then goto L163e70;
+  #L163e5c.  @monitorenter v1
+  #Try_start0.  
+  #L163e5e.  call temp:= `doCallBatchTasks`(v1, v2, v3) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.doCallBatchTasks:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @kind direct;
+  #L163e64.  v0:= temp @kind object;
+  #L163e66.  @monitorexit v1
+  #L163e68.  return v0 @kind object;
+  #L163e6a.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L163e6c.  @monitorexit v1
+  #Try_end0.  
+  #L163e6e.  throw v0;
+  #L163e70.  call temp:= `doCallBatchTasks`(v1, v2, v3) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.doCallBatchTasks:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/util/concurrent/Callable;)Ljava/lang/Object;` @kind direct;
+  #L163e76.  v0:= temp @kind object;
+  #L163e78.  goto L163e68;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L163e6a;
+}
+procedure `int` `create`(`com.j256.ormlite.stmt.StatementExecutor` v2 @kind this, `com.j256.ormlite.support.DatabaseConnection` v3 @kind object, `java.lang.Object` v4 @kind object, `com.j256.ormlite.dao.ObjectCache` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.create:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/Object;Lcom/j256/ormlite/dao/ObjectCache;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L163e98.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.mappedInsert` @type ^`com.j256.ormlite.stmt.mapped.MappedCreate` @kind object;
+  #L163e9c.  if v0 != 0 then goto L163eb4;
+  #L163ea0.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L163ea4.  v1:= v2.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L163ea8.  call temp:= `build`(v0, v1) @signature `Lcom/j256/ormlite/stmt/mapped/MappedCreate;.build:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;)Lcom/j256/ormlite/stmt/mapped/MappedCreate;` @kind static;
+  #L163eae.  v0:= temp @kind object;
+  #L163eb0.  v2.`com.j256.ormlite.stmt.StatementExecutor.mappedInsert` @type ^`com.j256.ormlite.stmt.mapped.MappedCreate` := v0 @kind object;
+  #L163eb4.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.mappedInsert` @type ^`com.j256.ormlite.stmt.mapped.MappedCreate` @kind object;
+  #L163eb8.  v1:= v2.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L163ebc.  call temp:= `insert`(v0, v1, v3, v4, v5) @signature `Lcom/j256/ormlite/stmt/mapped/MappedCreate;.insert:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/Object;Lcom/j256/ormlite/dao/ObjectCache;)I` @kind virtual;
+  #L163ec2.  v1:= temp;
+  #L163ec4.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L163ec8.  if v0 == 0 then goto L163ef2;
+  #L163ecc.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.localIsInBatchMode` @type ^`java.lang.ThreadLocal` @kind object;
+  #L163ed0.  call temp:= `get`(v0) @signature `Ljava/lang/ThreadLocal;.get:()Ljava/lang/Object;` @kind virtual;
+  #L163ed6.  v0:= temp @kind object;
+  #L163ed8.  v0:= (`java.lang.Boolean`) v0 @kind object;
+  #L163edc.  call temp:= `booleanValue`(v0) @signature `Ljava/lang/Boolean;.booleanValue:()Z` @kind virtual;
+  #L163ee2.  v0:= temp;
+  #L163ee4.  if v0 != 0 then goto L163ef2;
+  #L163ee8.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L163eec.  call `notifyChanges`(v0) @signature `Lcom/j256/ormlite/dao/Dao;.notifyChanges:()V` @kind interface;
+  #L163ef2.  return v1;
+}
+procedure `int` `delete`(`com.j256.ormlite.stmt.StatementExecutor` v3 @kind this, `com.j256.ormlite.support.DatabaseConnection` v4 @kind object, `com.j256.ormlite.stmt.PreparedDelete` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.delete:(Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/stmt/PreparedDelete;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L163f04.  v0:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.DELETE` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L163f08.  call temp:= `compile`(v5, v4, v0) @signature `Lcom/j256/ormlite/stmt/PreparedDelete;.compile:(Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #L163f0e.  v1:= temp @kind object;
+  #Try_start0.  
+  #L163f10.  call temp:= `runUpdate`(v1) @signature `Lcom/j256/ormlite/support/CompiledStatement;.runUpdate:()I` @kind interface;
+  #L163f16.  v2:= temp;
+  #L163f18.  v0:= v3.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L163f1c.  if v0 == 0 then goto L163f46;
+  #L163f20.  v0:= v3.`com.j256.ormlite.stmt.StatementExecutor.localIsInBatchMode` @type ^`java.lang.ThreadLocal` @kind object;
+  #L163f24.  call temp:= `get`(v0) @signature `Ljava/lang/ThreadLocal;.get:()Ljava/lang/Object;` @kind virtual;
+  #L163f2a.  v0:= temp @kind object;
+  #L163f2c.  v0:= (`java.lang.Boolean`) v0 @kind object;
+  #L163f30.  call temp:= `booleanValue`(v0) @signature `Ljava/lang/Boolean;.booleanValue:()Z` @kind virtual;
+  #L163f36.  v0:= temp;
+  #L163f38.  if v0 != 0 then goto L163f46;
+  #L163f3c.  v0:= v3.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L163f40.  call `notifyChanges`(v0) @signature `Lcom/j256/ormlite/dao/Dao;.notifyChanges:()V` @kind interface;
+  #Try_end0.  
+  #L163f46.  v0:= "compiled statement" @kind object;
+  #L163f4a.  call `closeThrowSqlException`(v1, v0) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L163f50.  return v2;
+  #L163f52.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L163f54.  v2:= "compiled statement" @kind object;
+  #L163f58.  call `closeThrowSqlException`(v1, v2) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L163f5e.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L163f52;
+}
+procedure `int` `delete`(`com.j256.ormlite.stmt.StatementExecutor` v2 @kind this, `com.j256.ormlite.support.DatabaseConnection` v3 @kind object, `java.lang.Object` v4 @kind object, `com.j256.ormlite.dao.ObjectCache` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.delete:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/Object;Lcom/j256/ormlite/dao/ObjectCache;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L163f7c.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.mappedDelete` @type ^`com.j256.ormlite.stmt.mapped.MappedDelete` @kind object;
+  #L163f80.  if v0 != 0 then goto L163f98;
+  #L163f84.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L163f88.  v1:= v2.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L163f8c.  call temp:= `build`(v0, v1) @signature `Lcom/j256/ormlite/stmt/mapped/MappedDelete;.build:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;)Lcom/j256/ormlite/stmt/mapped/MappedDelete;` @kind static;
+  #L163f92.  v0:= temp @kind object;
+  #L163f94.  v2.`com.j256.ormlite.stmt.StatementExecutor.mappedDelete` @type ^`com.j256.ormlite.stmt.mapped.MappedDelete` := v0 @kind object;
+  #L163f98.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.mappedDelete` @type ^`com.j256.ormlite.stmt.mapped.MappedDelete` @kind object;
+  #L163f9c.  call temp:= `delete`(v0, v3, v4, v5) @signature `Lcom/j256/ormlite/stmt/mapped/MappedDelete;.delete:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/Object;Lcom/j256/ormlite/dao/ObjectCache;)I` @kind virtual;
+  #L163fa2.  v1:= temp;
+  #L163fa4.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L163fa8.  if v0 == 0 then goto L163fd2;
+  #L163fac.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.localIsInBatchMode` @type ^`java.lang.ThreadLocal` @kind object;
+  #L163fb0.  call temp:= `get`(v0) @signature `Ljava/lang/ThreadLocal;.get:()Ljava/lang/Object;` @kind virtual;
+  #L163fb6.  v0:= temp @kind object;
+  #L163fb8.  v0:= (`java.lang.Boolean`) v0 @kind object;
+  #L163fbc.  call temp:= `booleanValue`(v0) @signature `Ljava/lang/Boolean;.booleanValue:()Z` @kind virtual;
+  #L163fc2.  v0:= temp;
+  #L163fc4.  if v0 != 0 then goto L163fd2;
+  #L163fc8.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L163fcc.  call `notifyChanges`(v0) @signature `Lcom/j256/ormlite/dao/Dao;.notifyChanges:()V` @kind interface;
+  #L163fd2.  return v1;
+}
+procedure `int` `deleteById`(`com.j256.ormlite.stmt.StatementExecutor` v2 @kind this, `com.j256.ormlite.support.DatabaseConnection` v3 @kind object, `java.lang.Object` v4 @kind object, `com.j256.ormlite.dao.ObjectCache` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.deleteById:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/Object;Lcom/j256/ormlite/dao/ObjectCache;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L163fe4.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.mappedDelete` @type ^`com.j256.ormlite.stmt.mapped.MappedDelete` @kind object;
+  #L163fe8.  if v0 != 0 then goto L164000;
+  #L163fec.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L163ff0.  v1:= v2.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L163ff4.  call temp:= `build`(v0, v1) @signature `Lcom/j256/ormlite/stmt/mapped/MappedDelete;.build:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;)Lcom/j256/ormlite/stmt/mapped/MappedDelete;` @kind static;
+  #L163ffa.  v0:= temp @kind object;
+  #L163ffc.  v2.`com.j256.ormlite.stmt.StatementExecutor.mappedDelete` @type ^`com.j256.ormlite.stmt.mapped.MappedDelete` := v0 @kind object;
+  #L164000.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.mappedDelete` @type ^`com.j256.ormlite.stmt.mapped.MappedDelete` @kind object;
+  #L164004.  call temp:= `deleteById`(v0, v3, v4, v5) @signature `Lcom/j256/ormlite/stmt/mapped/MappedDelete;.deleteById:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/Object;Lcom/j256/ormlite/dao/ObjectCache;)I` @kind virtual;
+  #L16400a.  v1:= temp;
+  #L16400c.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L164010.  if v0 == 0 then goto L16403a;
+  #L164014.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.localIsInBatchMode` @type ^`java.lang.ThreadLocal` @kind object;
+  #L164018.  call temp:= `get`(v0) @signature `Ljava/lang/ThreadLocal;.get:()Ljava/lang/Object;` @kind virtual;
+  #L16401e.  v0:= temp @kind object;
+  #L164020.  v0:= (`java.lang.Boolean`) v0 @kind object;
+  #L164024.  call temp:= `booleanValue`(v0) @signature `Ljava/lang/Boolean;.booleanValue:()Z` @kind virtual;
+  #L16402a.  v0:= temp;
+  #L16402c.  if v0 != 0 then goto L16403a;
+  #L164030.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L164034.  call `notifyChanges`(v0) @signature `Lcom/j256/ormlite/dao/Dao;.notifyChanges:()V` @kind interface;
+  #L16403a.  return v1;
+}
+procedure `int` `deleteIds`(`com.j256.ormlite.stmt.StatementExecutor` v2 @kind this, `com.j256.ormlite.support.DatabaseConnection` v3 @kind object, `java.util.Collection` v4 @kind object, `com.j256.ormlite.dao.ObjectCache` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.deleteIds:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/util/Collection;Lcom/j256/ormlite/dao/ObjectCache;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L16404c.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L164050.  v1:= v2.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L164054.  call temp:= `deleteIds`(v0, v1, v3, v4, v5) @signature `Lcom/j256/ormlite/stmt/mapped/MappedDeleteCollection;.deleteIds:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Lcom/j256/ormlite/support/DatabaseConnection;Ljava/util/Collection;Lcom/j256/ormlite/dao/ObjectCache;)I` @kind static;
+  #L16405a.  v1:= temp;
+  #L16405c.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L164060.  if v0 == 0 then goto L16408a;
+  #L164064.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.localIsInBatchMode` @type ^`java.lang.ThreadLocal` @kind object;
+  #L164068.  call temp:= `get`(v0) @signature `Ljava/lang/ThreadLocal;.get:()Ljava/lang/Object;` @kind virtual;
+  #L16406e.  v0:= temp @kind object;
+  #L164070.  v0:= (`java.lang.Boolean`) v0 @kind object;
+  #L164074.  call temp:= `booleanValue`(v0) @signature `Ljava/lang/Boolean;.booleanValue:()Z` @kind virtual;
+  #L16407a.  v0:= temp;
+  #L16407c.  if v0 != 0 then goto L16408a;
+  #L164080.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L164084.  call `notifyChanges`(v0) @signature `Lcom/j256/ormlite/dao/Dao;.notifyChanges:()V` @kind interface;
+  #L16408a.  return v1;
+}
+procedure `int` `deleteObjects`(`com.j256.ormlite.stmt.StatementExecutor` v2 @kind this, `com.j256.ormlite.support.DatabaseConnection` v3 @kind object, `java.util.Collection` v4 @kind object, `com.j256.ormlite.dao.ObjectCache` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.deleteObjects:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/util/Collection;Lcom/j256/ormlite/dao/ObjectCache;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L16409c.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L1640a0.  v1:= v2.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L1640a4.  call temp:= `deleteObjects`(v0, v1, v3, v4, v5) @signature `Lcom/j256/ormlite/stmt/mapped/MappedDeleteCollection;.deleteObjects:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Lcom/j256/ormlite/support/DatabaseConnection;Ljava/util/Collection;Lcom/j256/ormlite/dao/ObjectCache;)I` @kind static;
+  #L1640aa.  v1:= temp;
+  #L1640ac.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L1640b0.  if v0 == 0 then goto L1640da;
+  #L1640b4.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.localIsInBatchMode` @type ^`java.lang.ThreadLocal` @kind object;
+  #L1640b8.  call temp:= `get`(v0) @signature `Ljava/lang/ThreadLocal;.get:()Ljava/lang/Object;` @kind virtual;
+  #L1640be.  v0:= temp @kind object;
+  #L1640c0.  v0:= (`java.lang.Boolean`) v0 @kind object;
+  #L1640c4.  call temp:= `booleanValue`(v0) @signature `Ljava/lang/Boolean;.booleanValue:()Z` @kind virtual;
+  #L1640ca.  v0:= temp;
+  #L1640cc.  if v0 != 0 then goto L1640da;
+  #L1640d0.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L1640d4.  call `notifyChanges`(v0) @signature `Lcom/j256/ormlite/dao/Dao;.notifyChanges:()V` @kind interface;
+  #L1640da.  return v1;
+}
+procedure `int` `executeRaw`(`com.j256.ormlite.stmt.StatementExecutor` v6 @kind this, `com.j256.ormlite.support.DatabaseConnection` v7 @kind object, `java.lang.String` v8 @kind object, `java.lang.String`[] v9 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.executeRaw:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/String;[Ljava/lang/String;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L1640ec.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L1640f0.  v1:= "running raw execute statement: {}" @kind object;
+  #L1640f4.  call `debug`(v0, v1, v8) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L1640fa.  v0:= length @variable v9;
+  #L1640fc.  if v0 <= 0 then goto L16410e;
+  #L164100.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L164104.  v1:= "execute arguments: {}" @kind object;
+  #L164108.  call `trace`(v0, v1, v9) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L16410e.  v2:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.EXECUTE` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L164112.  v3:= `@@com.j256.ormlite.stmt.StatementExecutor.noFieldTypes` @type ^`com.j256.ormlite.field.FieldType`[] @kind object;
+  #L164116.  v4:= -1I;
+  #L164118.  v5:= 0I;
+  #L16411a.  v0:= v7 @kind object;
+  #L16411c.  v1:= v8 @kind object;
+  #L16411e.  call temp:= `compileStatement`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.compileStatement:(Ljava/lang/String;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;[Lcom/j256/ormlite/field/FieldType;IZ)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #L164124.  v1:= temp @kind object;
+  #Try_start0.  
+  #L164126.  call `assignStatementArguments`(v6, v1, v9) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.assignStatementArguments:(Lcom/j256/ormlite/support/CompiledStatement;[Ljava/lang/String;)V` @kind direct;
+  #L16412c.  call temp:= `runExecute`(v1) @signature `Lcom/j256/ormlite/support/CompiledStatement;.runExecute:()I` @kind interface;
+  #Try_end0.  
+  #L164132.  v0:= temp;
+  #L164134.  v2:= "compiled statement" @kind object;
+  #L164138.  call `closeThrowSqlException`(v1, v2) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L16413e.  return v0;
+  #L164140.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L164142.  v2:= "compiled statement" @kind object;
+  #L164146.  call `closeThrowSqlException`(v1, v2) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L16414c.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L164140;
+}
+procedure `int` `executeRawNoArgs`(`com.j256.ormlite.stmt.StatementExecutor` v2 @kind this, `com.j256.ormlite.support.DatabaseConnection` v3 @kind object, `java.lang.String` v4 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.executeRawNoArgs:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/String;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L16416c.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L164170.  v1:= "running raw execute statement: {}" @kind object;
+  #L164174.  call `debug`(v0, v1, v4) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L16417a.  v0:= -1I;
+  #L16417c.  call temp:= `executeStatement`(v3, v4, v0) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.executeStatement:(Ljava/lang/String;I)I` @kind interface;
+  #L164182.  v0:= temp;
+  #L164184.  return v0;
+}
+procedure `com.j256.ormlite.dao.RawRowMapper` `getRawRowMapper`(`com.j256.ormlite.stmt.StatementExecutor` v2 @kind this) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.getRawRowMapper:()Lcom/j256/ormlite/dao/RawRowMapper;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L164198.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.rawRowMapper` @type ^`com.j256.ormlite.dao.RawRowMapper` @kind object;
+  #L16419c.  if v0 != 0 then goto L1641b2;
+  #L1641a0.  v0:= new `com.j256.ormlite.stmt.RawRowMapperImpl`;
+  #L1641a4.  v1:= v2.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L1641a8.  call `<init>`(v0, v1) @signature `Lcom/j256/ormlite/stmt/RawRowMapperImpl;.<init>:(Lcom/j256/ormlite/table/TableInfo;)V` @kind direct;
+  #L1641ae.  v2.`com.j256.ormlite.stmt.StatementExecutor.rawRowMapper` @type ^`com.j256.ormlite.dao.RawRowMapper` := v0 @kind object;
+  #L1641b2.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.rawRowMapper` @type ^`com.j256.ormlite.dao.RawRowMapper` @kind object;
+  #L1641b6.  return v0 @kind object;
+}
+procedure `com.j256.ormlite.stmt.GenericRowMapper` `getSelectStarRowMapper`(`com.j256.ormlite.stmt.StatementExecutor` v1 @kind this) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.getSelectStarRowMapper:()Lcom/j256/ormlite/stmt/GenericRowMapper;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L1641c8.  call `prepareQueryForAll`(v1) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.prepareQueryForAll:()V` @kind direct;
+  #L1641ce.  v0:= v1.`com.j256.ormlite.stmt.StatementExecutor.preparedQueryForAll` @type ^`com.j256.ormlite.stmt.PreparedQuery` @kind object;
+  #L1641d2.  return v0 @kind object;
+}
+procedure `boolean` `ifExists`(`com.j256.ormlite.stmt.StatementExecutor` v8 @kind this, `com.j256.ormlite.support.DatabaseConnection` v9 @kind object, `java.lang.Object` v10 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.ifExists:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/Object;)Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+
+  #L1641e4.  v0:= 1I;
+  #L1641e6.  v1:= 0I;
+  #L1641e8.  v2:= v8.`com.j256.ormlite.stmt.StatementExecutor.ifExistsQuery` @type ^`java.lang.String` @kind object;
+  #L1641ec.  if v2 != 0 then goto L164268;
+  #L1641f0.  v2:= new `com.j256.ormlite.stmt.QueryBuilder`;
+  #L1641f4.  v3:= v8.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L1641f8.  v4:= v8.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L1641fc.  v5:= v8.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L164200.  call `<init>`(v2, v3, v4, v5) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.<init>:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Lcom/j256/ormlite/dao/Dao;)V` @kind direct;
+  #L164206.  v3:= new `java.lang.String`[v0];
+  #L16420a.  v4:= "COUNT(*)" @kind object;
+  #L16420e.  v3[v1]:= v4 @kind object;
+  #L164212.  call temp:= `selectRaw`(v2, v3) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.selectRaw:([Ljava/lang/String;)Lcom/j256/ormlite/stmt/QueryBuilder;` @kind virtual;
+  #L164218.  call temp:= `where`(v2) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.where:()Lcom/j256/ormlite/stmt/Where;` @kind virtual;
+  #L16421e.  v3:= temp @kind object;
+  #L164220.  v4:= v8.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L164224.  call temp:= `getIdField`(v4) @signature `Lcom/j256/ormlite/table/TableInfo;.getIdField:()Lcom/j256/ormlite/field/FieldType;` @kind virtual;
+  #L16422a.  v4:= temp @kind object;
+  #L16422c.  call temp:= `getColumnName`(v4) @signature `Lcom/j256/ormlite/field/FieldType;.getColumnName:()Ljava/lang/String;` @kind virtual;
+  #L164232.  v4:= temp @kind object;
+  #L164234.  v5:= new `com.j256.ormlite.stmt.SelectArg`;
+  #L164238.  call `<init>`(v5) @signature `Lcom/j256/ormlite/stmt/SelectArg;.<init>:()V` @kind direct;
+  #L16423e.  call temp:= `eq`(v3, v4, v5) @signature `Lcom/j256/ormlite/stmt/Where;.eq:(Ljava/lang/String;Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @kind virtual;
+  #L164244.  call temp:= `prepareStatementString`(v2) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.prepareStatementString:()Ljava/lang/String;` @kind virtual;
+  #L16424a.  v2:= temp @kind object;
+  #L16424c.  v8.`com.j256.ormlite.stmt.StatementExecutor.ifExistsQuery` @type ^`java.lang.String` := v2 @kind object;
+  #L164250.  v2:= new `com.j256.ormlite.field.FieldType`[v0];
+  #L164254.  v3:= v8.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L164258.  call temp:= `getIdField`(v3) @signature `Lcom/j256/ormlite/table/TableInfo;.getIdField:()Lcom/j256/ormlite/field/FieldType;` @kind virtual;
+  #L16425e.  v3:= temp @kind object;
+  #L164260.  v2[v1]:= v3 @kind object;
+  #L164264.  v8.`com.j256.ormlite.stmt.StatementExecutor.ifExistsFieldTypes` @type ^`com.j256.ormlite.field.FieldType`[] := v2 @kind object;
+  #L164268.  v2:= v8.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L16426c.  call temp:= `getIdField`(v2) @signature `Lcom/j256/ormlite/table/TableInfo;.getIdField:()Lcom/j256/ormlite/field/FieldType;` @kind virtual;
+  #L164272.  v2:= temp @kind object;
+  #L164274.  call temp:= `convertJavaFieldToSqlArgValue`(v2, v10) @signature `Lcom/j256/ormlite/field/FieldType;.convertJavaFieldToSqlArgValue:(Ljava/lang/Object;)Ljava/lang/Object;` @kind virtual;
+  #L16427a.  v2:= temp @kind object;
+  #L16427c.  v3:= v8.`com.j256.ormlite.stmt.StatementExecutor.ifExistsQuery` @type ^`java.lang.String` @kind object;
+  #L164280.  v4:= new `java.lang.Object`[v0];
+  #L164284.  v4[v1]:= v2 @kind object;
+  #L164288.  v2:= v8.`com.j256.ormlite.stmt.StatementExecutor.ifExistsFieldTypes` @type ^`com.j256.ormlite.field.FieldType`[] @kind object;
+  #L16428c.  call temp:= `queryForLong`(v9, v3, v4, v2) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.queryForLong:(Ljava/lang/String;[Ljava/lang/Object;[Lcom/j256/ormlite/field/FieldType;)J` @kind interface;
+  #L164292.  v2:= temp @kind wide;
+  #L164294.  v4:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L164298.  v5:= "query of '{}' returned {}" @kind object;
+  #L16429c.  v6:= v8.`com.j256.ormlite.stmt.StatementExecutor.ifExistsQuery` @type ^`java.lang.String` @kind object;
+  #L1642a0.  call temp:= `valueOf`(v2) @signature `Ljava/lang/Long;.valueOf:(J)Ljava/lang/Long;` @kind static;
+  #L1642a6.  v7:= temp @kind object;
+  #L1642a8.  call `debug`(v4, v5, v6, v7) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #L1642ae.  v4:= 0L;
+  #L1642b2.  v2:= lcmp(v2, v4);
+  #L1642b6.  if v2 == 0 then goto L1642bc;
+  #L1642ba.  return v0;
+  #L1642bc.  v0:= v1;
+  #L1642be.  goto L1642ba;
+}
+procedure `java.lang.Object` `mapRow`(`com.j256.ormlite.stmt.StatementExecutor` v1 @kind this, `com.j256.ormlite.support.DatabaseResults` v2 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.mapRow:(Lcom/j256/ormlite/support/DatabaseResults;)Ljava/lang/Object;` @AccessFlag PUBLIC_SYNTHETIC {
+    temp;
+    v0;
+
+  #L1642d0.  call temp:= `mapRow`(v1, v2) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.mapRow:(Lcom/j256/ormlite/support/DatabaseResults;)[Ljava/lang/String;` @kind virtual;
+  #L1642d6.  v0:= temp @kind object;
+  #L1642d8.  return v0 @kind object;
+}
+procedure `java.lang.String`[] `mapRow`(`com.j256.ormlite.stmt.StatementExecutor` v4 @kind this, `com.j256.ormlite.support.DatabaseResults` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.mapRow:(Lcom/j256/ormlite/support/DatabaseResults;)[Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L1642ec.  call temp:= `getColumnCount`(v5) @signature `Lcom/j256/ormlite/support/DatabaseResults;.getColumnCount:()I` @kind interface;
+  #L1642f2.  v1:= temp;
+  #L1642f4.  v2:= new `java.lang.String`[v1];
+  #L1642f8.  v0:= 0I;
+  #L1642fa.  if v0 >= v1 then goto L164310;
+  #L1642fe.  call temp:= `getString`(v5, v0) @signature `Lcom/j256/ormlite/support/DatabaseResults;.getString:(I)Ljava/lang/String;` @kind interface;
+  #L164304.  v3:= temp @kind object;
+  #L164306.  v2[v0]:= v3 @kind object;
+  #L16430a.  v0:= v0 + 1;
+  #L16430e.  goto L1642fa;
+  #L164310.  return v2 @kind object;
+}
+procedure `java.util.List` `query`(`com.j256.ormlite.stmt.StatementExecutor` v6 @kind this, `com.j256.ormlite.support.ConnectionSource` v7 @kind object, `com.j256.ormlite.stmt.PreparedStmt` v8 @kind object, `com.j256.ormlite.dao.ObjectCache` v9 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.query:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/stmt/PreparedStmt;Lcom/j256/ormlite/dao/ObjectCache;)Ljava/util/List;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L164324.  v1:= 0I;
+  #L164326.  v5:= -1I;
+  #L164328.  v0:= v6 @kind object;
+  #L16432a.  v2:= v7 @kind object;
+  #L16432c.  v3:= v8 @kind object;
+  #L16432e.  v4:= v9 @kind object;
+  #L164330.  call temp:= `buildIterator`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.buildIterator:(Lcom/j256/ormlite/dao/BaseDaoImpl;Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/stmt/PreparedStmt;Lcom/j256/ormlite/dao/ObjectCache;I)Lcom/j256/ormlite/stmt/SelectIterator;` @kind virtual;
+  #L164336.  v1:= temp @kind object;
+  #Try_start0.  
+  #L164338.  v0:= new `java.util.ArrayList`;
+  #L16433c.  call `<init>`(v0) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L164342.  call temp:= `hasNextThrow`(v1) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.hasNextThrow:()Z` @kind virtual;
+  #L164348.  v2:= temp;
+  #L16434a.  if v2 == 0 then goto L16436c;
+  #L16434e.  call temp:= `nextThrow`(v1) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.nextThrow:()Ljava/lang/Object;` @kind virtual;
+  #L164354.  v2:= temp @kind object;
+  #L164356.  call temp:= `add`(v0, v2) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #Try_end0.  
+  #L16435c.  goto L164342;
+  #L16435e.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L164360.  v2:= "iterator" @kind object;
+  #L164364.  call `closeThrowSqlException`(v1, v2) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L16436a.  throw v0;
+  #Try_start1.  
+  #L16436c.  v2:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L164370.  v3:= "query of '{}' returned {} results" @kind object;
+  #L164374.  call temp:= `getStatement`(v8) @signature `Lcom/j256/ormlite/stmt/PreparedStmt;.getStatement:()Ljava/lang/String;` @kind interface;
+  #L16437a.  v4:= temp @kind object;
+  #L16437c.  call temp:= `size`(v0) @signature `Ljava/util/List;.size:()I` @kind interface;
+  #L164382.  v5:= temp;
+  #L164384.  call temp:= `valueOf`(v5) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L16438a.  v5:= temp @kind object;
+  #L16438c.  call `debug`(v2, v3, v4, v5) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end1.  
+  #L164392.  v2:= "iterator" @kind object;
+  #L164396.  call `closeThrowSqlException`(v1, v2) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L16439c.  return v0 @kind object;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L16435e;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L16435e;
+}
+procedure `java.util.List` `queryForAll`(`com.j256.ormlite.stmt.StatementExecutor` v1 @kind this, `com.j256.ormlite.support.ConnectionSource` v2 @kind object, `com.j256.ormlite.dao.ObjectCache` v3 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.queryForAll:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/dao/ObjectCache;)Ljava/util/List;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L1643c4.  call `prepareQueryForAll`(v1) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.prepareQueryForAll:()V` @kind direct;
+  #L1643ca.  v0:= v1.`com.j256.ormlite.stmt.StatementExecutor.preparedQueryForAll` @type ^`com.j256.ormlite.stmt.PreparedQuery` @kind object;
+  #L1643ce.  call temp:= `query`(v1, v2, v0, v3) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.query:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/stmt/PreparedStmt;Lcom/j256/ormlite/dao/ObjectCache;)Ljava/util/List;` @kind virtual;
+  #L1643d4.  v0:= temp @kind object;
+  #L1643d6.  return v0 @kind object;
+}
+procedure `long` `queryForCountStar`(`com.j256.ormlite.stmt.StatementExecutor` v6 @kind this, `com.j256.ormlite.support.DatabaseConnection` v7 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.queryForCountStar:(Lcom/j256/ormlite/support/DatabaseConnection;)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L1643e8.  v0:= v6.`com.j256.ormlite.stmt.StatementExecutor.countStarQuery` @type ^`java.lang.String` @kind object;
+  #L1643ec.  if v0 != 0 then goto L16442a;
+  #L1643f0.  v0:= new `java.lang.StringBuilder`;
+  #L1643f4.  v1:= 64I;
+  #L1643f8.  call `<init>`(v0, v1) @signature `Ljava/lang/StringBuilder;.<init>:(I)V` @kind direct;
+  #L1643fe.  v1:= "SELECT COUNT(*) FROM " @kind object;
+  #L164402.  call temp:= `append`(v0, v1) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L164408.  v1:= v6.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L16440c.  v2:= v6.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L164410.  call temp:= `getTableName`(v2) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L164416.  v2:= temp @kind object;
+  #L164418.  call `appendEscapedEntityName`(v1, v0, v2) @signature `Lcom/j256/ormlite/db/DatabaseType;.appendEscapedEntityName:(Ljava/lang/StringBuilder;Ljava/lang/String;)V` @kind interface;
+  #L16441e.  call temp:= `toString`(v0) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L164424.  v0:= temp @kind object;
+  #L164426.  v6.`com.j256.ormlite.stmt.StatementExecutor.countStarQuery` @type ^`java.lang.String` := v0 @kind object;
+  #L16442a.  v0:= v6.`com.j256.ormlite.stmt.StatementExecutor.countStarQuery` @type ^`java.lang.String` @kind object;
+  #L16442e.  call temp:= `queryForLong`(v7, v0) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.queryForLong:(Ljava/lang/String;)J` @kind interface;
+  #L164434.  v0:= temp @kind wide;
+  #L164436.  v2:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L16443a.  v3:= "query of '{}' returned {}" @kind object;
+  #L16443e.  v4:= v6.`com.j256.ormlite.stmt.StatementExecutor.countStarQuery` @type ^`java.lang.String` @kind object;
+  #L164442.  call temp:= `valueOf`(v0) @signature `Ljava/lang/Long;.valueOf:(J)Ljava/lang/Long;` @kind static;
+  #L164448.  v5:= temp @kind object;
+  #L16444a.  call `debug`(v2, v3, v4, v5) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #L164450.  return v0 @kind wide;
+}
+procedure `java.lang.Object` `queryForFirst`(`com.j256.ormlite.stmt.StatementExecutor` v7 @kind this, `com.j256.ormlite.support.DatabaseConnection` v8 @kind object, `com.j256.ormlite.stmt.PreparedStmt` v9 @kind object, `com.j256.ormlite.dao.ObjectCache` v10 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.queryForFirst:(Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/stmt/PreparedStmt;Lcom/j256/ormlite/dao/ObjectCache;)Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L164464.  v0:= 0I;
+  #L164466.  v1:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.SELECT` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L16446a.  call temp:= `compile`(v9, v8, v1) @signature `Lcom/j256/ormlite/stmt/PreparedStmt;.compile:(Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #L164470.  v2:= temp @kind object;
+  #L164472.  v1:= 1I;
+  #Try_start0.  
+  #L164474.  call `setMaxRows`(v2, v1) @signature `Lcom/j256/ormlite/support/CompiledStatement;.setMaxRows:(I)V` @kind interface;
+  #L16447a.  call temp:= `runQuery`(v2, v10) @signature `Lcom/j256/ormlite/support/CompiledStatement;.runQuery:(Lcom/j256/ormlite/dao/ObjectCache;)Lcom/j256/ormlite/support/DatabaseResults;` @kind interface;
+  #Try_end0.  
+  #L164480.  v1:= temp @kind object;
+  #Try_start1.  
+  #L164482.  call temp:= `first`(v1) @signature `Lcom/j256/ormlite/support/DatabaseResults;.first:()Z` @kind interface;
+  #L164488.  v3:= temp;
+  #L16448a.  if v3 == 0 then goto L1644c2;
+  #L16448e.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L164492.  v3:= "query-for-first of '{}' returned at least 1 result" @kind object;
+  #L164496.  call temp:= `getStatement`(v9) @signature `Lcom/j256/ormlite/stmt/PreparedStmt;.getStatement:()Ljava/lang/String;` @kind interface;
+  #L16449c.  v4:= temp @kind object;
+  #L16449e.  call `debug`(v0, v3, v4) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L1644a4.  call temp:= `mapRow`(v9, v1) @signature `Lcom/j256/ormlite/stmt/PreparedStmt;.mapRow:(Lcom/j256/ormlite/support/DatabaseResults;)Ljava/lang/Object;` @kind interface;
+  #Try_end1.  
+  #L1644aa.  v0:= temp @kind object;
+  #L1644ac.  v3:= "results" @kind object;
+  #L1644b0.  call `closeThrowSqlException`(v1, v3) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L1644b6.  v1:= "compiled statement" @kind object;
+  #L1644ba.  call `closeThrowSqlException`(v2, v1) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L1644c0.  return v0 @kind object;
+  #Try_start2.  
+  #L1644c2.  v3:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L1644c6.  v4:= "query-for-first of '{}' returned at 0 results" @kind object;
+  #L1644ca.  call temp:= `getStatement`(v9) @signature `Lcom/j256/ormlite/stmt/PreparedStmt;.getStatement:()Ljava/lang/String;` @kind interface;
+  #L1644d0.  v5:= temp @kind object;
+  #L1644d2.  call `debug`(v3, v4, v5) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end2.  
+  #L1644d8.  v3:= "results" @kind object;
+  #L1644dc.  call `closeThrowSqlException`(v1, v3) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L1644e2.  v1:= "compiled statement" @kind object;
+  #L1644e6.  call `closeThrowSqlException`(v2, v1) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L1644ec.  goto L1644c0;
+  #L1644ee.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1644f0.  v6:= v1 @kind object;
+  #L1644f2.  v1:= v0 @kind object;
+  #L1644f4.  v0:= v6 @kind object;
+  #L1644f6.  v3:= "results" @kind object;
+  #L1644fa.  call `closeThrowSqlException`(v1, v3) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L164500.  v1:= "compiled statement" @kind object;
+  #L164504.  call `closeThrowSqlException`(v2, v1) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L16450a.  throw v0;
+  #L16450c.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L16450e.  goto L1644f6;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1644ee;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L16450c;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L16450c;
+}
+procedure `java.lang.Object` `queryForId`(`com.j256.ormlite.stmt.StatementExecutor` v3 @kind this, `com.j256.ormlite.support.DatabaseConnection` v4 @kind object, `java.lang.Object` v5 @kind object, `com.j256.ormlite.dao.ObjectCache` v6 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.queryForId:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/Object;Lcom/j256/ormlite/dao/ObjectCache;)Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L164540.  v0:= v3.`com.j256.ormlite.stmt.StatementExecutor.mappedQueryForId` @type ^`com.j256.ormlite.stmt.mapped.MappedQueryForFieldEq` @kind object;
+  #L164544.  if v0 != 0 then goto L16455e;
+  #L164548.  v0:= v3.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L16454c.  v1:= v3.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L164550.  v2:= 0I;
+  #L164552.  call temp:= `build`(v0, v1, v2) @signature `Lcom/j256/ormlite/stmt/mapped/MappedQueryForFieldEq;.build:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;Lcom/j256/ormlite/field/FieldType;)Lcom/j256/ormlite/stmt/mapped/MappedQueryForFieldEq;` @kind static;
+  #L164558.  v0:= temp @kind object;
+  #L16455a.  v3.`com.j256.ormlite.stmt.StatementExecutor.mappedQueryForId` @type ^`com.j256.ormlite.stmt.mapped.MappedQueryForFieldEq` := v0 @kind object;
+  #L16455e.  v0:= v3.`com.j256.ormlite.stmt.StatementExecutor.mappedQueryForId` @type ^`com.j256.ormlite.stmt.mapped.MappedQueryForFieldEq` @kind object;
+  #L164562.  call temp:= `execute`(v0, v4, v5, v6) @signature `Lcom/j256/ormlite/stmt/mapped/MappedQueryForFieldEq;.execute:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/Object;Lcom/j256/ormlite/dao/ObjectCache;)Ljava/lang/Object;` @kind virtual;
+  #L164568.  v0:= temp @kind object;
+  #L16456a.  return v0 @kind object;
+}
+procedure `long` `queryForLong`(`com.j256.ormlite.stmt.StatementExecutor` v6 @kind this, `com.j256.ormlite.support.DatabaseConnection` v7 @kind object, `com.j256.ormlite.stmt.PreparedStmt` v8 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.queryForLong:(Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/stmt/PreparedStmt;)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L16457c.  v1:= 0I;
+  #L16457e.  v0:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.SELECT_LONG` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L164582.  call temp:= `compile`(v8, v7, v0) @signature `Lcom/j256/ormlite/stmt/PreparedStmt;.compile:(Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #L164588.  v2:= temp @kind object;
+  #L16458a.  v0:= 0I;
+  #Try_start0.  
+  #L16458c.  call temp:= `runQuery`(v2, v0) @signature `Lcom/j256/ormlite/support/CompiledStatement;.runQuery:(Lcom/j256/ormlite/dao/ObjectCache;)Lcom/j256/ormlite/support/DatabaseResults;` @kind interface;
+  #L164592.  v1:= temp @kind object;
+  #L164594.  call temp:= `first`(v1) @signature `Lcom/j256/ormlite/support/DatabaseResults;.first:()Z` @kind interface;
+  #L16459a.  v0:= temp;
+  #L16459c.  if v0 == 0 then goto L1645c0;
+  #L1645a0.  v0:= 0I;
+  #L1645a2.  call temp:= `getLong`(v1, v0) @signature `Lcom/j256/ormlite/support/DatabaseResults;.getLong:(I)J` @kind interface;
+  #Try_end0.  
+  #L1645a8.  v4:= temp @kind wide;
+  #L1645aa.  v0:= "results" @kind object;
+  #L1645ae.  call `closeThrowSqlException`(v1, v0) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L1645b4.  v0:= "compiled statement" @kind object;
+  #L1645b8.  call `closeThrowSqlException`(v2, v0) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L1645be.  return v4 @kind wide;
+  #Try_start1.  
+  #L1645c0.  v0:= new `java.sql.SQLException`;
+  #L1645c4.  v3:= new `java.lang.StringBuilder`;
+  #L1645c8.  call `<init>`(v3) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1645ce.  v4:= "No result found in queryForLong: " @kind object;
+  #L1645d2.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1645d8.  v3:= temp @kind object;
+  #L1645da.  call temp:= `getStatement`(v8) @signature `Lcom/j256/ormlite/stmt/PreparedStmt;.getStatement:()Ljava/lang/String;` @kind interface;
+  #L1645e0.  v4:= temp @kind object;
+  #L1645e2.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1645e8.  v3:= temp @kind object;
+  #L1645ea.  call temp:= `toString`(v3) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1645f0.  v3:= temp @kind object;
+  #L1645f2.  call `<init>`(v0, v3) @signature `Ljava/sql/SQLException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1645f8.  throw v0;
+  #Try_end1.  
+  #L1645fa.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1645fc.  v3:= "results" @kind object;
+  #L164600.  call `closeThrowSqlException`(v1, v3) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L164606.  v1:= "compiled statement" @kind object;
+  #L16460a.  call `closeThrowSqlException`(v2, v1) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L164610.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1645fa;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L1645fa;
+}
+procedure `long` `queryForLong`(`com.j256.ormlite.stmt.StatementExecutor` v7 @kind this, `com.j256.ormlite.support.DatabaseConnection` v8 @kind object, `java.lang.String` v9 @kind object, `java.lang.String`[] v10 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.queryForLong:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/String;[Ljava/lang/String;)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L164638.  v6:= 0I;
+  #L16463a.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L16463e.  v1:= "executing raw query for long: {}" @kind object;
+  #L164642.  call `debug`(v0, v1, v9) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L164648.  v0:= length @variable v10;
+  #L16464a.  if v0 <= 0 then goto L16465c;
+  #L16464e.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L164652.  v1:= "query arguments: {}" @kind object;
+  #L164656.  call `trace`(v0, v1, v10) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #Try_start0.  
+  #L16465c.  v2:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.SELECT` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L164660.  v3:= `@@com.j256.ormlite.stmt.StatementExecutor.noFieldTypes` @type ^`com.j256.ormlite.field.FieldType`[] @kind object;
+  #L164664.  v4:= -1I;
+  #L164666.  v5:= 0I;
+  #L164668.  v0:= v8 @kind object;
+  #L16466a.  v1:= v9 @kind object;
+  #L16466c.  call temp:= `compileStatement`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.compileStatement:(Ljava/lang/String;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;[Lcom/j256/ormlite/field/FieldType;IZ)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #Try_end0.  
+  #L164672.  v2:= temp @kind object;
+  #Try_start1.  
+  #L164674.  call `assignStatementArguments`(v7, v2, v10) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.assignStatementArguments:(Lcom/j256/ormlite/support/CompiledStatement;[Ljava/lang/String;)V` @kind direct;
+  #L16467a.  v0:= 0I;
+  #L16467c.  call temp:= `runQuery`(v2, v0) @signature `Lcom/j256/ormlite/support/CompiledStatement;.runQuery:(Lcom/j256/ormlite/dao/ObjectCache;)Lcom/j256/ormlite/support/DatabaseResults;` @kind interface;
+  #Try_end1.  
+  #L164682.  v1:= temp @kind object;
+  #Try_start2.  
+  #L164684.  call temp:= `first`(v1) @signature `Lcom/j256/ormlite/support/DatabaseResults;.first:()Z` @kind interface;
+  #L16468a.  v0:= temp;
+  #L16468c.  if v0 == 0 then goto L1646b0;
+  #L164690.  v0:= 0I;
+  #L164692.  call temp:= `getLong`(v1, v0) @signature `Lcom/j256/ormlite/support/DatabaseResults;.getLong:(I)J` @kind interface;
+  #Try_end2.  
+  #L164698.  v4:= temp @kind wide;
+  #L16469a.  v0:= "results" @kind object;
+  #L16469e.  call `closeThrowSqlException`(v1, v0) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L1646a4.  v0:= "compiled statement" @kind object;
+  #L1646a8.  call `closeThrowSqlException`(v2, v0) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L1646ae.  return v4 @kind wide;
+  #Try_start3.  
+  #L1646b0.  v0:= new `java.sql.SQLException`;
+  #L1646b4.  v3:= new `java.lang.StringBuilder`;
+  #L1646b8.  call `<init>`(v3) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1646be.  v4:= "No result found in queryForLong: " @kind object;
+  #L1646c2.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1646c8.  v3:= temp @kind object;
+  #L1646ca.  call temp:= `append`(v3, v9) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1646d0.  v3:= temp @kind object;
+  #L1646d2.  call temp:= `toString`(v3) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1646d8.  v3:= temp @kind object;
+  #L1646da.  call `<init>`(v0, v3) @signature `Ljava/sql/SQLException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1646e0.  throw v0;
+  #Try_end3.  
+  #L1646e2.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1646e4.  v6:= v2 @kind object;
+  #L1646e6.  v2:= "results" @kind object;
+  #L1646ea.  call `closeThrowSqlException`(v1, v2) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L1646f0.  v1:= "compiled statement" @kind object;
+  #L1646f4.  call `closeThrowSqlException`(v6, v1) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L1646fa.  throw v0;
+  #L1646fc.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1646fe.  v1:= v6 @kind object;
+  #L164700.  goto L1646e6;
+  #L164702.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L164704.  v1:= v6 @kind object;
+  #L164706.  v6:= v2 @kind object;
+  #L164708.  goto L1646e6;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1646fc;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L164702;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L1646e2;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L1646e2;
+}
+procedure `com.j256.ormlite.dao.GenericRawResults` `queryRaw`(`com.j256.ormlite.stmt.StatementExecutor` v10 @kind this, `com.j256.ormlite.support.ConnectionSource` v11 @kind object, `java.lang.String` v12 @kind object, `com.j256.ormlite.dao.DatabaseResultsMapper` v13 @kind object, `java.lang.String`[] v14 @kind object, `com.j256.ormlite.dao.ObjectCache` v15 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.queryRaw:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/String;Lcom/j256/ormlite/dao/DatabaseResultsMapper;[Ljava/lang/String;Lcom/j256/ormlite/dao/ObjectCache;)Lcom/j256/ormlite/dao/GenericRawResults;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+
+  #L164744.  v9:= 0I;
+  #L164746.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L16474a.  v1:= "executing raw query for: {}" @kind object;
+  #L16474e.  call `debug`(v0, v1, v12) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L164754.  v0:= length @variable v14;
+  #L164756.  if v0 <= 0 then goto L164768;
+  #L16475a.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L16475e.  v1:= "query arguments: {}" @kind object;
+  #L164762.  call `trace`(v0, v1, v14) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L164768.  v0:= v10.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L16476c.  call temp:= `getTableName`(v0) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L164772.  v0:= temp @kind object;
+  #L164774.  call temp:= `getReadOnlyConnection`(v11, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getReadOnlyConnection:(Ljava/lang/String;)Lcom/j256/ormlite/support/DatabaseConnection;` @kind interface;
+  #L16477a.  v0:= temp @kind object;
+  #Try_start0.  
+  #L16477c.  v2:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.SELECT` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L164780.  v3:= `@@com.j256.ormlite.stmt.StatementExecutor.noFieldTypes` @type ^`com.j256.ormlite.field.FieldType`[] @kind object;
+  #L164784.  v4:= -1I;
+  #L164786.  v5:= 0I;
+  #L164788.  v1:= v12 @kind object;
+  #L16478a.  call temp:= `compileStatement`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.compileStatement:(Ljava/lang/String;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;[Lcom/j256/ormlite/field/FieldType;IZ)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #Try_end0.  
+  #L164790.  v6:= temp @kind object;
+  #Try_start1.  
+  #L164792.  call `assignStatementArguments`(v10, v6, v14) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.assignStatementArguments:(Lcom/j256/ormlite/support/CompiledStatement;[Ljava/lang/String;)V` @kind direct;
+  #L164798.  v1:= new `com.j256.ormlite.stmt.RawResultsImpl`;
+  #L16479c.  v5:= constclass @type ^`java.lang.Object`[] @kind object;
+  #L1647a0.  v7:= new `com.j256.ormlite.stmt.StatementExecutor$UserDatabaseResultsMapper`;
+  #L1647a4.  v2:= 0I;
+  #L1647a6.  call `<init>`(v7, v13, v2) @signature `Lcom/j256/ormlite/stmt/StatementExecutor$UserDatabaseResultsMapper;.<init>:(Lcom/j256/ormlite/dao/DatabaseResultsMapper;Lcom/j256/ormlite/stmt/StatementExecutor$1;)V` @kind direct;
+  #L1647ac.  v2:= v11 @kind object;
+  #L1647ae.  v3:= v0 @kind object;
+  #L1647b0.  v4:= v12 @kind object;
+  #L1647b2.  v8:= v15 @kind object;
+  #L1647b4.  call `<init>`(v1, v2, v3, v4, v5, v6, v7, v8) @signature `Lcom/j256/ormlite/stmt/RawResultsImpl;.<init>:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/String;Ljava/lang/Class;Lcom/j256/ormlite/support/CompiledStatement;Lcom/j256/ormlite/stmt/GenericRowMapper;Lcom/j256/ormlite/dao/ObjectCache;)V` @kind direct;
+  #Try_end1.  
+  #L1647ba.  v0:= "compiled statement" @kind object;
+  #L1647be.  call `closeThrowSqlException`(v9, v0) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L1647c4.  if v9 == 0 then goto L1647ce;
+  #L1647c8.  call `releaseConnection`(v11, v9) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L1647ce.  return v1 @kind object;
+  #L1647d0.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1647d2.  v6:= v9 @kind object;
+  #L1647d4.  v2:= "compiled statement" @kind object;
+  #L1647d8.  call `closeThrowSqlException`(v6, v2) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L1647de.  if v0 == 0 then goto L1647e8;
+  #L1647e2.  call `releaseConnection`(v11, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L1647e8.  throw v1;
+  #L1647ea.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1647ec.  goto L1647d4;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1647d0;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L1647ea;
+}
+procedure `com.j256.ormlite.dao.GenericRawResults` `queryRaw`(`com.j256.ormlite.stmt.StatementExecutor` v10 @kind this, `com.j256.ormlite.support.ConnectionSource` v11 @kind object, `java.lang.String` v12 @kind object, `com.j256.ormlite.dao.RawRowMapper` v13 @kind object, `java.lang.String`[] v14 @kind object, `com.j256.ormlite.dao.ObjectCache` v15 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.queryRaw:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/String;Lcom/j256/ormlite/dao/RawRowMapper;[Ljava/lang/String;Lcom/j256/ormlite/dao/ObjectCache;)Lcom/j256/ormlite/dao/GenericRawResults;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+
+  #L164818.  v9:= 0I;
+  #L16481a.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L16481e.  v1:= "executing raw query for: {}" @kind object;
+  #L164822.  call `debug`(v0, v1, v12) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L164828.  v0:= length @variable v14;
+  #L16482a.  if v0 <= 0 then goto L16483c;
+  #L16482e.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L164832.  v1:= "query arguments: {}" @kind object;
+  #L164836.  call `trace`(v0, v1, v14) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L16483c.  v0:= v10.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L164840.  call temp:= `getTableName`(v0) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L164846.  v0:= temp @kind object;
+  #L164848.  call temp:= `getReadOnlyConnection`(v11, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getReadOnlyConnection:(Ljava/lang/String;)Lcom/j256/ormlite/support/DatabaseConnection;` @kind interface;
+  #L16484e.  v0:= temp @kind object;
+  #Try_start0.  
+  #L164850.  v2:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.SELECT` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L164854.  v3:= `@@com.j256.ormlite.stmt.StatementExecutor.noFieldTypes` @type ^`com.j256.ormlite.field.FieldType`[] @kind object;
+  #L164858.  v4:= -1I;
+  #L16485a.  v5:= 0I;
+  #L16485c.  v1:= v12 @kind object;
+  #L16485e.  call temp:= `compileStatement`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.compileStatement:(Ljava/lang/String;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;[Lcom/j256/ormlite/field/FieldType;IZ)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #Try_end0.  
+  #L164864.  v6:= temp @kind object;
+  #Try_start1.  
+  #L164866.  call `assignStatementArguments`(v10, v6, v14) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.assignStatementArguments:(Lcom/j256/ormlite/support/CompiledStatement;[Ljava/lang/String;)V` @kind direct;
+  #L16486c.  v1:= new `com.j256.ormlite.stmt.RawResultsImpl`;
+  #L164870.  v5:= constclass @type ^`java.lang.String`[] @kind object;
+  #L164874.  v7:= new `com.j256.ormlite.stmt.StatementExecutor$UserRawRowMapper`;
+  #L164878.  call `<init>`(v7, v13, v10) @signature `Lcom/j256/ormlite/stmt/StatementExecutor$UserRawRowMapper;.<init>:(Lcom/j256/ormlite/dao/RawRowMapper;Lcom/j256/ormlite/stmt/GenericRowMapper;)V` @kind direct;
+  #L16487e.  v2:= v11 @kind object;
+  #L164880.  v3:= v0 @kind object;
+  #L164882.  v4:= v12 @kind object;
+  #L164884.  v8:= v15 @kind object;
+  #L164886.  call `<init>`(v1, v2, v3, v4, v5, v6, v7, v8) @signature `Lcom/j256/ormlite/stmt/RawResultsImpl;.<init>:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/String;Ljava/lang/Class;Lcom/j256/ormlite/support/CompiledStatement;Lcom/j256/ormlite/stmt/GenericRowMapper;Lcom/j256/ormlite/dao/ObjectCache;)V` @kind direct;
+  #Try_end1.  
+  #L16488c.  v0:= "compiled statement" @kind object;
+  #L164890.  call `closeThrowSqlException`(v9, v0) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L164896.  if v9 == 0 then goto L1648a0;
+  #L16489a.  call `releaseConnection`(v11, v9) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L1648a0.  return v1 @kind object;
+  #L1648a2.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1648a4.  v6:= v9 @kind object;
+  #L1648a6.  v2:= "compiled statement" @kind object;
+  #L1648aa.  call `closeThrowSqlException`(v6, v2) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L1648b0.  if v0 == 0 then goto L1648ba;
+  #L1648b4.  call `releaseConnection`(v11, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L1648ba.  throw v1;
+  #L1648bc.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1648be.  goto L1648a6;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1648a2;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L1648bc;
+}
+procedure `com.j256.ormlite.dao.GenericRawResults` `queryRaw`(`com.j256.ormlite.stmt.StatementExecutor` v9 @kind this, `com.j256.ormlite.support.ConnectionSource` v10 @kind object, `java.lang.String` v11 @kind object, `com.j256.ormlite.field.DataType`[] v12 @kind object, `com.j256.ormlite.dao.RawRowObjectMapper` v13 @kind object, `java.lang.String`[] v14 @kind object, `com.j256.ormlite.dao.ObjectCache` v15 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.queryRaw:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/String;[Lcom/j256/ormlite/field/DataType;Lcom/j256/ormlite/dao/RawRowObjectMapper;[Ljava/lang/String;Lcom/j256/ormlite/dao/ObjectCache;)Lcom/j256/ormlite/dao/GenericRawResults;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+
+  #L1648e8.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L1648ec.  v1:= "executing raw query for: {}" @kind object;
+  #L1648f0.  call `debug`(v0, v1, v11) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L1648f6.  v0:= length @variable v14;
+  #L1648f8.  if v0 <= 0 then goto L16490a;
+  #L1648fc.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L164900.  v1:= "query arguments: {}" @kind object;
+  #L164904.  call `trace`(v0, v1, v14) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L16490a.  v0:= v9.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L16490e.  call temp:= `getTableName`(v0) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L164914.  v0:= temp @kind object;
+  #L164916.  call temp:= `getReadOnlyConnection`(v10, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getReadOnlyConnection:(Ljava/lang/String;)Lcom/j256/ormlite/support/DatabaseConnection;` @kind interface;
+  #L16491c.  v0:= temp @kind object;
+  #L16491e.  v6:= 0I;
+  #Try_start0.  
+  #L164920.  v2:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.SELECT` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L164924.  v3:= `@@com.j256.ormlite.stmt.StatementExecutor.noFieldTypes` @type ^`com.j256.ormlite.field.FieldType`[] @kind object;
+  #L164928.  v4:= -1I;
+  #L16492a.  v5:= 0I;
+  #L16492c.  v1:= v11 @kind object;
+  #L16492e.  call temp:= `compileStatement`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.compileStatement:(Ljava/lang/String;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;[Lcom/j256/ormlite/field/FieldType;IZ)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #L164934.  v6:= temp @kind object;
+  #L164936.  call `assignStatementArguments`(v9, v6, v14) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.assignStatementArguments:(Lcom/j256/ormlite/support/CompiledStatement;[Ljava/lang/String;)V` @kind direct;
+  #L16493c.  v1:= new `com.j256.ormlite.stmt.RawResultsImpl`;
+  #L164940.  v5:= constclass @type ^`java.lang.String`[] @kind object;
+  #L164944.  v7:= new `com.j256.ormlite.stmt.StatementExecutor$UserRawRowObjectMapper`;
+  #L164948.  call `<init>`(v7, v13, v12) @signature `Lcom/j256/ormlite/stmt/StatementExecutor$UserRawRowObjectMapper;.<init>:(Lcom/j256/ormlite/dao/RawRowObjectMapper;[Lcom/j256/ormlite/field/DataType;)V` @kind direct;
+  #L16494e.  v2:= v10 @kind object;
+  #L164950.  v3:= v0 @kind object;
+  #L164952.  v4:= v11 @kind object;
+  #L164954.  v8:= v15 @kind object;
+  #L164956.  call `<init>`(v1, v2, v3, v4, v5, v6, v7, v8) @signature `Lcom/j256/ormlite/stmt/RawResultsImpl;.<init>:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/String;Ljava/lang/Class;Lcom/j256/ormlite/support/CompiledStatement;Lcom/j256/ormlite/stmt/GenericRowMapper;Lcom/j256/ormlite/dao/ObjectCache;)V` @kind direct;
+  #Try_end0.  
+  #L16495c.  v0:= 0I;
+  #L16495e.  v2:= 0I;
+  #L164960.  v3:= "compiled statement" @kind object;
+  #L164964.  call `closeThrowSqlException`(v0, v3) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L16496a.  if v2 == 0 then goto L164974;
+  #L16496e.  call `releaseConnection`(v10, v2) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L164974.  return v1 @kind object;
+  #L164976.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L164978.  v2:= "compiled statement" @kind object;
+  #L16497c.  call `closeThrowSqlException`(v6, v2) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L164982.  if v0 == 0 then goto L16498c;
+  #L164986.  call `releaseConnection`(v10, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L16498c.  throw v1;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L164976;
+}
+procedure `com.j256.ormlite.dao.GenericRawResults` `queryRaw`(`com.j256.ormlite.stmt.StatementExecutor` v10 @kind this, `com.j256.ormlite.support.ConnectionSource` v11 @kind object, `java.lang.String` v12 @kind object, `com.j256.ormlite.field.DataType`[] v13 @kind object, `java.lang.String`[] v14 @kind object, `com.j256.ormlite.dao.ObjectCache` v15 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.queryRaw:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/String;[Lcom/j256/ormlite/field/DataType;[Ljava/lang/String;Lcom/j256/ormlite/dao/ObjectCache;)Lcom/j256/ormlite/dao/GenericRawResults;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+
+  #L1649ac.  v9:= 0I;
+  #L1649ae.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L1649b2.  v1:= "executing raw query for: {}" @kind object;
+  #L1649b6.  call `debug`(v0, v1, v12) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L1649bc.  v0:= length @variable v14;
+  #L1649be.  if v0 <= 0 then goto L1649d0;
+  #L1649c2.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L1649c6.  v1:= "query arguments: {}" @kind object;
+  #L1649ca.  call `trace`(v0, v1, v14) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L1649d0.  v0:= v10.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L1649d4.  call temp:= `getTableName`(v0) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L1649da.  v0:= temp @kind object;
+  #L1649dc.  call temp:= `getReadOnlyConnection`(v11, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getReadOnlyConnection:(Ljava/lang/String;)Lcom/j256/ormlite/support/DatabaseConnection;` @kind interface;
+  #L1649e2.  v0:= temp @kind object;
+  #Try_start0.  
+  #L1649e4.  v2:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.SELECT` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L1649e8.  v3:= `@@com.j256.ormlite.stmt.StatementExecutor.noFieldTypes` @type ^`com.j256.ormlite.field.FieldType`[] @kind object;
+  #L1649ec.  v4:= -1I;
+  #L1649ee.  v5:= 0I;
+  #L1649f0.  v1:= v12 @kind object;
+  #L1649f2.  call temp:= `compileStatement`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.compileStatement:(Ljava/lang/String;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;[Lcom/j256/ormlite/field/FieldType;IZ)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #Try_end0.  
+  #L1649f8.  v6:= temp @kind object;
+  #Try_start1.  
+  #L1649fa.  call `assignStatementArguments`(v10, v6, v14) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.assignStatementArguments:(Lcom/j256/ormlite/support/CompiledStatement;[Ljava/lang/String;)V` @kind direct;
+  #L164a00.  v1:= new `com.j256.ormlite.stmt.RawResultsImpl`;
+  #L164a04.  v5:= constclass @type ^`java.lang.Object`[] @kind object;
+  #L164a08.  v7:= new `com.j256.ormlite.stmt.StatementExecutor$ObjectArrayRowMapper`;
+  #L164a0c.  call `<init>`(v7, v13) @signature `Lcom/j256/ormlite/stmt/StatementExecutor$ObjectArrayRowMapper;.<init>:([Lcom/j256/ormlite/field/DataType;)V` @kind direct;
+  #L164a12.  v2:= v11 @kind object;
+  #L164a14.  v3:= v0 @kind object;
+  #L164a16.  v4:= v12 @kind object;
+  #L164a18.  v8:= v15 @kind object;
+  #L164a1a.  call `<init>`(v1, v2, v3, v4, v5, v6, v7, v8) @signature `Lcom/j256/ormlite/stmt/RawResultsImpl;.<init>:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/String;Ljava/lang/Class;Lcom/j256/ormlite/support/CompiledStatement;Lcom/j256/ormlite/stmt/GenericRowMapper;Lcom/j256/ormlite/dao/ObjectCache;)V` @kind direct;
+  #Try_end1.  
+  #L164a20.  v0:= "compiled statement" @kind object;
+  #L164a24.  call `closeThrowSqlException`(v9, v0) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L164a2a.  if v9 == 0 then goto L164a34;
+  #L164a2e.  call `releaseConnection`(v11, v9) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L164a34.  return v1 @kind object;
+  #L164a36.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L164a38.  v6:= v9 @kind object;
+  #L164a3a.  v2:= "compiled statement" @kind object;
+  #L164a3e.  call `closeThrowSqlException`(v6, v2) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L164a44.  if v0 == 0 then goto L164a4e;
+  #L164a48.  call `releaseConnection`(v11, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L164a4e.  throw v1;
+  #L164a50.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L164a52.  goto L164a3a;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L164a36;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L164a50;
+}
+procedure `com.j256.ormlite.dao.GenericRawResults` `queryRaw`(`com.j256.ormlite.stmt.StatementExecutor` v10 @kind this, `com.j256.ormlite.support.ConnectionSource` v11 @kind object, `java.lang.String` v12 @kind object, `java.lang.String`[] v13 @kind object, `com.j256.ormlite.dao.ObjectCache` v14 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.queryRaw:(Lcom/j256/ormlite/support/ConnectionSource;Ljava/lang/String;[Ljava/lang/String;Lcom/j256/ormlite/dao/ObjectCache;)Lcom/j256/ormlite/dao/GenericRawResults;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+
+  #L164a7c.  v9:= 0I;
+  #L164a7e.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L164a82.  v1:= "executing raw query for: {}" @kind object;
+  #L164a86.  call `debug`(v0, v1, v12) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L164a8c.  v0:= length @variable v13;
+  #L164a8e.  if v0 <= 0 then goto L164aa0;
+  #L164a92.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L164a96.  v1:= "query arguments: {}" @kind object;
+  #L164a9a.  call `trace`(v0, v1, v13) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L164aa0.  v0:= v10.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L164aa4.  call temp:= `getTableName`(v0) @signature `Lcom/j256/ormlite/table/TableInfo;.getTableName:()Ljava/lang/String;` @kind virtual;
+  #L164aaa.  v0:= temp @kind object;
+  #L164aac.  call temp:= `getReadOnlyConnection`(v11, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.getReadOnlyConnection:(Ljava/lang/String;)Lcom/j256/ormlite/support/DatabaseConnection;` @kind interface;
+  #L164ab2.  v0:= temp @kind object;
+  #Try_start0.  
+  #L164ab4.  v2:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.SELECT` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L164ab8.  v3:= `@@com.j256.ormlite.stmt.StatementExecutor.noFieldTypes` @type ^`com.j256.ormlite.field.FieldType`[] @kind object;
+  #L164abc.  v4:= -1I;
+  #L164abe.  v5:= 0I;
+  #L164ac0.  v1:= v12 @kind object;
+  #L164ac2.  call temp:= `compileStatement`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.compileStatement:(Ljava/lang/String;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;[Lcom/j256/ormlite/field/FieldType;IZ)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #Try_end0.  
+  #L164ac8.  v6:= temp @kind object;
+  #Try_start1.  
+  #L164aca.  call `assignStatementArguments`(v10, v6, v13) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.assignStatementArguments:(Lcom/j256/ormlite/support/CompiledStatement;[Ljava/lang/String;)V` @kind direct;
+  #L164ad0.  v1:= new `com.j256.ormlite.stmt.RawResultsImpl`;
+  #L164ad4.  v5:= constclass @type ^`java.lang.String`[] @kind object;
+  #L164ad8.  v2:= v11 @kind object;
+  #L164ada.  v3:= v0 @kind object;
+  #L164adc.  v4:= v12 @kind object;
+  #L164ade.  v7:= v10 @kind object;
+  #L164ae0.  v8:= v14 @kind object;
+  #L164ae2.  call `<init>`(v1, v2, v3, v4, v5, v6, v7, v8) @signature `Lcom/j256/ormlite/stmt/RawResultsImpl;.<init>:(Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/String;Ljava/lang/Class;Lcom/j256/ormlite/support/CompiledStatement;Lcom/j256/ormlite/stmt/GenericRowMapper;Lcom/j256/ormlite/dao/ObjectCache;)V` @kind direct;
+  #Try_end1.  
+  #L164ae8.  v0:= "compiled statement" @kind object;
+  #L164aec.  call `closeThrowSqlException`(v9, v0) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L164af2.  if v9 == 0 then goto L164afc;
+  #L164af6.  call `releaseConnection`(v11, v9) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L164afc.  return v1 @kind object;
+  #L164afe.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L164b00.  v6:= v9 @kind object;
+  #L164b02.  v2:= "compiled statement" @kind object;
+  #L164b06.  call `closeThrowSqlException`(v6, v2) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L164b0c.  if v0 == 0 then goto L164b16;
+  #L164b10.  call `releaseConnection`(v11, v0) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #L164b16.  throw v1;
+  #L164b18.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L164b1a.  goto L164b02;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L164afe;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L164b18;
+}
+procedure `int` `refresh`(`com.j256.ormlite.stmt.StatementExecutor` v2 @kind this, `com.j256.ormlite.support.DatabaseConnection` v3 @kind object, `java.lang.Object` v4 @kind object, `com.j256.ormlite.dao.ObjectCache` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.refresh:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/Object;Lcom/j256/ormlite/dao/ObjectCache;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L164b44.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.mappedRefresh` @type ^`com.j256.ormlite.stmt.mapped.MappedRefresh` @kind object;
+  #L164b48.  if v0 != 0 then goto L164b60;
+  #L164b4c.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L164b50.  v1:= v2.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L164b54.  call temp:= `build`(v0, v1) @signature `Lcom/j256/ormlite/stmt/mapped/MappedRefresh;.build:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;)Lcom/j256/ormlite/stmt/mapped/MappedRefresh;` @kind static;
+  #L164b5a.  v0:= temp @kind object;
+  #L164b5c.  v2.`com.j256.ormlite.stmt.StatementExecutor.mappedRefresh` @type ^`com.j256.ormlite.stmt.mapped.MappedRefresh` := v0 @kind object;
+  #L164b60.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.mappedRefresh` @type ^`com.j256.ormlite.stmt.mapped.MappedRefresh` @kind object;
+  #L164b64.  call temp:= `executeRefresh`(v0, v3, v4, v5) @signature `Lcom/j256/ormlite/stmt/mapped/MappedRefresh;.executeRefresh:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/Object;Lcom/j256/ormlite/dao/ObjectCache;)I` @kind virtual;
+  #L164b6a.  v0:= temp;
+  #L164b6c.  return v0;
+}
+procedure `int` `update`(`com.j256.ormlite.stmt.StatementExecutor` v3 @kind this, `com.j256.ormlite.support.DatabaseConnection` v4 @kind object, `com.j256.ormlite.stmt.PreparedUpdate` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.update:(Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/stmt/PreparedUpdate;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L164b80.  v0:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.UPDATE` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L164b84.  call temp:= `compile`(v5, v4, v0) @signature `Lcom/j256/ormlite/stmt/PreparedUpdate;.compile:(Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #L164b8a.  v1:= temp @kind object;
+  #Try_start0.  
+  #L164b8c.  call temp:= `runUpdate`(v1) @signature `Lcom/j256/ormlite/support/CompiledStatement;.runUpdate:()I` @kind interface;
+  #L164b92.  v2:= temp;
+  #L164b94.  v0:= v3.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L164b98.  if v0 == 0 then goto L164bc2;
+  #L164b9c.  v0:= v3.`com.j256.ormlite.stmt.StatementExecutor.localIsInBatchMode` @type ^`java.lang.ThreadLocal` @kind object;
+  #L164ba0.  call temp:= `get`(v0) @signature `Ljava/lang/ThreadLocal;.get:()Ljava/lang/Object;` @kind virtual;
+  #L164ba6.  v0:= temp @kind object;
+  #L164ba8.  v0:= (`java.lang.Boolean`) v0 @kind object;
+  #L164bac.  call temp:= `booleanValue`(v0) @signature `Ljava/lang/Boolean;.booleanValue:()Z` @kind virtual;
+  #L164bb2.  v0:= temp;
+  #L164bb4.  if v0 != 0 then goto L164bc2;
+  #L164bb8.  v0:= v3.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L164bbc.  call `notifyChanges`(v0) @signature `Lcom/j256/ormlite/dao/Dao;.notifyChanges:()V` @kind interface;
+  #Try_end0.  
+  #L164bc2.  v0:= "compiled statement" @kind object;
+  #L164bc6.  call `closeThrowSqlException`(v1, v0) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L164bcc.  return v2;
+  #L164bce.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L164bd0.  v2:= "compiled statement" @kind object;
+  #L164bd4.  call `closeThrowSqlException`(v1, v2) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L164bda.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L164bce;
+}
+procedure `int` `update`(`com.j256.ormlite.stmt.StatementExecutor` v2 @kind this, `com.j256.ormlite.support.DatabaseConnection` v3 @kind object, `java.lang.Object` v4 @kind object, `com.j256.ormlite.dao.ObjectCache` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.update:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/Object;Lcom/j256/ormlite/dao/ObjectCache;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L164bf8.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.mappedUpdate` @type ^`com.j256.ormlite.stmt.mapped.MappedUpdate` @kind object;
+  #L164bfc.  if v0 != 0 then goto L164c14;
+  #L164c00.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L164c04.  v1:= v2.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L164c08.  call temp:= `build`(v0, v1) @signature `Lcom/j256/ormlite/stmt/mapped/MappedUpdate;.build:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;)Lcom/j256/ormlite/stmt/mapped/MappedUpdate;` @kind static;
+  #L164c0e.  v0:= temp @kind object;
+  #L164c10.  v2.`com.j256.ormlite.stmt.StatementExecutor.mappedUpdate` @type ^`com.j256.ormlite.stmt.mapped.MappedUpdate` := v0 @kind object;
+  #L164c14.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.mappedUpdate` @type ^`com.j256.ormlite.stmt.mapped.MappedUpdate` @kind object;
+  #L164c18.  call temp:= `update`(v0, v3, v4, v5) @signature `Lcom/j256/ormlite/stmt/mapped/MappedUpdate;.update:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/Object;Lcom/j256/ormlite/dao/ObjectCache;)I` @kind virtual;
+  #L164c1e.  v1:= temp;
+  #L164c20.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L164c24.  if v0 == 0 then goto L164c4e;
+  #L164c28.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.localIsInBatchMode` @type ^`java.lang.ThreadLocal` @kind object;
+  #L164c2c.  call temp:= `get`(v0) @signature `Ljava/lang/ThreadLocal;.get:()Ljava/lang/Object;` @kind virtual;
+  #L164c32.  v0:= temp @kind object;
+  #L164c34.  v0:= (`java.lang.Boolean`) v0 @kind object;
+  #L164c38.  call temp:= `booleanValue`(v0) @signature `Ljava/lang/Boolean;.booleanValue:()Z` @kind virtual;
+  #L164c3e.  v0:= temp;
+  #L164c40.  if v0 != 0 then goto L164c4e;
+  #L164c44.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L164c48.  call `notifyChanges`(v0) @signature `Lcom/j256/ormlite/dao/Dao;.notifyChanges:()V` @kind interface;
+  #L164c4e.  return v1;
+}
+procedure `int` `updateId`(`com.j256.ormlite.stmt.StatementExecutor` v2 @kind this, `com.j256.ormlite.support.DatabaseConnection` v3 @kind object, `java.lang.Object` v4 @kind object, `java.lang.Object` v5 @kind object, `com.j256.ormlite.dao.ObjectCache` v6 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.updateId:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/Object;Ljava/lang/Object;Lcom/j256/ormlite/dao/ObjectCache;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L164c60.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.mappedUpdateId` @type ^`com.j256.ormlite.stmt.mapped.MappedUpdateId` @kind object;
+  #L164c64.  if v0 != 0 then goto L164c7c;
+  #L164c68.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L164c6c.  v1:= v2.`com.j256.ormlite.stmt.StatementExecutor.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L164c70.  call temp:= `build`(v0, v1) @signature `Lcom/j256/ormlite/stmt/mapped/MappedUpdateId;.build:(Lcom/j256/ormlite/db/DatabaseType;Lcom/j256/ormlite/table/TableInfo;)Lcom/j256/ormlite/stmt/mapped/MappedUpdateId;` @kind static;
+  #L164c76.  v0:= temp @kind object;
+  #L164c78.  v2.`com.j256.ormlite.stmt.StatementExecutor.mappedUpdateId` @type ^`com.j256.ormlite.stmt.mapped.MappedUpdateId` := v0 @kind object;
+  #L164c7c.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.mappedUpdateId` @type ^`com.j256.ormlite.stmt.mapped.MappedUpdateId` @kind object;
+  #L164c80.  call temp:= `execute`(v0, v3, v4, v5, v6) @signature `Lcom/j256/ormlite/stmt/mapped/MappedUpdateId;.execute:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/Object;Ljava/lang/Object;Lcom/j256/ormlite/dao/ObjectCache;)I` @kind virtual;
+  #L164c86.  v1:= temp;
+  #L164c88.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L164c8c.  if v0 == 0 then goto L164cb6;
+  #L164c90.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.localIsInBatchMode` @type ^`java.lang.ThreadLocal` @kind object;
+  #L164c94.  call temp:= `get`(v0) @signature `Ljava/lang/ThreadLocal;.get:()Ljava/lang/Object;` @kind virtual;
+  #L164c9a.  v0:= temp @kind object;
+  #L164c9c.  v0:= (`java.lang.Boolean`) v0 @kind object;
+  #L164ca0.  call temp:= `booleanValue`(v0) @signature `Ljava/lang/Boolean;.booleanValue:()Z` @kind virtual;
+  #L164ca6.  v0:= temp;
+  #L164ca8.  if v0 != 0 then goto L164cb6;
+  #L164cac.  v0:= v2.`com.j256.ormlite.stmt.StatementExecutor.dao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L164cb0.  call `notifyChanges`(v0) @signature `Lcom/j256/ormlite/dao/Dao;.notifyChanges:()V` @kind interface;
+  #L164cb6.  return v1;
+}
+procedure `int` `updateRaw`(`com.j256.ormlite.stmt.StatementExecutor` v6 @kind this, `com.j256.ormlite.support.DatabaseConnection` v7 @kind object, `java.lang.String` v8 @kind object, `java.lang.String`[] v9 @kind object) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.updateRaw:(Lcom/j256/ormlite/support/DatabaseConnection;Ljava/lang/String;[Ljava/lang/String;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L164cc8.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L164ccc.  v1:= "running raw update statement: {}" @kind object;
+  #L164cd0.  call `debug`(v0, v1, v8) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L164cd6.  v0:= length @variable v9;
+  #L164cd8.  if v0 <= 0 then goto L164cea;
+  #L164cdc.  v0:= `@@com.j256.ormlite.stmt.StatementExecutor.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L164ce0.  v1:= "update arguments: {}" @kind object;
+  #L164ce4.  call `trace`(v0, v1, v9) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L164cea.  v2:= `@@com.j256.ormlite.stmt.StatementBuilder$StatementType.UPDATE` @type ^`com.j256.ormlite.stmt.StatementBuilder$StatementType` @kind object;
+  #L164cee.  v3:= `@@com.j256.ormlite.stmt.StatementExecutor.noFieldTypes` @type ^`com.j256.ormlite.field.FieldType`[] @kind object;
+  #L164cf2.  v4:= -1I;
+  #L164cf4.  v5:= 0I;
+  #L164cf6.  v0:= v7 @kind object;
+  #L164cf8.  v1:= v8 @kind object;
+  #L164cfa.  call temp:= `compileStatement`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/support/DatabaseConnection;.compileStatement:(Ljava/lang/String;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;[Lcom/j256/ormlite/field/FieldType;IZ)Lcom/j256/ormlite/support/CompiledStatement;` @kind interface;
+  #L164d00.  v1:= temp @kind object;
+  #Try_start0.  
+  #L164d02.  call `assignStatementArguments`(v6, v1, v9) @signature `Lcom/j256/ormlite/stmt/StatementExecutor;.assignStatementArguments:(Lcom/j256/ormlite/support/CompiledStatement;[Ljava/lang/String;)V` @kind direct;
+  #L164d08.  call temp:= `runUpdate`(v1) @signature `Lcom/j256/ormlite/support/CompiledStatement;.runUpdate:()I` @kind interface;
+  #Try_end0.  
+  #L164d0e.  v0:= temp;
+  #L164d10.  v2:= "compiled statement" @kind object;
+  #L164d14.  call `closeThrowSqlException`(v1, v2) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L164d1a.  return v0;
+  #L164d1c.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L164d1e.  v2:= "compiled statement" @kind object;
+  #L164d22.  call `closeThrowSqlException`(v1, v2) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L164d28.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L164d1c;
+}

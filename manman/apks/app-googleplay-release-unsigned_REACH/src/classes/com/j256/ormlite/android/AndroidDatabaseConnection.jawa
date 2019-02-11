@@ -1,0 +1,904 @@
+record `com.j256.ormlite.android.AndroidDatabaseConnection` @kind class @AccessFlag PUBLIC extends `com.j256.ormlite.support.DatabaseConnection` @kind interface {
+  `boolean` `com.j256.ormlite.android.AndroidDatabaseConnection.cancelQueriesEnabled` @AccessFlag PRIVATE_FINAL;
+  `android.database.sqlite.SQLiteDatabase` `com.j256.ormlite.android.AndroidDatabaseConnection.db` @AccessFlag PRIVATE_FINAL;
+  `boolean` `com.j256.ormlite.android.AndroidDatabaseConnection.readWrite` @AccessFlag PRIVATE_FINAL;
+}
+global `java.lang.String` `@@com.j256.ormlite.android.AndroidDatabaseConnection.ANDROID_VERSION` @AccessFlag PRIVATE_STATIC_FINAL;
+global `java.lang.String`[] `@@com.j256.ormlite.android.AndroidDatabaseConnection.NO_STRING_ARGS` @AccessFlag PRIVATE_STATIC_FINAL;
+global `com.j256.ormlite.logger.Logger` `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @AccessFlag PRIVATE_STATIC;
+procedure `void` `<clinit>`() @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.<clinit>:()V` @AccessFlag STATIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L14a70c.  v0:= constclass @type ^`com.j256.ormlite.android.AndroidDatabaseConnection` @kind object;
+  #L14a710.  call temp:= `getLogger`(v0) @signature `Lcom/j256/ormlite/logger/LoggerFactory;.getLogger:(Ljava/lang/Class;)Lcom/j256/ormlite/logger/Logger;` @kind static;
+  #L14a716.  v0:= temp @kind object;
+  #L14a718.  `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` := v0 @kind object;
+  #L14a71c.  v0:= 0I;
+  #L14a71e.  v0:= new `java.lang.String`[v0];
+  #L14a722.  `@@com.j256.ormlite.android.AndroidDatabaseConnection.NO_STRING_ARGS` @type ^`java.lang.String`[] := v0 @kind object;
+  #L14a726.  v0:= "VERSION__5.0__" @kind object;
+  #L14a72a.  call `checkCoreVersusAndroidVersions`(v0) @signature `Lcom/j256/ormlite/misc/VersionUtils;.checkCoreVersusAndroidVersions:(Ljava/lang/String;)V` @kind static;
+  #L14a730.  return @kind void;
+}
+procedure `void` `<init>`(`com.j256.ormlite.android.AndroidDatabaseConnection` v1 @kind this, `android.database.sqlite.SQLiteDatabase` v2 @kind object, `boolean` v3 ) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.<init>:(Landroid/database/sqlite/SQLiteDatabase;Z)V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L14a744.  v0:= 0I;
+  #L14a746.  call `<init>`(v1, v2, v3, v0) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.<init>:(Landroid/database/sqlite/SQLiteDatabase;ZZ)V` @kind direct;
+  #L14a74c.  return @kind void;
+}
+procedure `void` `<init>`(`com.j256.ormlite.android.AndroidDatabaseConnection` v3 @kind this, `android.database.sqlite.SQLiteDatabase` v4 @kind object, `boolean` v5 , `boolean` v6 ) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.<init>:(Landroid/database/sqlite/SQLiteDatabase;ZZ)V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L14a760.  call `<init>`(v3) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L14a766.  v3.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` := v4 @kind object;
+  #L14a76a.  v3.`com.j256.ormlite.android.AndroidDatabaseConnection.readWrite` @type ^`boolean` := v5 @kind boolean;
+  #L14a76e.  v3.`com.j256.ormlite.android.AndroidDatabaseConnection.cancelQueriesEnabled` @type ^`boolean` := v6 @kind boolean;
+  #L14a772.  v0:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14a776.  v1:= "{}: db {} opened, read-write = {}" @kind object;
+  #L14a77a.  call temp:= `valueOf`(v5) @signature `Ljava/lang/Boolean;.valueOf:(Z)Ljava/lang/Boolean;` @kind static;
+  #L14a780.  v2:= temp @kind object;
+  #L14a782.  call `trace`(v0, v1, v3, v4, v2) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #L14a788.  return @kind void;
+}
+procedure `void` `bindArgs`(`com.j256.ormlite.android.AndroidDatabaseConnection` v6 @kind this, `android.database.sqlite.SQLiteStatement` v7 @kind object, `java.lang.Object`[] v8 @kind object, `com.j256.ormlite.field.FieldType`[] v9 @kind object) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.bindArgs:(Landroid/database/sqlite/SQLiteStatement;[Ljava/lang/Object;[Lcom/j256/ormlite/field/FieldType;)V` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L14a79c.  if v8 != 0 then goto L14a7a2;
+  #L14a7a0.  return @kind void;
+  #L14a7a2.  v0:= 0I;
+  #L14a7a4.  v1:= v0;
+  #L14a7a6.  v0:= length @variable v8;
+  #L14a7a8.  if v1 >= v0 then goto L14a7a0;
+  #L14a7ac.  v0:= v8[v1] @kind object;
+  #L14a7b0.  if v0 != 0 then goto L14a7c6;
+  #L14a7b4.  v0:= v1 + 1;
+  #L14a7b8.  call `bindNull`(v7, v0) @signature `Landroid/database/sqlite/SQLiteStatement;.bindNull:(I)V` @kind virtual;
+  #L14a7be.  v0:= v1 + 1;
+  #L14a7c2.  v1:= v0;
+  #L14a7c4.  goto L14a7a6;
+  #L14a7c6.  v2:= v9[v1] @kind object;
+  #L14a7ca.  call temp:= `getSqlType`(v2) @signature `Lcom/j256/ormlite/field/FieldType;.getSqlType:()Lcom/j256/ormlite/field/SqlType;` @kind virtual;
+  #L14a7d0.  v2:= temp @kind object;
+  #L14a7d2.  v3:= `@@com.j256.ormlite.android.AndroidDatabaseConnection$1.$SwitchMap$com$j256$ormlite$field$SqlType` @type ^`int`[] @kind object;
+  #L14a7d6.  call temp:= `ordinal`(v2) @signature `Lcom/j256/ormlite/field/SqlType;.ordinal:()I` @kind virtual;
+  #L14a7dc.  v4:= temp;
+  #L14a7de.  v3:= v3[v4];
+  #L14a7e2.  goto L14a8a4;
+  #L14a7e8.  v0:= new `java.sql.SQLException`;
+  #L14a7ec.  v1:= new `java.lang.StringBuilder`;
+  #L14a7f0.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L14a7f6.  v3:= "Unknown sql argument type: " @kind object;
+  #L14a7fa.  call temp:= `append`(v1, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14a800.  v1:= temp @kind object;
+  #L14a802.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14a808.  v1:= temp @kind object;
+  #L14a80a.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L14a810.  v1:= temp @kind object;
+  #L14a812.  call `<init>`(v0, v1) @signature `Ljava/sql/SQLException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L14a818.  throw v0;
+  #L14a81a.  v2:= v1 + 1;
+  #L14a81e.  call temp:= `toString`(v0) @signature `Ljava/lang/Object;.toString:()Ljava/lang/String;` @kind virtual;
+  #L14a824.  v0:= temp @kind object;
+  #L14a826.  call `bindString`(v7, v2, v0) @signature `Landroid/database/sqlite/SQLiteStatement;.bindString:(ILjava/lang/String;)V` @kind virtual;
+  #L14a82c.  goto L14a7be;
+  #L14a82e.  v2:= v1 + 1;
+  #L14a832.  v0:= (`java.lang.Number`) v0 @kind object;
+  #L14a836.  call temp:= `longValue`(v0) @signature `Ljava/lang/Number;.longValue:()J` @kind virtual;
+  #L14a83c.  v4:= temp @kind wide;
+  #L14a83e.  call `bindLong`(v7, v2, v4) @signature `Landroid/database/sqlite/SQLiteStatement;.bindLong:(IJ)V` @kind virtual;
+  #L14a844.  goto L14a7be;
+  #L14a846.  v2:= v1 + 1;
+  #L14a84a.  v0:= (`java.lang.Number`) v0 @kind object;
+  #L14a84e.  call temp:= `doubleValue`(v0) @signature `Ljava/lang/Number;.doubleValue:()D` @kind virtual;
+  #L14a854.  v4:= temp @kind wide;
+  #L14a856.  call `bindDouble`(v7, v2, v4) @signature `Landroid/database/sqlite/SQLiteStatement;.bindDouble:(ID)V` @kind virtual;
+  #L14a85c.  goto L14a7be;
+  #L14a85e.  v2:= v1 + 1;
+  #L14a862.  v0:= (`byte`[]) v0 @kind object;
+  #L14a866.  v0:= (`byte`[]) v0 @kind object;
+  #L14a86a.  call `bindBlob`(v7, v2, v0) @signature `Landroid/database/sqlite/SQLiteStatement;.bindBlob:(I[B)V` @kind virtual;
+  #L14a870.  goto L14a7be;
+  #L14a872.  v0:= new `java.sql.SQLException`;
+  #L14a876.  v1:= new `java.lang.StringBuilder`;
+  #L14a87a.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L14a880.  v3:= "Invalid Android type: " @kind object;
+  #L14a884.  call temp:= `append`(v1, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14a88a.  v1:= temp @kind object;
+  #L14a88c.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14a892.  v1:= temp @kind object;
+  #L14a894.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L14a89a.  v1:= temp @kind object;
+  #L14a89c.  call `<init>`(v0, v1) @signature `Ljava/sql/SQLException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L14a8a2.  throw v0;
+  #L14a8a4.  switch v3
+                  | 1 => goto L14a81a
+                  | 2 => goto L14a81a
+                  | 3 => goto L14a81a
+                  | 4 => goto L14a82e
+                  | 5 => goto L14a82e
+                  | 6 => goto L14a82e
+                  | 7 => goto L14a82e
+                  | 8 => goto L14a82e
+                  | 9 => goto L14a846
+                  | 10 => goto L14a846
+                  | 11 => goto L14a85e
+                  | 12 => goto L14a85e
+                  | 13 => goto L14a872
+                  | 14 => goto L14a872
+                  | 15 => goto L14a872
+                  | else => goto L14a7e8;
+}
+procedure `void` `closeQuietly`(`com.j256.ormlite.android.AndroidDatabaseConnection` v0 @kind this, `android.database.Cursor` v1 @kind object) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/Cursor;)V` @AccessFlag PRIVATE {
+    temp;
+
+  #L14a8f8.  if v1 == 0 then goto L14a902;
+  #L14a8fc.  call `close`(v1) @signature `Landroid/database/Cursor;.close:()V` @kind interface;
+  #L14a902.  return @kind void;
+}
+procedure `void` `closeQuietly`(`com.j256.ormlite.android.AndroidDatabaseConnection` v0 @kind this, `android.database.sqlite.SQLiteStatement` v1 @kind object) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/sqlite/SQLiteStatement;)V` @AccessFlag PRIVATE {
+    temp;
+
+  #L14a914.  if v1 == 0 then goto L14a91e;
+  #L14a918.  call `close`(v1) @signature `Landroid/database/sqlite/SQLiteStatement;.close:()V` @kind virtual;
+  #L14a91e.  return @kind void;
+}
+procedure `java.lang.String`[] `toStrings`(`com.j256.ormlite.android.AndroidDatabaseConnection` v4 @kind this, `java.lang.Object`[] v5 @kind object) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.toStrings:([Ljava/lang/Object;)[Ljava/lang/String;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L14a930.  v2:= 0I;
+  #L14a932.  if v5 == 0 then goto L14a93c;
+  #L14a936.  v0:= length @variable v5;
+  #L14a938.  if v0 != 0 then goto L14a940;
+  #L14a93c.  v0:= v2 @kind object;
+  #L14a93e.  return v0 @kind object;
+  #L14a940.  v0:= length @variable v5;
+  #L14a942.  v1:= new `java.lang.String`[v0];
+  #L14a946.  v0:= 0I;
+  #L14a948.  v3:= length @variable v5;
+  #L14a94a.  if v0 >= v3 then goto L14a96e;
+  #L14a94e.  v3:= v5[v0] @kind object;
+  #L14a952.  if v3 != 0 then goto L14a960;
+  #L14a956.  v1[v0]:= v2 @kind object;
+  #L14a95a.  v0:= v0 + 1;
+  #L14a95e.  goto L14a948;
+  #L14a960.  call temp:= `toString`(v3) @signature `Ljava/lang/Object;.toString:()Ljava/lang/String;` @kind virtual;
+  #L14a966.  v3:= temp @kind object;
+  #L14a968.  v1[v0]:= v3 @kind object;
+  #L14a96c.  goto L14a95a;
+  #L14a96e.  v0:= v1 @kind object;
+  #L14a970.  goto L14a93e;
+}
+procedure `int` `update`(`com.j256.ormlite.android.AndroidDatabaseConnection` v4 @kind this, `java.lang.String` v5 @kind object, `java.lang.Object`[] v6 @kind object, `com.j256.ormlite.field.FieldType`[] v7 @kind object, `java.lang.String` v8 @kind object) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.update:(Ljava/lang/String;[Ljava/lang/Object;[Lcom/j256/ormlite/field/FieldType;Ljava/lang/String;)I` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L14a984.  v2:= 0I;
+  #Try_start0.  
+  #L14a986.  v0:= v4.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14a98a.  call temp:= `compileStatement`(v0, v5) @signature `Landroid/database/sqlite/SQLiteDatabase;.compileStatement:(Ljava/lang/String;)Landroid/database/sqlite/SQLiteStatement;` @kind virtual;
+  #Try_end0.  
+  #L14a990.  v1:= temp @kind object;
+  #Try_start1.  
+  #L14a992.  call `bindArgs`(v4, v1, v6, v7) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.bindArgs:(Landroid/database/sqlite/SQLiteStatement;[Ljava/lang/Object;[Lcom/j256/ormlite/field/FieldType;)V` @kind direct;
+  #L14a998.  call `execute`(v1) @signature `Landroid/database/sqlite/SQLiteStatement;.execute:()V` @kind virtual;
+  #Try_end1.  
+  #L14a99e.  call `closeQuietly`(v4, v1) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/sqlite/SQLiteStatement;)V` @kind direct;
+  #Try_start2.  
+  #L14a9a4.  v0:= v4.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14a9a8.  v1:= "SELECT CHANGES()" @kind object;
+  #L14a9ac.  call temp:= `compileStatement`(v0, v1) @signature `Landroid/database/sqlite/SQLiteDatabase;.compileStatement:(Ljava/lang/String;)Landroid/database/sqlite/SQLiteStatement;` @kind virtual;
+  #L14a9b2.  v2:= temp @kind object;
+  #L14a9b4.  call temp:= `simpleQueryForLong`(v2) @signature `Landroid/database/sqlite/SQLiteStatement;.simpleQueryForLong:()J` @kind virtual;
+  #Try_end2.  
+  #L14a9ba.  v0:= temp @kind wide;
+  #L14a9bc.  v0:= (`int`) v0 @kind l2i;
+  #L14a9be.  call `closeQuietly`(v4, v2) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/sqlite/SQLiteStatement;)V` @kind direct;
+  #L14a9c4.  v1:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14a9c8.  v2:= "{} statement is compiled and executed, changed {}: {}" @kind object;
+  #L14a9cc.  call temp:= `valueOf`(v0) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L14a9d2.  v3:= temp @kind object;
+  #L14a9d4.  call `trace`(v1, v2, v8, v3, v5) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #L14a9da.  return v0;
+  #L14a9dc.  v0:= Exception @type ^`android.database.SQLException` @kind object;
+  #L14a9de.  v1:= v2 @kind object;
+  #Try_start3.  
+  #L14a9e0.  v2:= new `java.lang.StringBuilder`;
+  #L14a9e4.  call `<init>`(v2) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L14a9ea.  v3:= "updating database failed: " @kind object;
+  #L14a9ee.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14a9f4.  v2:= temp @kind object;
+  #L14a9f6.  call temp:= `append`(v2, v5) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14a9fc.  v2:= temp @kind object;
+  #L14a9fe.  call temp:= `toString`(v2) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L14aa04.  v2:= temp @kind object;
+  #L14aa06.  call temp:= `create`(v2, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L14aa0c.  v0:= temp @kind object;
+  #L14aa0e.  throw v0;
+  #Try_end3.  
+  #L14aa10.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L14aa12.  call `closeQuietly`(v4, v1) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/sqlite/SQLiteStatement;)V` @kind direct;
+  #L14aa18.  throw v0;
+  #L14aa1a.  v0:= Exception @type ^`android.database.SQLException` @kind object;
+  #L14aa1c.  v0:= 1I;
+  #L14aa1e.  call `closeQuietly`(v4, v2) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/sqlite/SQLiteStatement;)V` @kind direct;
+  #L14aa24.  goto L14a9c4;
+  #L14aa26.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L14aa28.  call `closeQuietly`(v4, v2) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/sqlite/SQLiteStatement;)V` @kind direct;
+  #L14aa2e.  throw v0;
+  #L14aa30.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L14aa32.  v1:= v2 @kind object;
+  #L14aa34.  goto L14aa12;
+  #L14aa36.  v0:= Exception @type ^`android.database.SQLException` @kind object;
+  #L14aa38.  goto L14a9e0;
+  catch `android.database.SQLException` @[Try_start0..Try_end0] goto L14a9dc;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L14aa30;
+  catch `android.database.SQLException` @[Try_start1..Try_end1] goto L14aa36;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L14aa10;
+  catch `android.database.SQLException` @[Try_start2..Try_end2] goto L14aa1a;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L14aa26;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L14aa10;
+}
+procedure `void` `close`(`com.j256.ormlite.android.AndroidDatabaseConnection` v3 @kind this) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.close:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #Try_start0.  
+  #L14aa80.  v0:= v3.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14aa84.  call `close`(v0) @signature `Landroid/database/sqlite/SQLiteDatabase;.close:()V` @kind virtual;
+  #L14aa8a.  v0:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14aa8e.  v1:= "{}: db {} closed" @kind object;
+  #L14aa92.  v2:= v3.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14aa96.  call `trace`(v0, v1, v3, v2) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end0.  
+  #L14aa9c.  return @kind void;
+  #L14aa9e.  v0:= Exception @type ^`android.database.SQLException` @kind object;
+  #L14aaa0.  v1:= new `java.io.IOException`;
+  #L14aaa4.  v2:= "problems closing the database connection" @kind object;
+  #L14aaa8.  call `<init>`(v1, v2, v0) @signature `Ljava/io/IOException;.<init>:(Ljava/lang/String;Ljava/lang/Throwable;)V` @kind direct;
+  #L14aaae.  throw v1;
+  catch `android.database.SQLException` @[Try_start0..Try_end0] goto L14aa9e;
+}
+procedure `void` `closeQuietly`(`com.j256.ormlite.android.AndroidDatabaseConnection` v0 @kind this) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:()V` @AccessFlag PUBLIC {
+    temp;
+
+  #L14aad0.  call `closeQuietly`(v0) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L14aad6.  return @kind void;
+}
+procedure `void` `commit`(`com.j256.ormlite.android.AndroidDatabaseConnection` v3 @kind this, `java.sql.Savepoint` v4 @kind object) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.commit:(Ljava/sql/Savepoint;)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #Try_start0.  
+  #L14aae8.  v0:= v3.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14aaec.  call `setTransactionSuccessful`(v0) @signature `Landroid/database/sqlite/SQLiteDatabase;.setTransactionSuccessful:()V` @kind virtual;
+  #L14aaf2.  v0:= v3.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14aaf6.  call `endTransaction`(v0) @signature `Landroid/database/sqlite/SQLiteDatabase;.endTransaction:()V` @kind virtual;
+  #L14aafc.  if v4 != 0 then goto L14ab10;
+  #L14ab00.  v0:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14ab04.  v1:= "{}: transaction is successfuly ended" @kind object;
+  #L14ab08.  call `trace`(v0, v1, v3) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L14ab0e.  return @kind void;
+  #L14ab10.  v0:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14ab14.  v1:= "{}: transaction {} is successfuly ended" @kind object;
+  #L14ab18.  call temp:= `getSavepointName`(v4) @signature `Ljava/sql/Savepoint;.getSavepointName:()Ljava/lang/String;` @kind interface;
+  #L14ab1e.  v2:= temp @kind object;
+  #L14ab20.  call `trace`(v0, v1, v3, v2) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end0.  
+  #L14ab26.  goto L14ab0e;
+  #L14ab28.  v0:= Exception @type ^`android.database.SQLException` @kind object;
+  #L14ab2a.  if v4 != 0 then goto L14ab3c;
+  #L14ab2e.  v1:= "problems commiting transaction" @kind object;
+  #L14ab32.  call temp:= `create`(v1, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L14ab38.  v0:= temp @kind object;
+  #L14ab3a.  throw v0;
+  #L14ab3c.  v1:= new `java.lang.StringBuilder`;
+  #L14ab40.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L14ab46.  v2:= "problems commiting transaction " @kind object;
+  #L14ab4a.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14ab50.  v1:= temp @kind object;
+  #L14ab52.  call temp:= `getSavepointName`(v4) @signature `Ljava/sql/Savepoint;.getSavepointName:()Ljava/lang/String;` @kind interface;
+  #L14ab58.  v2:= temp @kind object;
+  #L14ab5a.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14ab60.  v1:= temp @kind object;
+  #L14ab62.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L14ab68.  v1:= temp @kind object;
+  #L14ab6a.  call temp:= `create`(v1, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L14ab70.  v0:= temp @kind object;
+  #L14ab72.  throw v0;
+  catch `android.database.SQLException` @[Try_start0..Try_end0] goto L14ab28;
+}
+procedure `com.j256.ormlite.support.CompiledStatement` `compileStatement`(`com.j256.ormlite.android.AndroidDatabaseConnection` v6 @kind this, `java.lang.String` v7 @kind object, `com.j256.ormlite.stmt.StatementBuilder$StatementType` v8 @kind object, `com.j256.ormlite.field.FieldType`[] v9 @kind object, `int` v10 , `boolean` v11 ) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.compileStatement:(Ljava/lang/String;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;[Lcom/j256/ormlite/field/FieldType;IZ)Lcom/j256/ormlite/support/CompiledStatement;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L14ab94.  v0:= new `com.j256.ormlite.android.AndroidCompiledStatement`;
+  #L14ab98.  v2:= v6.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14ab9c.  v4:= v6.`com.j256.ormlite.android.AndroidDatabaseConnection.cancelQueriesEnabled` @type ^`boolean` @kind boolean;
+  #L14aba0.  v1:= v7 @kind object;
+  #L14aba2.  v3:= v8 @kind object;
+  #L14aba4.  v5:= v11;
+  #L14aba6.  call `<init>`(v0, v1, v2, v3, v4, v5) @signature `Lcom/j256/ormlite/android/AndroidCompiledStatement;.<init>:(Ljava/lang/String;Landroid/database/sqlite/SQLiteDatabase;Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;ZZ)V` @kind direct;
+  #L14abac.  v1:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14abb0.  v2:= "{}: compiled statement got {}: {}" @kind object;
+  #L14abb4.  call `trace`(v1, v2, v6, v0, v7) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #L14abba.  return v0 @kind object;
+}
+procedure `int` `delete`(`com.j256.ormlite.android.AndroidDatabaseConnection` v1 @kind this, `java.lang.String` v2 @kind object, `java.lang.Object`[] v3 @kind object, `com.j256.ormlite.field.FieldType`[] v4 @kind object) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.delete:(Ljava/lang/String;[Ljava/lang/Object;[Lcom/j256/ormlite/field/FieldType;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L14abcc.  v0:= "deleted" @kind object;
+  #L14abd0.  call temp:= `update`(v1, v2, v3, v4, v0) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.update:(Ljava/lang/String;[Ljava/lang/Object;[Lcom/j256/ormlite/field/FieldType;Ljava/lang/String;)I` @kind direct;
+  #L14abd6.  v0:= temp;
+  #L14abd8.  return v0;
+}
+procedure `int` `executeStatement`(`com.j256.ormlite.android.AndroidDatabaseConnection` v2 @kind this, `java.lang.String` v3 @kind object, `int` v4 ) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.executeStatement:(Ljava/lang/String;I)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L14abec.  v0:= v2.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14abf0.  v1:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.NO_STRING_ARGS` @type ^`java.lang.String`[] @kind object;
+  #L14abf4.  call temp:= `execSql`(v0, v3, v3, v1) @signature `Lcom/j256/ormlite/android/AndroidCompiledStatement;.execSql:(Landroid/database/sqlite/SQLiteDatabase;Ljava/lang/String;Ljava/lang/String;[Ljava/lang/Object;)I` @kind static;
+  #L14abfa.  v0:= temp;
+  #L14abfc.  return v0;
+}
+procedure `int` `insert`(`com.j256.ormlite.android.AndroidDatabaseConnection` v5 @kind this, `java.lang.String` v6 @kind object, `java.lang.Object`[] v7 @kind object, `com.j256.ormlite.field.FieldType`[] v8 @kind object, `com.j256.ormlite.support.GeneratedKeyHolder` v9 @kind object) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.insert:(Ljava/lang/String;[Ljava/lang/Object;[Lcom/j256/ormlite/field/FieldType;Lcom/j256/ormlite/support/GeneratedKeyHolder;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L14ac10.  v1:= 0I;
+  #Try_start0.  
+  #L14ac12.  v0:= v5.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14ac16.  call temp:= `compileStatement`(v0, v6) @signature `Landroid/database/sqlite/SQLiteDatabase;.compileStatement:(Ljava/lang/String;)Landroid/database/sqlite/SQLiteStatement;` @kind virtual;
+  #L14ac1c.  v1:= temp @kind object;
+  #L14ac1e.  call `bindArgs`(v5, v1, v7, v8) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.bindArgs:(Landroid/database/sqlite/SQLiteStatement;[Ljava/lang/Object;[Lcom/j256/ormlite/field/FieldType;)V` @kind direct;
+  #L14ac24.  call temp:= `executeInsert`(v1) @signature `Landroid/database/sqlite/SQLiteStatement;.executeInsert:()J` @kind virtual;
+  #L14ac2a.  v2:= temp @kind wide;
+  #L14ac2c.  if v9 == 0 then goto L14ac3e;
+  #L14ac30.  call temp:= `valueOf`(v2) @signature `Ljava/lang/Long;.valueOf:(J)Ljava/lang/Long;` @kind static;
+  #L14ac36.  v0:= temp @kind object;
+  #L14ac38.  call `addKey`(v9, v0) @signature `Lcom/j256/ormlite/support/GeneratedKeyHolder;.addKey:(Ljava/lang/Number;)V` @kind interface;
+  #L14ac3e.  v0:= 1I;
+  #L14ac40.  v2:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14ac44.  v3:= "{}: insert statement is compiled and executed, changed {}: {}" @kind object;
+  #L14ac48.  call temp:= `valueOf`(v0) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L14ac4e.  v4:= temp @kind object;
+  #L14ac50.  call `trace`(v2, v3, v5, v4, v6) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end0.  
+  #L14ac56.  call `closeQuietly`(v5, v1) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/sqlite/SQLiteStatement;)V` @kind direct;
+  #L14ac5c.  return v0;
+  #L14ac5e.  v0:= Exception @type ^`android.database.SQLException` @kind object;
+  #Try_start1.  
+  #L14ac60.  v2:= new `java.lang.StringBuilder`;
+  #L14ac64.  call `<init>`(v2) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L14ac6a.  v3:= "inserting to database failed: " @kind object;
+  #L14ac6e.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14ac74.  v2:= temp @kind object;
+  #L14ac76.  call temp:= `append`(v2, v6) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14ac7c.  v2:= temp @kind object;
+  #L14ac7e.  call temp:= `toString`(v2) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L14ac84.  v2:= temp @kind object;
+  #L14ac86.  call temp:= `create`(v2, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L14ac8c.  v0:= temp @kind object;
+  #L14ac8e.  throw v0;
+  #Try_end1.  
+  #L14ac90.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L14ac92.  call `closeQuietly`(v5, v1) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/sqlite/SQLiteStatement;)V` @kind direct;
+  #L14ac98.  throw v0;
+  catch `android.database.SQLException` @[Try_start0..Try_end0] goto L14ac5e;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L14ac90;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L14ac90;
+}
+procedure `boolean` `isAutoCommit`(`com.j256.ormlite.android.AndroidDatabaseConnection` v4 @kind this) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.isAutoCommit:()Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #Try_start0.  
+  #L14acc4.  v0:= v4.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14acc8.  call temp:= `inTransaction`(v0) @signature `Landroid/database/sqlite/SQLiteDatabase;.inTransaction:()Z` @kind virtual;
+  #L14acce.  v0:= temp;
+  #L14acd0.  v1:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14acd4.  v2:= "{}: in transaction is {}" @kind object;
+  #L14acd8.  call temp:= `valueOf`(v0) @signature `Ljava/lang/Boolean;.valueOf:(Z)Ljava/lang/Boolean;` @kind static;
+  #L14acde.  v3:= temp @kind object;
+  #L14ace0.  call `trace`(v1, v2, v4, v3) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end0.  
+  #L14ace6.  if v0 != 0 then goto L14acee;
+  #L14acea.  v0:= 1I;
+  #L14acec.  return v0;
+  #L14acee.  v0:= 0I;
+  #L14acf0.  goto L14acec;
+  #L14acf2.  v0:= Exception @type ^`android.database.SQLException` @kind object;
+  #L14acf4.  v1:= "problems getting auto-commit from database" @kind object;
+  #L14acf8.  call temp:= `create`(v1, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L14acfe.  v0:= temp @kind object;
+  #L14ad00.  throw v0;
+  catch `android.database.SQLException` @[Try_start0..Try_end0] goto L14acf2;
+}
+procedure `boolean` `isAutoCommitSupported`(`com.j256.ormlite.android.AndroidDatabaseConnection` v1 @kind this) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.isAutoCommitSupported:()Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L14ad24.  v0:= 1I;
+  #L14ad26.  return v0;
+}
+procedure `boolean` `isClosed`(`com.j256.ormlite.android.AndroidDatabaseConnection` v5 @kind this) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.isClosed:()Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #Try_start0.  
+  #L14ad38.  v0:= v5.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14ad3c.  call temp:= `isOpen`(v0) @signature `Landroid/database/sqlite/SQLiteDatabase;.isOpen:()Z` @kind virtual;
+  #L14ad42.  v0:= temp;
+  #L14ad44.  v1:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14ad48.  v2:= "{}: db {} isOpen returned {}" @kind object;
+  #L14ad4c.  v3:= v5.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14ad50.  call temp:= `valueOf`(v0) @signature `Ljava/lang/Boolean;.valueOf:(Z)Ljava/lang/Boolean;` @kind static;
+  #L14ad56.  v4:= temp @kind object;
+  #L14ad58.  call `trace`(v1, v2, v5, v3, v4) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end0.  
+  #L14ad5e.  if v0 != 0 then goto L14ad66;
+  #L14ad62.  v0:= 1I;
+  #L14ad64.  return v0;
+  #L14ad66.  v0:= 0I;
+  #L14ad68.  goto L14ad64;
+  #L14ad6a.  v0:= Exception @type ^`android.database.SQLException` @kind object;
+  #L14ad6c.  v1:= "problems detecting if the database is closed" @kind object;
+  #L14ad70.  call temp:= `create`(v1, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L14ad76.  v0:= temp @kind object;
+  #L14ad78.  throw v0;
+  catch `android.database.SQLException` @[Try_start0..Try_end0] goto L14ad6a;
+}
+procedure `boolean` `isReadWrite`(`com.j256.ormlite.android.AndroidDatabaseConnection` v1 @kind this) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.isReadWrite:()Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L14ad9c.  v0:= v1.`com.j256.ormlite.android.AndroidDatabaseConnection.readWrite` @type ^`boolean` @kind boolean;
+  #L14ada0.  return v0;
+}
+procedure `boolean` `isTableExists`(`com.j256.ormlite.android.AndroidDatabaseConnection` v5 @kind this, `java.lang.String` v6 @kind object) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.isTableExists:(Ljava/lang/String;)Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L14adb4.  v0:= v5.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14adb8.  v1:= new `java.lang.StringBuilder`;
+  #L14adbc.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L14adc2.  v2:= "SELECT DISTINCT tbl_name FROM sqlite_master WHERE tbl_name = '" @kind object;
+  #L14adc6.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14adcc.  v1:= temp @kind object;
+  #L14adce.  call temp:= `append`(v1, v6) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14add4.  v1:= temp @kind object;
+  #L14add6.  v2:= "'" @kind object;
+  #L14adda.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14ade0.  v1:= temp @kind object;
+  #L14ade2.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L14ade8.  v1:= temp @kind object;
+  #L14adea.  v2:= 0I;
+  #L14adec.  call temp:= `rawQuery`(v0, v1, v2) @signature `Landroid/database/sqlite/SQLiteDatabase;.rawQuery:(Ljava/lang/String;[Ljava/lang/String;)Landroid/database/Cursor;` @kind virtual;
+  #L14adf2.  v1:= temp @kind object;
+  #Try_start0.  
+  #L14adf4.  call temp:= `getCount`(v1) @signature `Landroid/database/Cursor;.getCount:()I` @kind interface;
+  #L14adfa.  v0:= temp;
+  #L14adfc.  if v0 <= 0 then goto L14ae20;
+  #L14ae00.  v0:= 1I;
+  #L14ae02.  v2:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14ae06.  v3:= "{}: isTableExists '{}' returned {}" @kind object;
+  #L14ae0a.  call temp:= `valueOf`(v0) @signature `Ljava/lang/Boolean;.valueOf:(Z)Ljava/lang/Boolean;` @kind static;
+  #L14ae10.  v4:= temp @kind object;
+  #L14ae12.  call `trace`(v2, v3, v5, v6, v4) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end0.  
+  #L14ae18.  call `close`(v1) @signature `Landroid/database/Cursor;.close:()V` @kind interface;
+  #L14ae1e.  return v0;
+  #L14ae20.  v0:= 0I;
+  #L14ae22.  goto L14ae02;
+  #L14ae24.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L14ae26.  call `close`(v1) @signature `Landroid/database/Cursor;.close:()V` @kind interface;
+  #L14ae2c.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L14ae24;
+}
+procedure `long` `queryForLong`(`com.j256.ormlite.android.AndroidDatabaseConnection` v6 @kind this, `java.lang.String` v7 @kind object) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.queryForLong:(Ljava/lang/String;)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L14ae4c.  v1:= 0I;
+  #Try_start0.  
+  #L14ae4e.  v0:= v6.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14ae52.  call temp:= `compileStatement`(v0, v7) @signature `Landroid/database/sqlite/SQLiteDatabase;.compileStatement:(Ljava/lang/String;)Landroid/database/sqlite/SQLiteStatement;` @kind virtual;
+  #L14ae58.  v1:= temp @kind object;
+  #L14ae5a.  call temp:= `simpleQueryForLong`(v1) @signature `Landroid/database/sqlite/SQLiteStatement;.simpleQueryForLong:()J` @kind virtual;
+  #L14ae60.  v2:= temp @kind wide;
+  #L14ae62.  v0:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14ae66.  v4:= "{}: query for long simple query returned {}: {}" @kind object;
+  #L14ae6a.  call temp:= `valueOf`(v2) @signature `Ljava/lang/Long;.valueOf:(J)Ljava/lang/Long;` @kind static;
+  #L14ae70.  v5:= temp @kind object;
+  #L14ae72.  call `trace`(v0, v4, v6, v5, v7) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end0.  
+  #L14ae78.  call `closeQuietly`(v6, v1) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/sqlite/SQLiteStatement;)V` @kind direct;
+  #L14ae7e.  return v2 @kind wide;
+  #L14ae80.  v0:= Exception @type ^`android.database.SQLException` @kind object;
+  #Try_start1.  
+  #L14ae82.  v2:= new `java.lang.StringBuilder`;
+  #L14ae86.  call `<init>`(v2) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L14ae8c.  v3:= "queryForLong from database failed: " @kind object;
+  #L14ae90.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14ae96.  v2:= temp @kind object;
+  #L14ae98.  call temp:= `append`(v2, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14ae9e.  v2:= temp @kind object;
+  #L14aea0.  call temp:= `toString`(v2) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L14aea6.  v2:= temp @kind object;
+  #L14aea8.  call temp:= `create`(v2, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L14aeae.  v0:= temp @kind object;
+  #L14aeb0.  throw v0;
+  #Try_end1.  
+  #L14aeb2.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L14aeb4.  call `closeQuietly`(v6, v1) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/sqlite/SQLiteStatement;)V` @kind direct;
+  #L14aeba.  throw v0;
+  catch `android.database.SQLException` @[Try_start0..Try_end0] goto L14ae80;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L14aeb2;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L14aeb2;
+}
+procedure `long` `queryForLong`(`com.j256.ormlite.android.AndroidDatabaseConnection` v7 @kind this, `java.lang.String` v8 @kind object, `java.lang.Object`[] v9 @kind object, `com.j256.ormlite.field.FieldType`[] v10 @kind object) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.queryForLong:(Ljava/lang/String;[Ljava/lang/Object;[Lcom/j256/ormlite/field/FieldType;)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L14aee4.  v2:= 0I;
+  #Try_start0.  
+  #L14aee6.  v0:= v7.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14aeea.  call temp:= `toStrings`(v7, v9) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.toStrings:([Ljava/lang/Object;)[Ljava/lang/String;` @kind direct;
+  #L14aef0.  v1:= temp @kind object;
+  #L14aef2.  call temp:= `rawQuery`(v0, v8, v1) @signature `Landroid/database/sqlite/SQLiteDatabase;.rawQuery:(Ljava/lang/String;[Ljava/lang/String;)Landroid/database/Cursor;` @kind virtual;
+  #Try_end0.  
+  #L14aef8.  v3:= temp @kind object;
+  #Try_start1.  
+  #L14aefa.  v1:= new `com.j256.ormlite.android.AndroidDatabaseResults`;
+  #L14aefe.  v0:= 0I;
+  #L14af00.  v4:= 0I;
+  #L14af02.  call `<init>`(v1, v3, v0, v4) @signature `Lcom/j256/ormlite/android/AndroidDatabaseResults;.<init>:(Landroid/database/Cursor;Lcom/j256/ormlite/dao/ObjectCache;Z)V` @kind direct;
+  #Try_end1.  
+  #Try_start2.  
+  #L14af08.  call temp:= `first`(v1) @signature `Lcom/j256/ormlite/android/AndroidDatabaseResults;.first:()Z` @kind virtual;
+  #L14af0e.  v0:= temp;
+  #L14af10.  if v0 == 0 then goto L14af42;
+  #L14af14.  v0:= 0I;
+  #L14af16.  call temp:= `getLong`(v1, v0) @signature `Lcom/j256/ormlite/android/AndroidDatabaseResults;.getLong:(I)J` @kind virtual;
+  #L14af1c.  v4:= temp @kind wide;
+  #L14af1e.  v0:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14af22.  v2:= "{}: query for long raw query returned {}: {}" @kind object;
+  #L14af26.  call temp:= `valueOf`(v4) @signature `Ljava/lang/Long;.valueOf:(J)Ljava/lang/Long;` @kind static;
+  #L14af2c.  v6:= temp @kind object;
+  #L14af2e.  call `trace`(v0, v2, v7, v6, v8) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end2.  
+  #L14af34.  call `closeQuietly`(v7, v3) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/Cursor;)V` @kind direct;
+  #L14af3a.  call `closeQuietly`(v1) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L14af40.  return v4 @kind wide;
+  #L14af42.  v4:= 0L;
+  #L14af46.  goto L14af1e;
+  #L14af48.  v0:= Exception @type ^`android.database.SQLException` @kind object;
+  #L14af4a.  v1:= v2 @kind object;
+  #Try_start3.  
+  #L14af4c.  v3:= new `java.lang.StringBuilder`;
+  #L14af50.  call `<init>`(v3) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L14af56.  v4:= "queryForLong from database failed: " @kind object;
+  #L14af5a.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14af60.  v3:= temp @kind object;
+  #L14af62.  call temp:= `append`(v3, v8) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14af68.  v3:= temp @kind object;
+  #L14af6a.  call temp:= `toString`(v3) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L14af70.  v3:= temp @kind object;
+  #L14af72.  call temp:= `create`(v3, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L14af78.  v0:= temp @kind object;
+  #L14af7a.  throw v0;
+  #Try_end3.  
+  #L14af7c.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L14af7e.  call `closeQuietly`(v7, v2) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/Cursor;)V` @kind direct;
+  #L14af84.  call `closeQuietly`(v1) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L14af8a.  throw v0;
+  #L14af8c.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L14af8e.  v1:= v2 @kind object;
+  #L14af90.  goto L14af7e;
+  #L14af92.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L14af94.  v1:= v2 @kind object;
+  #L14af96.  v2:= v3 @kind object;
+  #L14af98.  goto L14af7e;
+  #L14af9a.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L14af9c.  v2:= v3 @kind object;
+  #L14af9e.  goto L14af7e;
+  #L14afa0.  v0:= Exception @type ^`android.database.SQLException` @kind object;
+  #L14afa2.  v1:= v2 @kind object;
+  #L14afa4.  v2:= v3 @kind object;
+  #L14afa6.  goto L14af4c;
+  #L14afa8.  v0:= Exception @type ^`android.database.SQLException` @kind object;
+  #L14afaa.  v2:= v3 @kind object;
+  #L14afac.  goto L14af4c;
+  catch `android.database.SQLException` @[Try_start0..Try_end0] goto L14af48;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L14af8c;
+  catch `android.database.SQLException` @[Try_start1..Try_end1] goto L14afa0;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L14af92;
+  catch `android.database.SQLException` @[Try_start2..Try_end2] goto L14afa8;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L14af9a;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L14af7c;
+}
+procedure `java.lang.Object` `queryForOne`(`com.j256.ormlite.android.AndroidDatabaseConnection` v6 @kind this, `java.lang.String` v7 @kind object, `java.lang.Object`[] v8 @kind object, `com.j256.ormlite.field.FieldType`[] v9 @kind object, `com.j256.ormlite.stmt.GenericRowMapper` v10 @kind object, `com.j256.ormlite.dao.ObjectCache` v11 @kind object) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.queryForOne:(Ljava/lang/String;[Ljava/lang/Object;[Lcom/j256/ormlite/field/FieldType;Lcom/j256/ormlite/stmt/GenericRowMapper;Lcom/j256/ormlite/dao/ObjectCache;)Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L14aff4.  v0:= 0I;
+  #Try_start0.  
+  #L14aff6.  v1:= v6.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14affa.  call temp:= `toStrings`(v6, v8) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.toStrings:([Ljava/lang/Object;)[Ljava/lang/String;` @kind direct;
+  #L14b000.  v2:= temp @kind object;
+  #L14b002.  call temp:= `rawQuery`(v1, v7, v2) @signature `Landroid/database/sqlite/SQLiteDatabase;.rawQuery:(Ljava/lang/String;[Ljava/lang/String;)Landroid/database/Cursor;` @kind virtual;
+  #Try_end0.  
+  #L14b008.  v2:= temp @kind object;
+  #Try_start1.  
+  #L14b00a.  v1:= new `com.j256.ormlite.android.AndroidDatabaseResults`;
+  #L14b00e.  v3:= 1I;
+  #L14b010.  call `<init>`(v1, v2, v11, v3) @signature `Lcom/j256/ormlite/android/AndroidDatabaseResults;.<init>:(Landroid/database/Cursor;Lcom/j256/ormlite/dao/ObjectCache;Z)V` @kind direct;
+  #Try_end1.  
+  #Try_start2.  
+  #L14b016.  v3:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14b01a.  v4:= "{}: queried for one result: {}" @kind object;
+  #L14b01e.  call `trace`(v3, v4, v6, v7) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #L14b024.  call temp:= `first`(v1) @signature `Lcom/j256/ormlite/android/AndroidDatabaseResults;.first:()Z` @kind virtual;
+  #Try_end2.  
+  #L14b02a.  v3:= temp;
+  #L14b02c.  if v3 != 0 then goto L14b03e;
+  #L14b030.  call `closeQuietly`(v1) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L14b036.  call `closeQuietly`(v6, v2) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/Cursor;)V` @kind direct;
+  #L14b03c.  return v0 @kind object;
+  #Try_start3.  
+  #L14b03e.  call temp:= `mapRow`(v10, v1) @signature `Lcom/j256/ormlite/stmt/GenericRowMapper;.mapRow:(Lcom/j256/ormlite/support/DatabaseResults;)Ljava/lang/Object;` @kind interface;
+  #L14b044.  v0:= temp @kind object;
+  #L14b046.  call temp:= `next`(v1) @signature `Lcom/j256/ormlite/android/AndroidDatabaseResults;.next:()Z` @kind virtual;
+  #L14b04c.  v3:= temp;
+  #L14b04e.  if v3 == 0 then goto L14b064;
+  #L14b052.  v0:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.MORE_THAN_ONE` @type ^`java.lang.Object` @kind object;
+  #Try_end3.  
+  #L14b056.  call `closeQuietly`(v1) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L14b05c.  call `closeQuietly`(v6, v2) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/Cursor;)V` @kind direct;
+  #L14b062.  goto L14b03c;
+  #L14b064.  call `closeQuietly`(v1) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L14b06a.  call `closeQuietly`(v6, v2) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/Cursor;)V` @kind direct;
+  #L14b070.  goto L14b03c;
+  #L14b072.  v1:= Exception @type ^`android.database.SQLException` @kind object;
+  #L14b074.  v2:= v0 @kind object;
+  #L14b076.  v5:= v0 @kind object;
+  #L14b078.  v0:= v1 @kind object;
+  #L14b07a.  v1:= v5 @kind object;
+  #Try_start4.  
+  #L14b07c.  v3:= new `java.lang.StringBuilder`;
+  #L14b080.  call `<init>`(v3) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L14b086.  v4:= "queryForOne from database failed: " @kind object;
+  #L14b08a.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14b090.  v3:= temp @kind object;
+  #L14b092.  call temp:= `append`(v3, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14b098.  v3:= temp @kind object;
+  #L14b09a.  call temp:= `toString`(v3) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L14b0a0.  v3:= temp @kind object;
+  #L14b0a2.  call temp:= `create`(v3, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L14b0a8.  v0:= temp @kind object;
+  #L14b0aa.  throw v0;
+  #Try_end4.  
+  #L14b0ac.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L14b0ae.  call `closeQuietly`(v1) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L14b0b4.  call `closeQuietly`(v6, v2) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.closeQuietly:(Landroid/database/Cursor;)V` @kind direct;
+  #L14b0ba.  throw v0;
+  #L14b0bc.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L14b0be.  v2:= v0 @kind object;
+  #L14b0c0.  v5:= v0 @kind object;
+  #L14b0c2.  v0:= v1 @kind object;
+  #L14b0c4.  v1:= v5 @kind object;
+  #L14b0c6.  goto L14b0ae;
+  #L14b0c8.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L14b0ca.  v5:= v1 @kind object;
+  #L14b0cc.  v1:= v0 @kind object;
+  #L14b0ce.  v0:= v5 @kind object;
+  #L14b0d0.  goto L14b0ae;
+  #L14b0d2.  v1:= Exception @type ^`android.database.SQLException` @kind object;
+  #L14b0d4.  v5:= v1 @kind object;
+  #L14b0d6.  v1:= v0 @kind object;
+  #L14b0d8.  v0:= v5 @kind object;
+  #L14b0da.  goto L14b07c;
+  #L14b0dc.  v0:= Exception @type ^`android.database.SQLException` @kind object;
+  #L14b0de.  goto L14b07c;
+  catch `android.database.SQLException` @[Try_start0..Try_end0] goto L14b072;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L14b0bc;
+  catch `android.database.SQLException` @[Try_start1..Try_end1] goto L14b0d2;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L14b0c8;
+  catch `android.database.SQLException` @[Try_start2..Try_end2] goto L14b0dc;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L14b0ac;
+  catch `android.database.SQLException` @[Try_start3..Try_end3] goto L14b0dc;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L14b0ac;
+  catch `java.lang.Throwable` @[Try_start4..Try_end4] goto L14b0ac;
+}
+procedure `void` `rollback`(`com.j256.ormlite.android.AndroidDatabaseConnection` v3 @kind this, `java.sql.Savepoint` v4 @kind object) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.rollback:(Ljava/sql/Savepoint;)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #Try_start0.  
+  #L14b12c.  v0:= v3.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14b130.  call `endTransaction`(v0) @signature `Landroid/database/sqlite/SQLiteDatabase;.endTransaction:()V` @kind virtual;
+  #L14b136.  if v4 != 0 then goto L14b14a;
+  #L14b13a.  v0:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14b13e.  v1:= "{}: transaction is ended, unsuccessfuly" @kind object;
+  #L14b142.  call `trace`(v0, v1, v3) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;)V` @kind virtual;
+  #L14b148.  return @kind void;
+  #L14b14a.  v0:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14b14e.  v1:= "{}: transaction {} is ended, unsuccessfuly" @kind object;
+  #L14b152.  call temp:= `getSavepointName`(v4) @signature `Ljava/sql/Savepoint;.getSavepointName:()Ljava/lang/String;` @kind interface;
+  #L14b158.  v2:= temp @kind object;
+  #L14b15a.  call `trace`(v0, v1, v3, v2) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #Try_end0.  
+  #L14b160.  goto L14b148;
+  #L14b162.  v0:= Exception @type ^`android.database.SQLException` @kind object;
+  #L14b164.  if v4 != 0 then goto L14b176;
+  #L14b168.  v1:= "problems rolling back transaction" @kind object;
+  #L14b16c.  call temp:= `create`(v1, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L14b172.  v0:= temp @kind object;
+  #L14b174.  throw v0;
+  #L14b176.  v1:= new `java.lang.StringBuilder`;
+  #L14b17a.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L14b180.  v2:= "problems rolling back transaction " @kind object;
+  #L14b184.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14b18a.  v1:= temp @kind object;
+  #L14b18c.  call temp:= `getSavepointName`(v4) @signature `Ljava/sql/Savepoint;.getSavepointName:()Ljava/lang/String;` @kind interface;
+  #L14b192.  v2:= temp @kind object;
+  #L14b194.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14b19a.  v1:= temp @kind object;
+  #L14b19c.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L14b1a2.  v1:= temp @kind object;
+  #L14b1a4.  call temp:= `create`(v1, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L14b1aa.  v0:= temp @kind object;
+  #L14b1ac.  throw v0;
+  catch `android.database.SQLException` @[Try_start0..Try_end0] goto L14b162;
+}
+procedure `void` `setAutoCommit`(`com.j256.ormlite.android.AndroidDatabaseConnection` v1 @kind this, `boolean` v2 ) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.setAutoCommit:(Z)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L14b1d0.  if v2 == 0 then goto L14b1fa;
+  #L14b1d4.  v0:= v1.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14b1d8.  call temp:= `inTransaction`(v0) @signature `Landroid/database/sqlite/SQLiteDatabase;.inTransaction:()Z` @kind virtual;
+  #L14b1de.  v0:= temp;
+  #L14b1e0.  if v0 == 0 then goto L14b1f8;
+  #L14b1e4.  v0:= v1.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14b1e8.  call `setTransactionSuccessful`(v0) @signature `Landroid/database/sqlite/SQLiteDatabase;.setTransactionSuccessful:()V` @kind virtual;
+  #L14b1ee.  v0:= v1.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14b1f2.  call `endTransaction`(v0) @signature `Landroid/database/sqlite/SQLiteDatabase;.endTransaction:()V` @kind virtual;
+  #L14b1f8.  return @kind void;
+  #L14b1fa.  v0:= v1.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14b1fe.  call temp:= `inTransaction`(v0) @signature `Landroid/database/sqlite/SQLiteDatabase;.inTransaction:()Z` @kind virtual;
+  #L14b204.  v0:= temp;
+  #L14b206.  if v0 != 0 then goto L14b1f8;
+  #L14b20a.  v0:= v1.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14b20e.  call `beginTransaction`(v0) @signature `Landroid/database/sqlite/SQLiteDatabase;.beginTransaction:()V` @kind virtual;
+  #L14b214.  goto L14b1f8;
+}
+procedure `java.sql.Savepoint` `setSavePoint`(`com.j256.ormlite.android.AndroidDatabaseConnection` v3 @kind this, `java.lang.String` v4 @kind object) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.setSavePoint:(Ljava/lang/String;)Ljava/sql/Savepoint;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #Try_start0.  
+  #L14b228.  v0:= v3.`com.j256.ormlite.android.AndroidDatabaseConnection.db` @type ^`android.database.sqlite.SQLiteDatabase` @kind object;
+  #L14b22c.  call `beginTransaction`(v0) @signature `Landroid/database/sqlite/SQLiteDatabase;.beginTransaction:()V` @kind virtual;
+  #L14b232.  v0:= `@@com.j256.ormlite.android.AndroidDatabaseConnection.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L14b236.  v1:= "{}: save-point set with name {}" @kind object;
+  #L14b23a.  call `trace`(v0, v1, v3, v4) @signature `Lcom/j256/ormlite/logger/Logger;.trace:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #L14b240.  v0:= new `com.j256.ormlite.android.AndroidDatabaseConnection$OurSavePoint`;
+  #L14b244.  call `<init>`(v0, v4) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection$OurSavePoint;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #Try_end0.  
+  #L14b24a.  return v0 @kind object;
+  #L14b24c.  v0:= Exception @type ^`android.database.SQLException` @kind object;
+  #L14b24e.  v1:= new `java.lang.StringBuilder`;
+  #L14b252.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L14b258.  v2:= "problems beginning transaction " @kind object;
+  #L14b25c.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14b262.  v1:= temp @kind object;
+  #L14b264.  call temp:= `append`(v1, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14b26a.  v1:= temp @kind object;
+  #L14b26c.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L14b272.  v1:= temp @kind object;
+  #L14b274.  call temp:= `create`(v1, v0) @signature `Lcom/j256/ormlite/misc/SqlExceptionUtil;.create:(Ljava/lang/String;Ljava/lang/Throwable;)Ljava/sql/SQLException;` @kind static;
+  #L14b27a.  v0:= temp @kind object;
+  #L14b27c.  throw v0;
+  catch `android.database.SQLException` @[Try_start0..Try_end0] goto L14b24c;
+}
+procedure `java.lang.String` `toString`(`com.j256.ormlite.android.AndroidDatabaseConnection` v2 @kind this) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.toString:()Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L14b2a0.  v0:= new `java.lang.StringBuilder`;
+  #L14b2a4.  call `<init>`(v0) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L14b2aa.  call temp:= `getClass`(v2) @signature `Ljava/lang/Object;.getClass:()Ljava/lang/Class;` @kind virtual;
+  #L14b2b0.  v1:= temp @kind object;
+  #L14b2b2.  call temp:= `getSimpleName`(v1) @signature `Ljava/lang/Class;.getSimpleName:()Ljava/lang/String;` @kind virtual;
+  #L14b2b8.  v1:= temp @kind object;
+  #L14b2ba.  call temp:= `append`(v0, v1) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14b2c0.  v0:= temp @kind object;
+  #L14b2c2.  v1:= "@" @kind object;
+  #L14b2c6.  call temp:= `append`(v0, v1) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14b2cc.  v0:= temp @kind object;
+  #L14b2ce.  call temp:= `hashCode`(v2) @signature `Ljava/lang/Object;.hashCode:()I` @kind super;
+  #L14b2d4.  v1:= temp;
+  #L14b2d6.  call temp:= `toHexString`(v1) @signature `Ljava/lang/Integer;.toHexString:(I)Ljava/lang/String;` @kind static;
+  #L14b2dc.  v1:= temp @kind object;
+  #L14b2de.  call temp:= `append`(v0, v1) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L14b2e4.  v0:= temp @kind object;
+  #L14b2e6.  call temp:= `toString`(v0) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L14b2ec.  v0:= temp @kind object;
+  #L14b2ee.  return v0 @kind object;
+}
+procedure `int` `update`(`com.j256.ormlite.android.AndroidDatabaseConnection` v1 @kind this, `java.lang.String` v2 @kind object, `java.lang.Object`[] v3 @kind object, `com.j256.ormlite.field.FieldType`[] v4 @kind object) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.update:(Ljava/lang/String;[Ljava/lang/Object;[Lcom/j256/ormlite/field/FieldType;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L14b300.  v0:= "updated" @kind object;
+  #L14b304.  call temp:= `update`(v1, v2, v3, v4, v0) @signature `Lcom/j256/ormlite/android/AndroidDatabaseConnection;.update:(Ljava/lang/String;[Ljava/lang/Object;[Lcom/j256/ormlite/field/FieldType;Ljava/lang/String;)I` @kind direct;
+  #L14b30a.  v0:= temp;
+  #L14b30c.  return v0;
+}

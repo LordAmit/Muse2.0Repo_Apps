@@ -1,0 +1,428 @@
+record `com.j256.ormlite.stmt.SelectIterator` @kind class @AccessFlag PUBLIC extends `com.j256.ormlite.dao.CloseableIterator` @kind interface {
+  `boolean` `com.j256.ormlite.stmt.SelectIterator.alreadyMoved` @AccessFlag PRIVATE;
+  `com.j256.ormlite.dao.Dao` `com.j256.ormlite.stmt.SelectIterator.classDao` @AccessFlag PRIVATE_FINAL;
+  `boolean` `com.j256.ormlite.stmt.SelectIterator.closed` @AccessFlag PRIVATE;
+  `com.j256.ormlite.support.CompiledStatement` `com.j256.ormlite.stmt.SelectIterator.compiledStmt` @AccessFlag PRIVATE_FINAL;
+  `com.j256.ormlite.support.DatabaseConnection` `com.j256.ormlite.stmt.SelectIterator.connection` @AccessFlag PRIVATE_FINAL;
+  `com.j256.ormlite.support.ConnectionSource` `com.j256.ormlite.stmt.SelectIterator.connectionSource` @AccessFlag PRIVATE_FINAL;
+  `java.lang.Class` `com.j256.ormlite.stmt.SelectIterator.dataClass` @AccessFlag PRIVATE_FINAL;
+  `boolean` `com.j256.ormlite.stmt.SelectIterator.first` @AccessFlag PRIVATE;
+  `java.lang.Object` `com.j256.ormlite.stmt.SelectIterator.last` @AccessFlag PRIVATE;
+  `com.j256.ormlite.support.DatabaseResults` `com.j256.ormlite.stmt.SelectIterator.results` @AccessFlag PRIVATE_FINAL;
+  `int` `com.j256.ormlite.stmt.SelectIterator.rowC` @AccessFlag PRIVATE;
+  `com.j256.ormlite.stmt.GenericRowMapper` `com.j256.ormlite.stmt.SelectIterator.rowMapper` @AccessFlag PRIVATE_FINAL;
+  `java.lang.String` `com.j256.ormlite.stmt.SelectIterator.statement` @AccessFlag PRIVATE_FINAL;
+}
+global `com.j256.ormlite.logger.Logger` `@@com.j256.ormlite.stmt.SelectIterator.logger` @AccessFlag PRIVATE_STATIC_FINAL;
+procedure `void` `<clinit>`() @signature `Lcom/j256/ormlite/stmt/SelectIterator;.<clinit>:()V` @AccessFlag STATIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L174318.  v0:= constclass @type ^`com.j256.ormlite.stmt.SelectIterator` @kind object;
+  #L17431c.  call temp:= `getLogger`(v0) @signature `Lcom/j256/ormlite/logger/LoggerFactory;.getLogger:(Ljava/lang/Class;)Lcom/j256/ormlite/logger/Logger;` @kind static;
+  #L174322.  v0:= temp @kind object;
+  #L174324.  `@@com.j256.ormlite.stmt.SelectIterator.logger` @type ^`com.j256.ormlite.logger.Logger` := v0 @kind object;
+  #L174328.  return @kind void;
+}
+procedure `void` `<init>`(`com.j256.ormlite.stmt.SelectIterator` v3 @kind this, `java.lang.Class` v4 @kind object, `com.j256.ormlite.dao.Dao` v5 @kind object, `com.j256.ormlite.stmt.GenericRowMapper` v6 @kind object, `com.j256.ormlite.support.ConnectionSource` v7 @kind object, `com.j256.ormlite.support.DatabaseConnection` v8 @kind object, `com.j256.ormlite.support.CompiledStatement` v9 @kind object, `java.lang.String` v10 @kind object, `com.j256.ormlite.dao.ObjectCache` v11 @kind object) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.<init>:(Ljava/lang/Class;Lcom/j256/ormlite/dao/Dao;Lcom/j256/ormlite/stmt/GenericRowMapper;Lcom/j256/ormlite/support/ConnectionSource;Lcom/j256/ormlite/support/DatabaseConnection;Lcom/j256/ormlite/support/CompiledStatement;Ljava/lang/String;Lcom/j256/ormlite/dao/ObjectCache;)V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L17433c.  call `<init>`(v3) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L174342.  v0:= 1I;
+  #L174344.  v3.`com.j256.ormlite.stmt.SelectIterator.first` @type ^`boolean` := v0 @kind boolean;
+  #L174348.  v3.`com.j256.ormlite.stmt.SelectIterator.dataClass` @type ^`java.lang.Class` := v4 @kind object;
+  #L17434c.  v3.`com.j256.ormlite.stmt.SelectIterator.classDao` @type ^`com.j256.ormlite.dao.Dao` := v5 @kind object;
+  #L174350.  v3.`com.j256.ormlite.stmt.SelectIterator.rowMapper` @type ^`com.j256.ormlite.stmt.GenericRowMapper` := v6 @kind object;
+  #L174354.  v3.`com.j256.ormlite.stmt.SelectIterator.connectionSource` @type ^`com.j256.ormlite.support.ConnectionSource` := v7 @kind object;
+  #L174358.  v3.`com.j256.ormlite.stmt.SelectIterator.connection` @type ^`com.j256.ormlite.support.DatabaseConnection` := v8 @kind object;
+  #L17435c.  v3.`com.j256.ormlite.stmt.SelectIterator.compiledStmt` @type ^`com.j256.ormlite.support.CompiledStatement` := v9 @kind object;
+  #L174360.  call temp:= `runQuery`(v9, v11) @signature `Lcom/j256/ormlite/support/CompiledStatement;.runQuery:(Lcom/j256/ormlite/dao/ObjectCache;)Lcom/j256/ormlite/support/DatabaseResults;` @kind interface;
+  #L174366.  v0:= temp @kind object;
+  #L174368.  v3.`com.j256.ormlite.stmt.SelectIterator.results` @type ^`com.j256.ormlite.support.DatabaseResults` := v0 @kind object;
+  #L17436c.  v3.`com.j256.ormlite.stmt.SelectIterator.statement` @type ^`java.lang.String` := v10 @kind object;
+  #L174370.  if v10 == 0 then goto L174392;
+  #L174374.  v0:= `@@com.j256.ormlite.stmt.SelectIterator.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L174378.  v1:= "starting iterator @{} for '{}'" @kind object;
+  #L17437c.  call temp:= `hashCode`(v3) @signature `Ljava/lang/Object;.hashCode:()I` @kind virtual;
+  #L174382.  v2:= temp;
+  #L174384.  call temp:= `valueOf`(v2) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L17438a.  v2:= temp @kind object;
+  #L17438c.  call `debug`(v0, v1, v2, v10) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #L174392.  return @kind void;
+}
+procedure `java.lang.Object` `getCurrent`(`com.j256.ormlite.stmt.SelectIterator` v2 @kind this) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.getCurrent:()Ljava/lang/Object;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+
+  #L1743a4.  v0:= v2.`com.j256.ormlite.stmt.SelectIterator.rowMapper` @type ^`com.j256.ormlite.stmt.GenericRowMapper` @kind object;
+  #L1743a8.  v1:= v2.`com.j256.ormlite.stmt.SelectIterator.results` @type ^`com.j256.ormlite.support.DatabaseResults` @kind object;
+  #L1743ac.  call temp:= `mapRow`(v0, v1) @signature `Lcom/j256/ormlite/stmt/GenericRowMapper;.mapRow:(Lcom/j256/ormlite/support/DatabaseResults;)Ljava/lang/Object;` @kind interface;
+  #L1743b2.  v0:= temp @kind object;
+  #L1743b4.  v2.`com.j256.ormlite.stmt.SelectIterator.last` @type ^`java.lang.Object` := v0 @kind object;
+  #L1743b8.  v0:= 0I;
+  #L1743ba.  v2.`com.j256.ormlite.stmt.SelectIterator.alreadyMoved` @type ^`boolean` := v0 @kind boolean;
+  #L1743be.  v0:= v2.`com.j256.ormlite.stmt.SelectIterator.rowC` @type ^`int`;
+  #L1743c2.  v0:= v0 + 1;
+  #L1743c6.  v2.`com.j256.ormlite.stmt.SelectIterator.rowC` @type ^`int` := v0;
+  #L1743ca.  v0:= v2.`com.j256.ormlite.stmt.SelectIterator.last` @type ^`java.lang.Object` @kind object;
+  #L1743ce.  return v0 @kind object;
+}
+procedure `void` `close`(`com.j256.ormlite.stmt.SelectIterator` v4 @kind this) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.close:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L1743e0.  v0:= v4.`com.j256.ormlite.stmt.SelectIterator.closed` @type ^`boolean` @kind boolean;
+  #L1743e4.  if v0 != 0 then goto L17443e;
+  #L1743e8.  v0:= v4.`com.j256.ormlite.stmt.SelectIterator.compiledStmt` @type ^`com.j256.ormlite.support.CompiledStatement` @kind object;
+  #L1743ec.  call `close`(v0) @signature `Lcom/j256/ormlite/support/CompiledStatement;.close:()V` @kind interface;
+  #L1743f2.  v0:= 1I;
+  #L1743f4.  v4.`com.j256.ormlite.stmt.SelectIterator.closed` @type ^`boolean` := v0 @kind boolean;
+  #L1743f8.  v0:= 0I;
+  #L1743fa.  v4.`com.j256.ormlite.stmt.SelectIterator.last` @type ^`java.lang.Object` := v0 @kind object;
+  #L1743fe.  v0:= v4.`com.j256.ormlite.stmt.SelectIterator.statement` @type ^`java.lang.String` @kind object;
+  #L174402.  if v0 == 0 then goto L174430;
+  #L174406.  v0:= `@@com.j256.ormlite.stmt.SelectIterator.logger` @type ^`com.j256.ormlite.logger.Logger` @kind object;
+  #L17440a.  v1:= "closed iterator @{} after {} rows" @kind object;
+  #L17440e.  call temp:= `hashCode`(v4) @signature `Ljava/lang/Object;.hashCode:()I` @kind virtual;
+  #L174414.  v2:= temp;
+  #L174416.  call temp:= `valueOf`(v2) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L17441c.  v2:= temp @kind object;
+  #L17441e.  v3:= v4.`com.j256.ormlite.stmt.SelectIterator.rowC` @type ^`int`;
+  #L174422.  call temp:= `valueOf`(v3) @signature `Ljava/lang/Integer;.valueOf:(I)Ljava/lang/Integer;` @kind static;
+  #L174428.  v3:= temp @kind object;
+  #L17442a.  call `debug`(v0, v1, v2, v3) @signature `Lcom/j256/ormlite/logger/Logger;.debug:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V` @kind virtual;
+  #Try_start0.  
+  #L174430.  v0:= v4.`com.j256.ormlite.stmt.SelectIterator.connectionSource` @type ^`com.j256.ormlite.support.ConnectionSource` @kind object;
+  #L174434.  v1:= v4.`com.j256.ormlite.stmt.SelectIterator.connection` @type ^`com.j256.ormlite.support.DatabaseConnection` @kind object;
+  #L174438.  call `releaseConnection`(v0, v1) @signature `Lcom/j256/ormlite/support/ConnectionSource;.releaseConnection:(Lcom/j256/ormlite/support/DatabaseConnection;)V` @kind interface;
+  #Try_end0.  
+  #L17443e.  return @kind void;
+  #L174440.  v0:= Exception @type ^`java.sql.SQLException` @kind object;
+  #L174442.  v1:= new `java.io.IOException`;
+  #L174446.  v2:= "could not release connection" @kind object;
+  #L17444a.  call `<init>`(v1, v2, v0) @signature `Ljava/io/IOException;.<init>:(Ljava/lang/String;Ljava/lang/Throwable;)V` @kind direct;
+  #L174450.  throw v1;
+  catch `java.sql.SQLException` @[Try_start0..Try_end0] goto L174440;
+}
+procedure `void` `closeQuietly`(`com.j256.ormlite.stmt.SelectIterator` v0 @kind this) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.closeQuietly:()V` @AccessFlag PUBLIC {
+    temp;
+
+  #L174474.  call `closeQuietly`(v0) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L17447a.  return @kind void;
+}
+procedure `java.lang.Object` `current`(`com.j256.ormlite.stmt.SelectIterator` v1 @kind this) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.current:()Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L17448c.  v0:= v1.`com.j256.ormlite.stmt.SelectIterator.closed` @type ^`boolean` @kind boolean;
+  #L174490.  if v0 == 0 then goto L174498;
+  #L174494.  v0:= 0I;
+  #L174496.  return v0 @kind object;
+  #L174498.  v0:= v1.`com.j256.ormlite.stmt.SelectIterator.first` @type ^`boolean` @kind boolean;
+  #L17449c.  if v0 == 0 then goto L1744aa;
+  #L1744a0.  call temp:= `first`(v1) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.first:()Ljava/lang/Object;` @kind virtual;
+  #L1744a6.  v0:= temp @kind object;
+  #L1744a8.  goto L174496;
+  #L1744aa.  call temp:= `getCurrent`(v1) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.getCurrent:()Ljava/lang/Object;` @kind direct;
+  #L1744b0.  v0:= temp @kind object;
+  #L1744b2.  goto L174496;
+}
+procedure `java.lang.Object` `first`(`com.j256.ormlite.stmt.SelectIterator` v2 @kind this) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.first:()Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L1744c4.  v0:= 0I;
+  #L1744c6.  v1:= v2.`com.j256.ormlite.stmt.SelectIterator.closed` @type ^`boolean` @kind boolean;
+  #L1744ca.  if v1 == 0 then goto L1744d0;
+  #L1744ce.  return v0 @kind object;
+  #L1744d0.  v1:= 0I;
+  #L1744d2.  v2.`com.j256.ormlite.stmt.SelectIterator.first` @type ^`boolean` := v1 @kind boolean;
+  #L1744d6.  v1:= v2.`com.j256.ormlite.stmt.SelectIterator.results` @type ^`com.j256.ormlite.support.DatabaseResults` @kind object;
+  #L1744da.  call temp:= `first`(v1) @signature `Lcom/j256/ormlite/support/DatabaseResults;.first:()Z` @kind interface;
+  #L1744e0.  v1:= temp;
+  #L1744e2.  if v1 == 0 then goto L1744ce;
+  #L1744e6.  call temp:= `getCurrent`(v2) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.getCurrent:()Ljava/lang/Object;` @kind direct;
+  #L1744ec.  v0:= temp @kind object;
+  #L1744ee.  goto L1744ce;
+}
+procedure `com.j256.ormlite.support.DatabaseResults` `getRawResults`(`com.j256.ormlite.stmt.SelectIterator` v1 @kind this) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.getRawResults:()Lcom/j256/ormlite/support/DatabaseResults;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L174500.  v0:= v1.`com.j256.ormlite.stmt.SelectIterator.results` @type ^`com.j256.ormlite.support.DatabaseResults` @kind object;
+  #L174504.  return v0 @kind object;
+}
+procedure `boolean` `hasNext`(`com.j256.ormlite.stmt.SelectIterator` v4 @kind this) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.hasNext:()Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #Try_start0.  
+  #L174518.  call temp:= `hasNextThrow`(v4) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.hasNextThrow:()Z` @kind virtual;
+  #Try_end0.  
+  #L17451e.  v0:= temp;
+  #L174520.  return v0;
+  #L174522.  v0:= Exception @type ^`java.sql.SQLException` @kind object;
+  #L174524.  v1:= 0I;
+  #L174526.  v4.`com.j256.ormlite.stmt.SelectIterator.last` @type ^`java.lang.Object` := v1 @kind object;
+  #L17452a.  call `closeQuietly`(v4) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.closeQuietly:()V` @kind virtual;
+  #L174530.  v1:= new `java.lang.IllegalStateException`;
+  #L174534.  v2:= new `java.lang.StringBuilder`;
+  #L174538.  call `<init>`(v2) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L17453e.  v3:= "Errors getting more results of " @kind object;
+  #L174542.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L174548.  v2:= temp @kind object;
+  #L17454a.  v3:= v4.`com.j256.ormlite.stmt.SelectIterator.dataClass` @type ^`java.lang.Class` @kind object;
+  #L17454e.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L174554.  v2:= temp @kind object;
+  #L174556.  call temp:= `toString`(v2) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L17455c.  v2:= temp @kind object;
+  #L17455e.  call `<init>`(v1, v2, v0) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;Ljava/lang/Throwable;)V` @kind direct;
+  #L174564.  throw v1;
+  catch `java.sql.SQLException` @[Try_start0..Try_end0] goto L174522;
+}
+procedure `boolean` `hasNextThrow`(`com.j256.ormlite.stmt.SelectIterator` v3 @kind this) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.hasNextThrow:()Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L174588.  v1:= 1I;
+  #L17458a.  v0:= 0I;
+  #L17458c.  v2:= v3.`com.j256.ormlite.stmt.SelectIterator.closed` @type ^`boolean` @kind boolean;
+  #L174590.  if v2 == 0 then goto L174596;
+  #L174594.  return v0;
+  #L174596.  v2:= v3.`com.j256.ormlite.stmt.SelectIterator.alreadyMoved` @type ^`boolean` @kind boolean;
+  #L17459a.  if v2 == 0 then goto L1745a2;
+  #L17459e.  v0:= v1;
+  #L1745a0.  goto L174594;
+  #L1745a2.  v2:= v3.`com.j256.ormlite.stmt.SelectIterator.first` @type ^`boolean` @kind boolean;
+  #L1745a6.  if v2 == 0 then goto L1745ce;
+  #L1745aa.  v3.`com.j256.ormlite.stmt.SelectIterator.first` @type ^`boolean` := v0 @kind boolean;
+  #L1745ae.  v0:= v3.`com.j256.ormlite.stmt.SelectIterator.results` @type ^`com.j256.ormlite.support.DatabaseResults` @kind object;
+  #L1745b2.  call temp:= `first`(v0) @signature `Lcom/j256/ormlite/support/DatabaseResults;.first:()Z` @kind interface;
+  #L1745b8.  v0:= temp;
+  #L1745ba.  if v0 != 0 then goto L1745c8;
+  #L1745be.  v2:= "iterator" @kind object;
+  #L1745c2.  call `closeThrowSqlException`(v3, v2) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeThrowSqlException:(Ljava/io/Closeable;Ljava/lang/String;)V` @kind static;
+  #L1745c8.  v3.`com.j256.ormlite.stmt.SelectIterator.alreadyMoved` @type ^`boolean` := v1 @kind boolean;
+  #L1745cc.  goto L174594;
+  #L1745ce.  v0:= v3.`com.j256.ormlite.stmt.SelectIterator.results` @type ^`com.j256.ormlite.support.DatabaseResults` @kind object;
+  #L1745d2.  call temp:= `next`(v0) @signature `Lcom/j256/ormlite/support/DatabaseResults;.next:()Z` @kind interface;
+  #L1745d8.  v0:= temp;
+  #L1745da.  goto L1745ba;
+}
+procedure `java.lang.Object` `moveRelative`(`com.j256.ormlite.stmt.SelectIterator` v2 @kind this, `int` v3 ) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.moveRelative:(I)Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L1745ec.  v0:= 0I;
+  #L1745ee.  v1:= v2.`com.j256.ormlite.stmt.SelectIterator.closed` @type ^`boolean` @kind boolean;
+  #L1745f2.  if v1 == 0 then goto L1745f8;
+  #L1745f6.  return v0 @kind object;
+  #L1745f8.  v1:= 0I;
+  #L1745fa.  v2.`com.j256.ormlite.stmt.SelectIterator.first` @type ^`boolean` := v1 @kind boolean;
+  #L1745fe.  v1:= v2.`com.j256.ormlite.stmt.SelectIterator.results` @type ^`com.j256.ormlite.support.DatabaseResults` @kind object;
+  #L174602.  call temp:= `moveRelative`(v1, v3) @signature `Lcom/j256/ormlite/support/DatabaseResults;.moveRelative:(I)Z` @kind interface;
+  #L174608.  v1:= temp;
+  #L17460a.  if v1 == 0 then goto L1745f6;
+  #L17460e.  call temp:= `getCurrent`(v2) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.getCurrent:()Ljava/lang/Object;` @kind direct;
+  #L174614.  v0:= temp @kind object;
+  #L174616.  goto L1745f6;
+}
+procedure `void` `moveToNext`(`com.j256.ormlite.stmt.SelectIterator` v2 @kind this) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.moveToNext:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L174628.  v1:= 0I;
+  #L17462a.  v0:= 0I;
+  #L17462c.  v2.`com.j256.ormlite.stmt.SelectIterator.last` @type ^`java.lang.Object` := v0 @kind object;
+  #L174630.  v2.`com.j256.ormlite.stmt.SelectIterator.first` @type ^`boolean` := v1 @kind boolean;
+  #L174634.  v2.`com.j256.ormlite.stmt.SelectIterator.alreadyMoved` @type ^`boolean` := v1 @kind boolean;
+  #L174638.  return @kind void;
+}
+procedure `java.lang.Object` `next`(`com.j256.ormlite.stmt.SelectIterator` v4 @kind this) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.next:()Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L17464c.  v1:= 0I;
+  #Try_start0.  
+  #L17464e.  call temp:= `nextThrow`(v4) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.nextThrow:()Ljava/lang/Object;` @kind virtual;
+  #Try_end0.  
+  #L174654.  v0:= temp @kind object;
+  #L174656.  if v0 == 0 then goto L17465c;
+  #L17465a.  return v0 @kind object;
+  #L17465c.  v0:= v1 @kind object;
+  #L17465e.  v4.`com.j256.ormlite.stmt.SelectIterator.last` @type ^`java.lang.Object` := v1 @kind object;
+  #L174662.  call `closeQuietly`(v4) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.closeQuietly:()V` @kind virtual;
+  #L174668.  v1:= new `java.lang.IllegalStateException`;
+  #L17466c.  v2:= new `java.lang.StringBuilder`;
+  #L174670.  call `<init>`(v2) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L174676.  v3:= "Could not get next result for " @kind object;
+  #L17467a.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L174680.  v2:= temp @kind object;
+  #L174682.  v3:= v4.`com.j256.ormlite.stmt.SelectIterator.dataClass` @type ^`java.lang.Class` @kind object;
+  #L174686.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L17468c.  v2:= temp @kind object;
+  #L17468e.  call temp:= `toString`(v2) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L174694.  v2:= temp @kind object;
+  #L174696.  call `<init>`(v1, v2, v0) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;Ljava/lang/Throwable;)V` @kind direct;
+  #L17469c.  throw v1;
+  #L17469e.  v0:= Exception @type ^`java.sql.SQLException` @kind object;
+  #L1746a0.  goto L17465e;
+  catch `java.sql.SQLException` @[Try_start0..Try_end0] goto L17469e;
+}
+procedure `java.lang.Object` `nextThrow`(`com.j256.ormlite.stmt.SelectIterator` v3 @kind this) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.nextThrow:()Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L1746c4.  v0:= 0I;
+  #L1746c6.  v2:= 0I;
+  #L1746c8.  v1:= v3.`com.j256.ormlite.stmt.SelectIterator.closed` @type ^`boolean` @kind boolean;
+  #L1746cc.  if v1 == 0 then goto L1746d2;
+  #L1746d0.  return v0 @kind object;
+  #L1746d2.  v1:= v3.`com.j256.ormlite.stmt.SelectIterator.alreadyMoved` @type ^`boolean` @kind boolean;
+  #L1746d6.  if v1 != 0 then goto L17470a;
+  #L1746da.  v1:= v3.`com.j256.ormlite.stmt.SelectIterator.first` @type ^`boolean` @kind boolean;
+  #L1746de.  if v1 == 0 then goto L1746fc;
+  #L1746e2.  v3.`com.j256.ormlite.stmt.SelectIterator.first` @type ^`boolean` := v2 @kind boolean;
+  #L1746e6.  v1:= v3.`com.j256.ormlite.stmt.SelectIterator.results` @type ^`com.j256.ormlite.support.DatabaseResults` @kind object;
+  #L1746ea.  call temp:= `first`(v1) @signature `Lcom/j256/ormlite/support/DatabaseResults;.first:()Z` @kind interface;
+  #L1746f0.  v1:= temp;
+  #L1746f2.  if v1 != 0 then goto L17470a;
+  #L1746f6.  v3.`com.j256.ormlite.stmt.SelectIterator.first` @type ^`boolean` := v2 @kind boolean;
+  #L1746fa.  goto L1746d0;
+  #L1746fc.  v1:= v3.`com.j256.ormlite.stmt.SelectIterator.results` @type ^`com.j256.ormlite.support.DatabaseResults` @kind object;
+  #L174700.  call temp:= `next`(v1) @signature `Lcom/j256/ormlite/support/DatabaseResults;.next:()Z` @kind interface;
+  #L174706.  v1:= temp;
+  #L174708.  goto L1746f2;
+  #L17470a.  v3.`com.j256.ormlite.stmt.SelectIterator.first` @type ^`boolean` := v2 @kind boolean;
+  #L17470e.  call temp:= `getCurrent`(v3) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.getCurrent:()Ljava/lang/Object;` @kind direct;
+  #L174714.  v0:= temp @kind object;
+  #L174716.  goto L1746d0;
+}
+procedure `java.lang.Object` `previous`(`com.j256.ormlite.stmt.SelectIterator` v2 @kind this) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.previous:()Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L174728.  v0:= 0I;
+  #L17472a.  v1:= v2.`com.j256.ormlite.stmt.SelectIterator.closed` @type ^`boolean` @kind boolean;
+  #L17472e.  if v1 == 0 then goto L174734;
+  #L174732.  return v0 @kind object;
+  #L174734.  v1:= 0I;
+  #L174736.  v2.`com.j256.ormlite.stmt.SelectIterator.first` @type ^`boolean` := v1 @kind boolean;
+  #L17473a.  v1:= v2.`com.j256.ormlite.stmt.SelectIterator.results` @type ^`com.j256.ormlite.support.DatabaseResults` @kind object;
+  #L17473e.  call temp:= `previous`(v1) @signature `Lcom/j256/ormlite/support/DatabaseResults;.previous:()Z` @kind interface;
+  #L174744.  v1:= temp;
+  #L174746.  if v1 == 0 then goto L174732;
+  #L17474a.  call temp:= `getCurrent`(v2) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.getCurrent:()Ljava/lang/Object;` @kind direct;
+  #L174750.  v0:= temp @kind object;
+  #L174752.  goto L174732;
+}
+procedure `void` `remove`(`com.j256.ormlite.stmt.SelectIterator` v4 @kind this) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.remove:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #Try_start0.  
+  #L174764.  call `removeThrow`(v4) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.removeThrow:()V` @kind virtual;
+  #Try_end0.  
+  #L17476a.  return @kind void;
+  #L17476c.  v0:= Exception @type ^`java.sql.SQLException` @kind object;
+  #L17476e.  call `closeQuietly`(v4) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.closeQuietly:()V` @kind virtual;
+  #L174774.  v1:= new `java.lang.IllegalStateException`;
+  #L174778.  v2:= new `java.lang.StringBuilder`;
+  #L17477c.  call `<init>`(v2) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L174782.  v3:= "Could not delete " @kind object;
+  #L174786.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L17478c.  v2:= temp @kind object;
+  #L17478e.  v3:= v4.`com.j256.ormlite.stmt.SelectIterator.dataClass` @type ^`java.lang.Class` @kind object;
+  #L174792.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L174798.  v2:= temp @kind object;
+  #L17479a.  v3:= " object " @kind object;
+  #L17479e.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1747a4.  v2:= temp @kind object;
+  #L1747a6.  v3:= v4.`com.j256.ormlite.stmt.SelectIterator.last` @type ^`java.lang.Object` @kind object;
+  #L1747aa.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1747b0.  v2:= temp @kind object;
+  #L1747b2.  call temp:= `toString`(v2) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1747b8.  v2:= temp @kind object;
+  #L1747ba.  call `<init>`(v1, v2, v0) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;Ljava/lang/Throwable;)V` @kind direct;
+  #L1747c0.  throw v1;
+  catch `java.sql.SQLException` @[Try_start0..Try_end0] goto L17476c;
+}
+procedure `void` `removeThrow`(`com.j256.ormlite.stmt.SelectIterator` v3 @kind this) @signature `Lcom/j256/ormlite/stmt/SelectIterator;.removeThrow:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L1747e4.  v2:= 0I;
+  #L1747e6.  v0:= v3.`com.j256.ormlite.stmt.SelectIterator.last` @type ^`java.lang.Object` @kind object;
+  #L1747ea.  if v0 != 0 then goto L174830;
+  #L1747ee.  v0:= new `java.lang.IllegalStateException`;
+  #L1747f2.  v1:= new `java.lang.StringBuilder`;
+  #L1747f6.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1747fc.  v2:= "No last " @kind object;
+  #L174800.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L174806.  v1:= temp @kind object;
+  #L174808.  v2:= v3.`com.j256.ormlite.stmt.SelectIterator.dataClass` @type ^`java.lang.Class` @kind object;
+  #L17480c.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L174812.  v1:= temp @kind object;
+  #L174814.  v2:= " object to remove. Must be called after a call to next." @kind object;
+  #L174818.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L17481e.  v1:= temp @kind object;
+  #L174820.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L174826.  v1:= temp @kind object;
+  #L174828.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L17482e.  throw v0;
+  #L174830.  v0:= v3.`com.j256.ormlite.stmt.SelectIterator.classDao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L174834.  if v0 != 0 then goto L17487a;
+  #L174838.  v0:= new `java.lang.IllegalStateException`;
+  #L17483c.  v1:= new `java.lang.StringBuilder`;
+  #L174840.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L174846.  v2:= "Cannot remove " @kind object;
+  #L17484a.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L174850.  v1:= temp @kind object;
+  #L174852.  v2:= v3.`com.j256.ormlite.stmt.SelectIterator.dataClass` @type ^`java.lang.Class` @kind object;
+  #L174856.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L17485c.  v1:= temp @kind object;
+  #L17485e.  v2:= " object because classDao not initialized" @kind object;
+  #L174862.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L174868.  v1:= temp @kind object;
+  #L17486a.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L174870.  v1:= temp @kind object;
+  #L174872.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L174878.  throw v0;
+  #Try_start0.  
+  #L17487a.  v0:= v3.`com.j256.ormlite.stmt.SelectIterator.classDao` @type ^`com.j256.ormlite.dao.Dao` @kind object;
+  #L17487e.  v1:= v3.`com.j256.ormlite.stmt.SelectIterator.last` @type ^`java.lang.Object` @kind object;
+  #L174882.  call temp:= `delete`(v0, v1) @signature `Lcom/j256/ormlite/dao/Dao;.delete:(Ljava/lang/Object;)I` @kind interface;
+  #Try_end0.  
+  #L174888.  v3.`com.j256.ormlite.stmt.SelectIterator.last` @type ^`java.lang.Object` := v2 @kind object;
+  #L17488c.  return @kind void;
+  #L17488e.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L174890.  v3.`com.j256.ormlite.stmt.SelectIterator.last` @type ^`java.lang.Object` := v2 @kind object;
+  #L174894.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L17488e;
+}

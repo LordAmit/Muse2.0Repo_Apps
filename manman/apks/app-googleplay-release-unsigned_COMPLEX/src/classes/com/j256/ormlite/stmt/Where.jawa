@@ -1,0 +1,974 @@
+record `com.j256.ormlite.stmt.Where` @kind class @AccessFlag PUBLIC {
+  `com.j256.ormlite.stmt.query.Clause`[] `com.j256.ormlite.stmt.Where.clauseStack` @AccessFlag PRIVATE;
+  `int` `com.j256.ormlite.stmt.Where.clauseStackLevel` @AccessFlag PRIVATE;
+  `com.j256.ormlite.db.DatabaseType` `com.j256.ormlite.stmt.Where.databaseType` @AccessFlag PRIVATE_FINAL;
+  `java.lang.String` `com.j256.ormlite.stmt.Where.idColumnName` @AccessFlag PRIVATE_FINAL;
+  `com.j256.ormlite.field.FieldType` `com.j256.ormlite.stmt.Where.idFieldType` @AccessFlag PRIVATE_FINAL;
+  `com.j256.ormlite.stmt.query.NeedsFutureClause` `com.j256.ormlite.stmt.Where.needsFuture` @AccessFlag PRIVATE;
+  `com.j256.ormlite.stmt.StatementBuilder` `com.j256.ormlite.stmt.Where.statementBuilder` @AccessFlag PRIVATE_FINAL;
+  `com.j256.ormlite.table.TableInfo` `com.j256.ormlite.stmt.Where.tableInfo` @AccessFlag PRIVATE_FINAL;
+}
+global `int` `@@com.j256.ormlite.stmt.Where.CLAUSE_STACK_START_SIZE` @AccessFlag PRIVATE_STATIC_FINAL;
+procedure `void` `<init>`(`com.j256.ormlite.stmt.Where` v2 @kind this, `com.j256.ormlite.table.TableInfo` v3 @kind object, `com.j256.ormlite.stmt.StatementBuilder` v4 @kind object, `com.j256.ormlite.db.DatabaseType` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.<init>:(Lcom/j256/ormlite/table/TableInfo;Lcom/j256/ormlite/stmt/StatementBuilder;Lcom/j256/ormlite/db/DatabaseType;)V` @AccessFlag CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+
+  #L16ad14.  v1:= 0I;
+  #L16ad16.  call `<init>`(v2) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L16ad1c.  v0:= 4I;
+  #L16ad1e.  v0:= new `com.j256.ormlite.stmt.query.Clause`[v0];
+  #L16ad22.  v2.`com.j256.ormlite.stmt.Where.clauseStack` @type ^`com.j256.ormlite.stmt.query.Clause`[] := v0 @kind object;
+  #L16ad26.  v2.`com.j256.ormlite.stmt.Where.needsFuture` @type ^`com.j256.ormlite.stmt.query.NeedsFutureClause` := v1 @kind object;
+  #L16ad2a.  v2.`com.j256.ormlite.stmt.Where.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` := v3 @kind object;
+  #L16ad2e.  v2.`com.j256.ormlite.stmt.Where.statementBuilder` @type ^`com.j256.ormlite.stmt.StatementBuilder` := v4 @kind object;
+  #L16ad32.  call temp:= `getIdField`(v3) @signature `Lcom/j256/ormlite/table/TableInfo;.getIdField:()Lcom/j256/ormlite/field/FieldType;` @kind virtual;
+  #L16ad38.  v0:= temp @kind object;
+  #L16ad3a.  v2.`com.j256.ormlite.stmt.Where.idFieldType` @type ^`com.j256.ormlite.field.FieldType` := v0 @kind object;
+  #L16ad3e.  v0:= v2.`com.j256.ormlite.stmt.Where.idFieldType` @type ^`com.j256.ormlite.field.FieldType` @kind object;
+  #L16ad42.  if v0 != 0 then goto L16ad50;
+  #L16ad46.  v2.`com.j256.ormlite.stmt.Where.idColumnName` @type ^`java.lang.String` := v1 @kind object;
+  #L16ad4a.  v2.`com.j256.ormlite.stmt.Where.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` := v5 @kind object;
+  #L16ad4e.  return @kind void;
+  #L16ad50.  v0:= v2.`com.j256.ormlite.stmt.Where.idFieldType` @type ^`com.j256.ormlite.field.FieldType` @kind object;
+  #L16ad54.  call temp:= `getColumnName`(v0) @signature `Lcom/j256/ormlite/field/FieldType;.getColumnName:()Ljava/lang/String;` @kind virtual;
+  #L16ad5a.  v0:= temp @kind object;
+  #L16ad5c.  v2.`com.j256.ormlite.stmt.Where.idColumnName` @type ^`java.lang.String` := v0 @kind object;
+  #L16ad60.  goto L16ad4a;
+}
+procedure `void` `addClause`(`com.j256.ormlite.stmt.Where` v1 @kind this, `com.j256.ormlite.stmt.query.Clause` v2 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @AccessFlag PRIVATE {
+    temp;
+    v0;
+
+  #L16ad74.  v0:= v1.`com.j256.ormlite.stmt.Where.needsFuture` @type ^`com.j256.ormlite.stmt.query.NeedsFutureClause` @kind object;
+  #L16ad78.  if v0 != 0 then goto L16ad84;
+  #L16ad7c.  call `push`(v1, v2) @signature `Lcom/j256/ormlite/stmt/Where;.push:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16ad82.  return @kind void;
+  #L16ad84.  v0:= v1.`com.j256.ormlite.stmt.Where.needsFuture` @type ^`com.j256.ormlite.stmt.query.NeedsFutureClause` @kind object;
+  #L16ad88.  call `setMissingClause`(v0, v2) @signature `Lcom/j256/ormlite/stmt/query/NeedsFutureClause;.setMissingClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind interface;
+  #L16ad8e.  v0:= 0I;
+  #L16ad90.  v1.`com.j256.ormlite.stmt.Where.needsFuture` @type ^`com.j256.ormlite.stmt.query.NeedsFutureClause` := v0 @kind object;
+  #L16ad94.  goto L16ad82;
+}
+procedure `void` `addNeedsFuture`(`com.j256.ormlite.stmt.Where` v3 @kind this, `com.j256.ormlite.stmt.query.NeedsFutureClause` v4 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.addNeedsFuture:(Lcom/j256/ormlite/stmt/query/NeedsFutureClause;)V` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16ada8.  v0:= v3.`com.j256.ormlite.stmt.Where.needsFuture` @type ^`com.j256.ormlite.stmt.query.NeedsFutureClause` @kind object;
+  #L16adac.  if v0 == 0 then goto L16adee;
+  #L16adb0.  v0:= new `java.lang.IllegalStateException`;
+  #L16adb4.  v1:= new `java.lang.StringBuilder`;
+  #L16adb8.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L16adbe.  v2:= v3.`com.j256.ormlite.stmt.Where.needsFuture` @type ^`com.j256.ormlite.stmt.query.NeedsFutureClause` @kind object;
+  #L16adc2.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16adc8.  v1:= temp @kind object;
+  #L16adca.  v2:= " is already waiting for a future clause, can't add: " @kind object;
+  #L16adce.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16add4.  v1:= temp @kind object;
+  #L16add6.  call temp:= `append`(v1, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16addc.  v1:= temp @kind object;
+  #L16adde.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L16ade4.  v1:= temp @kind object;
+  #L16ade6.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16adec.  throw v0;
+  #L16adee.  v3.`com.j256.ormlite.stmt.Where.needsFuture` @type ^`com.j256.ormlite.stmt.query.NeedsFutureClause` := v4 @kind object;
+  #L16adf2.  return @kind void;
+}
+procedure `com.j256.ormlite.stmt.query.Clause`[] `buildClauseArray`(`com.j256.ormlite.stmt.Where` v3 @kind this, `com.j256.ormlite.stmt.Where`[] v4 @kind object, `java.lang.String` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.buildClauseArray:([Lcom/j256/ormlite/stmt/Where;Ljava/lang/String;)[Lcom/j256/ormlite/stmt/query/Clause;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16ae04.  v0:= length @variable v4;
+  #L16ae06.  if v0 != 0 then goto L16ae0e;
+  #L16ae0a.  v0:= 0I;
+  #L16ae0c.  return v0 @kind object;
+  #L16ae0e.  v0:= length @variable v4;
+  #L16ae10.  v0:= new `com.j256.ormlite.stmt.query.Clause`[v0];
+  #L16ae14.  v1:= length @variable v4;
+  #L16ae16.  v1:= v1 + -1;
+  #L16ae1a.  if v1 < 0 then goto L16ae0c;
+  #L16ae1e.  call temp:= `pop`(v3, v5) @signature `Lcom/j256/ormlite/stmt/Where;.pop:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/query/Clause;` @kind direct;
+  #L16ae24.  v2:= temp @kind object;
+  #L16ae26.  v0[v1]:= v2 @kind object;
+  #L16ae2a.  v1:= v1 + -1;
+  #L16ae2e.  goto L16ae1a;
+}
+procedure `com.j256.ormlite.stmt.QueryBuilder` `checkQueryBuilderMethod`(`com.j256.ormlite.stmt.Where` v3 @kind this, `java.lang.String` v4 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.checkQueryBuilderMethod:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/QueryBuilder;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16ae40.  v0:= v3.`com.j256.ormlite.stmt.Where.statementBuilder` @type ^`com.j256.ormlite.stmt.StatementBuilder` @kind object;
+  #L16ae44.  v0:= instanceof @variable v0 @type ^`com.j256.ormlite.stmt.QueryBuilder` @kind boolean;
+  #L16ae48.  if v0 == 0 then goto L16ae56;
+  #L16ae4c.  v0:= v3.`com.j256.ormlite.stmt.Where.statementBuilder` @type ^`com.j256.ormlite.stmt.StatementBuilder` @kind object;
+  #L16ae50.  v0:= (`com.j256.ormlite.stmt.QueryBuilder`) v0 @kind object;
+  #L16ae54.  return v0 @kind object;
+  #L16ae56.  v0:= new `java.sql.SQLException`;
+  #L16ae5a.  v1:= new `java.lang.StringBuilder`;
+  #L16ae5e.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L16ae64.  v2:= "Cannot call " @kind object;
+  #L16ae68.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16ae6e.  v1:= temp @kind object;
+  #L16ae70.  call temp:= `append`(v1, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16ae76.  v1:= temp @kind object;
+  #L16ae78.  v2:= " on a statement of type " @kind object;
+  #L16ae7c.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16ae82.  v1:= temp @kind object;
+  #L16ae84.  v2:= v3.`com.j256.ormlite.stmt.Where.statementBuilder` @type ^`com.j256.ormlite.stmt.StatementBuilder` @kind object;
+  #L16ae88.  call temp:= `getType`(v2) @signature `Lcom/j256/ormlite/stmt/StatementBuilder;.getType:()Lcom/j256/ormlite/stmt/StatementBuilder$StatementType;` @kind virtual;
+  #L16ae8e.  v2:= temp @kind object;
+  #L16ae90.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16ae96.  v1:= temp @kind object;
+  #L16ae98.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L16ae9e.  v1:= temp @kind object;
+  #L16aea0.  call `<init>`(v0, v1) @signature `Ljava/sql/SQLException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16aea6.  throw v0;
+}
+procedure `com.j256.ormlite.field.FieldType` `findColumnFieldType`(`com.j256.ormlite.stmt.Where` v1 @kind this, `java.lang.String` v2 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+
+  #L16aeb8.  v0:= v1.`com.j256.ormlite.stmt.Where.tableInfo` @type ^`com.j256.ormlite.table.TableInfo` @kind object;
+  #L16aebc.  call temp:= `getFieldTypeByColumnName`(v0, v2) @signature `Lcom/j256/ormlite/table/TableInfo;.getFieldTypeByColumnName:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind virtual;
+  #L16aec2.  v0:= temp @kind object;
+  #L16aec4.  return v0 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `in`(`com.j256.ormlite.stmt.Where` v3 @kind this, `boolean` v4 , `java.lang.String` v5 @kind object, `com.j256.ormlite.stmt.QueryBuilder` v6 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.in:(ZLjava/lang/String;Lcom/j256/ormlite/stmt/QueryBuilder;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16aed8.  call temp:= `getSelectColumnCount`(v6) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.getSelectColumnCount:()I` @kind virtual;
+  #L16aede.  v0:= temp;
+  #L16aee0.  v1:= 1I;
+  #L16aee2.  if v0 == v1 then goto L16af58;
+  #L16aee6.  call temp:= `getSelectColumnCount`(v6) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.getSelectColumnCount:()I` @kind virtual;
+  #L16aeec.  v0:= temp;
+  #L16aeee.  if v0 != 0 then goto L16af02;
+  #L16aef2.  v0:= new `java.sql.SQLException`;
+  #L16aef6.  v1:= "Inner query must have only 1 select column specified instead of *" @kind object;
+  #L16aefa.  call `<init>`(v0, v1) @signature `Ljava/sql/SQLException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16af00.  throw v0;
+  #L16af02.  v0:= new `java.sql.SQLException`;
+  #L16af06.  v1:= new `java.lang.StringBuilder`;
+  #L16af0a.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L16af10.  v2:= "Inner query must have only 1 select column specified instead of " @kind object;
+  #L16af14.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16af1a.  v1:= temp @kind object;
+  #L16af1c.  call temp:= `getSelectColumnCount`(v6) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.getSelectColumnCount:()I` @kind virtual;
+  #L16af22.  v2:= temp;
+  #L16af24.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(I)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16af2a.  v1:= temp @kind object;
+  #L16af2c.  v2:= ": " @kind object;
+  #L16af30.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16af36.  v1:= temp @kind object;
+  #L16af38.  call temp:= `getSelectColumnsAsString`(v6) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.getSelectColumnsAsString:()Ljava/lang/String;` @kind virtual;
+  #L16af3e.  v2:= temp @kind object;
+  #L16af40.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16af46.  v1:= temp @kind object;
+  #L16af48.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L16af4e.  v1:= temp @kind object;
+  #L16af50.  call `<init>`(v0, v1) @signature `Ljava/sql/SQLException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16af56.  throw v0;
+  #L16af58.  call `enableInnerQuery`(v6) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.enableInnerQuery:()V` @kind virtual;
+  #L16af5e.  v0:= new `com.j256.ormlite.stmt.query.InSubQuery`;
+  #L16af62.  call temp:= `findColumnFieldType`(v3, v5) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16af68.  v1:= temp @kind object;
+  #L16af6a.  v2:= new `com.j256.ormlite.stmt.QueryBuilder$InternalQueryBuilderWrapper`;
+  #L16af6e.  call `<init>`(v2, v6) @signature `Lcom/j256/ormlite/stmt/QueryBuilder$InternalQueryBuilderWrapper;.<init>:(Lcom/j256/ormlite/stmt/QueryBuilder;)V` @kind direct;
+  #L16af74.  call `<init>`(v0, v5, v1, v2, v4) @signature `Lcom/j256/ormlite/stmt/query/InSubQuery;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;Lcom/j256/ormlite/stmt/QueryBuilder$InternalQueryBuilderWrapper;Z)V` @kind direct;
+  #L16af7a.  call `addClause`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16af80.  return v3 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `in`(`com.j256.ormlite.stmt.Where` v3 @kind this, `boolean` v4 , `java.lang.String` v5 @kind object, `java.lang.Object`[] v6 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.in:(ZLjava/lang/String;[Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16af94.  v2:= 0I;
+  #L16af96.  v0:= length @variable v6;
+  #L16af98.  v1:= 1I;
+  #L16af9a.  if v0 != v1 then goto L16b0b2;
+  #L16af9e.  v0:= v6[v2] @kind object;
+  #L16afa2.  call temp:= `getClass`(v0) @signature `Ljava/lang/Object;.getClass:()Ljava/lang/Class;` @kind virtual;
+  #L16afa8.  v0:= temp @kind object;
+  #L16afaa.  call temp:= `isArray`(v0) @signature `Ljava/lang/Class;.isArray:()Z` @kind virtual;
+  #L16afb0.  v0:= temp;
+  #L16afb2.  if v0 == 0 then goto L16b002;
+  #L16afb6.  v1:= new `java.lang.IllegalArgumentException`;
+  #L16afba.  v0:= new `java.lang.StringBuilder`;
+  #L16afbe.  call `<init>`(v0) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L16afc4.  v2:= "Object argument to " @kind object;
+  #L16afc8.  call temp:= `append`(v0, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16afce.  v2:= temp @kind object;
+  #L16afd0.  if v4 == 0 then goto L16affc;
+  #L16afd4.  v0:= "IN" @kind object;
+  #L16afd8.  call temp:= `append`(v2, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16afde.  v0:= temp @kind object;
+  #L16afe0.  v2:= " seems to be an array within an array" @kind object;
+  #L16afe4.  call temp:= `append`(v0, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16afea.  v0:= temp @kind object;
+  #L16afec.  call temp:= `toString`(v0) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L16aff2.  v0:= temp @kind object;
+  #L16aff4.  call `<init>`(v1, v0) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16affa.  throw v1;
+  #L16affc.  v0:= "notId" @kind object;
+  #L16b000.  goto L16afd8;
+  #L16b002.  v0:= v6[v2] @kind object;
+  #L16b006.  v0:= instanceof @variable v0 @type ^`com.j256.ormlite.stmt.Where` @kind boolean;
+  #L16b00a.  if v0 == 0 then goto L16b05a;
+  #L16b00e.  v1:= new `java.lang.IllegalArgumentException`;
+  #L16b012.  v0:= new `java.lang.StringBuilder`;
+  #L16b016.  call `<init>`(v0) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L16b01c.  v2:= "Object argument to " @kind object;
+  #L16b020.  call temp:= `append`(v0, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16b026.  v2:= temp @kind object;
+  #L16b028.  if v4 == 0 then goto L16b054;
+  #L16b02c.  v0:= "IN" @kind object;
+  #L16b030.  call temp:= `append`(v2, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16b036.  v0:= temp @kind object;
+  #L16b038.  v2:= " seems to be a Where object, did you mean the QueryBuilder?" @kind object;
+  #L16b03c.  call temp:= `append`(v0, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16b042.  v0:= temp @kind object;
+  #L16b044.  call temp:= `toString`(v0) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L16b04a.  v0:= temp @kind object;
+  #L16b04c.  call `<init>`(v1, v0) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16b052.  throw v1;
+  #L16b054.  v0:= "notId" @kind object;
+  #L16b058.  goto L16b030;
+  #L16b05a.  v0:= v6[v2] @kind object;
+  #L16b05e.  v0:= instanceof @variable v0 @type ^`com.j256.ormlite.stmt.PreparedStmt` @kind boolean;
+  #L16b062.  if v0 == 0 then goto L16b0b2;
+  #L16b066.  v1:= new `java.lang.IllegalArgumentException`;
+  #L16b06a.  v0:= new `java.lang.StringBuilder`;
+  #L16b06e.  call `<init>`(v0) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L16b074.  v2:= "Object argument to " @kind object;
+  #L16b078.  call temp:= `append`(v0, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16b07e.  v2:= temp @kind object;
+  #L16b080.  if v4 == 0 then goto L16b0ac;
+  #L16b084.  v0:= "IN" @kind object;
+  #L16b088.  call temp:= `append`(v2, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16b08e.  v0:= temp @kind object;
+  #L16b090.  v2:= " seems to be a prepared statement, did you mean the QueryBuilder?" @kind object;
+  #L16b094.  call temp:= `append`(v0, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16b09a.  v0:= temp @kind object;
+  #L16b09c.  call temp:= `toString`(v0) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L16b0a2.  v0:= temp @kind object;
+  #L16b0a4.  call `<init>`(v1, v0) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16b0aa.  throw v1;
+  #L16b0ac.  v0:= "notId" @kind object;
+  #L16b0b0.  goto L16b088;
+  #L16b0b2.  v0:= new `com.j256.ormlite.stmt.query.In`;
+  #L16b0b6.  call temp:= `findColumnFieldType`(v3, v5) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16b0bc.  v1:= temp @kind object;
+  #L16b0be.  call `<init>`(v0, v5, v1, v6, v4) @signature `Lcom/j256/ormlite/stmt/query/In;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;[Ljava/lang/Object;Z)V` @kind direct;
+  #L16b0c4.  call `addClause`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b0ca.  return v3 @kind object;
+}
+procedure `com.j256.ormlite.stmt.query.Clause` `peek`(`com.j256.ormlite.stmt.Where` v2 @kind this) @signature `Lcom/j256/ormlite/stmt/Where;.peek:()Lcom/j256/ormlite/stmt/query/Clause;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+
+  #L16b0dc.  v0:= v2.`com.j256.ormlite.stmt.Where.clauseStack` @type ^`com.j256.ormlite.stmt.query.Clause`[] @kind object;
+  #L16b0e0.  v1:= v2.`com.j256.ormlite.stmt.Where.clauseStackLevel` @type ^`int`;
+  #L16b0e4.  v1:= v1 + -1;
+  #L16b0e8.  v0:= v0[v1] @kind object;
+  #L16b0ec.  return v0 @kind object;
+}
+procedure `com.j256.ormlite.stmt.query.Clause` `pop`(`com.j256.ormlite.stmt.Where` v4 @kind this, `java.lang.String` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.pop:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/query/Clause;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L16b100.  v0:= v4.`com.j256.ormlite.stmt.Where.clauseStackLevel` @type ^`int`;
+  #L16b104.  if v0 != 0 then goto L16b146;
+  #L16b108.  v0:= new `java.lang.IllegalStateException`;
+  #L16b10c.  v1:= new `java.lang.StringBuilder`;
+  #L16b110.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L16b116.  v2:= "Expecting there to be a clause already defined for '" @kind object;
+  #L16b11a.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16b120.  v1:= temp @kind object;
+  #L16b122.  call temp:= `append`(v1, v5) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16b128.  v1:= temp @kind object;
+  #L16b12a.  v2:= "' operation" @kind object;
+  #L16b12e.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16b134.  v1:= temp @kind object;
+  #L16b136.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L16b13c.  v1:= temp @kind object;
+  #L16b13e.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16b144.  throw v0;
+  #L16b146.  v0:= v4.`com.j256.ormlite.stmt.Where.clauseStack` @type ^`com.j256.ormlite.stmt.query.Clause`[] @kind object;
+  #L16b14a.  v1:= v4.`com.j256.ormlite.stmt.Where.clauseStackLevel` @type ^`int`;
+  #L16b14e.  v1:= v1 + -1;
+  #L16b152.  v4.`com.j256.ormlite.stmt.Where.clauseStackLevel` @type ^`int` := v1;
+  #L16b156.  v0:= v0[v1] @kind object;
+  #L16b15a.  v1:= v4.`com.j256.ormlite.stmt.Where.clauseStack` @type ^`com.j256.ormlite.stmt.query.Clause`[] @kind object;
+  #L16b15e.  v2:= v4.`com.j256.ormlite.stmt.Where.clauseStackLevel` @type ^`int`;
+  #L16b162.  v3:= 0I;
+  #L16b164.  v1[v2]:= v3 @kind object;
+  #L16b168.  return v0 @kind object;
+}
+procedure `void` `push`(`com.j256.ormlite.stmt.Where` v4 @kind this, `com.j256.ormlite.stmt.query.Clause` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.push:(Lcom/j256/ormlite/stmt/query/Clause;)V` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L16b17c.  v0:= v4.`com.j256.ormlite.stmt.Where.clauseStackLevel` @type ^`int`;
+  #L16b180.  v1:= v4.`com.j256.ormlite.stmt.Where.clauseStack` @type ^`com.j256.ormlite.stmt.query.Clause`[] @kind object;
+  #L16b184.  v1:= length @variable v1;
+  #L16b186.  if v0 != v1 then goto L16b1c0;
+  #L16b18a.  v0:= v4.`com.j256.ormlite.stmt.Where.clauseStackLevel` @type ^`int`;
+  #L16b18e.  v0:= v0 * 2;
+  #L16b192.  v1:= new `com.j256.ormlite.stmt.query.Clause`[v0];
+  #L16b196.  v0:= 0I;
+  #L16b198.  v2:= v4.`com.j256.ormlite.stmt.Where.clauseStackLevel` @type ^`int`;
+  #L16b19c.  if v0 >= v2 then goto L16b1bc;
+  #L16b1a0.  v2:= v4.`com.j256.ormlite.stmt.Where.clauseStack` @type ^`com.j256.ormlite.stmt.query.Clause`[] @kind object;
+  #L16b1a4.  v2:= v2[v0] @kind object;
+  #L16b1a8.  v1[v0]:= v2 @kind object;
+  #L16b1ac.  v2:= v4.`com.j256.ormlite.stmt.Where.clauseStack` @type ^`com.j256.ormlite.stmt.query.Clause`[] @kind object;
+  #L16b1b0.  v3:= 0I;
+  #L16b1b2.  v2[v0]:= v3 @kind object;
+  #L16b1b6.  v0:= v0 + 1;
+  #L16b1ba.  goto L16b198;
+  #L16b1bc.  v4.`com.j256.ormlite.stmt.Where.clauseStack` @type ^`com.j256.ormlite.stmt.query.Clause`[] := v1 @kind object;
+  #L16b1c0.  v0:= v4.`com.j256.ormlite.stmt.Where.clauseStack` @type ^`com.j256.ormlite.stmt.query.Clause`[] @kind object;
+  #L16b1c4.  v1:= v4.`com.j256.ormlite.stmt.Where.clauseStackLevel` @type ^`int`;
+  #L16b1c8.  v2:= v1 + 1;
+  #L16b1cc.  v4.`com.j256.ormlite.stmt.Where.clauseStackLevel` @type ^`int` := v2;
+  #L16b1d0.  v0[v1]:= v5 @kind object;
+  #L16b1d4.  return @kind void;
+}
+procedure `com.j256.ormlite.stmt.Where` `and`(`com.j256.ormlite.stmt.Where` v3 @kind this) @signature `Lcom/j256/ormlite/stmt/Where;.and:()Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b1e8.  v0:= new `com.j256.ormlite.stmt.query.ManyClause`;
+  #L16b1ec.  v1:= "AND" @kind object;
+  #L16b1f0.  call temp:= `pop`(v3, v1) @signature `Lcom/j256/ormlite/stmt/Where;.pop:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/query/Clause;` @kind direct;
+  #L16b1f6.  v1:= temp @kind object;
+  #L16b1f8.  v2:= "AND" @kind object;
+  #L16b1fc.  call `<init>`(v0, v1, v2) @signature `Lcom/j256/ormlite/stmt/query/ManyClause;.<init>:(Lcom/j256/ormlite/stmt/query/Clause;Ljava/lang/String;)V` @kind direct;
+  #L16b202.  call `push`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.push:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b208.  call `addNeedsFuture`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addNeedsFuture:(Lcom/j256/ormlite/stmt/query/NeedsFutureClause;)V` @kind direct;
+  #L16b20e.  return v3 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `and`(`com.j256.ormlite.stmt.Where` v3 @kind this, `int` v4 ) @signature `Lcom/j256/ormlite/stmt/Where;.and:(I)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b220.  if v4 != 0 then goto L16b234;
+  #L16b224.  v0:= new `java.lang.IllegalArgumentException`;
+  #L16b228.  v1:= "Must have at least one clause in and(numClauses)" @kind object;
+  #L16b22c.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16b232.  throw v0;
+  #L16b234.  v1:= new `com.j256.ormlite.stmt.query.Clause`[v4];
+  #L16b238.  v0:= v4 + -1;
+  #L16b23c.  if v0 < 0 then goto L16b256;
+  #L16b240.  v2:= "AND" @kind object;
+  #L16b244.  call temp:= `pop`(v3, v2) @signature `Lcom/j256/ormlite/stmt/Where;.pop:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/query/Clause;` @kind direct;
+  #L16b24a.  v2:= temp @kind object;
+  #L16b24c.  v1[v0]:= v2 @kind object;
+  #L16b250.  v0:= v0 + -1;
+  #L16b254.  goto L16b23c;
+  #L16b256.  v0:= new `com.j256.ormlite.stmt.query.ManyClause`;
+  #L16b25a.  v2:= "AND" @kind object;
+  #L16b25e.  call `<init>`(v0, v1, v2) @signature `Lcom/j256/ormlite/stmt/query/ManyClause;.<init>:([Lcom/j256/ormlite/stmt/query/Clause;Ljava/lang/String;)V` @kind direct;
+  #L16b264.  call `addClause`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b26a.  return v3 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `and`(`com.j256.ormlite.stmt.Where` v5 @kind this, `com.j256.ormlite.stmt.Where` v6 @kind object, `com.j256.ormlite.stmt.Where` v7 @kind object, `com.j256.ormlite.stmt.Where`[] v8 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.and:(Lcom/j256/ormlite/stmt/Where;Lcom/j256/ormlite/stmt/Where;[Lcom/j256/ormlite/stmt/Where;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L16b27c.  v0:= "AND" @kind object;
+  #L16b280.  call temp:= `buildClauseArray`(v5, v8, v0) @signature `Lcom/j256/ormlite/stmt/Where;.buildClauseArray:([Lcom/j256/ormlite/stmt/Where;Ljava/lang/String;)[Lcom/j256/ormlite/stmt/query/Clause;` @kind direct;
+  #L16b286.  v0:= temp @kind object;
+  #L16b288.  v1:= "AND" @kind object;
+  #L16b28c.  call temp:= `pop`(v5, v1) @signature `Lcom/j256/ormlite/stmt/Where;.pop:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/query/Clause;` @kind direct;
+  #L16b292.  v1:= temp @kind object;
+  #L16b294.  v2:= "AND" @kind object;
+  #L16b298.  call temp:= `pop`(v5, v2) @signature `Lcom/j256/ormlite/stmt/Where;.pop:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/query/Clause;` @kind direct;
+  #L16b29e.  v2:= temp @kind object;
+  #L16b2a0.  v3:= new `com.j256.ormlite.stmt.query.ManyClause`;
+  #L16b2a4.  v4:= "AND" @kind object;
+  #L16b2a8.  call `<init>`(v3, v2, v1, v0, v4) @signature `Lcom/j256/ormlite/stmt/query/ManyClause;.<init>:(Lcom/j256/ormlite/stmt/query/Clause;Lcom/j256/ormlite/stmt/query/Clause;[Lcom/j256/ormlite/stmt/query/Clause;Ljava/lang/String;)V` @kind direct;
+  #L16b2ae.  call `addClause`(v5, v3) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b2b4.  return v5 @kind object;
+}
+procedure `void` `appendSql`(`com.j256.ormlite.stmt.Where` v2 @kind this, `java.lang.String` v3 @kind object, `java.lang.StringBuilder` v4 @kind object, `java.util.List` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.appendSql:(Ljava/lang/String;Ljava/lang/StringBuilder;Ljava/util/List;)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+
+  #L16b2c8.  v0:= v2.`com.j256.ormlite.stmt.Where.clauseStackLevel` @type ^`int`;
+  #L16b2cc.  if v0 != 0 then goto L16b2e0;
+  #L16b2d0.  v0:= new `java.lang.IllegalStateException`;
+  #L16b2d4.  v1:= "No where clauses defined.  Did you miss a where operation?" @kind object;
+  #L16b2d8.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16b2de.  throw v0;
+  #L16b2e0.  v0:= v2.`com.j256.ormlite.stmt.Where.clauseStackLevel` @type ^`int`;
+  #L16b2e4.  v1:= 1I;
+  #L16b2e6.  if v0 == v1 then goto L16b2fa;
+  #L16b2ea.  v0:= new `java.lang.IllegalStateException`;
+  #L16b2ee.  v1:= "Both the \"left-hand\" and \"right-hand\" clauses have been defined.  Did you miss an AND or OR?" @kind object;
+  #L16b2f2.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16b2f8.  throw v0;
+  #L16b2fa.  v0:= v2.`com.j256.ormlite.stmt.Where.needsFuture` @type ^`com.j256.ormlite.stmt.query.NeedsFutureClause` @kind object;
+  #L16b2fe.  if v0 == 0 then goto L16b312;
+  #L16b302.  v0:= new `java.lang.IllegalStateException`;
+  #L16b306.  v1:= "The SQL statement has not been finished since there are previous operations still waiting for clauses." @kind object;
+  #L16b30a.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16b310.  throw v0;
+  #L16b312.  call temp:= `peek`(v2) @signature `Lcom/j256/ormlite/stmt/Where;.peek:()Lcom/j256/ormlite/stmt/query/Clause;` @kind direct;
+  #L16b318.  v0:= temp @kind object;
+  #L16b31a.  v1:= v2.`com.j256.ormlite.stmt.Where.databaseType` @type ^`com.j256.ormlite.db.DatabaseType` @kind object;
+  #L16b31e.  call `appendSql`(v0, v1, v3, v4, v5) @signature `Lcom/j256/ormlite/stmt/query/Clause;.appendSql:(Lcom/j256/ormlite/db/DatabaseType;Ljava/lang/String;Ljava/lang/StringBuilder;Ljava/util/List;)V` @kind interface;
+  #L16b324.  return @kind void;
+}
+procedure `com.j256.ormlite.stmt.Where` `between`(`com.j256.ormlite.stmt.Where` v2 @kind this, `java.lang.String` v3 @kind object, `java.lang.Object` v4 @kind object, `java.lang.Object` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.between:(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L16b338.  v0:= new `com.j256.ormlite.stmt.query.Between`;
+  #L16b33c.  call temp:= `findColumnFieldType`(v2, v3) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16b342.  v1:= temp @kind object;
+  #L16b344.  call `<init>`(v0, v3, v1, v4, v5) @signature `Lcom/j256/ormlite/stmt/query/Between;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;Ljava/lang/Object;Ljava/lang/Object;)V` @kind direct;
+  #L16b34a.  call `addClause`(v2, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b350.  return v2 @kind object;
+}
+procedure `long` `countOf`(`com.j256.ormlite.stmt.Where` v2 @kind this) @signature `Lcom/j256/ormlite/stmt/Where;.countOf:()J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L16b364.  v0:= "countOf()" @kind object;
+  #L16b368.  call temp:= `checkQueryBuilderMethod`(v2, v0) @signature `Lcom/j256/ormlite/stmt/Where;.checkQueryBuilderMethod:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/QueryBuilder;` @kind direct;
+  #L16b36e.  v0:= temp @kind object;
+  #L16b370.  call temp:= `countOf`(v0) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.countOf:()J` @kind virtual;
+  #L16b376.  v0:= temp @kind wide;
+  #L16b378.  return v0 @kind wide;
+}
+procedure `com.j256.ormlite.stmt.Where` `eq`(`com.j256.ormlite.stmt.Where` v3 @kind this, `java.lang.String` v4 @kind object, `java.lang.Object` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.eq:(Ljava/lang/String;Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b38c.  v0:= new `com.j256.ormlite.stmt.query.SimpleComparison`;
+  #L16b390.  call temp:= `findColumnFieldType`(v3, v4) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16b396.  v1:= temp @kind object;
+  #L16b398.  v2:= "=" @kind object;
+  #L16b39c.  call `<init>`(v0, v4, v1, v5, v2) @signature `Lcom/j256/ormlite/stmt/query/SimpleComparison;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;Ljava/lang/Object;Ljava/lang/String;)V` @kind direct;
+  #L16b3a2.  call `addClause`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b3a8.  return v3 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `exists`(`com.j256.ormlite.stmt.Where` v2 @kind this, `com.j256.ormlite.stmt.QueryBuilder` v3 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.exists:(Lcom/j256/ormlite/stmt/QueryBuilder;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L16b3bc.  call `enableInnerQuery`(v3) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.enableInnerQuery:()V` @kind virtual;
+  #L16b3c2.  v0:= new `com.j256.ormlite.stmt.query.Exists`;
+  #L16b3c6.  v1:= new `com.j256.ormlite.stmt.QueryBuilder$InternalQueryBuilderWrapper`;
+  #L16b3ca.  call `<init>`(v1, v3) @signature `Lcom/j256/ormlite/stmt/QueryBuilder$InternalQueryBuilderWrapper;.<init>:(Lcom/j256/ormlite/stmt/QueryBuilder;)V` @kind direct;
+  #L16b3d0.  call `<init>`(v0, v1) @signature `Lcom/j256/ormlite/stmt/query/Exists;.<init>:(Lcom/j256/ormlite/stmt/QueryBuilder$InternalQueryBuilderWrapper;)V` @kind direct;
+  #L16b3d6.  call `addClause`(v2, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b3dc.  return v2 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `ge`(`com.j256.ormlite.stmt.Where` v3 @kind this, `java.lang.String` v4 @kind object, `java.lang.Object` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.ge:(Ljava/lang/String;Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b3f0.  v0:= new `com.j256.ormlite.stmt.query.SimpleComparison`;
+  #L16b3f4.  call temp:= `findColumnFieldType`(v3, v4) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16b3fa.  v1:= temp @kind object;
+  #L16b3fc.  v2:= ">=" @kind object;
+  #L16b400.  call `<init>`(v0, v4, v1, v5, v2) @signature `Lcom/j256/ormlite/stmt/query/SimpleComparison;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;Ljava/lang/Object;Ljava/lang/String;)V` @kind direct;
+  #L16b406.  call `addClause`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b40c.  return v3 @kind object;
+}
+procedure `java.lang.String` `getStatement`(`com.j256.ormlite.stmt.Where` v3 @kind this) @signature `Lcom/j256/ormlite/stmt/Where;.getStatement:()Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b420.  v0:= new `java.lang.StringBuilder`;
+  #L16b424.  call `<init>`(v0) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L16b42a.  v1:= 0I;
+  #L16b42c.  v2:= new `java.util.ArrayList`;
+  #L16b430.  call `<init>`(v2) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L16b436.  call `appendSql`(v3, v1, v0, v2) @signature `Lcom/j256/ormlite/stmt/Where;.appendSql:(Ljava/lang/String;Ljava/lang/StringBuilder;Ljava/util/List;)V` @kind virtual;
+  #L16b43c.  call temp:= `toString`(v0) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L16b442.  v0:= temp @kind object;
+  #L16b444.  return v0 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `gt`(`com.j256.ormlite.stmt.Where` v3 @kind this, `java.lang.String` v4 @kind object, `java.lang.Object` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.gt:(Ljava/lang/String;Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b458.  v0:= new `com.j256.ormlite.stmt.query.SimpleComparison`;
+  #L16b45c.  call temp:= `findColumnFieldType`(v3, v4) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16b462.  v1:= temp @kind object;
+  #L16b464.  v2:= ">" @kind object;
+  #L16b468.  call `<init>`(v0, v4, v1, v5, v2) @signature `Lcom/j256/ormlite/stmt/query/SimpleComparison;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;Ljava/lang/Object;Ljava/lang/String;)V` @kind direct;
+  #L16b46e.  call `addClause`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b474.  return v3 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `idEq`(`com.j256.ormlite.stmt.Where` v5 @kind this, `com.j256.ormlite.dao.Dao` v6 @kind object, `java.lang.Object` v7 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.idEq:(Lcom/j256/ormlite/dao/Dao;Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L16b488.  v0:= v5.`com.j256.ormlite.stmt.Where.idColumnName` @type ^`java.lang.String` @kind object;
+  #L16b48c.  if v0 != 0 then goto L16b4a0;
+  #L16b490.  v0:= new `java.sql.SQLException`;
+  #L16b494.  v1:= "Object has no id column specified" @kind object;
+  #L16b498.  call `<init>`(v0, v1) @signature `Ljava/sql/SQLException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16b49e.  throw v0;
+  #L16b4a0.  v0:= new `com.j256.ormlite.stmt.query.SimpleComparison`;
+  #L16b4a4.  v1:= v5.`com.j256.ormlite.stmt.Where.idColumnName` @type ^`java.lang.String` @kind object;
+  #L16b4a8.  v2:= v5.`com.j256.ormlite.stmt.Where.idFieldType` @type ^`com.j256.ormlite.field.FieldType` @kind object;
+  #L16b4ac.  call temp:= `extractId`(v6, v7) @signature `Lcom/j256/ormlite/dao/Dao;.extractId:(Ljava/lang/Object;)Ljava/lang/Object;` @kind interface;
+  #L16b4b2.  v3:= temp @kind object;
+  #L16b4b4.  v4:= "=" @kind object;
+  #L16b4b8.  call `<init>`(v0, v1, v2, v3, v4) @signature `Lcom/j256/ormlite/stmt/query/SimpleComparison;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;Ljava/lang/Object;Ljava/lang/String;)V` @kind direct;
+  #L16b4be.  call `addClause`(v5, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b4c4.  return v5 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `idEq`(`com.j256.ormlite.stmt.Where` v4 @kind this, `java.lang.Object` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.idEq:(Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L16b4d8.  v0:= v4.`com.j256.ormlite.stmt.Where.idColumnName` @type ^`java.lang.String` @kind object;
+  #L16b4dc.  if v0 != 0 then goto L16b4f0;
+  #L16b4e0.  v0:= new `java.sql.SQLException`;
+  #L16b4e4.  v1:= "Object has no id column specified" @kind object;
+  #L16b4e8.  call `<init>`(v0, v1) @signature `Ljava/sql/SQLException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16b4ee.  throw v0;
+  #L16b4f0.  v0:= new `com.j256.ormlite.stmt.query.SimpleComparison`;
+  #L16b4f4.  v1:= v4.`com.j256.ormlite.stmt.Where.idColumnName` @type ^`java.lang.String` @kind object;
+  #L16b4f8.  v2:= v4.`com.j256.ormlite.stmt.Where.idFieldType` @type ^`com.j256.ormlite.field.FieldType` @kind object;
+  #L16b4fc.  v3:= "=" @kind object;
+  #L16b500.  call `<init>`(v0, v1, v2, v5, v3) @signature `Lcom/j256/ormlite/stmt/query/SimpleComparison;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;Ljava/lang/Object;Ljava/lang/String;)V` @kind direct;
+  #L16b506.  call `addClause`(v4, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b50c.  return v4 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `in`(`com.j256.ormlite.stmt.Where` v1 @kind this, `java.lang.String` v2 @kind object, `com.j256.ormlite.stmt.QueryBuilder` v3 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.in:(Ljava/lang/String;Lcom/j256/ormlite/stmt/QueryBuilder;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L16b520.  v0:= 1I;
+  #L16b522.  call temp:= `in`(v1, v0, v2, v3) @signature `Lcom/j256/ormlite/stmt/Where;.in:(ZLjava/lang/String;Lcom/j256/ormlite/stmt/QueryBuilder;)Lcom/j256/ormlite/stmt/Where;` @kind direct;
+  #L16b528.  v0:= temp @kind object;
+  #L16b52a.  return v0 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `in`(`com.j256.ormlite.stmt.Where` v3 @kind this, `java.lang.String` v4 @kind object, `java.lang.Iterable` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.in:(Ljava/lang/String;Ljava/lang/Iterable;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b53c.  v0:= new `com.j256.ormlite.stmt.query.In`;
+  #L16b540.  call temp:= `findColumnFieldType`(v3, v4) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16b546.  v1:= temp @kind object;
+  #L16b548.  v2:= 1I;
+  #L16b54a.  call `<init>`(v0, v4, v1, v5, v2) @signature `Lcom/j256/ormlite/stmt/query/In;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;Ljava/lang/Iterable;Z)V` @kind direct;
+  #L16b550.  call `addClause`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b556.  return v3 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `in`(`com.j256.ormlite.stmt.Where` v1 @kind this, `java.lang.String` v2 @kind object, `java.lang.Object`[] v3 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.in:(Ljava/lang/String;[Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L16b568.  v0:= 1I;
+  #L16b56a.  call temp:= `in`(v1, v0, v2, v3) @signature `Lcom/j256/ormlite/stmt/Where;.in:(ZLjava/lang/String;[Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @kind direct;
+  #L16b570.  v0:= temp @kind object;
+  #L16b572.  return v0 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `isNotNull`(`com.j256.ormlite.stmt.Where` v2 @kind this, `java.lang.String` v3 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.isNotNull:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L16b584.  v0:= new `com.j256.ormlite.stmt.query.IsNotNull`;
+  #L16b588.  call temp:= `findColumnFieldType`(v2, v3) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16b58e.  v1:= temp @kind object;
+  #L16b590.  call `<init>`(v0, v3, v1) @signature `Lcom/j256/ormlite/stmt/query/IsNotNull;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;)V` @kind direct;
+  #L16b596.  call `addClause`(v2, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b59c.  return v2 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `isNull`(`com.j256.ormlite.stmt.Where` v2 @kind this, `java.lang.String` v3 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.isNull:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L16b5b0.  v0:= new `com.j256.ormlite.stmt.query.IsNull`;
+  #L16b5b4.  call temp:= `findColumnFieldType`(v2, v3) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16b5ba.  v1:= temp @kind object;
+  #L16b5bc.  call `<init>`(v0, v3, v1) @signature `Lcom/j256/ormlite/stmt/query/IsNull;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;)V` @kind direct;
+  #L16b5c2.  call `addClause`(v2, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b5c8.  return v2 @kind object;
+}
+procedure `com.j256.ormlite.dao.CloseableIterator` `iterator`(`com.j256.ormlite.stmt.Where` v1 @kind this) @signature `Lcom/j256/ormlite/stmt/Where;.iterator:()Lcom/j256/ormlite/dao/CloseableIterator;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L16b5dc.  v0:= "iterator()" @kind object;
+  #L16b5e0.  call temp:= `checkQueryBuilderMethod`(v1, v0) @signature `Lcom/j256/ormlite/stmt/Where;.checkQueryBuilderMethod:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/QueryBuilder;` @kind direct;
+  #L16b5e6.  v0:= temp @kind object;
+  #L16b5e8.  call temp:= `iterator`(v0) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.iterator:()Lcom/j256/ormlite/dao/CloseableIterator;` @kind virtual;
+  #L16b5ee.  v0:= temp @kind object;
+  #L16b5f0.  return v0 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `le`(`com.j256.ormlite.stmt.Where` v3 @kind this, `java.lang.String` v4 @kind object, `java.lang.Object` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.le:(Ljava/lang/String;Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b604.  v0:= new `com.j256.ormlite.stmt.query.SimpleComparison`;
+  #L16b608.  call temp:= `findColumnFieldType`(v3, v4) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16b60e.  v1:= temp @kind object;
+  #L16b610.  v2:= "<=" @kind object;
+  #L16b614.  call `<init>`(v0, v4, v1, v5, v2) @signature `Lcom/j256/ormlite/stmt/query/SimpleComparison;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;Ljava/lang/Object;Ljava/lang/String;)V` @kind direct;
+  #L16b61a.  call `addClause`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b620.  return v3 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `like`(`com.j256.ormlite.stmt.Where` v3 @kind this, `java.lang.String` v4 @kind object, `java.lang.Object` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.like:(Ljava/lang/String;Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b634.  v0:= new `com.j256.ormlite.stmt.query.SimpleComparison`;
+  #L16b638.  call temp:= `findColumnFieldType`(v3, v4) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16b63e.  v1:= temp @kind object;
+  #L16b640.  v2:= "LIKE" @kind object;
+  #L16b644.  call `<init>`(v0, v4, v1, v5, v2) @signature `Lcom/j256/ormlite/stmt/query/SimpleComparison;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;Ljava/lang/Object;Ljava/lang/String;)V` @kind direct;
+  #L16b64a.  call `addClause`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b650.  return v3 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `lt`(`com.j256.ormlite.stmt.Where` v3 @kind this, `java.lang.String` v4 @kind object, `java.lang.Object` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.lt:(Ljava/lang/String;Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b664.  v0:= new `com.j256.ormlite.stmt.query.SimpleComparison`;
+  #L16b668.  call temp:= `findColumnFieldType`(v3, v4) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16b66e.  v1:= temp @kind object;
+  #L16b670.  v2:= "<" @kind object;
+  #L16b674.  call `<init>`(v0, v4, v1, v5, v2) @signature `Lcom/j256/ormlite/stmt/query/SimpleComparison;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;Ljava/lang/Object;Ljava/lang/String;)V` @kind direct;
+  #L16b67a.  call `addClause`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b680.  return v3 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `ne`(`com.j256.ormlite.stmt.Where` v3 @kind this, `java.lang.String` v4 @kind object, `java.lang.Object` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.ne:(Ljava/lang/String;Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b694.  v0:= new `com.j256.ormlite.stmt.query.SimpleComparison`;
+  #L16b698.  call temp:= `findColumnFieldType`(v3, v4) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16b69e.  v1:= temp @kind object;
+  #L16b6a0.  v2:= "<>" @kind object;
+  #L16b6a4.  call `<init>`(v0, v4, v1, v5, v2) @signature `Lcom/j256/ormlite/stmt/query/SimpleComparison;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;Ljava/lang/Object;Ljava/lang/String;)V` @kind direct;
+  #L16b6aa.  call `addClause`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b6b0.  return v3 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `not`(`com.j256.ormlite.stmt.Where` v1 @kind this) @signature `Lcom/j256/ormlite/stmt/Where;.not:()Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L16b6c4.  v0:= new `com.j256.ormlite.stmt.query.Not`;
+  #L16b6c8.  call `<init>`(v0) @signature `Lcom/j256/ormlite/stmt/query/Not;.<init>:()V` @kind direct;
+  #L16b6ce.  call `addClause`(v1, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b6d4.  call `addNeedsFuture`(v1, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addNeedsFuture:(Lcom/j256/ormlite/stmt/query/NeedsFutureClause;)V` @kind direct;
+  #L16b6da.  return v1 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `not`(`com.j256.ormlite.stmt.Where` v2 @kind this, `com.j256.ormlite.stmt.Where` v3 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.not:(Lcom/j256/ormlite/stmt/Where;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L16b6ec.  v0:= new `com.j256.ormlite.stmt.query.Not`;
+  #L16b6f0.  v1:= "NOT" @kind object;
+  #L16b6f4.  call temp:= `pop`(v2, v1) @signature `Lcom/j256/ormlite/stmt/Where;.pop:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/query/Clause;` @kind direct;
+  #L16b6fa.  v1:= temp @kind object;
+  #L16b6fc.  call `<init>`(v0, v1) @signature `Lcom/j256/ormlite/stmt/query/Not;.<init>:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b702.  call `addClause`(v2, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b708.  return v2 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `notIn`(`com.j256.ormlite.stmt.Where` v1 @kind this, `java.lang.String` v2 @kind object, `com.j256.ormlite.stmt.QueryBuilder` v3 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.notIn:(Ljava/lang/String;Lcom/j256/ormlite/stmt/QueryBuilder;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L16b71c.  v0:= 0I;
+  #L16b71e.  call temp:= `in`(v1, v0, v2, v3) @signature `Lcom/j256/ormlite/stmt/Where;.in:(ZLjava/lang/String;Lcom/j256/ormlite/stmt/QueryBuilder;)Lcom/j256/ormlite/stmt/Where;` @kind direct;
+  #L16b724.  v0:= temp @kind object;
+  #L16b726.  return v0 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `notIn`(`com.j256.ormlite.stmt.Where` v3 @kind this, `java.lang.String` v4 @kind object, `java.lang.Iterable` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.notIn:(Ljava/lang/String;Ljava/lang/Iterable;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b738.  v0:= new `com.j256.ormlite.stmt.query.In`;
+  #L16b73c.  call temp:= `findColumnFieldType`(v3, v4) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16b742.  v1:= temp @kind object;
+  #L16b744.  v2:= 0I;
+  #L16b746.  call `<init>`(v0, v4, v1, v5, v2) @signature `Lcom/j256/ormlite/stmt/query/In;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;Ljava/lang/Iterable;Z)V` @kind direct;
+  #L16b74c.  call `addClause`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b752.  return v3 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `notIn`(`com.j256.ormlite.stmt.Where` v1 @kind this, `java.lang.String` v2 @kind object, `java.lang.Object`[] v3 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.notIn:(Ljava/lang/String;[Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L16b764.  v0:= 0I;
+  #L16b766.  call temp:= `in`(v1, v0, v2, v3) @signature `Lcom/j256/ormlite/stmt/Where;.in:(ZLjava/lang/String;[Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @kind direct;
+  #L16b76c.  v0:= temp @kind object;
+  #L16b76e.  return v0 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `or`(`com.j256.ormlite.stmt.Where` v3 @kind this) @signature `Lcom/j256/ormlite/stmt/Where;.or:()Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b780.  v0:= new `com.j256.ormlite.stmt.query.ManyClause`;
+  #L16b784.  v1:= "OR" @kind object;
+  #L16b788.  call temp:= `pop`(v3, v1) @signature `Lcom/j256/ormlite/stmt/Where;.pop:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/query/Clause;` @kind direct;
+  #L16b78e.  v1:= temp @kind object;
+  #L16b790.  v2:= "OR" @kind object;
+  #L16b794.  call `<init>`(v0, v1, v2) @signature `Lcom/j256/ormlite/stmt/query/ManyClause;.<init>:(Lcom/j256/ormlite/stmt/query/Clause;Ljava/lang/String;)V` @kind direct;
+  #L16b79a.  call `push`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.push:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b7a0.  call `addNeedsFuture`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addNeedsFuture:(Lcom/j256/ormlite/stmt/query/NeedsFutureClause;)V` @kind direct;
+  #L16b7a6.  return v3 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `or`(`com.j256.ormlite.stmt.Where` v3 @kind this, `int` v4 ) @signature `Lcom/j256/ormlite/stmt/Where;.or:(I)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b7b8.  if v4 != 0 then goto L16b7cc;
+  #L16b7bc.  v0:= new `java.lang.IllegalArgumentException`;
+  #L16b7c0.  v1:= "Must have at least one clause in or(numClauses)" @kind object;
+  #L16b7c4.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16b7ca.  throw v0;
+  #L16b7cc.  v1:= new `com.j256.ormlite.stmt.query.Clause`[v4];
+  #L16b7d0.  v0:= v4 + -1;
+  #L16b7d4.  if v0 < 0 then goto L16b7ee;
+  #L16b7d8.  v2:= "OR" @kind object;
+  #L16b7dc.  call temp:= `pop`(v3, v2) @signature `Lcom/j256/ormlite/stmt/Where;.pop:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/query/Clause;` @kind direct;
+  #L16b7e2.  v2:= temp @kind object;
+  #L16b7e4.  v1[v0]:= v2 @kind object;
+  #L16b7e8.  v0:= v0 + -1;
+  #L16b7ec.  goto L16b7d4;
+  #L16b7ee.  v0:= new `com.j256.ormlite.stmt.query.ManyClause`;
+  #L16b7f2.  v2:= "OR" @kind object;
+  #L16b7f6.  call `<init>`(v0, v1, v2) @signature `Lcom/j256/ormlite/stmt/query/ManyClause;.<init>:([Lcom/j256/ormlite/stmt/query/Clause;Ljava/lang/String;)V` @kind direct;
+  #L16b7fc.  call `addClause`(v3, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b802.  return v3 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `or`(`com.j256.ormlite.stmt.Where` v5 @kind this, `com.j256.ormlite.stmt.Where` v6 @kind object, `com.j256.ormlite.stmt.Where` v7 @kind object, `com.j256.ormlite.stmt.Where`[] v8 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.or:(Lcom/j256/ormlite/stmt/Where;Lcom/j256/ormlite/stmt/Where;[Lcom/j256/ormlite/stmt/Where;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L16b814.  v0:= "OR" @kind object;
+  #L16b818.  call temp:= `buildClauseArray`(v5, v8, v0) @signature `Lcom/j256/ormlite/stmt/Where;.buildClauseArray:([Lcom/j256/ormlite/stmt/Where;Ljava/lang/String;)[Lcom/j256/ormlite/stmt/query/Clause;` @kind direct;
+  #L16b81e.  v0:= temp @kind object;
+  #L16b820.  v1:= "OR" @kind object;
+  #L16b824.  call temp:= `pop`(v5, v1) @signature `Lcom/j256/ormlite/stmt/Where;.pop:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/query/Clause;` @kind direct;
+  #L16b82a.  v1:= temp @kind object;
+  #L16b82c.  v2:= "OR" @kind object;
+  #L16b830.  call temp:= `pop`(v5, v2) @signature `Lcom/j256/ormlite/stmt/Where;.pop:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/query/Clause;` @kind direct;
+  #L16b836.  v2:= temp @kind object;
+  #L16b838.  v3:= new `com.j256.ormlite.stmt.query.ManyClause`;
+  #L16b83c.  v4:= "OR" @kind object;
+  #L16b840.  call `<init>`(v3, v2, v1, v0, v4) @signature `Lcom/j256/ormlite/stmt/query/ManyClause;.<init>:(Lcom/j256/ormlite/stmt/query/Clause;Lcom/j256/ormlite/stmt/query/Clause;[Lcom/j256/ormlite/stmt/query/Clause;Ljava/lang/String;)V` @kind direct;
+  #L16b846.  call `addClause`(v5, v3) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b84c.  return v5 @kind object;
+}
+procedure `com.j256.ormlite.stmt.PreparedQuery` `prepare`(`com.j256.ormlite.stmt.Where` v3 @kind this) @signature `Lcom/j256/ormlite/stmt/Where;.prepare:()Lcom/j256/ormlite/stmt/PreparedQuery;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b860.  v0:= v3.`com.j256.ormlite.stmt.Where.statementBuilder` @type ^`com.j256.ormlite.stmt.StatementBuilder` @kind object;
+  #L16b864.  v1:= 0I;
+  #L16b866.  v2:= 0I;
+  #L16b868.  call temp:= `prepareStatement`(v0, v1, v2) @signature `Lcom/j256/ormlite/stmt/StatementBuilder;.prepareStatement:(Ljava/lang/Long;Z)Lcom/j256/ormlite/stmt/mapped/MappedPreparedStmt;` @kind virtual;
+  #L16b86e.  v0:= temp @kind object;
+  #L16b870.  return v0 @kind object;
+}
+procedure `java.util.List` `query`(`com.j256.ormlite.stmt.Where` v1 @kind this) @signature `Lcom/j256/ormlite/stmt/Where;.query:()Ljava/util/List;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L16b884.  v0:= "query()" @kind object;
+  #L16b888.  call temp:= `checkQueryBuilderMethod`(v1, v0) @signature `Lcom/j256/ormlite/stmt/Where;.checkQueryBuilderMethod:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/QueryBuilder;` @kind direct;
+  #L16b88e.  v0:= temp @kind object;
+  #L16b890.  call temp:= `query`(v0) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.query:()Ljava/util/List;` @kind virtual;
+  #L16b896.  v0:= temp @kind object;
+  #L16b898.  return v0 @kind object;
+}
+procedure `java.lang.Object` `queryForFirst`(`com.j256.ormlite.stmt.Where` v1 @kind this) @signature `Lcom/j256/ormlite/stmt/Where;.queryForFirst:()Ljava/lang/Object;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L16b8ac.  v0:= "queryForFirst()" @kind object;
+  #L16b8b0.  call temp:= `checkQueryBuilderMethod`(v1, v0) @signature `Lcom/j256/ormlite/stmt/Where;.checkQueryBuilderMethod:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/QueryBuilder;` @kind direct;
+  #L16b8b6.  v0:= temp @kind object;
+  #L16b8b8.  call temp:= `queryForFirst`(v0) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.queryForFirst:()Ljava/lang/Object;` @kind virtual;
+  #L16b8be.  v0:= temp @kind object;
+  #L16b8c0.  return v0 @kind object;
+}
+procedure `com.j256.ormlite.dao.GenericRawResults` `queryRaw`(`com.j256.ormlite.stmt.Where` v1 @kind this) @signature `Lcom/j256/ormlite/stmt/Where;.queryRaw:()Lcom/j256/ormlite/dao/GenericRawResults;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L16b8d4.  v0:= "queryRaw()" @kind object;
+  #L16b8d8.  call temp:= `checkQueryBuilderMethod`(v1, v0) @signature `Lcom/j256/ormlite/stmt/Where;.checkQueryBuilderMethod:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/QueryBuilder;` @kind direct;
+  #L16b8de.  v0:= temp @kind object;
+  #L16b8e0.  call temp:= `queryRaw`(v0) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.queryRaw:()Lcom/j256/ormlite/dao/GenericRawResults;` @kind virtual;
+  #L16b8e6.  v0:= temp @kind object;
+  #L16b8e8.  return v0 @kind object;
+}
+procedure `java.lang.String`[] `queryRawFirst`(`com.j256.ormlite.stmt.Where` v1 @kind this) @signature `Lcom/j256/ormlite/stmt/Where;.queryRawFirst:()[Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L16b8fc.  v0:= "queryRawFirst()" @kind object;
+  #L16b900.  call temp:= `checkQueryBuilderMethod`(v1, v0) @signature `Lcom/j256/ormlite/stmt/Where;.checkQueryBuilderMethod:(Ljava/lang/String;)Lcom/j256/ormlite/stmt/QueryBuilder;` @kind direct;
+  #L16b906.  v0:= temp @kind object;
+  #L16b908.  call temp:= `queryRawFirst`(v0) @signature `Lcom/j256/ormlite/stmt/QueryBuilder;.queryRawFirst:()[Ljava/lang/String;` @kind virtual;
+  #L16b90e.  v0:= temp @kind object;
+  #L16b910.  return v0 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `raw`(`com.j256.ormlite.stmt.Where` v4 @kind this, `java.lang.String` v5 @kind object, `com.j256.ormlite.stmt.ArgumentHolder`[] v6 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.raw:(Ljava/lang/String;[Lcom/j256/ormlite/stmt/ArgumentHolder;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L16b924.  v1:= length @variable v6;
+  #L16b926.  v0:= 0I;
+  #L16b928.  if v0 >= v1 then goto L16b96c;
+  #L16b92c.  v2:= v6[v0] @kind object;
+  #L16b930.  call temp:= `getColumnName`(v2) @signature `Lcom/j256/ormlite/stmt/ArgumentHolder;.getColumnName:()Ljava/lang/String;` @kind interface;
+  #L16b936.  v3:= temp @kind object;
+  #L16b938.  if v3 != 0 then goto L16b958;
+  #L16b93c.  call temp:= `getSqlType`(v2) @signature `Lcom/j256/ormlite/stmt/ArgumentHolder;.getSqlType:()Lcom/j256/ormlite/field/SqlType;` @kind interface;
+  #L16b942.  v2:= temp @kind object;
+  #L16b944.  if v2 != 0 then goto L16b966;
+  #L16b948.  v0:= new `java.lang.IllegalArgumentException`;
+  #L16b94c.  v1:= "Either the column name or SqlType must be set on each argument" @kind object;
+  #L16b950.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L16b956.  throw v0;
+  #L16b958.  call temp:= `findColumnFieldType`(v4, v3) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16b95e.  v3:= temp @kind object;
+  #L16b960.  call `setMetaInfo`(v2, v3) @signature `Lcom/j256/ormlite/stmt/ArgumentHolder;.setMetaInfo:(Lcom/j256/ormlite/field/FieldType;)V` @kind interface;
+  #L16b966.  v0:= v0 + 1;
+  #L16b96a.  goto L16b928;
+  #L16b96c.  v0:= new `com.j256.ormlite.stmt.query.Raw`;
+  #L16b970.  call `<init>`(v0, v5, v6) @signature `Lcom/j256/ormlite/stmt/query/Raw;.<init>:(Ljava/lang/String;[Lcom/j256/ormlite/stmt/ArgumentHolder;)V` @kind direct;
+  #L16b976.  call `addClause`(v4, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b97c.  return v4 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `rawComparison`(`com.j256.ormlite.stmt.Where` v2 @kind this, `java.lang.String` v3 @kind object, `java.lang.String` v4 @kind object, `java.lang.Object` v5 @kind object) @signature `Lcom/j256/ormlite/stmt/Where;.rawComparison:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L16b990.  v0:= new `com.j256.ormlite.stmt.query.SimpleComparison`;
+  #L16b994.  call temp:= `findColumnFieldType`(v2, v3) @signature `Lcom/j256/ormlite/stmt/Where;.findColumnFieldType:(Ljava/lang/String;)Lcom/j256/ormlite/field/FieldType;` @kind direct;
+  #L16b99a.  v1:= temp @kind object;
+  #L16b99c.  call `<init>`(v0, v3, v1, v5, v4) @signature `Lcom/j256/ormlite/stmt/query/SimpleComparison;.<init>:(Ljava/lang/String;Lcom/j256/ormlite/field/FieldType;Ljava/lang/Object;Ljava/lang/String;)V` @kind direct;
+  #L16b9a2.  call `addClause`(v2, v0) @signature `Lcom/j256/ormlite/stmt/Where;.addClause:(Lcom/j256/ormlite/stmt/query/Clause;)V` @kind direct;
+  #L16b9a8.  return v2 @kind object;
+}
+procedure `com.j256.ormlite.stmt.Where` `reset`(`com.j256.ormlite.stmt.Where` v4 @kind this) @signature `Lcom/j256/ormlite/stmt/Where;.reset:()Lcom/j256/ormlite/stmt/Where;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L16b9bc.  v1:= 0I;
+  #L16b9be.  v0:= v1;
+  #L16b9c0.  v2:= v4.`com.j256.ormlite.stmt.Where.clauseStackLevel` @type ^`int`;
+  #L16b9c4.  if v0 >= v2 then goto L16b9d8;
+  #L16b9c8.  v2:= v4.`com.j256.ormlite.stmt.Where.clauseStack` @type ^`com.j256.ormlite.stmt.query.Clause`[] @kind object;
+  #L16b9cc.  v3:= 0I;
+  #L16b9ce.  v2[v0]:= v3 @kind object;
+  #L16b9d2.  v0:= v0 + 1;
+  #L16b9d6.  goto L16b9c0;
+  #L16b9d8.  v4.`com.j256.ormlite.stmt.Where.clauseStackLevel` @type ^`int` := v1;
+  #L16b9dc.  return v4 @kind object;
+}
+procedure `java.lang.String` `toString`(`com.j256.ormlite.stmt.Where` v3 @kind this) @signature `Lcom/j256/ormlite/stmt/Where;.toString:()Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L16b9f0.  v0:= v3.`com.j256.ormlite.stmt.Where.clauseStackLevel` @type ^`int`;
+  #L16b9f4.  if v0 != 0 then goto L16b9fe;
+  #L16b9f8.  v0:= "empty where clause" @kind object;
+  #L16b9fc.  return v0 @kind object;
+  #L16b9fe.  call temp:= `peek`(v3) @signature `Lcom/j256/ormlite/stmt/Where;.peek:()Lcom/j256/ormlite/stmt/query/Clause;` @kind direct;
+  #L16ba04.  v0:= temp @kind object;
+  #L16ba06.  v1:= new `java.lang.StringBuilder`;
+  #L16ba0a.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L16ba10.  v2:= "where clause: " @kind object;
+  #L16ba14.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16ba1a.  v1:= temp @kind object;
+  #L16ba1c.  call temp:= `append`(v1, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16ba22.  v0:= temp @kind object;
+  #L16ba24.  call temp:= `toString`(v0) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L16ba2a.  v0:= temp @kind object;
+  #L16ba2c.  goto L16b9fc;
+}

@@ -1,0 +1,359 @@
+record `com.j256.ormlite.logger.LocalLog` @kind class @AccessFlag PUBLIC extends `com.j256.ormlite.logger.Log` @kind interface {
+  `java.lang.String` `com.j256.ormlite.logger.LocalLog.className` @AccessFlag PRIVATE_FINAL;
+  `com.j256.ormlite.logger.Log$Level` `com.j256.ormlite.logger.LocalLog.level` @AccessFlag PRIVATE_FINAL;
+}
+global `com.j256.ormlite.logger.Log$Level` `@@com.j256.ormlite.logger.LocalLog.DEFAULT_LEVEL` @AccessFlag PRIVATE_STATIC_FINAL;
+global `java.lang.String` `@@com.j256.ormlite.logger.LocalLog.LOCAL_LOG_FILE_PROPERTY` @AccessFlag PUBLIC_STATIC_FINAL;
+global `java.lang.String` `@@com.j256.ormlite.logger.LocalLog.LOCAL_LOG_LEVEL_PROPERTY` @AccessFlag PUBLIC_STATIC_FINAL;
+global `java.lang.String` `@@com.j256.ormlite.logger.LocalLog.LOCAL_LOG_PROPERTIES_FILE` @AccessFlag PUBLIC_STATIC_FINAL;
+global `java.util.List` `@@com.j256.ormlite.logger.LocalLog.classLevels` @AccessFlag PRIVATE_STATIC_FINAL;
+global `java.lang.ThreadLocal` `@@com.j256.ormlite.logger.LocalLog.dateFormatThreadLocal` @AccessFlag PRIVATE_STATIC_FINAL;
+global `java.io.PrintStream` `@@com.j256.ormlite.logger.LocalLog.printStream` @AccessFlag PRIVATE_STATIC;
+procedure `void` `<clinit>`() @signature `Lcom/j256/ormlite/logger/LocalLog;.<clinit>:()V` @AccessFlag STATIC_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+
+  #L1546f8.  v0:= `@@com.j256.ormlite.logger.Log$Level.DEBUG` @type ^`com.j256.ormlite.logger.Log$Level` @kind object;
+  #L1546fc.  `@@com.j256.ormlite.logger.LocalLog.DEFAULT_LEVEL` @type ^`com.j256.ormlite.logger.Log$Level` := v0 @kind object;
+  #L154700.  v0:= new `com.j256.ormlite.logger.LocalLog$1`;
+  #L154704.  call `<init>`(v0) @signature `Lcom/j256/ormlite/logger/LocalLog$1;.<init>:()V` @kind direct;
+  #L15470a.  `@@com.j256.ormlite.logger.LocalLog.dateFormatThreadLocal` @type ^`java.lang.ThreadLocal` := v0 @kind object;
+  #L15470e.  v0:= constclass @type ^`com.j256.ormlite.logger.LocalLog` @kind object;
+  #L154712.  v1:= "/ormliteLocalLog.properties" @kind object;
+  #L154716.  call temp:= `getResourceAsStream`(v0, v1) @signature `Ljava/lang/Class;.getResourceAsStream:(Ljava/lang/String;)Ljava/io/InputStream;` @kind virtual;
+  #L15471c.  v0:= temp @kind object;
+  #L15471e.  call temp:= `readLevelResourceFile`(v0) @signature `Lcom/j256/ormlite/logger/LocalLog;.readLevelResourceFile:(Ljava/io/InputStream;)Ljava/util/List;` @kind static;
+  #L154724.  v0:= temp @kind object;
+  #L154726.  `@@com.j256.ormlite.logger.LocalLog.classLevels` @type ^`java.util.List` := v0 @kind object;
+  #L15472a.  v0:= "com.j256.ormlite.logger.file" @kind object;
+  #L15472e.  call temp:= `getProperty`(v0) @signature `Ljava/lang/System;.getProperty:(Ljava/lang/String;)Ljava/lang/String;` @kind static;
+  #L154734.  v0:= temp @kind object;
+  #L154736.  call `openLogFile`(v0) @signature `Lcom/j256/ormlite/logger/LocalLog;.openLogFile:(Ljava/lang/String;)V` @kind static;
+  #L15473c.  return @kind void;
+}
+procedure `void` `<init>`(`com.j256.ormlite.logger.LocalLog` v5 @kind this, `java.lang.String` v6 @kind object) @signature `Lcom/j256/ormlite/logger/LocalLog;.<init>:(Ljava/lang/String;)V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L154750.  call `<init>`(v5) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L154756.  call temp:= `getSimpleClassName`(v6) @signature `Lcom/j256/ormlite/logger/LoggerFactory;.getSimpleClassName:(Ljava/lang/String;)Ljava/lang/String;` @kind static;
+  #L15475c.  v0:= temp @kind object;
+  #L15475e.  v5.`com.j256.ormlite.logger.LocalLog.className` @type ^`java.lang.String` := v0 @kind object;
+  #L154762.  v1:= 0I;
+  #L154764.  v0:= `@@com.j256.ormlite.logger.LocalLog.classLevels` @type ^`java.util.List` @kind object;
+  #L154768.  if v0 == 0 then goto L15485a;
+  #L15476c.  v0:= `@@com.j256.ormlite.logger.LocalLog.classLevels` @type ^`java.util.List` @kind object;
+  #L154770.  call temp:= `iterator`(v0) @signature `Ljava/util/List;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L154776.  v2:= temp @kind object;
+  #L154778.  call temp:= `hasNext`(v2) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L15477e.  v0:= temp;
+  #L154780.  if v0 == 0 then goto L1547cc;
+  #L154784.  call temp:= `next`(v2) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L15478a.  v0:= temp @kind object;
+  #L15478c.  v0:= (`com.j256.ormlite.logger.LocalLog$PatternLevel`) v0 @kind object;
+  #L154790.  v3:= v0.`com.j256.ormlite.logger.LocalLog$PatternLevel.pattern` @type ^`java.util.regex.Pattern` @kind object;
+  #L154794.  call temp:= `matcher`(v3, v6) @signature `Ljava/util/regex/Pattern;.matcher:(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;` @kind virtual;
+  #L15479a.  v3:= temp @kind object;
+  #L15479c.  call temp:= `matches`(v3) @signature `Ljava/util/regex/Matcher;.matches:()Z` @kind virtual;
+  #L1547a2.  v3:= temp;
+  #L1547a4.  if v3 == 0 then goto L154856;
+  #L1547a8.  if v1 == 0 then goto L1547c4;
+  #L1547ac.  v3:= v0.`com.j256.ormlite.logger.LocalLog$PatternLevel.level` @type ^`com.j256.ormlite.logger.Log$Level` @kind object;
+  #L1547b0.  call temp:= `ordinal`(v3) @signature `Lcom/j256/ormlite/logger/Log$Level;.ordinal:()I` @kind virtual;
+  #L1547b6.  v3:= temp;
+  #L1547b8.  call temp:= `ordinal`(v1) @signature `Lcom/j256/ormlite/logger/Log$Level;.ordinal:()I` @kind virtual;
+  #L1547be.  v4:= temp;
+  #L1547c0.  if v3 >= v4 then goto L154856;
+  #L1547c4.  v0:= v0.`com.j256.ormlite.logger.LocalLog$PatternLevel.level` @type ^`com.j256.ormlite.logger.Log$Level` @kind object;
+  #L1547c8.  v1:= v0 @kind object;
+  #L1547ca.  goto L154778;
+  #L1547cc.  v0:= v1 @kind object;
+  #L1547ce.  if v0 != 0 then goto L1547e6;
+  #L1547d2.  v0:= "com.j256.ormlite.logger.level" @kind object;
+  #L1547d6.  call temp:= `getProperty`(v0) @signature `Ljava/lang/System;.getProperty:(Ljava/lang/String;)Ljava/lang/String;` @kind static;
+  #L1547dc.  v1:= temp @kind object;
+  #L1547de.  if v1 != 0 then goto L1547ec;
+  #L1547e2.  v0:= `@@com.j256.ormlite.logger.LocalLog.DEFAULT_LEVEL` @type ^`com.j256.ormlite.logger.Log$Level` @kind object;
+  #L1547e6.  v5.`com.j256.ormlite.logger.LocalLog.level` @type ^`com.j256.ormlite.logger.Log$Level` := v0 @kind object;
+  #L1547ea.  return @kind void;
+  #Try_start0.  
+  #L1547ec.  call temp:= `toUpperCase`(v1) @signature `Ljava/lang/String;.toUpperCase:()Ljava/lang/String;` @kind virtual;
+  #L1547f2.  v0:= temp @kind object;
+  #L1547f4.  call temp:= `valueOf`(v0) @signature `Lcom/j256/ormlite/logger/Log$Level;.valueOf:(Ljava/lang/String;)Lcom/j256/ormlite/logger/Log$Level;` @kind static;
+  #Try_end0.  
+  #L1547fa.  v0:= temp @kind object;
+  #L1547fc.  goto L1547e6;
+  #L1547fe.  v0:= Exception @type ^`java.lang.IllegalArgumentException` @kind object;
+  #Try_start1.  
+  #L154800.  v0:= `@@java.util.Locale.ENGLISH` @type ^`java.util.Locale` @kind object;
+  #L154804.  call temp:= `toUpperCase`(v1, v0) @signature `Ljava/lang/String;.toUpperCase:(Ljava/util/Locale;)Ljava/lang/String;` @kind virtual;
+  #L15480a.  v0:= temp @kind object;
+  #L15480c.  call temp:= `valueOf`(v0) @signature `Lcom/j256/ormlite/logger/Log$Level;.valueOf:(Ljava/lang/String;)Lcom/j256/ormlite/logger/Log$Level;` @kind static;
+  #Try_end1.  
+  #L154812.  v0:= temp @kind object;
+  #L154814.  goto L1547e6;
+  #L154816.  v0:= Exception @type ^`java.lang.IllegalArgumentException` @kind object;
+  #L154818.  v2:= new `java.lang.IllegalArgumentException`;
+  #L15481c.  v3:= new `java.lang.StringBuilder`;
+  #L154820.  call `<init>`(v3) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L154826.  v4:= "Level '" @kind object;
+  #L15482a.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154830.  v3:= temp @kind object;
+  #L154832.  call temp:= `append`(v3, v1) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154838.  v1:= temp @kind object;
+  #L15483a.  v3:= "' was not found" @kind object;
+  #L15483e.  call temp:= `append`(v1, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154844.  v1:= temp @kind object;
+  #L154846.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L15484c.  v1:= temp @kind object;
+  #L15484e.  call `<init>`(v2, v1, v0) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;Ljava/lang/Throwable;)V` @kind direct;
+  #L154854.  throw v2;
+  #L154856.  v0:= v1 @kind object;
+  #L154858.  goto L1547c8;
+  #L15485a.  v0:= v1 @kind object;
+  #L15485c.  goto L1547ce;
+  catch `java.lang.IllegalArgumentException` @[Try_start0..Try_end0] goto L1547fe;
+  catch `java.lang.IllegalArgumentException` @[Try_start1..Try_end1] goto L154816;
+}
+procedure `java.util.List` `configureClassLevels`(`java.io.InputStream` v8 @kind object) @signature `Lcom/j256/ormlite/logger/LocalLog;.configureClassLevels:(Ljava/io/InputStream;)Ljava/util/List;` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+
+  #L15488c.  v7:= 1I;
+  #L15488e.  v6:= 0I;
+  #L154890.  v0:= new `java.io.BufferedReader`;
+  #L154894.  v1:= new `java.io.InputStreamReader`;
+  #L154898.  call `<init>`(v1, v8) @signature `Ljava/io/InputStreamReader;.<init>:(Ljava/io/InputStream;)V` @kind direct;
+  #L15489e.  call `<init>`(v0, v1) @signature `Ljava/io/BufferedReader;.<init>:(Ljava/io/Reader;)V` @kind direct;
+  #L1548a4.  v1:= new `java.util.ArrayList`;
+  #L1548a8.  call `<init>`(v1) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L1548ae.  call temp:= `readLine`(v0) @signature `Ljava/io/BufferedReader;.readLine:()Ljava/lang/String;` @kind virtual;
+  #L1548b4.  v2:= temp @kind object;
+  #L1548b6.  if v2 != 0 then goto L1548bc;
+  #L1548ba.  return v1 @kind object;
+  #L1548bc.  call temp:= `length`(v2) @signature `Ljava/lang/String;.length:()I` @kind virtual;
+  #L1548c2.  v3:= temp;
+  #L1548c4.  if v3 == 0 then goto L1548ae;
+  #L1548c8.  call temp:= `charAt`(v2, v6) @signature `Ljava/lang/String;.charAt:(I)C` @kind virtual;
+  #L1548ce.  v3:= temp;
+  #L1548d0.  v4:= 35I;
+  #L1548d4.  if v3 == v4 then goto L1548ae;
+  #L1548d8.  v3:= "=" @kind object;
+  #L1548dc.  call temp:= `split`(v2, v3) @signature `Ljava/lang/String;.split:(Ljava/lang/String;)[Ljava/lang/String;` @kind virtual;
+  #L1548e2.  v3:= temp @kind object;
+  #L1548e4.  v4:= length @variable v3;
+  #L1548e6.  v5:= 2I;
+  #L1548e8.  if v4 == v5 then goto L15491e;
+  #L1548ec.  v3:= `@@java.lang.System.err` @type ^`java.io.PrintStream` @kind object;
+  #L1548f0.  v4:= new `java.lang.StringBuilder`;
+  #L1548f4.  call `<init>`(v4) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1548fa.  v5:= "Line is not in the format of 'pattern = level': " @kind object;
+  #L1548fe.  call temp:= `append`(v4, v5) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154904.  v4:= temp @kind object;
+  #L154906.  call temp:= `append`(v4, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L15490c.  v2:= temp @kind object;
+  #L15490e.  call temp:= `toString`(v2) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L154914.  v2:= temp @kind object;
+  #L154916.  call `println`(v3, v2) @signature `Ljava/io/PrintStream;.println:(Ljava/lang/String;)V` @kind virtual;
+  #L15491c.  goto L1548ae;
+  #L15491e.  v2:= v3[v6] @kind object;
+  #L154922.  call temp:= `trim`(v2) @signature `Ljava/lang/String;.trim:()Ljava/lang/String;` @kind virtual;
+  #L154928.  v2:= temp @kind object;
+  #L15492a.  call temp:= `compile`(v2) @signature `Ljava/util/regex/Pattern;.compile:(Ljava/lang/String;)Ljava/util/regex/Pattern;` @kind static;
+  #L154930.  v2:= temp @kind object;
+  #L154932.  v4:= 1I;
+  #Try_start0.  
+  #L154934.  v4:= v3[v4] @kind object;
+  #L154938.  call temp:= `trim`(v4) @signature `Ljava/lang/String;.trim:()Ljava/lang/String;` @kind virtual;
+  #L15493e.  v4:= temp @kind object;
+  #L154940.  call temp:= `valueOf`(v4) @signature `Lcom/j256/ormlite/logger/Log$Level;.valueOf:(Ljava/lang/String;)Lcom/j256/ormlite/logger/Log$Level;` @kind static;
+  #Try_end0.  
+  #L154946.  v3:= temp @kind object;
+  #L154948.  v4:= new `com.j256.ormlite.logger.LocalLog$PatternLevel`;
+  #L15494c.  call `<init>`(v4, v2, v3) @signature `Lcom/j256/ormlite/logger/LocalLog$PatternLevel;.<init>:(Ljava/util/regex/Pattern;Lcom/j256/ormlite/logger/Log$Level;)V` @kind direct;
+  #L154952.  call temp:= `add`(v1, v4) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L154958.  goto L1548ae;
+  #L15495a.  v2:= Exception @type ^`java.lang.IllegalArgumentException` @kind object;
+  #L15495c.  v2:= `@@java.lang.System.err` @type ^`java.io.PrintStream` @kind object;
+  #L154960.  v4:= new `java.lang.StringBuilder`;
+  #L154964.  call `<init>`(v4) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L15496a.  v5:= "Level '" @kind object;
+  #L15496e.  call temp:= `append`(v4, v5) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154974.  v4:= temp @kind object;
+  #L154976.  v3:= v3[v7] @kind object;
+  #L15497a.  call temp:= `append`(v4, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154980.  v3:= temp @kind object;
+  #L154982.  v4:= "' was not found" @kind object;
+  #L154986.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L15498c.  v3:= temp @kind object;
+  #L15498e.  call temp:= `toString`(v3) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L154994.  v3:= temp @kind object;
+  #L154996.  call `println`(v2, v3) @signature `Ljava/io/PrintStream;.println:(Ljava/lang/String;)V` @kind virtual;
+  #L15499c.  goto L1548ae;
+  catch `java.lang.IllegalArgumentException` @[Try_start0..Try_end0] goto L15495a;
+}
+procedure `void` `openLogFile`(`java.lang.String` v4 @kind object) @signature `Lcom/j256/ormlite/logger/LocalLog;.openLogFile:(Ljava/lang/String;)V` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L1549c0.  if v4 != 0 then goto L1549ce;
+  #L1549c4.  v0:= `@@java.lang.System.out` @type ^`java.io.PrintStream` @kind object;
+  #L1549c8.  `@@com.j256.ormlite.logger.LocalLog.printStream` @type ^`java.io.PrintStream` := v0 @kind object;
+  #L1549cc.  return @kind void;
+  #Try_start0.  
+  #L1549ce.  v0:= new `java.io.PrintStream`;
+  #L1549d2.  v1:= new `java.io.File`;
+  #L1549d6.  call `<init>`(v1, v4) @signature `Ljava/io/File;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1549dc.  call `<init>`(v0, v1) @signature `Ljava/io/PrintStream;.<init>:(Ljava/io/File;)V` @kind direct;
+  #L1549e2.  `@@com.j256.ormlite.logger.LocalLog.printStream` @type ^`java.io.PrintStream` := v0 @kind object;
+  #Try_end0.  
+  #L1549e6.  goto L1549cc;
+  #L1549e8.  v0:= Exception @type ^`java.io.FileNotFoundException` @kind object;
+  #L1549ea.  v1:= new `java.lang.IllegalArgumentException`;
+  #L1549ee.  v2:= new `java.lang.StringBuilder`;
+  #L1549f2.  call `<init>`(v2) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1549f8.  v3:= "Log file " @kind object;
+  #L1549fc.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154a02.  v2:= temp @kind object;
+  #L154a04.  call temp:= `append`(v2, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154a0a.  v2:= temp @kind object;
+  #L154a0c.  v3:= " was not found" @kind object;
+  #L154a10.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154a16.  v2:= temp @kind object;
+  #L154a18.  call temp:= `toString`(v2) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L154a1e.  v2:= temp @kind object;
+  #L154a20.  call `<init>`(v1, v2, v0) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;Ljava/lang/Throwable;)V` @kind direct;
+  #L154a26.  throw v1;
+  catch `java.io.FileNotFoundException` @[Try_start0..Try_end0] goto L1549e8;
+}
+procedure `void` `printMessage`(`com.j256.ormlite.logger.LocalLog` v3 @kind this, `com.j256.ormlite.logger.Log$Level` v4 @kind object, `java.lang.String` v5 @kind object, `java.lang.Throwable` v6 @kind object) @signature `Lcom/j256/ormlite/logger/LocalLog;.printMessage:(Lcom/j256/ormlite/logger/Log$Level;Ljava/lang/String;Ljava/lang/Throwable;)V` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L154a48.  call temp:= `isLevelEnabled`(v3, v4) @signature `Lcom/j256/ormlite/logger/LocalLog;.isLevelEnabled:(Lcom/j256/ormlite/logger/Log$Level;)Z` @kind virtual;
+  #L154a4e.  v0:= temp;
+  #L154a50.  if v0 != 0 then goto L154a56;
+  #L154a54.  return @kind void;
+  #L154a56.  v1:= new `java.lang.StringBuilder`;
+  #L154a5a.  v0:= 128I;
+  #L154a5e.  call `<init>`(v1, v0) @signature `Ljava/lang/StringBuilder;.<init>:(I)V` @kind direct;
+  #L154a64.  v0:= `@@com.j256.ormlite.logger.LocalLog.dateFormatThreadLocal` @type ^`java.lang.ThreadLocal` @kind object;
+  #L154a68.  call temp:= `get`(v0) @signature `Ljava/lang/ThreadLocal;.get:()Ljava/lang/Object;` @kind virtual;
+  #L154a6e.  v0:= temp @kind object;
+  #L154a70.  v0:= (`java.text.DateFormat`) v0 @kind object;
+  #L154a74.  v2:= new `java.util.Date`;
+  #L154a78.  call `<init>`(v2) @signature `Ljava/util/Date;.<init>:()V` @kind direct;
+  #L154a7e.  call temp:= `format`(v0, v2) @signature `Ljava/text/DateFormat;.format:(Ljava/util/Date;)Ljava/lang/String;` @kind virtual;
+  #L154a84.  v0:= temp @kind object;
+  #L154a86.  call temp:= `append`(v1, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154a8c.  v0:= " [" @kind object;
+  #L154a90.  call temp:= `append`(v1, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154a96.  v0:= temp @kind object;
+  #L154a98.  call temp:= `name`(v4) @signature `Lcom/j256/ormlite/logger/Log$Level;.name:()Ljava/lang/String;` @kind virtual;
+  #L154a9e.  v2:= temp @kind object;
+  #L154aa0.  call temp:= `append`(v0, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154aa6.  v0:= temp @kind object;
+  #L154aa8.  v2:= "] " @kind object;
+  #L154aac.  call temp:= `append`(v0, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154ab2.  v0:= v3.`com.j256.ormlite.logger.LocalLog.className` @type ^`java.lang.String` @kind object;
+  #L154ab6.  call temp:= `append`(v1, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154abc.  v0:= temp @kind object;
+  #L154abe.  v2:= 32I;
+  #L154ac2.  call temp:= `append`(v0, v2) @signature `Ljava/lang/StringBuilder;.append:(C)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154ac8.  call temp:= `append`(v1, v5) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154ace.  v0:= `@@com.j256.ormlite.logger.LocalLog.printStream` @type ^`java.io.PrintStream` @kind object;
+  #L154ad2.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L154ad8.  v1:= temp @kind object;
+  #L154ada.  call `println`(v0, v1) @signature `Ljava/io/PrintStream;.println:(Ljava/lang/String;)V` @kind virtual;
+  #L154ae0.  if v6 == 0 then goto L154a54;
+  #L154ae4.  v0:= `@@com.j256.ormlite.logger.LocalLog.printStream` @type ^`java.io.PrintStream` @kind object;
+  #L154ae8.  call `printStackTrace`(v6, v0) @signature `Ljava/lang/Throwable;.printStackTrace:(Ljava/io/PrintStream;)V` @kind virtual;
+  #L154aee.  goto L154a54;
+}
+procedure `java.util.List` `readLevelResourceFile`(`java.io.InputStream` v5 @kind object) @signature `Lcom/j256/ormlite/logger/LocalLog;.readLevelResourceFile:(Ljava/io/InputStream;)Ljava/util/List;` @AccessFlag STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L154b00.  v0:= 0I;
+  #L154b02.  if v5 == 0 then goto L154b14;
+  #Try_start0.  
+  #L154b06.  call temp:= `configureClassLevels`(v5) @signature `Lcom/j256/ormlite/logger/LocalLog;.configureClassLevels:(Ljava/io/InputStream;)Ljava/util/List;` @kind static;
+  #Try_end0.  
+  #L154b0c.  v0:= temp @kind object;
+  #L154b0e.  call `closeQuietly`(v5) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L154b14.  return v0 @kind object;
+  #L154b16.  v1:= Exception @type ^`java.io.IOException` @kind object;
+  #Try_start1.  
+  #L154b18.  v2:= `@@java.lang.System.err` @type ^`java.io.PrintStream` @kind object;
+  #L154b1c.  v3:= new `java.lang.StringBuilder`;
+  #L154b20.  call `<init>`(v3) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L154b26.  v4:= "IO exception reading the log properties file '/ormliteLocalLog.properties': " @kind object;
+  #L154b2a.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154b30.  v3:= temp @kind object;
+  #L154b32.  call temp:= `append`(v3, v1) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L154b38.  v1:= temp @kind object;
+  #L154b3a.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L154b40.  v1:= temp @kind object;
+  #L154b42.  call `println`(v2, v1) @signature `Ljava/io/PrintStream;.println:(Ljava/lang/String;)V` @kind virtual;
+  #Try_end1.  
+  #L154b48.  call `closeQuietly`(v5) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L154b4e.  goto L154b14;
+  #L154b50.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L154b52.  call `closeQuietly`(v5) @signature `Lcom/j256/ormlite/misc/IOUtils;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L154b58.  throw v0;
+  catch `java.io.IOException` @[Try_start0..Try_end0] goto L154b16;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L154b50;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L154b50;
+}
+procedure `void` `flush`(`com.j256.ormlite.logger.LocalLog` v1 @kind this) @signature `Lcom/j256/ormlite/logger/LocalLog;.flush:()V` @AccessFlag  {
+    temp;
+    v0;
+
+  #L154b84.  v0:= `@@com.j256.ormlite.logger.LocalLog.printStream` @type ^`java.io.PrintStream` @kind object;
+  #L154b88.  call `flush`(v0) @signature `Ljava/io/PrintStream;.flush:()V` @kind virtual;
+  #L154b8e.  return @kind void;
+}
+procedure `boolean` `isLevelEnabled`(`com.j256.ormlite.logger.LocalLog` v1 @kind this, `com.j256.ormlite.logger.Log$Level` v2 @kind object) @signature `Lcom/j256/ormlite/logger/LocalLog;.isLevelEnabled:(Lcom/j256/ormlite/logger/Log$Level;)Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L154ba0.  v0:= v1.`com.j256.ormlite.logger.LocalLog.level` @type ^`com.j256.ormlite.logger.Log$Level` @kind object;
+  #L154ba4.  call temp:= `isEnabled`(v0, v2) @signature `Lcom/j256/ormlite/logger/Log$Level;.isEnabled:(Lcom/j256/ormlite/logger/Log$Level;)Z` @kind virtual;
+  #L154baa.  v0:= temp;
+  #L154bac.  return v0;
+}
+procedure `void` `log`(`com.j256.ormlite.logger.LocalLog` v1 @kind this, `com.j256.ormlite.logger.Log$Level` v2 @kind object, `java.lang.String` v3 @kind object) @signature `Lcom/j256/ormlite/logger/LocalLog;.log:(Lcom/j256/ormlite/logger/Log$Level;Ljava/lang/String;)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L154bc0.  v0:= 0I;
+  #L154bc2.  call `printMessage`(v1, v2, v3, v0) @signature `Lcom/j256/ormlite/logger/LocalLog;.printMessage:(Lcom/j256/ormlite/logger/Log$Level;Ljava/lang/String;Ljava/lang/Throwable;)V` @kind direct;
+  #L154bc8.  return @kind void;
+}
+procedure `void` `log`(`com.j256.ormlite.logger.LocalLog` v0 @kind this, `com.j256.ormlite.logger.Log$Level` v1 @kind object, `java.lang.String` v2 @kind object, `java.lang.Throwable` v3 @kind object) @signature `Lcom/j256/ormlite/logger/LocalLog;.log:(Lcom/j256/ormlite/logger/Log$Level;Ljava/lang/String;Ljava/lang/Throwable;)V` @AccessFlag PUBLIC {
+    temp;
+
+  #L154bdc.  call `printMessage`(v0, v1, v2, v3) @signature `Lcom/j256/ormlite/logger/LocalLog;.printMessage:(Lcom/j256/ormlite/logger/Log$Level;Ljava/lang/String;Ljava/lang/Throwable;)V` @kind direct;
+  #L154be2.  return @kind void;
+}
