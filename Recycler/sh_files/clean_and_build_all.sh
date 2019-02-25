@@ -1,0 +1,12 @@
+cd /home/amit/muse/output/Recycler/schemas/SINK/Recycler/
+/home/amit/muse/output/Recycler/schemas/SINK/Recycler/gradlew clean
+/home/amit/muse/output/Recycler/schemas/SINK/Recycler/gradlew build
+cd /home/amit/muse/output/Recycler/schemas/REACHABILITY/Recycler/
+/home/amit/muse/output/Recycler/schemas/REACHABILITY/Recycler/gradlew clean
+/home/amit/muse/output/Recycler/schemas/REACHABILITY/Recycler/gradlew build
+cd /home/amit/muse/output/Recycler/schemas/TAINTSINK/Recycler/
+/home/amit/muse/output/Recycler/schemas/TAINTSINK/Recycler/gradlew clean
+/home/amit/muse/output/Recycler/schemas/TAINTSINK/Recycler/gradlew build
+cd /home/amit/muse/output/Recycler/schemas/COMPLEXREACHABILITY/Recycler/
+/home/amit/muse/output/Recycler/schemas/COMPLEXREACHABILITY/Recycler/gradlew clean
+/home/amit/muse/output/Recycler/schemas/COMPLEXREACHABILITY/Recycler/gradlew build
