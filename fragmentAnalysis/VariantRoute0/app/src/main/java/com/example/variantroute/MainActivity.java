@@ -24,9 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 //        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new SimpleFragment())
-                    .commit();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.container, new SimpleFragment())
+                .commit();
 //        }
 
 
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public void buttonClicked(View view) {
         Log.d("amit", "button clicked");
         TextView t = findViewById(R.id.textView);
-        String counter = "Counter: "+i;
+        String counter = "Counter: " + i;
         i++;
         t.setText(counter);
 
