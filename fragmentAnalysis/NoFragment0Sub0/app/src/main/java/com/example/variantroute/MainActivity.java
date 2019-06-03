@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 //        if (savedInstanceState == null) {
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, new SimpleFragment())
-                .commit();
+//        getSupportFragmentManager().beginTransaction()
+//                .add(R.id.container, new SimpleFragment())
+//                .commit();
 //        }
 
 
@@ -41,24 +41,24 @@ public class MainActivity extends AppCompatActivity {
         t.setText(counter);
 
     }
-
-    public static class SimpleFragment extends Fragment {
-
-
-        public SimpleFragment() {
-            // Required empty public constructor
-//                android.util.Log.d("leak-0-1", dataLeAk0);
-        }
-
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            // Inflate the layout for this fragment
-            View rootView = inflater.inflate(R.layout.fragment_simple, container, false);
-            return rootView;
-//            return inflater.inflate(R.layout.fragment_simple, container, false);
-        }
-
-    }
+//
+//    public static class SimpleFragment extends Fragment {
+//
+//
+//        public SimpleFragment() {
+//            // Required empty public constructor
+////                android.util.Log.d("leak-0-1", dataLeAk0);
+//        }
+//
+//
+//        @Override
+//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                                 Bundle savedInstanceState) {
+//            // Inflate the layout for this fragment
+//            View rootView = inflater.inflate(R.layout.fragment_simple, container, false);
+//            return rootView;
+////            return inflater.inflate(R.layout.fragment_simple, container, false);
+//        }
+//
+//    }
 }
