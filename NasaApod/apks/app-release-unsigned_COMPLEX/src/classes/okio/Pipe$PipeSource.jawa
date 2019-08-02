@@ -1,0 +1,103 @@
+record `okio.Pipe$PipeSource` @kind class @AccessFlag FINAL extends `okio.Source` @kind interface {
+  `okio.Pipe` `okio.Pipe$PipeSource.this$0` @AccessFlag FINAL_SYNTHETIC;
+  `okio.Timeout` `okio.Pipe$PipeSource.timeout` @AccessFlag FINAL;
+}
+procedure `void` `<init>`(`okio.Pipe$PipeSource` v1 @kind this, `okio.Pipe` v2 @kind object @name `this$0`) @signature `Lokio/Pipe$PipeSource;.<init>:(Lokio/Pipe;)V` @AccessFlag CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L21f3c4.  v1.`okio.Pipe$PipeSource.this$0` @type ^`okio.Pipe` := v2 @kind object;
+  #L21f3c8.  call `<init>`(v1) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L21f3ce.  v0:= new `okio.Timeout`;
+  #L21f3d2.  call `<init>`(v0) @signature `Lokio/Timeout;.<init>:()V` @kind direct;
+  #L21f3d8.  v1.`okio.Pipe$PipeSource.timeout` @type ^`okio.Timeout` := v0 @kind object;
+  #L21f3dc.  return @kind void;
+}
+procedure `void` `close`(`okio.Pipe$PipeSource` v3 @kind this) @signature `Lokio/Pipe$PipeSource;.close:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L21f3f0.  v0:= v3.`okio.Pipe$PipeSource.this$0` @type ^`okio.Pipe` @kind object;
+  #L21f3f4.  v1:= v0.`okio.Pipe.buffer` @type ^`okio.Buffer` @kind object;
+  #L21f3f8.  @monitorenter v1
+  #Try_start0.  
+  #L21f3fa.  v0:= v3.`okio.Pipe$PipeSource.this$0` @type ^`okio.Pipe` @kind object;
+  #L21f3fe.  v2:= 1I;
+  #L21f400.  v0.`okio.Pipe.sourceClosed` @type ^`boolean` := v2 @kind boolean;
+  #L21f404.  v0:= v3.`okio.Pipe$PipeSource.this$0` @type ^`okio.Pipe` @kind object;
+  #L21f408.  v0:= v0.`okio.Pipe.buffer` @type ^`okio.Buffer` @kind object;
+  #L21f40c.  call `notifyAll`(v0) @signature `Ljava/lang/Object;.notifyAll:()V` @kind virtual;
+  #L21f412.  @monitorexit v1
+  #L21f414.  return @kind void;
+  #L21f416.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L21f418.  @monitorexit v1
+  #Try_end0.  
+  #L21f41a.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L21f416;
+}
+procedure `long` `read`(`okio.Pipe$PipeSource` v8 @kind this, `okio.Buffer` v9 @kind object @name `sink`, `long` v10 @name `byteCount`) @signature `Lokio/Pipe$PipeSource;.read:(Lokio/Buffer;J)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+
+  #L21f438.  v2:= v8.`okio.Pipe$PipeSource.this$0` @type ^`okio.Pipe` @kind object;
+  #L21f43c.  v3:= v2.`okio.Pipe.buffer` @type ^`okio.Buffer` @kind object;
+  #L21f440.  @monitorenter v3
+  #Try_start0.  
+  #L21f442.  v2:= v8.`okio.Pipe$PipeSource.this$0` @type ^`okio.Pipe` @kind object;
+  #L21f446.  v2:= v2.`okio.Pipe.sourceClosed` @type ^`boolean` @kind boolean;
+  #L21f44a.  if v2 == 0 then goto L21f476;
+  #L21f44e.  v2:= new `java.lang.IllegalStateException`;
+  #L21f452.  v4:= "closed" @kind object;
+  #L21f456.  call `<init>`(v2, v4) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L21f45c.  throw v2;
+  #L21f45e.  v2:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L21f460.  @monitorexit v3
+  #Try_end0.  
+  #L21f462.  throw v2;
+  #Try_start1.  
+  #L21f464.  v2:= v8.`okio.Pipe$PipeSource.timeout` @type ^`okio.Timeout` @kind object;
+  #L21f468.  v4:= v8.`okio.Pipe$PipeSource.this$0` @type ^`okio.Pipe` @kind object;
+  #L21f46c.  v4:= v4.`okio.Pipe.buffer` @type ^`okio.Buffer` @kind object;
+  #L21f470.  call `waitUntilNotified`(v2, v4) @signature `Lokio/Timeout;.waitUntilNotified:(Ljava/lang/Object;)V` @kind virtual;
+  #L21f476.  v2:= v8.`okio.Pipe$PipeSource.this$0` @type ^`okio.Pipe` @kind object;
+  #L21f47a.  v2:= v2.`okio.Pipe.buffer` @type ^`okio.Buffer` @kind object;
+  #L21f47e.  call temp:= `size`(v2) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L21f484.  v4:= temp @kind wide;
+  #L21f486.  v6:= 0L;
+  #L21f48a.  v2:= lcmp(v4, v6);
+  #L21f48e.  if v2 != 0 then goto L21f4a6;
+  #L21f492.  v2:= v8.`okio.Pipe$PipeSource.this$0` @type ^`okio.Pipe` @kind object;
+  #L21f496.  v2:= v2.`okio.Pipe.sinkClosed` @type ^`boolean` @kind boolean;
+  #L21f49a.  if v2 == 0 then goto L21f464;
+  #L21f49e.  v0:= -1L;
+  #L21f4a2.  @monitorexit v3
+  #L21f4a4.  return v0 @kind wide;
+  #L21f4a6.  v2:= v8.`okio.Pipe$PipeSource.this$0` @type ^`okio.Pipe` @kind object;
+  #L21f4aa.  v2:= v2.`okio.Pipe.buffer` @type ^`okio.Buffer` @kind object;
+  #L21f4ae.  call temp:= `read`(v2, v9, v10) @signature `Lokio/Buffer;.read:(Lokio/Buffer;J)J` @kind virtual;
+  #L21f4b4.  v0:= temp @kind wide;
+  #L21f4b6.  v2:= v8.`okio.Pipe$PipeSource.this$0` @type ^`okio.Pipe` @kind object;
+  #L21f4ba.  v2:= v2.`okio.Pipe.buffer` @type ^`okio.Buffer` @kind object;
+  #L21f4be.  call `notifyAll`(v2) @signature `Ljava/lang/Object;.notifyAll:()V` @kind virtual;
+  #L21f4c4.  @monitorexit v3
+  #Try_end1.  
+  #L21f4c6.  goto L21f4a4;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L21f45e;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L21f45e;
+}
+procedure `okio.Timeout` `timeout`(`okio.Pipe$PipeSource` v1 @kind this) @signature `Lokio/Pipe$PipeSource;.timeout:()Lokio/Timeout;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L21f4ec.  v0:= v1.`okio.Pipe$PipeSource.timeout` @type ^`okio.Timeout` @kind object;
+  #L21f4f0.  return v0 @kind object;
+}

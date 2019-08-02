@@ -1,12 +1,12 @@
 cd /home/amit/muse/output/CalendarTrigger/schemas/SINK/CalendarTrigger/
 /home/amit/muse/output/CalendarTrigger/schemas/SINK/CalendarTrigger/gradlew clean
-/home/amit/muse/output/CalendarTrigger/schemas/SINK/CalendarTrigger/gradlew build
+/home/amit/muse/output/CalendarTrigger/schemas/SINK/CalendarTrigger/gradlew assembleDebug
 cd /home/amit/muse/output/CalendarTrigger/schemas/REACHABILITY/CalendarTrigger/
 /home/amit/muse/output/CalendarTrigger/schemas/REACHABILITY/CalendarTrigger/gradlew clean
-/home/amit/muse/output/CalendarTrigger/schemas/REACHABILITY/CalendarTrigger/gradlew build
+/home/amit/muse/output/CalendarTrigger/schemas/REACHABILITY/CalendarTrigger/gradlew assembleDebug
 cd /home/amit/muse/output/CalendarTrigger/schemas/TAINTSINK/CalendarTrigger/
 /home/amit/muse/output/CalendarTrigger/schemas/TAINTSINK/CalendarTrigger/gradlew clean
-/home/amit/muse/output/CalendarTrigger/schemas/TAINTSINK/CalendarTrigger/gradlew build
+/home/amit/muse/output/CalendarTrigger/schemas/TAINTSINK/CalendarTrigger/gradlew assembleDebug
 cd /home/amit/muse/output/CalendarTrigger/schemas/COMPLEXREACHABILITY/CalendarTrigger/
 /home/amit/muse/output/CalendarTrigger/schemas/COMPLEXREACHABILITY/CalendarTrigger/gradlew clean
-/home/amit/muse/output/CalendarTrigger/schemas/COMPLEXREACHABILITY/CalendarTrigger/gradlew build
+/home/amit/muse/output/CalendarTrigger/schemas/COMPLEXREACHABILITY/CalendarTrigger/gradlew assembleDebug

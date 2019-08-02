@@ -1,12 +1,12 @@
 cd /home/amit/muse/output/afh_download/schemas/SINK/afh_download/
 /home/amit/muse/output/afh_download/schemas/SINK/afh_download/gradlew clean
-/home/amit/muse/output/afh_download/schemas/SINK/afh_download/gradlew build
+/home/amit/muse/output/afh_download/schemas/SINK/afh_download/gradlew assembleDebug
 cd /home/amit/muse/output/afh_download/schemas/REACHABILITY/afh_download/
 /home/amit/muse/output/afh_download/schemas/REACHABILITY/afh_download/gradlew clean
-/home/amit/muse/output/afh_download/schemas/REACHABILITY/afh_download/gradlew build
+/home/amit/muse/output/afh_download/schemas/REACHABILITY/afh_download/gradlew assembleDebug
 cd /home/amit/muse/output/afh_download/schemas/TAINTSINK/afh_download/
 /home/amit/muse/output/afh_download/schemas/TAINTSINK/afh_download/gradlew clean
-/home/amit/muse/output/afh_download/schemas/TAINTSINK/afh_download/gradlew build
+/home/amit/muse/output/afh_download/schemas/TAINTSINK/afh_download/gradlew assembleDebug
 cd /home/amit/muse/output/afh_download/schemas/COMPLEXREACHABILITY/afh_download/
 /home/amit/muse/output/afh_download/schemas/COMPLEXREACHABILITY/afh_download/gradlew clean
-/home/amit/muse/output/afh_download/schemas/COMPLEXREACHABILITY/afh_download/gradlew build
+/home/amit/muse/output/afh_download/schemas/COMPLEXREACHABILITY/afh_download/gradlew assembleDebug

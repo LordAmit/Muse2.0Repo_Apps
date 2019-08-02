@@ -1,0 +1,159 @@
+record `org.afhdownloader.MD5` @kind class @AccessFlag PUBLIC {
+}
+global `java.lang.String` `@@org.afhdownloader.MD5.TAG` @AccessFlag PRIVATE_STATIC_FINAL;
+procedure `void` `<init>`(`org.afhdownloader.MD5` v0 @kind this) @signature `Lorg/afhdownloader/MD5;.<init>:()V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+
+  #L16dab0.  call `<init>`(v0) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L16dab6.  return @kind void;
+}
+procedure `java.lang.String` `calculateMD5`(`java.io.File` v11 @kind object @name `updateFile`) @signature `Lorg/afhdownloader/MD5;.calculateMD5:(Ljava/io/File;)Ljava/lang/String;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+
+  #L16dac8.  v6:= 0I;
+  #Try_start0.  
+  #L16daca.  v8:= "MD5" @kind object;
+  #L16dace.  call temp:= `getInstance`(v8) @signature `Ljava/security/MessageDigest;.getInstance:(Ljava/lang/String;)Ljava/security/MessageDigest;` @kind static;
+  #Try_end0.  
+  #L16dad4.  v2:= temp @kind object;
+  #Try_start1.  
+  #L16dad6.  v4:= new `java.io.FileInputStream`;
+  #L16dada.  call `<init>`(v4, v11) @signature `Ljava/io/FileInputStream;.<init>:(Ljava/io/File;)V` @kind direct;
+  #Try_end1.  
+  #L16dae0.  v8:= 8192I;
+  #L16dae4.  v1:= new `byte`[v8];
+  #Try_start2.  
+  #L16dae8.  call temp:= `read`(v4, v1) @signature `Ljava/io/InputStream;.read:([B)I` @kind virtual;
+  #L16daee.  v7:= temp;
+  #L16daf0.  if v7 <= 0 then goto L16db3e;
+  #L16daf4.  v8:= 0I;
+  #L16daf6.  call `update`(v2, v1, v8, v7) @signature `Ljava/security/MessageDigest;.update:([BII)V` @kind virtual;
+  #Try_end2.  
+  #L16dafc.  goto L16dae8;
+  #L16dafe.  v3:= Exception @type ^`java.io.IOException` @kind object;
+  #Try_start3.  
+  #L16db00.  v8:= new `java.lang.RuntimeException`;
+  #L16db04.  v9:= "Unable to process file for MD5" @kind object;
+  #L16db08.  call `<init>`(v8, v9, v3) @signature `Ljava/lang/RuntimeException;.<init>:(Ljava/lang/String;Ljava/lang/Throwable;)V` @kind direct;
+  #L16db0e.  throw v8;
+  #Try_end3.  
+  #L16db10.  v8:= Exception @type ^`java.lang.Throwable` @kind object;
+  #Try_start4.  
+  #L16db12.  call `close`(v4) @signature `Ljava/io/InputStream;.close:()V` @kind virtual;
+  #Try_end4.  
+  #L16db18.  throw v8;
+  #L16db1a.  v3:= Exception @type ^`java.security.NoSuchAlgorithmException` @kind object;
+  #L16db1c.  v8:= "MD5" @kind object;
+  #L16db20.  v9:= "Exception while getting digest" @kind object;
+  #L16db24.  call temp:= `e`(v8, v9, v3) @signature `Landroid/util/Log;.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I` @kind static;
+  #L16db2a.  return v6 @kind object;
+  #L16db2c.  v3:= Exception @type ^`java.io.FileNotFoundException` @kind object;
+  #L16db2e.  v8:= "MD5" @kind object;
+  #L16db32.  v9:= "Exception while getting FileInputStream" @kind object;
+  #L16db36.  call temp:= `e`(v8, v9, v3) @signature `Landroid/util/Log;.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I` @kind static;
+  #L16db3c.  goto L16db2a;
+  #Try_start5.  
+  #L16db3e.  call temp:= `digest`(v2) @signature `Ljava/security/MessageDigest;.digest:()[B` @kind virtual;
+  #L16db44.  v5:= temp @kind object;
+  #L16db46.  v0:= new `java.math.BigInteger`;
+  #L16db4a.  v8:= 1I;
+  #L16db4c.  call `<init>`(v0, v8, v5) @signature `Ljava/math/BigInteger;.<init>:(I[B)V` @kind direct;
+  #L16db52.  v8:= 16I;
+  #L16db56.  call temp:= `toString`(v0, v8) @signature `Ljava/math/BigInteger;.toString:(I)Ljava/lang/String;` @kind virtual;
+  #L16db5c.  v6:= temp @kind object;
+  #L16db5e.  v8:= "%32s" @kind object;
+  #L16db62.  v9:= 1I;
+  #L16db64.  v9:= new `java.lang.Object`[v9];
+  #L16db68.  v10:= 0I;
+  #L16db6a.  v9[v10]:= v6 @kind object;
+  #L16db6e.  call temp:= `format`(v8, v9) @signature `Ljava/lang/String;.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;` @kind static;
+  #L16db74.  v8:= temp @kind object;
+  #L16db76.  v9:= 32I;
+  #L16db7a.  v10:= 48I;
+  #L16db7e.  call temp:= `replace`(v8, v9, v10) @signature `Ljava/lang/String;.replace:(CC)Ljava/lang/String;` @kind virtual;
+  #Try_end5.  
+  #L16db84.  v6:= temp @kind object;
+  #Try_start6.  
+  #L16db86.  call `close`(v4) @signature `Ljava/io/InputStream;.close:()V` @kind virtual;
+  #Try_end6.  
+  #L16db8c.  goto L16db2a;
+  #L16db8e.  v3:= Exception @type ^`java.io.IOException` @kind object;
+  #L16db90.  v8:= "MD5" @kind object;
+  #L16db94.  v9:= "Exception on closing MD5 input stream" @kind object;
+  #L16db98.  call temp:= `e`(v8, v9, v3) @signature `Landroid/util/Log;.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I` @kind static;
+  #L16db9e.  goto L16db2a;
+  #L16dba0.  v3:= Exception @type ^`java.io.IOException` @kind object;
+  #L16dba2.  v9:= "MD5" @kind object;
+  #L16dba6.  v10:= "Exception on closing MD5 input stream" @kind object;
+  #L16dbaa.  call temp:= `e`(v9, v10, v3) @signature `Landroid/util/Log;.e:(Ljava/lang/String;Ljava/lang/String;Ljava/lang/Throwable;)I` @kind static;
+  #L16dbb0.  goto L16db18;
+  catch `java.security.NoSuchAlgorithmException` @[Try_start0..Try_end0] goto L16db1a;
+  catch `java.io.FileNotFoundException` @[Try_start1..Try_end1] goto L16db2c;
+  catch `java.io.IOException` @[Try_start2..Try_end2] goto L16dafe;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L16db10;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L16db10;
+  catch `java.io.IOException` @[Try_start4..Try_end4] goto L16dba0;
+  catch `java.io.IOException` @[Try_start5..Try_end5] goto L16dafe;
+  catch `java.lang.Throwable` @[Try_start5..Try_end5] goto L16db10;
+  catch `java.io.IOException` @[Try_start6..Try_end6] goto L16db8e;
+}
+procedure `boolean` `checkMD5`(`java.lang.String` v4 @kind object @name `md5`, `java.io.File` v5 @kind object @name `updateFile`) @signature `Lorg/afhdownloader/MD5;.checkMD5:(Ljava/lang/String;Ljava/io/File;)Z` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L16dc14.  v1:= 0I;
+  #L16dc16.  call temp:= `isEmpty`(v4) @signature `Landroid/text/TextUtils;.isEmpty:(Ljava/lang/CharSequence;)Z` @kind static;
+  #L16dc1c.  v2:= temp;
+  #L16dc1e.  if v2 != 0 then goto L16dc26;
+  #L16dc22.  if v5 != 0 then goto L16dc36;
+  #L16dc26.  v2:= "MD5" @kind object;
+  #L16dc2a.  v3:= "MD5 string empty or updateFile null" @kind object;
+  #L16dc2e.  call temp:= `e`(v2, v3) @signature `Landroid/util/Log;.e:(Ljava/lang/String;Ljava/lang/String;)I` @kind static;
+  #L16dc34.  return v1;
+  #L16dc36.  call temp:= `calculateMD5`(v5) @signature `Lorg/afhdownloader/MD5;.calculateMD5:(Ljava/io/File;)Ljava/lang/String;` @kind static;
+  #L16dc3c.  v0:= temp @kind object;
+  #L16dc3e.  if v0 != 0 then goto L16dc52;
+  #L16dc42.  v2:= "MD5" @kind object;
+  #L16dc46.  v3:= "calculatedDigest null" @kind object;
+  #L16dc4a.  call temp:= `e`(v2, v3) @signature `Landroid/util/Log;.e:(Ljava/lang/String;Ljava/lang/String;)I` @kind static;
+  #L16dc50.  goto L16dc34;
+  #L16dc52.  v1:= "MD5" @kind object;
+  #L16dc56.  v2:= new `java.lang.StringBuilder`;
+  #L16dc5a.  call `<init>`(v2) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L16dc60.  v3:= "Calculated digest: " @kind object;
+  #L16dc64.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16dc6a.  v2:= temp @kind object;
+  #L16dc6c.  call temp:= `append`(v2, v0) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16dc72.  v2:= temp @kind object;
+  #L16dc74.  call temp:= `toString`(v2) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L16dc7a.  v2:= temp @kind object;
+  #L16dc7c.  call temp:= `v`(v1, v2) @signature `Landroid/util/Log;.v:(Ljava/lang/String;Ljava/lang/String;)I` @kind static;
+  #L16dc82.  v1:= "MD5" @kind object;
+  #L16dc86.  v2:= new `java.lang.StringBuilder`;
+  #L16dc8a.  call `<init>`(v2) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L16dc90.  v3:= "Provided digest: " @kind object;
+  #L16dc94.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16dc9a.  v2:= temp @kind object;
+  #L16dc9c.  call temp:= `append`(v2, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L16dca2.  v2:= temp @kind object;
+  #L16dca4.  call temp:= `toString`(v2) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L16dcaa.  v2:= temp @kind object;
+  #L16dcac.  call temp:= `v`(v1, v2) @signature `Landroid/util/Log;.v:(Ljava/lang/String;Ljava/lang/String;)I` @kind static;
+  #L16dcb2.  call temp:= `equalsIgnoreCase`(v0, v4) @signature `Ljava/lang/String;.equalsIgnoreCase:(Ljava/lang/String;)Z` @kind virtual;
+  #L16dcb8.  v1:= temp;
+  #L16dcba.  goto L16dc34;
+}

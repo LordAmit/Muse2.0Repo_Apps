@@ -1,0 +1,398 @@
+record `retrofit2.RequestBuilder` @kind class @AccessFlag FINAL {
+  `okhttp3.HttpUrl` `retrofit2.RequestBuilder.baseUrl` @AccessFlag PRIVATE_FINAL;
+  `okhttp3.RequestBody` `retrofit2.RequestBuilder.body` @AccessFlag PRIVATE;
+  `okhttp3.MediaType` `retrofit2.RequestBuilder.contentType` @AccessFlag PRIVATE;
+  `okhttp3.FormBody$Builder` `retrofit2.RequestBuilder.formBuilder` @AccessFlag PRIVATE;
+  `boolean` `retrofit2.RequestBuilder.hasBody` @AccessFlag PRIVATE_FINAL;
+  `java.lang.String` `retrofit2.RequestBuilder.method` @AccessFlag PRIVATE_FINAL;
+  `okhttp3.MultipartBody$Builder` `retrofit2.RequestBuilder.multipartBuilder` @AccessFlag PRIVATE;
+  `java.lang.String` `retrofit2.RequestBuilder.relativeUrl` @AccessFlag PRIVATE;
+  `okhttp3.Request$Builder` `retrofit2.RequestBuilder.requestBuilder` @AccessFlag PRIVATE_FINAL;
+  `okhttp3.HttpUrl$Builder` `retrofit2.RequestBuilder.urlBuilder` @AccessFlag PRIVATE;
+}
+global `char`[] `@@retrofit2.RequestBuilder.HEX_DIGITS` @AccessFlag PRIVATE_STATIC_FINAL;
+global `java.lang.String` `@@retrofit2.RequestBuilder.PATH_SEGMENT_ALWAYS_ENCODE_SET` @AccessFlag PRIVATE_STATIC_FINAL;
+procedure `void` `<clinit>`() @signature `Lretrofit2/RequestBuilder;.<clinit>:()V` @AccessFlag STATIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L1af078.  v0:= 16I;
+  #L1af07c.  v0:= new `char`[v0];
+  #L1af080.  goto L1af08c;
+  #L1af086.  `@@retrofit2.RequestBuilder.HEX_DIGITS` @type ^`char`[] := v0 @kind object;
+  #L1af08a.  return @kind void;
+  #L1af08c.  v0:= (48I, 49I, 50I, 51I, 52I, 53I, 54I, 55I, 56I, 57I, 65I, 66I, 67I, 68I, 69I, 70I) @kind object;
+  #L1af0b3.  goto L1af086;
+}
+procedure `void` `<init>`(`retrofit2.RequestBuilder` v2 @kind this, `java.lang.String` v3 @kind object @name `method`, `okhttp3.HttpUrl` v4 @kind object @name `baseUrl`, `java.lang.String` v5 @kind object @name `relativeUrl`, `okhttp3.Headers` v6 @kind object @name `headers`, `okhttp3.MediaType` v7 @kind object @name `contentType`, `boolean` v8 @name `hasBody`, `boolean` v9 @name `isFormEncoded`, `boolean` v10 @name `isMultipart`) @signature `Lretrofit2/RequestBuilder;.<init>:(Ljava/lang/String;Lokhttp3/HttpUrl;Ljava/lang/String;Lokhttp3/Headers;Lokhttp3/MediaType;ZZZ)V` @AccessFlag CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+
+  #L1af0c4.  call `<init>`(v2) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L1af0ca.  v2.`retrofit2.RequestBuilder.method` @type ^`java.lang.String` := v3 @kind object;
+  #L1af0ce.  v2.`retrofit2.RequestBuilder.baseUrl` @type ^`okhttp3.HttpUrl` := v4 @kind object;
+  #L1af0d2.  v2.`retrofit2.RequestBuilder.relativeUrl` @type ^`java.lang.String` := v5 @kind object;
+  #L1af0d6.  v0:= new `okhttp3.Request$Builder`;
+  #L1af0da.  call `<init>`(v0) @signature `Lokhttp3/Request$Builder;.<init>:()V` @kind direct;
+  #L1af0e0.  v2.`retrofit2.RequestBuilder.requestBuilder` @type ^`okhttp3.Request$Builder` := v0 @kind object;
+  #L1af0e4.  v2.`retrofit2.RequestBuilder.contentType` @type ^`okhttp3.MediaType` := v7 @kind object;
+  #L1af0e8.  v2.`retrofit2.RequestBuilder.hasBody` @type ^`boolean` := v8 @kind boolean;
+  #L1af0ec.  if v6 == 0 then goto L1af0fa;
+  #L1af0f0.  v0:= v2.`retrofit2.RequestBuilder.requestBuilder` @type ^`okhttp3.Request$Builder` @kind object;
+  #L1af0f4.  call temp:= `headers`(v0, v6) @signature `Lokhttp3/Request$Builder;.headers:(Lokhttp3/Headers;)Lokhttp3/Request$Builder;` @kind virtual;
+  #L1af0fa.  if v9 == 0 then goto L1af10e;
+  #L1af0fe.  v0:= new `okhttp3.FormBody$Builder`;
+  #L1af102.  call `<init>`(v0) @signature `Lokhttp3/FormBody$Builder;.<init>:()V` @kind direct;
+  #L1af108.  v2.`retrofit2.RequestBuilder.formBuilder` @type ^`okhttp3.FormBody$Builder` := v0 @kind object;
+  #L1af10c.  return @kind void;
+  #L1af10e.  if v10 == 0 then goto L1af10c;
+  #L1af112.  v0:= new `okhttp3.MultipartBody$Builder`;
+  #L1af116.  call `<init>`(v0) @signature `Lokhttp3/MultipartBody$Builder;.<init>:()V` @kind direct;
+  #L1af11c.  v2.`retrofit2.RequestBuilder.multipartBuilder` @type ^`okhttp3.MultipartBody$Builder` := v0 @kind object;
+  #L1af120.  v0:= v2.`retrofit2.RequestBuilder.multipartBuilder` @type ^`okhttp3.MultipartBody$Builder` @kind object;
+  #L1af124.  v1:= `@@okhttp3.MultipartBody.FORM` @type ^`okhttp3.MediaType` @kind object;
+  #L1af128.  call temp:= `setType`(v0, v1) @signature `Lokhttp3/MultipartBody$Builder;.setType:(Lokhttp3/MediaType;)Lokhttp3/MultipartBody$Builder;` @kind virtual;
+  #L1af12e.  goto L1af10c;
+}
+procedure `java.lang.String` `canonicalizeForPath`(`java.lang.String` v6 @kind object @name `input`, `boolean` v7 @name `alreadyEncoded`) @signature `Lretrofit2/RequestBuilder;.canonicalizeForPath:(Ljava/lang/String;Z)Ljava/lang/String;` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L1af140.  v1:= 0I;
+  #L1af142.  call temp:= `length`(v6) @signature `Ljava/lang/String;.length:()I` @kind virtual;
+  #L1af148.  v2:= temp;
+  #L1af14a.  if v1 >= v2 then goto L1af1ac;
+  #L1af14e.  call temp:= `codePointAt`(v6, v1) @signature `Ljava/lang/String;.codePointAt:(I)I` @kind virtual;
+  #L1af154.  v0:= temp;
+  #L1af156.  v4:= 32I;
+  #L1af15a.  if v0 < v4 then goto L1af18c;
+  #L1af15e.  v4:= 127I;
+  #L1af162.  if v0 >= v4 then goto L1af18c;
+  #L1af166.  v4:= " \"<>^`{}|\\?#" @kind object;
+  #L1af16a.  call temp:= `indexOf`(v4, v0) @signature `Ljava/lang/String;.indexOf:(I)I` @kind virtual;
+  #L1af170.  v4:= temp;
+  #L1af172.  v5:= -1I;
+  #L1af174.  if v4 != v5 then goto L1af18c;
+  #L1af178.  if v7 != 0 then goto L1af1ae;
+  #L1af17c.  v4:= 47I;
+  #L1af180.  if v0 == v4 then goto L1af18c;
+  #L1af184.  v4:= 37I;
+  #L1af188.  if v0 != v4 then goto L1af1ae;
+  #L1af18c.  v3:= new `okio.Buffer`;
+  #L1af190.  call `<init>`(v3) @signature `Lokio/Buffer;.<init>:()V` @kind direct;
+  #L1af196.  v4:= 0I;
+  #L1af198.  call temp:= `writeUtf8`(v3, v6, v4, v1) @signature `Lokio/Buffer;.writeUtf8:(Ljava/lang/String;II)Lokio/Buffer;` @kind virtual;
+  #L1af19e.  call `canonicalizeForPath`(v3, v6, v1, v2, v7) @signature `Lretrofit2/RequestBuilder;.canonicalizeForPath:(Lokio/Buffer;Ljava/lang/String;IIZ)V` @kind static;
+  #L1af1a4.  call temp:= `readUtf8`(v3) @signature `Lokio/Buffer;.readUtf8:()Ljava/lang/String;` @kind virtual;
+  #L1af1aa.  v6:= temp @kind object;
+  #L1af1ac.  return v6 @kind object;
+  #L1af1ae.  call temp:= `charCount`(v0) @signature `Ljava/lang/Character;.charCount:(I)I` @kind static;
+  #L1af1b4.  v4:= temp;
+  #L1af1b6.  v1:= v1 + v4 @kind int;
+  #L1af1b8.  goto L1af14a;
+}
+procedure `void` `canonicalizeForPath`(`okio.Buffer` v7 @kind object @name `out`, `java.lang.String` v8 @kind object @name `input`, `int` v9 @name `pos`, `int` v10 @name `limit`, `boolean` v11 @name `alreadyEncoded`) @signature `Lretrofit2/RequestBuilder;.canonicalizeForPath:(Lokio/Buffer;Ljava/lang/String;IIZ)V` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L1af1cc.  v6:= 37I;
+  #L1af1d0.  v3:= 0I;
+  #L1af1d2.  v2:= v9;
+  #L1af1d4.  if v2 >= v10 then goto L1af2a6;
+  #L1af1d8.  call temp:= `codePointAt`(v8, v2) @signature `Ljava/lang/String;.codePointAt:(I)I` @kind virtual;
+  #L1af1de.  v1:= temp;
+  #L1af1e0.  if v11 == 0 then goto L1af210;
+  #L1af1e4.  v4:= 9I;
+  #L1af1e8.  if v1 == v4 then goto L1af204;
+  #L1af1ec.  v4:= 10I;
+  #L1af1f0.  if v1 == v4 then goto L1af204;
+  #L1af1f4.  v4:= 12I;
+  #L1af1f8.  if v1 == v4 then goto L1af204;
+  #L1af1fc.  v4:= 13I;
+  #L1af200.  if v1 != v4 then goto L1af210;
+  #L1af204.  call temp:= `charCount`(v1) @signature `Ljava/lang/Character;.charCount:(I)I` @kind static;
+  #L1af20a.  v4:= temp;
+  #L1af20c.  v2:= v2 + v4 @kind int;
+  #L1af20e.  goto L1af1d4;
+  #L1af210.  v4:= 32I;
+  #L1af214.  if v1 < v4 then goto L1af242;
+  #L1af218.  v4:= 127I;
+  #L1af21c.  if v1 >= v4 then goto L1af242;
+  #L1af220.  v4:= " \"<>^`{}|\\?#" @kind object;
+  #L1af224.  call temp:= `indexOf`(v4, v1) @signature `Ljava/lang/String;.indexOf:(I)I` @kind virtual;
+  #L1af22a.  v4:= temp;
+  #L1af22c.  v5:= -1I;
+  #L1af22e.  if v4 != v5 then goto L1af242;
+  #L1af232.  if v11 != 0 then goto L1af29e;
+  #L1af236.  v4:= 47I;
+  #L1af23a.  if v1 == v4 then goto L1af242;
+  #L1af23e.  if v1 != v6 then goto L1af29e;
+  #L1af242.  if v3 != 0 then goto L1af250;
+  #L1af246.  v3:= new `okio.Buffer`;
+  #L1af24a.  call `<init>`(v3) @signature `Lokio/Buffer;.<init>:()V` @kind direct;
+  #L1af250.  call temp:= `writeUtf8CodePoint`(v3, v1) @signature `Lokio/Buffer;.writeUtf8CodePoint:(I)Lokio/Buffer;` @kind virtual;
+  #L1af256.  call temp:= `exhausted`(v3) @signature `Lokio/Buffer;.exhausted:()Z` @kind virtual;
+  #L1af25c.  v4:= temp;
+  #L1af25e.  if v4 != 0 then goto L1af204;
+  #L1af262.  call temp:= `readByte`(v3) @signature `Lokio/Buffer;.readByte:()B` @kind virtual;
+  #L1af268.  v4:= temp;
+  #L1af26a.  v0:= v4 ^& 255;
+  #L1af26e.  call temp:= `writeByte`(v7, v6) @signature `Lokio/Buffer;.writeByte:(I)Lokio/Buffer;` @kind virtual;
+  #L1af274.  v4:= `@@retrofit2.RequestBuilder.HEX_DIGITS` @type ^`char`[] @kind object;
+  #L1af278.  v5:= v0 ^> 4;
+  #L1af27c.  v5:= v5 ^& 15;
+  #L1af280.  v4:= v4[v5] @kind char;
+  #L1af284.  call temp:= `writeByte`(v7, v4) @signature `Lokio/Buffer;.writeByte:(I)Lokio/Buffer;` @kind virtual;
+  #L1af28a.  v4:= `@@retrofit2.RequestBuilder.HEX_DIGITS` @type ^`char`[] @kind object;
+  #L1af28e.  v5:= v0 ^& 15;
+  #L1af292.  v4:= v4[v5] @kind char;
+  #L1af296.  call temp:= `writeByte`(v7, v4) @signature `Lokio/Buffer;.writeByte:(I)Lokio/Buffer;` @kind virtual;
+  #L1af29c.  goto L1af256;
+  #L1af29e.  call temp:= `writeUtf8CodePoint`(v7, v1) @signature `Lokio/Buffer;.writeUtf8CodePoint:(I)Lokio/Buffer;` @kind virtual;
+  #L1af2a4.  goto L1af204;
+  #L1af2a6.  return @kind void;
+}
+procedure `void` `addFormField`(`retrofit2.RequestBuilder` v1 @kind this, `java.lang.String` v2 @kind object @name `name`, `java.lang.String` v3 @kind object @name `value`, `boolean` v4 @name `encoded`) @signature `Lretrofit2/RequestBuilder;.addFormField:(Ljava/lang/String;Ljava/lang/String;Z)V` @AccessFlag  {
+    temp;
+    v0;
+
+  #L1af2b8.  if v4 == 0 then goto L1af2c8;
+  #L1af2bc.  v0:= v1.`retrofit2.RequestBuilder.formBuilder` @type ^`okhttp3.FormBody$Builder` @kind object;
+  #L1af2c0.  call temp:= `addEncoded`(v0, v2, v3) @signature `Lokhttp3/FormBody$Builder;.addEncoded:(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/FormBody$Builder;` @kind virtual;
+  #L1af2c6.  return @kind void;
+  #L1af2c8.  v0:= v1.`retrofit2.RequestBuilder.formBuilder` @type ^`okhttp3.FormBody$Builder` @kind object;
+  #L1af2cc.  call temp:= `add`(v0, v2, v3) @signature `Lokhttp3/FormBody$Builder;.add:(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/FormBody$Builder;` @kind virtual;
+  #L1af2d2.  goto L1af2c6;
+}
+procedure `void` `addHeader`(`retrofit2.RequestBuilder` v4 @kind this, `java.lang.String` v5 @kind object @name `name`, `java.lang.String` v6 @kind object @name `value`) @signature `Lretrofit2/RequestBuilder;.addHeader:(Ljava/lang/String;Ljava/lang/String;)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L1af2e4.  v1:= "Content-Type" @kind object;
+  #L1af2e8.  call temp:= `equalsIgnoreCase`(v1, v5) @signature `Ljava/lang/String;.equalsIgnoreCase:(Ljava/lang/String;)Z` @kind virtual;
+  #L1af2ee.  v1:= temp;
+  #L1af2f0.  if v1 == 0 then goto L1af338;
+  #L1af2f4.  call temp:= `parse`(v6) @signature `Lokhttp3/MediaType;.parse:(Ljava/lang/String;)Lokhttp3/MediaType;` @kind static;
+  #L1af2fa.  v0:= temp @kind object;
+  #L1af2fc.  if v0 != 0 then goto L1af332;
+  #L1af300.  v1:= new `java.lang.IllegalArgumentException`;
+  #L1af304.  v2:= new `java.lang.StringBuilder`;
+  #L1af308.  call `<init>`(v2) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1af30e.  v3:= "Malformed content type: " @kind object;
+  #L1af312.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1af318.  v2:= temp @kind object;
+  #L1af31a.  call temp:= `append`(v2, v6) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1af320.  v2:= temp @kind object;
+  #L1af322.  call temp:= `toString`(v2) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1af328.  v2:= temp @kind object;
+  #L1af32a.  call `<init>`(v1, v2) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1af330.  throw v1;
+  #L1af332.  v4.`retrofit2.RequestBuilder.contentType` @type ^`okhttp3.MediaType` := v0 @kind object;
+  #L1af336.  return @kind void;
+  #L1af338.  v1:= v4.`retrofit2.RequestBuilder.requestBuilder` @type ^`okhttp3.Request$Builder` @kind object;
+  #L1af33c.  call temp:= `addHeader`(v1, v5, v6) @signature `Lokhttp3/Request$Builder;.addHeader:(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Request$Builder;` @kind virtual;
+  #L1af342.  goto L1af336;
+}
+procedure `void` `addPart`(`retrofit2.RequestBuilder` v1 @kind this, `okhttp3.Headers` v2 @kind object @name `headers`, `okhttp3.RequestBody` v3 @kind object @name `body`) @signature `Lretrofit2/RequestBuilder;.addPart:(Lokhttp3/Headers;Lokhttp3/RequestBody;)V` @AccessFlag  {
+    temp;
+    v0;
+
+  #L1af354.  v0:= v1.`retrofit2.RequestBuilder.multipartBuilder` @type ^`okhttp3.MultipartBody$Builder` @kind object;
+  #L1af358.  call temp:= `addPart`(v0, v2, v3) @signature `Lokhttp3/MultipartBody$Builder;.addPart:(Lokhttp3/Headers;Lokhttp3/RequestBody;)Lokhttp3/MultipartBody$Builder;` @kind virtual;
+  #L1af35e.  return @kind void;
+}
+procedure `void` `addPart`(`retrofit2.RequestBuilder` v1 @kind this, `okhttp3.MultipartBody$Part` v2 @kind object @name `part`) @signature `Lretrofit2/RequestBuilder;.addPart:(Lokhttp3/MultipartBody$Part;)V` @AccessFlag  {
+    temp;
+    v0;
+
+  #L1af370.  v0:= v1.`retrofit2.RequestBuilder.multipartBuilder` @type ^`okhttp3.MultipartBody$Builder` @kind object;
+  #L1af374.  call temp:= `addPart`(v0, v2) @signature `Lokhttp3/MultipartBody$Builder;.addPart:(Lokhttp3/MultipartBody$Part;)Lokhttp3/MultipartBody$Builder;` @kind virtual;
+  #L1af37a.  return @kind void;
+}
+procedure `void` `addPathParam`(`retrofit2.RequestBuilder` v3 @kind this, `java.lang.String` v4 @kind object @name `name`, `java.lang.String` v5 @kind object @name `value`, `boolean` v6 @name `encoded`) @signature `Lretrofit2/RequestBuilder;.addPathParam:(Ljava/lang/String;Ljava/lang/String;Z)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L1af38c.  v0:= v3.`retrofit2.RequestBuilder.relativeUrl` @type ^`java.lang.String` @kind object;
+  #L1af390.  if v0 != 0 then goto L1af3a0;
+  #L1af394.  v0:= new `java.lang.AssertionError`;
+  #L1af398.  call `<init>`(v0) @signature `Ljava/lang/AssertionError;.<init>:()V` @kind direct;
+  #L1af39e.  throw v0;
+  #L1af3a0.  v0:= v3.`retrofit2.RequestBuilder.relativeUrl` @type ^`java.lang.String` @kind object;
+  #L1af3a4.  v1:= new `java.lang.StringBuilder`;
+  #L1af3a8.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1af3ae.  v2:= "{" @kind object;
+  #L1af3b2.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1af3b8.  v1:= temp @kind object;
+  #L1af3ba.  call temp:= `append`(v1, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1af3c0.  v1:= temp @kind object;
+  #L1af3c2.  v2:= "}" @kind object;
+  #L1af3c6.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1af3cc.  v1:= temp @kind object;
+  #L1af3ce.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1af3d4.  v1:= temp @kind object;
+  #L1af3d6.  call temp:= `canonicalizeForPath`(v5, v6) @signature `Lretrofit2/RequestBuilder;.canonicalizeForPath:(Ljava/lang/String;Z)Ljava/lang/String;` @kind static;
+  #L1af3dc.  v2:= temp @kind object;
+  #L1af3de.  call temp:= `replace`(v0, v1, v2) @signature `Ljava/lang/String;.replace:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;` @kind virtual;
+  #L1af3e4.  v0:= temp @kind object;
+  #L1af3e6.  v3.`retrofit2.RequestBuilder.relativeUrl` @type ^`java.lang.String` := v0 @kind object;
+  #L1af3ea.  return @kind void;
+}
+procedure `void` `addQueryParam`(`retrofit2.RequestBuilder` v3 @kind this, `java.lang.String` v4 @kind object @name `name`, `java.lang.String` v5 @kind object @name `value`, `boolean` v6 @name `encoded`) @signature `Lretrofit2/RequestBuilder;.addQueryParam:(Ljava/lang/String;Ljava/lang/String;Z)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L1af3fc.  v0:= v3.`retrofit2.RequestBuilder.relativeUrl` @type ^`java.lang.String` @kind object;
+  #L1af400.  if v0 == 0 then goto L1af474;
+  #L1af404.  v0:= v3.`retrofit2.RequestBuilder.baseUrl` @type ^`okhttp3.HttpUrl` @kind object;
+  #L1af408.  v1:= v3.`retrofit2.RequestBuilder.relativeUrl` @type ^`java.lang.String` @kind object;
+  #L1af40c.  call temp:= `newBuilder`(v0, v1) @signature `Lokhttp3/HttpUrl;.newBuilder:(Ljava/lang/String;)Lokhttp3/HttpUrl$Builder;` @kind virtual;
+  #L1af412.  v0:= temp @kind object;
+  #L1af414.  v3.`retrofit2.RequestBuilder.urlBuilder` @type ^`okhttp3.HttpUrl$Builder` := v0 @kind object;
+  #L1af418.  v0:= v3.`retrofit2.RequestBuilder.urlBuilder` @type ^`okhttp3.HttpUrl$Builder` @kind object;
+  #L1af41c.  if v0 != 0 then goto L1af46e;
+  #L1af420.  v0:= new `java.lang.IllegalArgumentException`;
+  #L1af424.  v1:= new `java.lang.StringBuilder`;
+  #L1af428.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1af42e.  v2:= "Malformed URL. Base: " @kind object;
+  #L1af432.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1af438.  v1:= temp @kind object;
+  #L1af43a.  v2:= v3.`retrofit2.RequestBuilder.baseUrl` @type ^`okhttp3.HttpUrl` @kind object;
+  #L1af43e.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1af444.  v1:= temp @kind object;
+  #L1af446.  v2:= ", Relative: " @kind object;
+  #L1af44a.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1af450.  v1:= temp @kind object;
+  #L1af452.  v2:= v3.`retrofit2.RequestBuilder.relativeUrl` @type ^`java.lang.String` @kind object;
+  #L1af456.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1af45c.  v1:= temp @kind object;
+  #L1af45e.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1af464.  v1:= temp @kind object;
+  #L1af466.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1af46c.  throw v0;
+  #L1af46e.  v0:= 0I;
+  #L1af470.  v3.`retrofit2.RequestBuilder.relativeUrl` @type ^`java.lang.String` := v0 @kind object;
+  #L1af474.  if v6 == 0 then goto L1af484;
+  #L1af478.  v0:= v3.`retrofit2.RequestBuilder.urlBuilder` @type ^`okhttp3.HttpUrl$Builder` @kind object;
+  #L1af47c.  call temp:= `addEncodedQueryParameter`(v0, v4, v5) @signature `Lokhttp3/HttpUrl$Builder;.addEncodedQueryParameter:(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/HttpUrl$Builder;` @kind virtual;
+  #L1af482.  return @kind void;
+  #L1af484.  v0:= v3.`retrofit2.RequestBuilder.urlBuilder` @type ^`okhttp3.HttpUrl$Builder` @kind object;
+  #L1af488.  call temp:= `addQueryParameter`(v0, v4, v5) @signature `Lokhttp3/HttpUrl$Builder;.addQueryParameter:(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/HttpUrl$Builder;` @kind virtual;
+  #L1af48e.  goto L1af482;
+}
+procedure `okhttp3.Request` `build`(`retrofit2.RequestBuilder` v8 @kind this) @signature `Lretrofit2/RequestBuilder;.build:()Lokhttp3/Request;` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+
+  #L1af4a0.  v4:= v8.`retrofit2.RequestBuilder.urlBuilder` @type ^`okhttp3.HttpUrl$Builder` @kind object;
+  #L1af4a4.  if v4 == 0 then goto L1af506;
+  #L1af4a8.  call temp:= `build`(v4) @signature `Lokhttp3/HttpUrl$Builder;.build:()Lokhttp3/HttpUrl;` @kind virtual;
+  #L1af4ae.  v3:= temp @kind object;
+  #L1af4b0.  v0:= v8.`retrofit2.RequestBuilder.body` @type ^`okhttp3.RequestBody` @kind object;
+  #L1af4b4.  if v0 != 0 then goto L1af4cc;
+  #L1af4b8.  v5:= v8.`retrofit2.RequestBuilder.formBuilder` @type ^`okhttp3.FormBody$Builder` @kind object;
+  #L1af4bc.  if v5 == 0 then goto L1af568;
+  #L1af4c0.  v5:= v8.`retrofit2.RequestBuilder.formBuilder` @type ^`okhttp3.FormBody$Builder` @kind object;
+  #L1af4c4.  call temp:= `build`(v5) @signature `Lokhttp3/FormBody$Builder;.build:()Lokhttp3/FormBody;` @kind virtual;
+  #L1af4ca.  v0:= temp @kind object;
+  #L1af4cc.  v2:= v8.`retrofit2.RequestBuilder.contentType` @type ^`okhttp3.MediaType` @kind object;
+  #L1af4d0.  if v2 == 0 then goto L1af4e4;
+  #L1af4d4.  if v0 == 0 then goto L1af598;
+  #L1af4d8.  v1:= new `retrofit2.RequestBuilder$ContentTypeOverridingRequestBody`;
+  #L1af4dc.  call `<init>`(v1, v0, v2) @signature `Lretrofit2/RequestBuilder$ContentTypeOverridingRequestBody;.<init>:(Lokhttp3/RequestBody;Lokhttp3/MediaType;)V` @kind direct;
+  #L1af4e2.  v0:= v1 @kind object;
+  #L1af4e4.  v5:= v8.`retrofit2.RequestBuilder.requestBuilder` @type ^`okhttp3.Request$Builder` @kind object;
+  #L1af4e8.  call temp:= `url`(v5, v3) @signature `Lokhttp3/Request$Builder;.url:(Lokhttp3/HttpUrl;)Lokhttp3/Request$Builder;` @kind virtual;
+  #L1af4ee.  v5:= temp @kind object;
+  #L1af4f0.  v6:= v8.`retrofit2.RequestBuilder.method` @type ^`java.lang.String` @kind object;
+  #L1af4f4.  call temp:= `method`(v5, v6, v0) @signature `Lokhttp3/Request$Builder;.method:(Ljava/lang/String;Lokhttp3/RequestBody;)Lokhttp3/Request$Builder;` @kind virtual;
+  #L1af4fa.  v5:= temp @kind object;
+  #L1af4fc.  call temp:= `build`(v5) @signature `Lokhttp3/Request$Builder;.build:()Lokhttp3/Request;` @kind virtual;
+  #L1af502.  v5:= temp @kind object;
+  #L1af504.  return v5 @kind object;
+  #L1af506.  v5:= v8.`retrofit2.RequestBuilder.baseUrl` @type ^`okhttp3.HttpUrl` @kind object;
+  #L1af50a.  v6:= v8.`retrofit2.RequestBuilder.relativeUrl` @type ^`java.lang.String` @kind object;
+  #L1af50e.  call temp:= `resolve`(v5, v6) @signature `Lokhttp3/HttpUrl;.resolve:(Ljava/lang/String;)Lokhttp3/HttpUrl;` @kind virtual;
+  #L1af514.  v3:= temp @kind object;
+  #L1af516.  if v3 != 0 then goto L1af4b0;
+  #L1af51a.  v5:= new `java.lang.IllegalArgumentException`;
+  #L1af51e.  v6:= new `java.lang.StringBuilder`;
+  #L1af522.  call `<init>`(v6) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1af528.  v7:= "Malformed URL. Base: " @kind object;
+  #L1af52c.  call temp:= `append`(v6, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1af532.  v6:= temp @kind object;
+  #L1af534.  v7:= v8.`retrofit2.RequestBuilder.baseUrl` @type ^`okhttp3.HttpUrl` @kind object;
+  #L1af538.  call temp:= `append`(v6, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1af53e.  v6:= temp @kind object;
+  #L1af540.  v7:= ", Relative: " @kind object;
+  #L1af544.  call temp:= `append`(v6, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1af54a.  v6:= temp @kind object;
+  #L1af54c.  v7:= v8.`retrofit2.RequestBuilder.relativeUrl` @type ^`java.lang.String` @kind object;
+  #L1af550.  call temp:= `append`(v6, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1af556.  v6:= temp @kind object;
+  #L1af558.  call temp:= `toString`(v6) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1af55e.  v6:= temp @kind object;
+  #L1af560.  call `<init>`(v5, v6) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1af566.  throw v5;
+  #L1af568.  v5:= v8.`retrofit2.RequestBuilder.multipartBuilder` @type ^`okhttp3.MultipartBody$Builder` @kind object;
+  #L1af56c.  if v5 == 0 then goto L1af57e;
+  #L1af570.  v5:= v8.`retrofit2.RequestBuilder.multipartBuilder` @type ^`okhttp3.MultipartBody$Builder` @kind object;
+  #L1af574.  call temp:= `build`(v5) @signature `Lokhttp3/MultipartBody$Builder;.build:()Lokhttp3/MultipartBody;` @kind virtual;
+  #L1af57a.  v0:= temp @kind object;
+  #L1af57c.  goto L1af4cc;
+  #L1af57e.  v5:= v8.`retrofit2.RequestBuilder.hasBody` @type ^`boolean` @kind boolean;
+  #L1af582.  if v5 == 0 then goto L1af4cc;
+  #L1af586.  v5:= 0I;
+  #L1af588.  v6:= 0I;
+  #L1af58a.  v6:= new `byte`[v6];
+  #L1af58e.  call temp:= `create`(v5, v6) @signature `Lokhttp3/RequestBody;.create:(Lokhttp3/MediaType;[B)Lokhttp3/RequestBody;` @kind static;
+  #L1af594.  v0:= temp @kind object;
+  #L1af596.  goto L1af4cc;
+  #L1af598.  v5:= v8.`retrofit2.RequestBuilder.requestBuilder` @type ^`okhttp3.Request$Builder` @kind object;
+  #L1af59c.  v6:= "Content-Type" @kind object;
+  #L1af5a0.  call temp:= `toString`(v2) @signature `Lokhttp3/MediaType;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1af5a6.  v7:= temp @kind object;
+  #L1af5a8.  call temp:= `addHeader`(v5, v6, v7) @signature `Lokhttp3/Request$Builder;.addHeader:(Ljava/lang/String;Ljava/lang/String;)Lokhttp3/Request$Builder;` @kind virtual;
+  #L1af5ae.  goto L1af4e4;
+}
+procedure `void` `setBody`(`retrofit2.RequestBuilder` v0 @kind this, `okhttp3.RequestBody` v1 @kind object @name `body`) @signature `Lretrofit2/RequestBuilder;.setBody:(Lokhttp3/RequestBody;)V` @AccessFlag  {
+    temp;
+
+  #L1af5c0.  v0.`retrofit2.RequestBuilder.body` @type ^`okhttp3.RequestBody` := v1 @kind object;
+  #L1af5c4.  return @kind void;
+}
+procedure `void` `setRelativeUrl`(`retrofit2.RequestBuilder` v1 @kind this, `java.lang.Object` v2 @kind object @name `relativeUrl`) @signature `Lretrofit2/RequestBuilder;.setRelativeUrl:(Ljava/lang/Object;)V` @AccessFlag  {
+    temp;
+    v0;
+
+  #L1af5d8.  call temp:= `toString`(v2) @signature `Ljava/lang/Object;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1af5de.  v0:= temp @kind object;
+  #L1af5e0.  v1.`retrofit2.RequestBuilder.relativeUrl` @type ^`java.lang.String` := v0 @kind object;
+  #L1af5e4.  return @kind void;
+}

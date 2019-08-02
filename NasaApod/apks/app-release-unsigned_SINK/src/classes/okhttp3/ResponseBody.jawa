@@ -1,0 +1,230 @@
+record `okhttp3.ResponseBody` @kind class @AccessFlag PUBLIC_ABSTRACT extends `java.io.Closeable` @kind interface {
+  `java.io.Reader` `okhttp3.ResponseBody.reader` @AccessFlag PRIVATE;
+}
+procedure `void` `<init>`(`okhttp3.ResponseBody` v0 @kind this) @signature `Lokhttp3/ResponseBody;.<init>:()V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+
+  #L19e8d4.  call `<init>`(v0) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L19e8da.  return @kind void;
+}
+procedure `java.nio.charset.Charset` `charset`(`okhttp3.ResponseBody` v2 @kind this) @signature `Lokhttp3/ResponseBody;.charset:()Ljava/nio/charset/Charset;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+
+  #L19e8ec.  call temp:= `contentType`(v2) @signature `Lokhttp3/ResponseBody;.contentType:()Lokhttp3/MediaType;` @kind virtual;
+  #L19e8f2.  v0:= temp @kind object;
+  #L19e8f4.  if v0 == 0 then goto L19e906;
+  #L19e8f8.  v1:= `@@okhttp3.internal.Util.UTF_8` @type ^`java.nio.charset.Charset` @kind object;
+  #L19e8fc.  call temp:= `charset`(v0, v1) @signature `Lokhttp3/MediaType;.charset:(Ljava/nio/charset/Charset;)Ljava/nio/charset/Charset;` @kind virtual;
+  #L19e902.  v1:= temp @kind object;
+  #L19e904.  return v1 @kind object;
+  #L19e906.  v1:= `@@okhttp3.internal.Util.UTF_8` @type ^`java.nio.charset.Charset` @kind object;
+  #L19e90a.  goto L19e904;
+}
+procedure `okhttp3.ResponseBody` `create`(`okhttp3.MediaType` v3 @kind object @name `contentType`, `long` v4 @name `contentLength`, `okio.BufferedSource` v6 @kind object @name `content`) @signature `Lokhttp3/ResponseBody;.create:(Lokhttp3/MediaType;JLokio/BufferedSource;)Lokhttp3/ResponseBody;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L19e91c.  if v6 != 0 then goto L19e930;
+  #L19e920.  v0:= new `java.lang.NullPointerException`;
+  #L19e924.  v1:= "source == null" @kind object;
+  #L19e928.  call `<init>`(v0, v1) @signature `Ljava/lang/NullPointerException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L19e92e.  throw v0;
+  #L19e930.  v0:= new `okhttp3.ResponseBody$1`;
+  #L19e934.  call `<init>`(v0, v3, v4, v6) @signature `Lokhttp3/ResponseBody$1;.<init>:(Lokhttp3/MediaType;JLokio/BufferedSource;)V` @kind direct;
+  #L19e93a.  return v0 @kind object;
+}
+procedure `okhttp3.ResponseBody` `create`(`okhttp3.MediaType` v4 @kind object @name `contentType`, `java.lang.String` v5 @kind object @name `content`) @signature `Lokhttp3/ResponseBody;.create:(Lokhttp3/MediaType;Ljava/lang/String;)Lokhttp3/ResponseBody;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L19e94c.  v1:= `@@okhttp3.internal.Util.UTF_8` @type ^`java.nio.charset.Charset` @kind object;
+  #L19e950.  if v4 == 0 then goto L19e992;
+  #L19e954.  call temp:= `charset`(v4) @signature `Lokhttp3/MediaType;.charset:()Ljava/nio/charset/Charset;` @kind virtual;
+  #L19e95a.  v1:= temp @kind object;
+  #L19e95c.  if v1 != 0 then goto L19e992;
+  #L19e960.  v1:= `@@okhttp3.internal.Util.UTF_8` @type ^`java.nio.charset.Charset` @kind object;
+  #L19e964.  v2:= new `java.lang.StringBuilder`;
+  #L19e968.  call `<init>`(v2) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L19e96e.  call temp:= `append`(v2, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L19e974.  v2:= temp @kind object;
+  #L19e976.  v3:= "; charset=utf-8" @kind object;
+  #L19e97a.  call temp:= `append`(v2, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L19e980.  v2:= temp @kind object;
+  #L19e982.  call temp:= `toString`(v2) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L19e988.  v2:= temp @kind object;
+  #L19e98a.  call temp:= `parse`(v2) @signature `Lokhttp3/MediaType;.parse:(Ljava/lang/String;)Lokhttp3/MediaType;` @kind static;
+  #L19e990.  v4:= temp @kind object;
+  #L19e992.  v2:= new `okio.Buffer`;
+  #L19e996.  call `<init>`(v2) @signature `Lokio/Buffer;.<init>:()V` @kind direct;
+  #L19e99c.  call temp:= `writeString`(v2, v5, v1) @signature `Lokio/Buffer;.writeString:(Ljava/lang/String;Ljava/nio/charset/Charset;)Lokio/Buffer;` @kind virtual;
+  #L19e9a2.  v0:= temp @kind object;
+  #L19e9a4.  call temp:= `size`(v0) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L19e9aa.  v2:= temp @kind wide;
+  #L19e9ac.  call temp:= `create`(v4, v2, v0) @signature `Lokhttp3/ResponseBody;.create:(Lokhttp3/MediaType;JLokio/BufferedSource;)Lokhttp3/ResponseBody;` @kind static;
+  #L19e9b2.  v2:= temp @kind object;
+  #L19e9b4.  return v2 @kind object;
+}
+procedure `okhttp3.ResponseBody` `create`(`okhttp3.MediaType` v4 @kind object @name `contentType`, `byte`[] v5 @kind object @name `content`) @signature `Lokhttp3/ResponseBody;.create:(Lokhttp3/MediaType;[B)Lokhttp3/ResponseBody;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L19e9c8.  v1:= new `okio.Buffer`;
+  #L19e9cc.  call `<init>`(v1) @signature `Lokio/Buffer;.<init>:()V` @kind direct;
+  #L19e9d2.  call temp:= `write`(v1, v5) @signature `Lokio/Buffer;.write:([B)Lokio/Buffer;` @kind virtual;
+  #L19e9d8.  v0:= temp @kind object;
+  #L19e9da.  v1:= length @variable v5;
+  #L19e9dc.  v2:= (`long`) v1 @kind i2l;
+  #L19e9de.  call temp:= `create`(v4, v2, v0) @signature `Lokhttp3/ResponseBody;.create:(Lokhttp3/MediaType;JLokio/BufferedSource;)Lokhttp3/ResponseBody;` @kind static;
+  #L19e9e4.  v1:= temp @kind object;
+  #L19e9e6.  return v1 @kind object;
+}
+procedure `java.io.InputStream` `byteStream`(`okhttp3.ResponseBody` v1 @kind this) @signature `Lokhttp3/ResponseBody;.byteStream:()Ljava/io/InputStream;` @AccessFlag PUBLIC_FINAL {
+    temp;
+    v0;
+
+  #L19e9f8.  call temp:= `source`(v1) @signature `Lokhttp3/ResponseBody;.source:()Lokio/BufferedSource;` @kind virtual;
+  #L19e9fe.  v0:= temp @kind object;
+  #L19ea00.  call temp:= `inputStream`(v0) @signature `Lokio/BufferedSource;.inputStream:()Ljava/io/InputStream;` @kind interface;
+  #L19ea06.  v0:= temp @kind object;
+  #L19ea08.  return v0 @kind object;
+}
+procedure `byte`[] `bytes`(`okhttp3.ResponseBody` v7 @kind this) @signature `Lokhttp3/ResponseBody;.bytes:()[B` @AccessFlag PUBLIC_FINAL {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L19ea1c.  call temp:= `contentLength`(v7) @signature `Lokhttp3/ResponseBody;.contentLength:()J` @kind virtual;
+  #L19ea22.  v2:= temp @kind wide;
+  #L19ea24.  v4:= 2147483647L;
+  #L19ea2a.  v4:= lcmp(v2, v4);
+  #L19ea2e.  if v4 <= 0 then goto L19ea64;
+  #L19ea32.  v4:= new `java.io.IOException`;
+  #L19ea36.  v5:= new `java.lang.StringBuilder`;
+  #L19ea3a.  call `<init>`(v5) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L19ea40.  v6:= "Cannot buffer entire body for content length: " @kind object;
+  #L19ea44.  call temp:= `append`(v5, v6) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L19ea4a.  v5:= temp @kind object;
+  #L19ea4c.  call temp:= `append`(v5, v2) @signature `Ljava/lang/StringBuilder;.append:(J)Ljava/lang/StringBuilder;` @kind virtual;
+  #L19ea52.  v5:= temp @kind object;
+  #L19ea54.  call temp:= `toString`(v5) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L19ea5a.  v5:= temp @kind object;
+  #L19ea5c.  call `<init>`(v4, v5) @signature `Ljava/io/IOException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L19ea62.  throw v4;
+  #L19ea64.  call temp:= `source`(v7) @signature `Lokhttp3/ResponseBody;.source:()Lokio/BufferedSource;` @kind virtual;
+  #L19ea6a.  v1:= temp @kind object;
+  #Try_start0.  
+  #L19ea6c.  call temp:= `readByteArray`(v1) @signature `Lokio/BufferedSource;.readByteArray:()[B` @kind interface;
+  #Try_end0.  
+  #L19ea72.  v0:= temp @kind object;
+  #L19ea74.  call `closeQuietly`(v1) @signature `Lokhttp3/internal/Util;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L19ea7a.  v4:= -1L;
+  #L19ea7e.  v4:= lcmp(v2, v4);
+  #L19ea82.  if v4 == 0 then goto L19eaf0;
+  #L19ea86.  v4:= length @variable v0;
+  #L19ea88.  v4:= (`long`) v4 @kind i2l;
+  #L19ea8a.  v4:= lcmp(v2, v4);
+  #L19ea8e.  if v4 == 0 then goto L19eaf0;
+  #L19ea92.  v4:= new `java.io.IOException`;
+  #L19ea96.  v5:= new `java.lang.StringBuilder`;
+  #L19ea9a.  call `<init>`(v5) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L19eaa0.  v6:= "Content-Length (" @kind object;
+  #L19eaa4.  call temp:= `append`(v5, v6) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L19eaaa.  v5:= temp @kind object;
+  #L19eaac.  call temp:= `append`(v5, v2) @signature `Ljava/lang/StringBuilder;.append:(J)Ljava/lang/StringBuilder;` @kind virtual;
+  #L19eab2.  v5:= temp @kind object;
+  #L19eab4.  v6:= ") and stream length (" @kind object;
+  #L19eab8.  call temp:= `append`(v5, v6) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L19eabe.  v5:= temp @kind object;
+  #L19eac0.  v6:= length @variable v0;
+  #L19eac2.  call temp:= `append`(v5, v6) @signature `Ljava/lang/StringBuilder;.append:(I)Ljava/lang/StringBuilder;` @kind virtual;
+  #L19eac8.  v5:= temp @kind object;
+  #L19eaca.  v6:= ") disagree" @kind object;
+  #L19eace.  call temp:= `append`(v5, v6) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L19ead4.  v5:= temp @kind object;
+  #L19ead6.  call temp:= `toString`(v5) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L19eadc.  v5:= temp @kind object;
+  #L19eade.  call `<init>`(v4, v5) @signature `Ljava/io/IOException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L19eae4.  throw v4;
+  #L19eae6.  v4:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L19eae8.  call `closeQuietly`(v1) @signature `Lokhttp3/internal/Util;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L19eaee.  throw v4;
+  #L19eaf0.  return v0 @kind object;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L19eae6;
+}
+procedure `java.io.Reader` `charStream`(`okhttp3.ResponseBody` v3 @kind this) @signature `Lokhttp3/ResponseBody;.charStream:()Ljava/io/Reader;` @AccessFlag PUBLIC_FINAL {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L19eb10.  v0:= v3.`okhttp3.ResponseBody.reader` @type ^`java.io.Reader` @kind object;
+  #L19eb14.  if v0 == 0 then goto L19eb1a;
+  #L19eb18.  return v0 @kind object;
+  #L19eb1a.  v0:= new `okhttp3.ResponseBody$BomAwareReader`;
+  #L19eb1e.  call temp:= `source`(v3) @signature `Lokhttp3/ResponseBody;.source:()Lokio/BufferedSource;` @kind virtual;
+  #L19eb24.  v1:= temp @kind object;
+  #L19eb26.  call temp:= `charset`(v3) @signature `Lokhttp3/ResponseBody;.charset:()Ljava/nio/charset/Charset;` @kind direct;
+  #L19eb2c.  v2:= temp @kind object;
+  #L19eb2e.  call `<init>`(v0, v1, v2) @signature `Lokhttp3/ResponseBody$BomAwareReader;.<init>:(Lokio/BufferedSource;Ljava/nio/charset/Charset;)V` @kind direct;
+  #L19eb34.  v3.`okhttp3.ResponseBody.reader` @type ^`java.io.Reader` := v0 @kind object;
+  #L19eb38.  goto L19eb18;
+}
+procedure `void` `close`(`okhttp3.ResponseBody` v1 @kind this) @signature `Lokhttp3/ResponseBody;.close:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L19eb4c.  call temp:= `source`(v1) @signature `Lokhttp3/ResponseBody;.source:()Lokio/BufferedSource;` @kind virtual;
+  #L19eb52.  v0:= temp @kind object;
+  #L19eb54.  call `closeQuietly`(v0) @signature `Lokhttp3/internal/Util;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L19eb5a.  return @kind void;
+}
+procedure `long` `contentLength`() @signature `Lokhttp3/ResponseBody;.contentLength:()J` @AccessFlag PUBLIC_ABSTRACT {
+
+  # return;
+}
+procedure `okhttp3.MediaType` `contentType`() @signature `Lokhttp3/ResponseBody;.contentType:()Lokhttp3/MediaType;` @AccessFlag PUBLIC_ABSTRACT {
+
+  # return;
+}
+procedure `okio.BufferedSource` `source`() @signature `Lokhttp3/ResponseBody;.source:()Lokio/BufferedSource;` @AccessFlag PUBLIC_ABSTRACT {
+
+  # return;
+}
+procedure `java.lang.String` `string`(`okhttp3.ResponseBody` v3 @kind this) @signature `Lokhttp3/ResponseBody;.string:()Ljava/lang/String;` @AccessFlag PUBLIC_FINAL {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L19eb6c.  call temp:= `source`(v3) @signature `Lokhttp3/ResponseBody;.source:()Lokio/BufferedSource;` @kind virtual;
+  #L19eb72.  v1:= temp @kind object;
+  #Try_start0.  
+  #L19eb74.  call temp:= `charset`(v3) @signature `Lokhttp3/ResponseBody;.charset:()Ljava/nio/charset/Charset;` @kind direct;
+  #L19eb7a.  v2:= temp @kind object;
+  #L19eb7c.  call temp:= `bomAwareCharset`(v1, v2) @signature `Lokhttp3/internal/Util;.bomAwareCharset:(Lokio/BufferedSource;Ljava/nio/charset/Charset;)Ljava/nio/charset/Charset;` @kind static;
+  #L19eb82.  v0:= temp @kind object;
+  #L19eb84.  call temp:= `readString`(v1, v0) @signature `Lokio/BufferedSource;.readString:(Ljava/nio/charset/Charset;)Ljava/lang/String;` @kind interface;
+  #Try_end0.  
+  #L19eb8a.  v2:= temp @kind object;
+  #L19eb8c.  call `closeQuietly`(v1) @signature `Lokhttp3/internal/Util;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L19eb92.  return v2 @kind object;
+  #L19eb94.  v2:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L19eb96.  call `closeQuietly`(v1) @signature `Lokhttp3/internal/Util;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L19eb9c.  throw v2;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L19eb94;
+}

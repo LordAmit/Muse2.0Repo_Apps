@@ -1,0 +1,72 @@
+record `org.openintents.distribution.MarketUtils` @kind class @AccessFlag PUBLIC {
+}
+global `java.lang.String` `@@org.openintents.distribution.MarketUtils.MARKET_PACKAGE_DETAILS_PREFIX` @AccessFlag PUBLIC_STATIC_FINAL;
+procedure `void` `<init>`(`org.openintents.distribution.MarketUtils` v0 @kind this) @signature `Lorg/openintents/distribution/MarketUtils;.<init>:()V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+
+  #L0b17c0.  call `<init>`(v0) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L0b17c6.  return @kind void;
+}
+procedure `android.content.Intent` `getMarketDownloadIntent`(`java.lang.String` v3 @kind object @name `packageName`) @signature `Lorg/openintents/distribution/MarketUtils;.getMarketDownloadIntent:(Ljava/lang/String;)Landroid/content/Intent;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L0b17d8.  v1:= new `java.lang.StringBuilder`;
+  #L0b17dc.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L0b17e2.  v2:= "market://details?id=" @kind object;
+  #L0b17e6.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L0b17ec.  v1:= temp @kind object;
+  #L0b17ee.  call temp:= `append`(v1, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L0b17f4.  v1:= temp @kind object;
+  #L0b17f6.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L0b17fc.  v1:= temp @kind object;
+  #L0b17fe.  call temp:= `parse`(v1) @signature `Landroid/net/Uri;.parse:(Ljava/lang/String;)Landroid/net/Uri;` @kind static;
+  #L0b1804.  v0:= temp @kind object;
+  #L0b1806.  v1:= new `android.content.Intent`;
+  #L0b180a.  v2:= "android.intent.action.VIEW" @kind object;
+  #L0b180e.  call `<init>`(v1, v2, v0) @signature `Landroid/content/Intent;.<init>:(Ljava/lang/String;Landroid/net/Uri;)V` @kind direct;
+  #L0b1814.  return v1 @kind object;
+}
+procedure `boolean` `hideMarketLink`(`android.content.Context` v6 @kind object @name `context`) @signature `Lorg/openintents/distribution/MarketUtils;.hideMarketLink:(Landroid/content/Context;)Z` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L0b1828.  v2:= 0I;
+  #Try_start0.  
+  #L0b182a.  call temp:= `getPackageManager`(v6) @signature `Landroid/content/Context;.getPackageManager:()Landroid/content/pm/PackageManager;` @kind virtual;
+  #L0b1830.  v3:= temp @kind object;
+  #L0b1832.  call temp:= `getApplicationInfo`(v6) @signature `Landroid/content/Context;.getApplicationInfo:()Landroid/content/pm/ApplicationInfo;` @kind virtual;
+  #L0b1838.  v4:= temp @kind object;
+  #L0b183a.  v4:= v4.`android.content.pm.ApplicationInfo.packageName` @type ^`java.lang.String` @kind object;
+  #L0b183e.  v5:= 128I;
+  #L0b1842.  call temp:= `getApplicationInfo`(v3, v4, v5) @signature `Landroid/content/pm/PackageManager;.getApplicationInfo:(Ljava/lang/String;I)Landroid/content/pm/ApplicationInfo;` @kind virtual;
+  #L0b1848.  v3:= temp @kind object;
+  #L0b184a.  v1:= v3.`android.content.pm.ApplicationInfo.metaData` @type ^`android.os.Bundle` @kind object;
+  #L0b184e.  if v1 == 0 then goto L0b185e;
+  #L0b1852.  v3:= "hideMarketLink" @kind object;
+  #L0b1856.  call temp:= `getBoolean`(v1, v3) @signature `Landroid/os/Bundle;.getBoolean:(Ljava/lang/String;)Z` @kind virtual;
+  #Try_end0.  
+  #L0b185c.  v2:= temp;
+  #L0b185e.  return v2;
+  #L0b1860.  v0:= Exception @type ^`android.content.pm.PackageManager$NameNotFoundException` @kind object;
+  #L0b1862.  call `printStackTrace`(v0) @signature `Landroid/content/pm/PackageManager$NameNotFoundException;.printStackTrace:()V` @kind virtual;
+  #L0b1868.  goto L0b185e;
+  catch `android.content.pm.PackageManager$NameNotFoundException` @[Try_start0..Try_end0] goto L0b1860;
+}
+procedure `boolean` `isMarketAvailable`(`android.content.Context` v1 @kind object @name `context`, `java.lang.String` v2 @kind object @name `packageName`) @signature `Lorg/openintents/distribution/MarketUtils;.isMarketAvailable:(Landroid/content/Context;Ljava/lang/String;)Z` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+
+  #L0b1888.  call temp:= `getMarketDownloadIntent`(v2) @signature `Lorg/openintents/distribution/MarketUtils;.getMarketDownloadIntent:(Ljava/lang/String;)Landroid/content/Intent;` @kind static;
+  #L0b188e.  v0:= temp @kind object;
+  #L0b1890.  call temp:= `isIntentAvailable`(v1, v0) @signature `Lorg/openintents/util/IntentUtils;.isIntentAvailable:(Landroid/content/Context;Landroid/content/Intent;)Z` @kind static;
+  #L0b1896.  v0:= temp;
+  #L0b1898.  return v0;
+}

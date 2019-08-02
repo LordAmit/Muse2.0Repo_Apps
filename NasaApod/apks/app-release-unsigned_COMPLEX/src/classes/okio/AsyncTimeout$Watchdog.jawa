@@ -1,0 +1,55 @@
+record `okio.AsyncTimeout$Watchdog` @kind class @AccessFlag FINAL extends `java.lang.Thread` @kind class {
+}
+procedure `void` `<init>`(`okio.AsyncTimeout$Watchdog` v1 @kind this) @signature `Lokio/AsyncTimeout$Watchdog;.<init>:()V` @AccessFlag CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L1abb30.  v0:= "Okio Watchdog" @kind object;
+  #L1abb34.  call `<init>`(v1, v0) @signature `Ljava/lang/Thread;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1abb3a.  v0:= 1I;
+  #L1abb3c.  call `setDaemon`(v1, v0) @signature `Lokio/AsyncTimeout$Watchdog;.setDaemon:(Z)V` @kind virtual;
+  #L1abb42.  return @kind void;
+}
+procedure `void` `run`(`okio.AsyncTimeout$Watchdog` v3 @kind this) @signature `Lokio/AsyncTimeout$Watchdog;.run:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #Try_start0.  
+  #L1abb54.  v2:= constclass @type ^`okio.AsyncTimeout` @kind object;
+  #L1abb58.  @monitorenter v2
+  #Try_end0.  
+  #Try_start1.  
+  #L1abb5a.  call temp:= `awaitTimeout`() @signature `Lokio/AsyncTimeout;.awaitTimeout:()Lokio/AsyncTimeout;` @kind static;
+  #L1abb60.  v0:= temp @kind object;
+  #L1abb62.  if v0 != 0 then goto L1abb74;
+  #L1abb66.  @monitorexit v2
+  #L1abb68.  goto L1abb54;
+  #L1abb6a.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1abb6c.  @monitorexit v2
+  #Try_end1.  
+  #Try_start2.  
+  #L1abb6e.  throw v1;
+  #Try_end2.  
+  #L1abb70.  v1:= Exception @type ^`java.lang.InterruptedException` @kind object;
+  #L1abb72.  goto L1abb54;
+  #Try_start3.  
+  #L1abb74.  v1:= `@@okio.AsyncTimeout.head` @type ^`okio.AsyncTimeout` @kind object;
+  #L1abb78.  if v0 != v1 then goto L1abb86;
+  #L1abb7c.  v1:= 0I;
+  #L1abb7e.  `@@okio.AsyncTimeout.head` @type ^`okio.AsyncTimeout` := v1 @kind object;
+  #L1abb82.  @monitorexit v2
+  #L1abb84.  return @kind void;
+  #L1abb86.  @monitorexit v2
+  #Try_end3.  
+  #Try_start4.  
+  #L1abb88.  call `timedOut`(v0) @signature `Lokio/AsyncTimeout;.timedOut:()V` @kind virtual;
+  #Try_end4.  
+  #L1abb8e.  goto L1abb54;
+  catch `java.lang.InterruptedException` @[Try_start0..Try_end0] goto L1abb70;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L1abb6a;
+  catch `java.lang.InterruptedException` @[Try_start2..Try_end2] goto L1abb70;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L1abb6a;
+  catch `java.lang.InterruptedException` @[Try_start4..Try_end4] goto L1abb70;
+}

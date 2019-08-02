@@ -1,0 +1,522 @@
+record `okhttp3.internal.publicsuffix.PublicSuffixDatabase` @kind class @AccessFlag PUBLIC_FINAL {
+  `java.util.concurrent.atomic.AtomicBoolean` `okhttp3.internal.publicsuffix.PublicSuffixDatabase.listRead` @AccessFlag PRIVATE_FINAL;
+  `byte`[] `okhttp3.internal.publicsuffix.PublicSuffixDatabase.publicSuffixExceptionListBytes` @AccessFlag PRIVATE;
+  `byte`[] `okhttp3.internal.publicsuffix.PublicSuffixDatabase.publicSuffixListBytes` @AccessFlag PRIVATE;
+  `java.util.concurrent.CountDownLatch` `okhttp3.internal.publicsuffix.PublicSuffixDatabase.readCompleteLatch` @AccessFlag PRIVATE_FINAL;
+}
+global `java.lang.String`[] `@@okhttp3.internal.publicsuffix.PublicSuffixDatabase.EMPTY_RULE` @AccessFlag PRIVATE_STATIC_FINAL;
+global `byte` `@@okhttp3.internal.publicsuffix.PublicSuffixDatabase.EXCEPTION_MARKER` @AccessFlag PRIVATE_STATIC_FINAL;
+global `java.lang.String`[] `@@okhttp3.internal.publicsuffix.PublicSuffixDatabase.PREVAILING_RULE` @AccessFlag PRIVATE_STATIC_FINAL;
+global `java.lang.String` `@@okhttp3.internal.publicsuffix.PublicSuffixDatabase.PUBLIC_SUFFIX_RESOURCE` @AccessFlag PUBLIC_STATIC_FINAL;
+global `byte`[] `@@okhttp3.internal.publicsuffix.PublicSuffixDatabase.WILDCARD_LABEL` @AccessFlag PRIVATE_STATIC_FINAL;
+global `okhttp3.internal.publicsuffix.PublicSuffixDatabase` `@@okhttp3.internal.publicsuffix.PublicSuffixDatabase.instance` @AccessFlag PRIVATE_STATIC_FINAL;
+procedure `void` `<clinit>`() @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.<clinit>:()V` @AccessFlag STATIC_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L1aa838.  v3:= 1I;
+  #L1aa83a.  v2:= 0I;
+  #L1aa83c.  v0:= new `byte`[v3];
+  #L1aa840.  v1:= 42I;
+  #L1aa844.  v0[v2]:= v1 @kind byte;
+  #L1aa848.  `@@okhttp3.internal.publicsuffix.PublicSuffixDatabase.WILDCARD_LABEL` @type ^`byte`[] := v0 @kind object;
+  #L1aa84c.  v0:= new `java.lang.String`[v2];
+  #L1aa850.  `@@okhttp3.internal.publicsuffix.PublicSuffixDatabase.EMPTY_RULE` @type ^`java.lang.String`[] := v0 @kind object;
+  #L1aa854.  v0:= new `java.lang.String`[v3];
+  #L1aa858.  v1:= "*" @kind object;
+  #L1aa85c.  v0[v2]:= v1 @kind object;
+  #L1aa860.  `@@okhttp3.internal.publicsuffix.PublicSuffixDatabase.PREVAILING_RULE` @type ^`java.lang.String`[] := v0 @kind object;
+  #L1aa864.  v0:= new `okhttp3.internal.publicsuffix.PublicSuffixDatabase`;
+  #L1aa868.  call `<init>`(v0) @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.<init>:()V` @kind direct;
+  #L1aa86e.  `@@okhttp3.internal.publicsuffix.PublicSuffixDatabase.instance` @type ^`okhttp3.internal.publicsuffix.PublicSuffixDatabase` := v0 @kind object;
+  #L1aa872.  return @kind void;
+}
+procedure `void` `<init>`(`okhttp3.internal.publicsuffix.PublicSuffixDatabase` v2 @kind this) @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.<init>:()V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+
+  #L1aa884.  call `<init>`(v2) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L1aa88a.  v0:= new `java.util.concurrent.atomic.AtomicBoolean`;
+  #L1aa88e.  v1:= 0I;
+  #L1aa890.  call `<init>`(v0, v1) @signature `Ljava/util/concurrent/atomic/AtomicBoolean;.<init>:(Z)V` @kind direct;
+  #L1aa896.  v2.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.listRead` @type ^`java.util.concurrent.atomic.AtomicBoolean` := v0 @kind object;
+  #L1aa89a.  v0:= new `java.util.concurrent.CountDownLatch`;
+  #L1aa89e.  v1:= 1I;
+  #L1aa8a0.  call `<init>`(v0, v1) @signature `Ljava/util/concurrent/CountDownLatch;.<init>:(I)V` @kind direct;
+  #L1aa8a6.  v2.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.readCompleteLatch` @type ^`java.util.concurrent.CountDownLatch` := v0 @kind object;
+  #L1aa8aa.  return @kind void;
+}
+procedure `java.lang.String` `binarySearchBytes`(`byte`[] v21 @kind object @name `bytesToSearch`, `byte`[][] v22 @kind object @name `labels`, `int` v23 @name `labelIndex`) @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.binarySearchBytes:([B[[BI)Ljava/lang/String;` @AccessFlag PRIVATE_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+    v11;
+    v12;
+    v13;
+    v14;
+    v15;
+    v16;
+    v17;
+    v18;
+    v19;
+    v20;
+
+  #L1aa8bc.  v13:= 0I;
+  #L1aa8be.  v0:= v21 @kind object;
+  #L1aa8c2.  v10:= length @variable v0;
+  #L1aa8c4.  v14:= 0I;
+  #L1aa8c6.  if v13 >= v10 then goto L1aaa48;
+  #L1aa8ca.  v19:= v13 + v10 @kind int;
+  #L1aa8ce.  v15:= v19 / 2;
+  #L1aa8d2.  v19:= -1I;
+  #L1aa8d6.  v0:= v19;
+  #L1aa8da.  if v15 <= v0 then goto L1aa8f8;
+  #L1aa8de.  v19:= v21[v15] @kind byte;
+  #L1aa8e2.  v20:= 10I;
+  #L1aa8e6.  v0:= v19;
+  #L1aa8ea.  v1:= v20;
+  #L1aa8ee.  if v0 == v1 then goto L1aa8f8;
+  #L1aa8f2.  v15:= v15 + -1;
+  #L1aa8f6.  goto L1aa8d2;
+  #L1aa8f8.  v15:= v15 + 1;
+  #L1aa8fc.  v8:= 1I;
+  #L1aa8fe.  v19:= v15 + v8 @kind int;
+  #L1aa902.  v19:= v21[v19] @kind byte;
+  #L1aa906.  v20:= 10I;
+  #L1aa90a.  v0:= v19;
+  #L1aa90e.  v1:= v20;
+  #L1aa912.  if v0 == v1 then goto L1aa91c;
+  #L1aa916.  v8:= v8 + 1;
+  #L1aa91a.  goto L1aa8fe;
+  #L1aa91c.  v19:= v15 + v8 @kind int;
+  #L1aa920.  v18:= v19 - v15 @kind int;
+  #L1aa924.  v7:= v23;
+  #L1aa928.  v6:= 0I;
+  #L1aa92a.  v16:= 0I;
+  #L1aa92e.  v9:= 0I;
+  #L1aa930.  if v9 == 0 then goto L1aa95c;
+  #L1aa934.  v3:= 46I;
+  #L1aa938.  v9:= 0I;
+  #L1aa93a.  v19:= v15 + v16 @kind int;
+  #L1aa93e.  v19:= v21[v19] @kind byte;
+  #L1aa942.  v0:= v19;
+  #L1aa946.  v4:= v0 ^& 255;
+  #L1aa94a.  v5:= v3 - v4 @kind int;
+  #L1aa94e.  if v5 == 0 then goto L1aa96e;
+  #L1aa952.  if v5 >= 0 then goto L1aa9b8;
+  #L1aa956.  v10:= v15 + -1;
+  #L1aa95a.  goto L1aa8c6;
+  #L1aa95c.  v19:= v22[v7] @kind object;
+  #L1aa960.  v19:= v19[v6] @kind byte;
+  #L1aa964.  v0:= v19;
+  #L1aa968.  v3:= v0 ^& 255;
+  #L1aa96c.  goto L1aa93a;
+  #L1aa96e.  v16:= v16 + 1;
+  #L1aa972.  v6:= v6 + 1;
+  #L1aa976.  v0:= v16;
+  #L1aa97a.  v1:= v18;
+  #L1aa97e.  if v0 == v1 then goto L1aa952;
+  #L1aa982.  v19:= v22[v7] @kind object;
+  #L1aa986.  v0:= v19 @kind object;
+  #L1aa98a.  v0:= length @variable v0;
+  #L1aa98c.  v19:= v0;
+  #L1aa990.  v0:= v19;
+  #L1aa994.  if v0 != v6 then goto L1aa930;
+  #L1aa998.  v0:= v22 @kind object;
+  #L1aa99c.  v0:= length @variable v0;
+  #L1aa99e.  v19:= v0;
+  #L1aa9a2.  v19:= v19 + -1;
+  #L1aa9a6.  v0:= v19;
+  #L1aa9aa.  if v7 == v0 then goto L1aa952;
+  #L1aa9ae.  v7:= v7 + 1;
+  #L1aa9b2.  v6:= -1I;
+  #L1aa9b4.  v9:= 1I;
+  #L1aa9b6.  goto L1aa930;
+  #L1aa9b8.  if v5 <= 0 then goto L1aa9c6;
+  #L1aa9bc.  v19:= v15 + v8 @kind int;
+  #L1aa9c0.  v13:= v19 + 1;
+  #L1aa9c4.  goto L1aa8c6;
+  #L1aa9c6.  v17:= v18 - v16 @kind int;
+  #L1aa9ca.  v19:= v22[v7] @kind object;
+  #L1aa9ce.  v0:= v19 @kind object;
+  #L1aa9d2.  v0:= length @variable v0;
+  #L1aa9d4.  v19:= v0;
+  #L1aa9d8.  v12:= v19 - v6 @kind int;
+  #L1aa9dc.  v11:= v7 + 1;
+  #L1aa9e0.  v0:= v22 @kind object;
+  #L1aa9e4.  v0:= length @variable v0;
+  #L1aa9e6.  v19:= v0;
+  #L1aa9ea.  v0:= v19;
+  #L1aa9ee.  if v11 >= v0 then goto L1aaa0a;
+  #L1aa9f2.  v19:= v22[v11] @kind object;
+  #L1aa9f6.  v0:= v19 @kind object;
+  #L1aa9fa.  v0:= length @variable v0;
+  #L1aa9fc.  v19:= v0;
+  #L1aaa00.  v12:= v12 + v19 @kind int;
+  #L1aaa04.  v11:= v11 + 1;
+  #L1aaa08.  goto L1aa9e0;
+  #L1aaa0a.  v0:= v17;
+  #L1aaa0e.  if v12 >= v0 then goto L1aaa1a;
+  #L1aaa12.  v10:= v15 + -1;
+  #L1aaa16.  goto L1aa8c6;
+  #L1aaa1a.  v0:= v17;
+  #L1aaa1e.  if v12 <= v0 then goto L1aaa2e;
+  #L1aaa22.  v19:= v15 + v8 @kind int;
+  #L1aaa26.  v13:= v19 + 1;
+  #L1aaa2a.  goto L1aa8c6;
+  #L1aaa2e.  v14:= new `java.lang.String`;
+  #L1aaa32.  v19:= `@@okhttp3.internal.Util.UTF_8` @type ^`java.nio.charset.Charset` @kind object;
+  #L1aaa36.  v0:= v21 @kind object;
+  #L1aaa3a.  v1:= v18;
+  #L1aaa3e.  v2:= v19 @kind object;
+  #L1aaa42.  call `<init>`(v14, v0, v15, v1, v2) @signature `Ljava/lang/String;.<init>:([BIILjava/nio/charset/Charset;)V` @kind direct;
+  #L1aaa48.  return v14 @kind object;
+}
+procedure `java.lang.String`[] `findMatchingRule`(`okhttp3.internal.publicsuffix.PublicSuffixDatabase` v13 @kind this, `java.lang.String`[] v14 @kind object @name `domainLabels`) @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.findMatchingRule:([Ljava/lang/String;)[Ljava/lang/String;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+    v11;
+    v12;
+
+  #L1aaa5c.  v12:= 1I;
+  #L1aaa5e.  v10:= v13.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.listRead` @type ^`java.util.concurrent.atomic.AtomicBoolean` @kind object;
+  #L1aaa62.  call temp:= `get`(v10) @signature `Ljava/util/concurrent/atomic/AtomicBoolean;.get:()Z` @kind virtual;
+  #L1aaa68.  v10:= temp;
+  #L1aaa6a.  if v10 != 0 then goto L1aaaa6;
+  #L1aaa6e.  v10:= v13.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.listRead` @type ^`java.util.concurrent.atomic.AtomicBoolean` @kind object;
+  #L1aaa72.  v11:= 0I;
+  #L1aaa74.  call temp:= `compareAndSet`(v10, v11, v12) @signature `Ljava/util/concurrent/atomic/AtomicBoolean;.compareAndSet:(ZZ)Z` @kind virtual;
+  #L1aaa7a.  v10:= temp;
+  #L1aaa7c.  if v10 == 0 then goto L1aaaa6;
+  #L1aaa80.  call `readTheListUninterruptibly`(v13) @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.readTheListUninterruptibly:()V` @kind direct;
+  #L1aaa86.  @monitorenter v13
+  #Try_start0.  
+  #L1aaa88.  v10:= v13.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.publicSuffixListBytes` @type ^`byte`[] @kind object;
+  #L1aaa8c.  if v10 != 0 then goto L1aaab6;
+  #L1aaa90.  v10:= new `java.lang.IllegalStateException`;
+  #L1aaa94.  v11:= "Unable to load publicsuffixes.gz resource from the classpath." @kind object;
+  #L1aaa98.  call `<init>`(v10, v11) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1aaa9e.  throw v10;
+  #L1aaaa0.  v10:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1aaaa2.  @monitorexit v13
+  #Try_end0.  
+  #L1aaaa4.  throw v10;
+  #Try_start1.  
+  #L1aaaa6.  v10:= v13.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.readCompleteLatch` @type ^`java.util.concurrent.CountDownLatch` @kind object;
+  #L1aaaaa.  call `await`(v10) @signature `Ljava/util/concurrent/CountDownLatch;.await:()V` @kind virtual;
+  #Try_end1.  
+  #L1aaab0.  goto L1aaa86;
+  #L1aaab2.  v10:= Exception @type ^`java.lang.InterruptedException` @kind object;
+  #L1aaab4.  goto L1aaa86;
+  #Try_start2.  
+  #L1aaab6.  @monitorexit v13
+  #Try_end2.  
+  #L1aaab8.  v10:= length @variable v14;
+  #L1aaaba.  v0:= new `byte`[][v10];
+  #L1aaabe.  v4:= 0I;
+  #L1aaac0.  v10:= length @variable v14;
+  #L1aaac2.  if v4 >= v10 then goto L1aaae0;
+  #L1aaac6.  v10:= v14[v4] @kind object;
+  #L1aaaca.  v11:= `@@okhttp3.internal.Util.UTF_8` @type ^`java.nio.charset.Charset` @kind object;
+  #L1aaace.  call temp:= `getBytes`(v10, v11) @signature `Ljava/lang/String;.getBytes:(Ljava/nio/charset/Charset;)[B` @kind virtual;
+  #L1aaad4.  v10:= temp @kind object;
+  #L1aaad6.  v0[v4]:= v10 @kind object;
+  #L1aaada.  v4:= v4 + 1;
+  #L1aaade.  goto L1aaac0;
+  #L1aaae0.  v1:= 0I;
+  #L1aaae2.  v4:= 0I;
+  #L1aaae4.  v10:= length @variable v0;
+  #L1aaae6.  if v4 >= v10 then goto L1aaafc;
+  #L1aaaea.  v10:= v13.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.publicSuffixListBytes` @type ^`byte`[] @kind object;
+  #L1aaaee.  call temp:= `binarySearchBytes`(v10, v0, v4) @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.binarySearchBytes:([B[[BI)Ljava/lang/String;` @kind static;
+  #L1aaaf4.  v7:= temp @kind object;
+  #L1aaaf6.  if v7 == 0 then goto L1aab92;
+  #L1aaafa.  v1:= v7 @kind object;
+  #L1aaafc.  v8:= 0I;
+  #L1aaafe.  v10:= length @variable v0;
+  #L1aab00.  if v10 <= v12 then goto L1aab36;
+  #L1aab04.  call temp:= `clone`(v0) @signature `[[B.clone:()Ljava/lang/Object;` @kind virtual;
+  #L1aab0a.  v6:= temp @kind object;
+  #L1aab0c.  v6:= (`byte`[][]) v6 @kind object;
+  #L1aab10.  v5:= 0I;
+  #L1aab12.  v10:= length @variable v6;
+  #L1aab14.  v10:= v10 + -1;
+  #L1aab18.  if v5 >= v10 then goto L1aab36;
+  #L1aab1c.  v10:= `@@okhttp3.internal.publicsuffix.PublicSuffixDatabase.WILDCARD_LABEL` @type ^`byte`[] @kind object;
+  #L1aab20.  v6[v5]:= v10 @kind object;
+  #L1aab24.  v10:= v13.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.publicSuffixListBytes` @type ^`byte`[] @kind object;
+  #L1aab28.  call temp:= `binarySearchBytes`(v10, v6, v5) @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.binarySearchBytes:([B[[BI)Ljava/lang/String;` @kind static;
+  #L1aab2e.  v7:= temp @kind object;
+  #L1aab30.  if v7 == 0 then goto L1aab98;
+  #L1aab34.  v8:= v7 @kind object;
+  #L1aab36.  v3:= 0I;
+  #L1aab38.  if v8 == 0 then goto L1aab5a;
+  #L1aab3c.  v5:= 0I;
+  #L1aab3e.  v10:= length @variable v0;
+  #L1aab40.  v10:= v10 + -1;
+  #L1aab44.  if v5 >= v10 then goto L1aab5a;
+  #L1aab48.  v10:= v13.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.publicSuffixExceptionListBytes` @type ^`byte`[] @kind object;
+  #L1aab4c.  call temp:= `binarySearchBytes`(v10, v0, v5) @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.binarySearchBytes:([B[[BI)Ljava/lang/String;` @kind static;
+  #L1aab52.  v7:= temp @kind object;
+  #L1aab54.  if v7 == 0 then goto L1aab9e;
+  #L1aab58.  v3:= v7 @kind object;
+  #L1aab5a.  if v3 == 0 then goto L1aaba4;
+  #L1aab5e.  v10:= new `java.lang.StringBuilder`;
+  #L1aab62.  call `<init>`(v10) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1aab68.  v11:= "!" @kind object;
+  #L1aab6c.  call temp:= `append`(v10, v11) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1aab72.  v10:= temp @kind object;
+  #L1aab74.  call temp:= `append`(v10, v3) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1aab7a.  v10:= temp @kind object;
+  #L1aab7c.  call temp:= `toString`(v10) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1aab82.  v3:= temp @kind object;
+  #L1aab84.  v10:= "\\." @kind object;
+  #L1aab88.  call temp:= `split`(v3, v10) @signature `Ljava/lang/String;.split:(Ljava/lang/String;)[Ljava/lang/String;` @kind virtual;
+  #L1aab8e.  v2:= temp @kind object;
+  #L1aab90.  return v2 @kind object;
+  #L1aab92.  v4:= v4 + 1;
+  #L1aab96.  goto L1aaae4;
+  #L1aab98.  v5:= v5 + 1;
+  #L1aab9c.  goto L1aab12;
+  #L1aab9e.  v5:= v5 + 1;
+  #L1aaba2.  goto L1aab3e;
+  #L1aaba4.  if v1 != 0 then goto L1aabb2;
+  #L1aaba8.  if v8 != 0 then goto L1aabb2;
+  #L1aabac.  v2:= `@@okhttp3.internal.publicsuffix.PublicSuffixDatabase.PREVAILING_RULE` @type ^`java.lang.String`[] @kind object;
+  #L1aabb0.  goto L1aab90;
+  #L1aabb2.  if v1 == 0 then goto L1aabde;
+  #L1aabb6.  v10:= "\\." @kind object;
+  #L1aabba.  call temp:= `split`(v1, v10) @signature `Ljava/lang/String;.split:(Ljava/lang/String;)[Ljava/lang/String;` @kind virtual;
+  #L1aabc0.  v2:= temp @kind object;
+  #L1aabc2.  if v8 == 0 then goto L1aabe4;
+  #L1aabc6.  v10:= "\\." @kind object;
+  #L1aabca.  call temp:= `split`(v8, v10) @signature `Ljava/lang/String;.split:(Ljava/lang/String;)[Ljava/lang/String;` @kind virtual;
+  #L1aabd0.  v9:= temp @kind object;
+  #L1aabd2.  v10:= length @variable v2;
+  #L1aabd4.  v11:= length @variable v9;
+  #L1aabd6.  if v10 > v11 then goto L1aab90;
+  #L1aabda.  v2:= v9 @kind object;
+  #L1aabdc.  goto L1aab90;
+  #L1aabde.  v2:= `@@okhttp3.internal.publicsuffix.PublicSuffixDatabase.EMPTY_RULE` @type ^`java.lang.String`[] @kind object;
+  #L1aabe2.  goto L1aabc2;
+  #L1aabe4.  v9:= `@@okhttp3.internal.publicsuffix.PublicSuffixDatabase.EMPTY_RULE` @type ^`java.lang.String`[] @kind object;
+  #L1aabe8.  goto L1aabd2;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1aaaa0;
+  catch `java.lang.InterruptedException` @[Try_start1..Try_end1] goto L1aaab2;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L1aaaa0;
+}
+procedure `okhttp3.internal.publicsuffix.PublicSuffixDatabase` `get`() @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.get:()Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+
+  #L1aac1c.  v0:= `@@okhttp3.internal.publicsuffix.PublicSuffixDatabase.instance` @type ^`okhttp3.internal.publicsuffix.PublicSuffixDatabase` @kind object;
+  #L1aac20.  return v0 @kind object;
+}
+procedure `void` `readTheList`(`okhttp3.internal.publicsuffix.PublicSuffixDatabase` v8 @kind this) @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.readTheList:()V` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+
+  #L1aac34.  v6:= constclass @type ^`okhttp3.internal.publicsuffix.PublicSuffixDatabase` @kind object;
+  #L1aac38.  v7:= "publicsuffixes.gz" @kind object;
+  #L1aac3c.  call temp:= `getResourceAsStream`(v6, v7) @signature `Ljava/lang/Class;.getResourceAsStream:(Ljava/lang/String;)Ljava/io/InputStream;` @kind virtual;
+  #L1aac42.  v3:= temp @kind object;
+  #L1aac44.  if v3 != 0 then goto L1aac4a;
+  #L1aac48.  return @kind void;
+  #L1aac4a.  v6:= new `okio.GzipSource`;
+  #L1aac4e.  call temp:= `source`(v3) @signature `Lokio/Okio;.source:(Ljava/io/InputStream;)Lokio/Source;` @kind static;
+  #L1aac54.  v7:= temp @kind object;
+  #L1aac56.  call `<init>`(v6, v7) @signature `Lokio/GzipSource;.<init>:(Lokio/Source;)V` @kind direct;
+  #L1aac5c.  call temp:= `buffer`(v6) @signature `Lokio/Okio;.buffer:(Lokio/Source;)Lokio/BufferedSource;` @kind static;
+  #L1aac62.  v0:= temp @kind object;
+  #Try_start0.  
+  #L1aac64.  call temp:= `readInt`(v0) @signature `Lokio/BufferedSource;.readInt:()I` @kind interface;
+  #L1aac6a.  v4:= temp;
+  #L1aac6c.  v2:= new `byte`[v4];
+  #L1aac70.  call `readFully`(v0, v2) @signature `Lokio/BufferedSource;.readFully:([B)V` @kind interface;
+  #L1aac76.  call temp:= `readInt`(v0) @signature `Lokio/BufferedSource;.readInt:()I` @kind interface;
+  #L1aac7c.  v5:= temp;
+  #L1aac7e.  v1:= new `byte`[v5];
+  #L1aac82.  call `readFully`(v0, v1) @signature `Lokio/BufferedSource;.readFully:([B)V` @kind interface;
+  #Try_end0.  
+  #L1aac88.  call `closeQuietly`(v0) @signature `Lokhttp3/internal/Util;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L1aac8e.  @monitorenter v8
+  #Try_start1.  
+  #L1aac90.  v8.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.publicSuffixListBytes` @type ^`byte`[] := v2 @kind object;
+  #L1aac94.  v8.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.publicSuffixExceptionListBytes` @type ^`byte`[] := v1 @kind object;
+  #L1aac98.  @monitorexit v8
+  #Try_end1.  
+  #L1aac9a.  v6:= v8.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.readCompleteLatch` @type ^`java.util.concurrent.CountDownLatch` @kind object;
+  #L1aac9e.  call `countDown`(v6) @signature `Ljava/util/concurrent/CountDownLatch;.countDown:()V` @kind virtual;
+  #L1aaca4.  goto L1aac48;
+  #L1aaca6.  v6:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1aaca8.  call `closeQuietly`(v0) @signature `Lokhttp3/internal/Util;.closeQuietly:(Ljava/io/Closeable;)V` @kind static;
+  #L1aacae.  throw v6;
+  #L1aacb0.  v6:= Exception @type ^`java.lang.Throwable` @kind object;
+  #Try_start2.  
+  #L1aacb2.  @monitorexit v8
+  #Try_end2.  
+  #L1aacb4.  throw v6;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1aaca6;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L1aacb0;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L1aacb0;
+}
+procedure `void` `readTheListUninterruptibly`(`okhttp3.internal.publicsuffix.PublicSuffixDatabase` v5 @kind this) @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.readTheListUninterruptibly:()V` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L1aace8.  v1:= 0I;
+  #Try_start0.  
+  #L1aacea.  call `readTheList`(v5) @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.readTheList:()V` @kind direct;
+  #Try_end0.  
+  #L1aacf0.  if v1 == 0 then goto L1aad02;
+  #L1aacf4.  call temp:= `currentThread`() @signature `Ljava/lang/Thread;.currentThread:()Ljava/lang/Thread;` @kind static;
+  #L1aacfa.  v2:= temp @kind object;
+  #L1aacfc.  call `interrupt`(v2) @signature `Ljava/lang/Thread;.interrupt:()V` @kind virtual;
+  #L1aad02.  return @kind void;
+  #L1aad04.  v0:= Exception @type ^`java.io.InterruptedIOException` @kind object;
+  #L1aad06.  v1:= 1I;
+  #L1aad08.  goto L1aacea;
+  #L1aad0a.  v0:= Exception @type ^`java.io.IOException` @kind object;
+  #Try_start1.  
+  #L1aad0c.  call temp:= `get`() @signature `Lokhttp3/internal/platform/Platform;.get:()Lokhttp3/internal/platform/Platform;` @kind static;
+  #L1aad12.  v2:= temp @kind object;
+  #L1aad14.  v3:= 5I;
+  #L1aad16.  v4:= "Failed to read public suffix list" @kind object;
+  #L1aad1a.  call `log`(v2, v3, v4, v0) @signature `Lokhttp3/internal/platform/Platform;.log:(ILjava/lang/String;Ljava/lang/Throwable;)V` @kind virtual;
+  #Try_end1.  
+  #L1aad20.  if v1 == 0 then goto L1aad02;
+  #L1aad24.  call temp:= `currentThread`() @signature `Ljava/lang/Thread;.currentThread:()Ljava/lang/Thread;` @kind static;
+  #L1aad2a.  v2:= temp @kind object;
+  #L1aad2c.  call `interrupt`(v2) @signature `Ljava/lang/Thread;.interrupt:()V` @kind virtual;
+  #L1aad32.  goto L1aad02;
+  #L1aad34.  v2:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L1aad36.  if v1 == 0 then goto L1aad48;
+  #L1aad3a.  call temp:= `currentThread`() @signature `Ljava/lang/Thread;.currentThread:()Ljava/lang/Thread;` @kind static;
+  #L1aad40.  v3:= temp @kind object;
+  #L1aad42.  call `interrupt`(v3) @signature `Ljava/lang/Thread;.interrupt:()V` @kind virtual;
+  #L1aad48.  throw v2;
+  catch `java.io.InterruptedIOException` @[Try_start0..Try_end0] goto L1aad04;
+  catch `java.io.IOException` @[Try_start0..Try_end0] goto L1aad0a;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L1aad34;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L1aad34;
+}
+procedure `java.lang.String` `getEffectiveTldPlusOne`(`okhttp3.internal.publicsuffix.PublicSuffixDatabase` v11 @kind this, `java.lang.String` v12 @kind object @name `domain`) @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.getEffectiveTldPlusOne:(Ljava/lang/String;)Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+
+  #L1aad78.  v10:= 33I;
+  #L1aad7c.  v9:= 0I;
+  #L1aad7e.  if v12 != 0 then goto L1aad92;
+  #L1aad82.  v7:= new `java.lang.NullPointerException`;
+  #L1aad86.  v8:= "domain == null" @kind object;
+  #L1aad8a.  call `<init>`(v7, v8) @signature `Ljava/lang/NullPointerException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1aad90.  throw v7;
+  #L1aad92.  call temp:= `toUnicode`(v12) @signature `Ljava/net/IDN;.toUnicode:(Ljava/lang/String;)Ljava/lang/String;` @kind static;
+  #L1aad98.  v6:= temp @kind object;
+  #L1aad9a.  v7:= "\\." @kind object;
+  #L1aad9e.  call temp:= `split`(v6, v7) @signature `Ljava/lang/String;.split:(Ljava/lang/String;)[Ljava/lang/String;` @kind virtual;
+  #L1aada4.  v0:= temp @kind object;
+  #L1aada6.  call temp:= `findMatchingRule`(v11, v0) @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.findMatchingRule:([Ljava/lang/String;)[Ljava/lang/String;` @kind direct;
+  #L1aadac.  v5:= temp @kind object;
+  #L1aadae.  v7:= length @variable v0;
+  #L1aadb0.  v8:= length @variable v5;
+  #L1aadb2.  if v7 != v8 then goto L1aadca;
+  #L1aadb6.  v7:= v5[v9] @kind object;
+  #L1aadba.  call temp:= `charAt`(v7, v9) @signature `Ljava/lang/String;.charAt:(I)C` @kind virtual;
+  #L1aadc0.  v7:= temp;
+  #L1aadc2.  if v7 == v10 then goto L1aadca;
+  #L1aadc6.  v7:= 0I;
+  #L1aadc8.  return v7 @kind object;
+  #L1aadca.  v7:= v5[v9] @kind object;
+  #L1aadce.  call temp:= `charAt`(v7, v9) @signature `Ljava/lang/String;.charAt:(I)C` @kind virtual;
+  #L1aadd4.  v7:= temp;
+  #L1aadd6.  if v7 != v10 then goto L1aae1c;
+  #L1aadda.  v7:= length @variable v0;
+  #L1aaddc.  v8:= length @variable v5;
+  #L1aadde.  v2:= v7 - v8 @kind int;
+  #L1aade2.  v1:= new `java.lang.StringBuilder`;
+  #L1aade6.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L1aadec.  v7:= "\\." @kind object;
+  #L1aadf0.  call temp:= `split`(v12, v7) @signature `Ljava/lang/String;.split:(Ljava/lang/String;)[Ljava/lang/String;` @kind virtual;
+  #L1aadf6.  v4:= temp @kind object;
+  #L1aadf8.  v3:= v2;
+  #L1aadfa.  v7:= length @variable v4;
+  #L1aadfc.  if v3 >= v7 then goto L1aae2a;
+  #L1aae00.  v7:= v4[v3] @kind object;
+  #L1aae04.  call temp:= `append`(v1, v7) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1aae0a.  v7:= temp @kind object;
+  #L1aae0c.  v8:= 46I;
+  #L1aae10.  call temp:= `append`(v7, v8) @signature `Ljava/lang/StringBuilder;.append:(C)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1aae16.  v3:= v3 + 1;
+  #L1aae1a.  goto L1aadfa;
+  #L1aae1c.  v7:= length @variable v0;
+  #L1aae1e.  v8:= length @variable v5;
+  #L1aae20.  v8:= v8 + 1;
+  #L1aae24.  v2:= v7 - v8 @kind int;
+  #L1aae28.  goto L1aade2;
+  #L1aae2a.  call temp:= `length`(v1) @signature `Ljava/lang/StringBuilder;.length:()I` @kind virtual;
+  #L1aae30.  v7:= temp;
+  #L1aae32.  v7:= v7 + -1;
+  #L1aae36.  call temp:= `deleteCharAt`(v1, v7) @signature `Ljava/lang/StringBuilder;.deleteCharAt:(I)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1aae3c.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1aae42.  v7:= temp @kind object;
+  #L1aae44.  goto L1aadc8;
+}
+procedure `void` `setListBytes`(`okhttp3.internal.publicsuffix.PublicSuffixDatabase` v2 @kind this, `byte`[] v3 @kind object @name `publicSuffixListBytes`, `byte`[] v4 @kind object @name `publicSuffixExceptionListBytes`) @signature `Lokhttp3/internal/publicsuffix/PublicSuffixDatabase;.setListBytes:([B[B)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+
+  #L1aae58.  v2.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.publicSuffixListBytes` @type ^`byte`[] := v3 @kind object;
+  #L1aae5c.  v2.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.publicSuffixExceptionListBytes` @type ^`byte`[] := v4 @kind object;
+  #L1aae60.  v0:= v2.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.listRead` @type ^`java.util.concurrent.atomic.AtomicBoolean` @kind object;
+  #L1aae64.  v1:= 1I;
+  #L1aae66.  call `set`(v0, v1) @signature `Ljava/util/concurrent/atomic/AtomicBoolean;.set:(Z)V` @kind virtual;
+  #L1aae6c.  v0:= v2.`okhttp3.internal.publicsuffix.PublicSuffixDatabase.readCompleteLatch` @type ^`java.util.concurrent.CountDownLatch` @kind object;
+  #L1aae70.  call `countDown`(v0) @signature `Ljava/util/concurrent/CountDownLatch;.countDown:()V` @kind virtual;
+  #L1aae76.  return @kind void;
+}

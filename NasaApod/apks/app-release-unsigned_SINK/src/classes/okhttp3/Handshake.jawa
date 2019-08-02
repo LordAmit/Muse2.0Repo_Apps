@@ -1,0 +1,230 @@
+record `okhttp3.Handshake` @kind class @AccessFlag PUBLIC_FINAL {
+  `okhttp3.CipherSuite` `okhttp3.Handshake.cipherSuite` @AccessFlag PRIVATE_FINAL;
+  `java.util.List` `okhttp3.Handshake.localCertificates` @AccessFlag PRIVATE_FINAL;
+  `java.util.List` `okhttp3.Handshake.peerCertificates` @AccessFlag PRIVATE_FINAL;
+  `okhttp3.TlsVersion` `okhttp3.Handshake.tlsVersion` @AccessFlag PRIVATE_FINAL;
+}
+procedure `void` `<init>`(`okhttp3.Handshake` v0 @kind this, `okhttp3.TlsVersion` v1 @kind object @name `tlsVersion`, `okhttp3.CipherSuite` v2 @kind object @name `cipherSuite`, `java.util.List` v3 @kind object, `java.util.List` v4 @kind object) @signature `Lokhttp3/Handshake;.<init>:(Lokhttp3/TlsVersion;Lokhttp3/CipherSuite;Ljava/util/List;Ljava/util/List;)V` @AccessFlag PRIVATE_CONSTRUCTOR {
+    temp;
+
+  #L199504.  call `<init>`(v0) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L19950a.  v0.`okhttp3.Handshake.tlsVersion` @type ^`okhttp3.TlsVersion` := v1 @kind object;
+  #L19950e.  v0.`okhttp3.Handshake.cipherSuite` @type ^`okhttp3.CipherSuite` := v2 @kind object;
+  #L199512.  v0.`okhttp3.Handshake.peerCertificates` @type ^`java.util.List` := v3 @kind object;
+  #L199516.  v0.`okhttp3.Handshake.localCertificates` @type ^`java.util.List` := v4 @kind object;
+  #L19951a.  return @kind void;
+}
+procedure `okhttp3.Handshake` `get`(`javax.net.ssl.SSLSession` v11 @kind object @name `session`) @signature `Lokhttp3/Handshake;.get:(Ljavax/net/ssl/SSLSession;)Lokhttp3/Handshake;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+
+  #L19952c.  call temp:= `getCipherSuite`(v11) @signature `Ljavax/net/ssl/SSLSession;.getCipherSuite:()Ljava/lang/String;` @kind interface;
+  #L199532.  v1:= temp @kind object;
+  #L199534.  if v1 != 0 then goto L199548;
+  #L199538.  v9:= new `java.lang.IllegalStateException`;
+  #L19953c.  v10:= "cipherSuite == null" @kind object;
+  #L199540.  call `<init>`(v9, v10) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L199546.  throw v9;
+  #L199548.  call temp:= `forJavaName`(v1) @signature `Lokhttp3/CipherSuite;.forJavaName:(Ljava/lang/String;)Lokhttp3/CipherSuite;` @kind static;
+  #L19954e.  v0:= temp @kind object;
+  #L199550.  call temp:= `getProtocol`(v11) @signature `Ljavax/net/ssl/SSLSession;.getProtocol:()Ljava/lang/String;` @kind interface;
+  #L199556.  v8:= temp @kind object;
+  #L199558.  if v8 != 0 then goto L19956c;
+  #L19955c.  v9:= new `java.lang.IllegalStateException`;
+  #L199560.  v10:= "tlsVersion == null" @kind object;
+  #L199564.  call `<init>`(v9, v10) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L19956a.  throw v9;
+  #L19956c.  call temp:= `forJavaName`(v8) @signature `Lokhttp3/TlsVersion;.forJavaName:(Ljava/lang/String;)Lokhttp3/TlsVersion;` @kind static;
+  #L199572.  v7:= temp @kind object;
+  #Try_start0.  
+  #L199574.  call temp:= `getPeerCertificates`(v11) @signature `Ljavax/net/ssl/SSLSession;.getPeerCertificates:()[Ljava/security/cert/Certificate;` @kind interface;
+  #Try_end0.  
+  #L19957a.  v5:= temp @kind object;
+  #L19957c.  if v5 == 0 then goto L1995ae;
+  #L199580.  call temp:= `immutableList`(v5) @signature `Lokhttp3/internal/Util;.immutableList:([Ljava/lang/Object;)Ljava/util/List;` @kind static;
+  #L199586.  v6:= temp @kind object;
+  #L199588.  call temp:= `getLocalCertificates`(v11) @signature `Ljavax/net/ssl/SSLSession;.getLocalCertificates:()[Ljava/security/cert/Certificate;` @kind interface;
+  #L19958e.  v3:= temp @kind object;
+  #L199590.  if v3 == 0 then goto L1995b8;
+  #L199594.  call temp:= `immutableList`(v3) @signature `Lokhttp3/internal/Util;.immutableList:([Ljava/lang/Object;)Ljava/util/List;` @kind static;
+  #L19959a.  v4:= temp @kind object;
+  #L19959c.  v9:= new `okhttp3.Handshake`;
+  #L1995a0.  call `<init>`(v9, v7, v0, v6, v4) @signature `Lokhttp3/Handshake;.<init>:(Lokhttp3/TlsVersion;Lokhttp3/CipherSuite;Ljava/util/List;Ljava/util/List;)V` @kind direct;
+  #L1995a6.  return v9 @kind object;
+  #L1995a8.  v2:= Exception @type ^`javax.net.ssl.SSLPeerUnverifiedException` @kind object;
+  #L1995aa.  v5:= 0I;
+  #L1995ac.  goto L19957c;
+  #L1995ae.  call temp:= `emptyList`() @signature `Ljava/util/Collections;.emptyList:()Ljava/util/List;` @kind static;
+  #L1995b4.  v6:= temp @kind object;
+  #L1995b6.  goto L199588;
+  #L1995b8.  call temp:= `emptyList`() @signature `Ljava/util/Collections;.emptyList:()Ljava/util/List;` @kind static;
+  #L1995be.  v4:= temp @kind object;
+  #L1995c0.  goto L19959c;
+  catch `javax.net.ssl.SSLPeerUnverifiedException` @[Try_start0..Try_end0] goto L1995a8;
+}
+procedure `okhttp3.Handshake` `get`(`okhttp3.TlsVersion` v3 @kind object @name `tlsVersion`, `okhttp3.CipherSuite` v4 @kind object @name `cipherSuite`, `java.util.List` v5 @kind object, `java.util.List` v6 @kind object) @signature `Lokhttp3/Handshake;.get:(Lokhttp3/TlsVersion;Lokhttp3/CipherSuite;Ljava/util/List;Ljava/util/List;)Lokhttp3/Handshake;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L1995e4.  if v3 != 0 then goto L1995f8;
+  #L1995e8.  v0:= new `java.lang.NullPointerException`;
+  #L1995ec.  v1:= "tlsVersion == null" @kind object;
+  #L1995f0.  call `<init>`(v0, v1) @signature `Ljava/lang/NullPointerException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L1995f6.  throw v0;
+  #L1995f8.  if v4 != 0 then goto L19960c;
+  #L1995fc.  v0:= new `java.lang.NullPointerException`;
+  #L199600.  v1:= "cipherSuite == null" @kind object;
+  #L199604.  call `<init>`(v0, v1) @signature `Ljava/lang/NullPointerException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L19960a.  throw v0;
+  #L19960c.  v0:= new `okhttp3.Handshake`;
+  #L199610.  call temp:= `immutableList`(v5) @signature `Lokhttp3/internal/Util;.immutableList:(Ljava/util/List;)Ljava/util/List;` @kind static;
+  #L199616.  v1:= temp @kind object;
+  #L199618.  call temp:= `immutableList`(v6) @signature `Lokhttp3/internal/Util;.immutableList:(Ljava/util/List;)Ljava/util/List;` @kind static;
+  #L19961e.  v2:= temp @kind object;
+  #L199620.  call `<init>`(v0, v3, v4, v1, v2) @signature `Lokhttp3/Handshake;.<init>:(Lokhttp3/TlsVersion;Lokhttp3/CipherSuite;Ljava/util/List;Ljava/util/List;)V` @kind direct;
+  #L199626.  return v0 @kind object;
+}
+procedure `okhttp3.CipherSuite` `cipherSuite`(`okhttp3.Handshake` v1 @kind this) @signature `Lokhttp3/Handshake;.cipherSuite:()Lokhttp3/CipherSuite;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L199638.  v0:= v1.`okhttp3.Handshake.cipherSuite` @type ^`okhttp3.CipherSuite` @kind object;
+  #L19963c.  return v0 @kind object;
+}
+procedure `boolean` `equals`(`okhttp3.Handshake` v4 @kind this, `java.lang.Object` v5 @kind object @name `other`) @signature `Lokhttp3/Handshake;.equals:(Ljava/lang/Object;)Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L199650.  v1:= 0I;
+  #L199652.  v2:= instanceof @variable v5 @type ^`okhttp3.Handshake` @kind boolean;
+  #L199656.  if v2 != 0 then goto L19965c;
+  #L19965a.  return v1;
+  #L19965c.  v0:= v5 @kind object;
+  #L19965e.  v0:= (`okhttp3.Handshake`) v0 @kind object;
+  #L199662.  v2:= v4.`okhttp3.Handshake.tlsVersion` @type ^`okhttp3.TlsVersion` @kind object;
+  #L199666.  v3:= v0.`okhttp3.Handshake.tlsVersion` @type ^`okhttp3.TlsVersion` @kind object;
+  #L19966a.  call temp:= `equals`(v2, v3) @signature `Lokhttp3/TlsVersion;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L199670.  v2:= temp;
+  #L199672.  if v2 == 0 then goto L19965a;
+  #L199676.  v2:= v4.`okhttp3.Handshake.cipherSuite` @type ^`okhttp3.CipherSuite` @kind object;
+  #L19967a.  v3:= v0.`okhttp3.Handshake.cipherSuite` @type ^`okhttp3.CipherSuite` @kind object;
+  #L19967e.  call temp:= `equals`(v2, v3) @signature `Ljava/lang/Object;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L199684.  v2:= temp;
+  #L199686.  if v2 == 0 then goto L19965a;
+  #L19968a.  v2:= v4.`okhttp3.Handshake.peerCertificates` @type ^`java.util.List` @kind object;
+  #L19968e.  v3:= v0.`okhttp3.Handshake.peerCertificates` @type ^`java.util.List` @kind object;
+  #L199692.  call temp:= `equals`(v2, v3) @signature `Ljava/util/List;.equals:(Ljava/lang/Object;)Z` @kind interface;
+  #L199698.  v2:= temp;
+  #L19969a.  if v2 == 0 then goto L19965a;
+  #L19969e.  v2:= v4.`okhttp3.Handshake.localCertificates` @type ^`java.util.List` @kind object;
+  #L1996a2.  v3:= v0.`okhttp3.Handshake.localCertificates` @type ^`java.util.List` @kind object;
+  #L1996a6.  call temp:= `equals`(v2, v3) @signature `Ljava/util/List;.equals:(Ljava/lang/Object;)Z` @kind interface;
+  #L1996ac.  v2:= temp;
+  #L1996ae.  if v2 == 0 then goto L19965a;
+  #L1996b2.  v1:= 1I;
+  #L1996b4.  goto L19965a;
+}
+procedure `int` `hashCode`(`okhttp3.Handshake` v3 @kind this) @signature `Lokhttp3/Handshake;.hashCode:()I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L1996c8.  v0:= 17I;
+  #L1996cc.  v1:= v3.`okhttp3.Handshake.tlsVersion` @type ^`okhttp3.TlsVersion` @kind object;
+  #L1996d0.  call temp:= `hashCode`(v1) @signature `Lokhttp3/TlsVersion;.hashCode:()I` @kind virtual;
+  #L1996d6.  v1:= temp;
+  #L1996d8.  v0:= v1 + 527;
+  #L1996dc.  v1:= v0 * 31;
+  #L1996e0.  v2:= v3.`okhttp3.Handshake.cipherSuite` @type ^`okhttp3.CipherSuite` @kind object;
+  #L1996e4.  call temp:= `hashCode`(v2) @signature `Ljava/lang/Object;.hashCode:()I` @kind virtual;
+  #L1996ea.  v2:= temp;
+  #L1996ec.  v0:= v1 + v2 @kind int;
+  #L1996f0.  v1:= v0 * 31;
+  #L1996f4.  v2:= v3.`okhttp3.Handshake.peerCertificates` @type ^`java.util.List` @kind object;
+  #L1996f8.  call temp:= `hashCode`(v2) @signature `Ljava/util/List;.hashCode:()I` @kind interface;
+  #L1996fe.  v2:= temp;
+  #L199700.  v0:= v1 + v2 @kind int;
+  #L199704.  v1:= v0 * 31;
+  #L199708.  v2:= v3.`okhttp3.Handshake.localCertificates` @type ^`java.util.List` @kind object;
+  #L19970c.  call temp:= `hashCode`(v2) @signature `Ljava/util/List;.hashCode:()I` @kind interface;
+  #L199712.  v2:= temp;
+  #L199714.  v0:= v1 + v2 @kind int;
+  #L199718.  return v0;
+}
+procedure `java.util.List` `localCertificates`(`okhttp3.Handshake` v1 @kind this) @signature `Lokhttp3/Handshake;.localCertificates:()Ljava/util/List;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L19972c.  v0:= v1.`okhttp3.Handshake.localCertificates` @type ^`java.util.List` @kind object;
+  #L199730.  return v0 @kind object;
+}
+procedure `java.security.Principal` `localPrincipal`(`okhttp3.Handshake` v2 @kind this) @signature `Lokhttp3/Handshake;.localPrincipal:()Ljava/security/Principal;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L199744.  v0:= v2.`okhttp3.Handshake.localCertificates` @type ^`java.util.List` @kind object;
+  #L199748.  call temp:= `isEmpty`(v0) @signature `Ljava/util/List;.isEmpty:()Z` @kind interface;
+  #L19974e.  v0:= temp;
+  #L199750.  if v0 != 0 then goto L199770;
+  #L199754.  v0:= v2.`okhttp3.Handshake.localCertificates` @type ^`java.util.List` @kind object;
+  #L199758.  v1:= 0I;
+  #L19975a.  call temp:= `get`(v0, v1) @signature `Ljava/util/List;.get:(I)Ljava/lang/Object;` @kind interface;
+  #L199760.  v0:= temp @kind object;
+  #L199762.  v0:= (`java.security.cert.X509Certificate`) v0 @kind object;
+  #L199766.  call temp:= `getSubjectX500Principal`(v0) @signature `Ljava/security/cert/X509Certificate;.getSubjectX500Principal:()Ljavax/security/auth/x500/X500Principal;` @kind virtual;
+  #L19976c.  v0:= temp @kind object;
+  #L19976e.  return v0 @kind object;
+  #L199770.  v0:= 0I;
+  #L199772.  goto L19976e;
+}
+procedure `java.util.List` `peerCertificates`(`okhttp3.Handshake` v1 @kind this) @signature `Lokhttp3/Handshake;.peerCertificates:()Ljava/util/List;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L199784.  v0:= v1.`okhttp3.Handshake.peerCertificates` @type ^`java.util.List` @kind object;
+  #L199788.  return v0 @kind object;
+}
+procedure `java.security.Principal` `peerPrincipal`(`okhttp3.Handshake` v2 @kind this) @signature `Lokhttp3/Handshake;.peerPrincipal:()Ljava/security/Principal;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L19979c.  v0:= v2.`okhttp3.Handshake.peerCertificates` @type ^`java.util.List` @kind object;
+  #L1997a0.  call temp:= `isEmpty`(v0) @signature `Ljava/util/List;.isEmpty:()Z` @kind interface;
+  #L1997a6.  v0:= temp;
+  #L1997a8.  if v0 != 0 then goto L1997c8;
+  #L1997ac.  v0:= v2.`okhttp3.Handshake.peerCertificates` @type ^`java.util.List` @kind object;
+  #L1997b0.  v1:= 0I;
+  #L1997b2.  call temp:= `get`(v0, v1) @signature `Ljava/util/List;.get:(I)Ljava/lang/Object;` @kind interface;
+  #L1997b8.  v0:= temp @kind object;
+  #L1997ba.  v0:= (`java.security.cert.X509Certificate`) v0 @kind object;
+  #L1997be.  call temp:= `getSubjectX500Principal`(v0) @signature `Ljava/security/cert/X509Certificate;.getSubjectX500Principal:()Ljavax/security/auth/x500/X500Principal;` @kind virtual;
+  #L1997c4.  v0:= temp @kind object;
+  #L1997c6.  return v0 @kind object;
+  #L1997c8.  v0:= 0I;
+  #L1997ca.  goto L1997c6;
+}
+procedure `okhttp3.TlsVersion` `tlsVersion`(`okhttp3.Handshake` v1 @kind this) @signature `Lokhttp3/Handshake;.tlsVersion:()Lokhttp3/TlsVersion;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L1997dc.  v0:= v1.`okhttp3.Handshake.tlsVersion` @type ^`okhttp3.TlsVersion` @kind object;
+  #L1997e0.  return v0 @kind object;
+}

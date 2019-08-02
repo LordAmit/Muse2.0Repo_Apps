@@ -1,0 +1,157 @@
+record `okhttp3.internal.tls.BasicCertificateChainCleaner` @kind class @AccessFlag PUBLIC_FINAL extends `okhttp3.internal.tls.CertificateChainCleaner` @kind class {
+  `okhttp3.internal.tls.TrustRootIndex` `okhttp3.internal.tls.BasicCertificateChainCleaner.trustRootIndex` @AccessFlag PRIVATE_FINAL;
+}
+global `int` `@@okhttp3.internal.tls.BasicCertificateChainCleaner.MAX_SIGNERS` @AccessFlag PRIVATE_STATIC_FINAL;
+procedure `void` `<init>`(`okhttp3.internal.tls.BasicCertificateChainCleaner` v0 @kind this, `okhttp3.internal.tls.TrustRootIndex` v1 @kind object @name `trustRootIndex`) @signature `Lokhttp3/internal/tls/BasicCertificateChainCleaner;.<init>:(Lokhttp3/internal/tls/TrustRootIndex;)V` @AccessFlag PUBLIC_CONSTRUCTOR {
+    temp;
+
+  #L21d2bc.  call `<init>`(v0) @signature `Lokhttp3/internal/tls/CertificateChainCleaner;.<init>:()V` @kind direct;
+  #L21d2c2.  v0.`okhttp3.internal.tls.BasicCertificateChainCleaner.trustRootIndex` @type ^`okhttp3.internal.tls.TrustRootIndex` := v1 @kind object;
+  #L21d2c6.  return @kind void;
+}
+procedure `boolean` `verifySignature`(`okhttp3.internal.tls.BasicCertificateChainCleaner` v4 @kind this, `java.security.cert.X509Certificate` v5 @kind object @name `toVerify`, `java.security.cert.X509Certificate` v6 @kind object @name `signingCert`) @signature `Lokhttp3/internal/tls/BasicCertificateChainCleaner;.verifySignature:(Ljava/security/cert/X509Certificate;Ljava/security/cert/X509Certificate;)Z` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L21d2d8.  v1:= 0I;
+  #L21d2da.  call temp:= `getIssuerDN`(v5) @signature `Ljava/security/cert/X509Certificate;.getIssuerDN:()Ljava/security/Principal;` @kind virtual;
+  #L21d2e0.  v2:= temp @kind object;
+  #L21d2e2.  call temp:= `getSubjectDN`(v6) @signature `Ljava/security/cert/X509Certificate;.getSubjectDN:()Ljava/security/Principal;` @kind virtual;
+  #L21d2e8.  v3:= temp @kind object;
+  #L21d2ea.  call temp:= `equals`(v2, v3) @signature `Ljava/security/Principal;.equals:(Ljava/lang/Object;)Z` @kind interface;
+  #L21d2f0.  v2:= temp;
+  #L21d2f2.  if v2 != 0 then goto L21d2f8;
+  #L21d2f6.  return v1;
+  #Try_start0.  
+  #L21d2f8.  call temp:= `getPublicKey`(v6) @signature `Ljava/security/cert/X509Certificate;.getPublicKey:()Ljava/security/PublicKey;` @kind virtual;
+  #L21d2fe.  v2:= temp @kind object;
+  #L21d300.  call `verify`(v5, v2) @signature `Ljava/security/cert/X509Certificate;.verify:(Ljava/security/PublicKey;)V` @kind virtual;
+  #Try_end0.  
+  #L21d306.  v1:= 1I;
+  #L21d308.  goto L21d2f6;
+  #L21d30a.  v0:= Exception @type ^`java.security.GeneralSecurityException` @kind object;
+  #L21d30c.  goto L21d2f6;
+  catch `java.security.GeneralSecurityException` @[Try_start0..Try_end0] goto L21d30a;
+}
+procedure `java.util.List` `clean`(`okhttp3.internal.tls.BasicCertificateChainCleaner` v11 @kind this, `java.util.List` v12 @kind object, `java.lang.String` v13 @kind object @name `hostname`) @signature `Lokhttp3/internal/tls/BasicCertificateChainCleaner;.clean:(Ljava/util/List;Ljava/lang/String;)Ljava/util/List;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+
+  #L21d330.  v3:= new `java.util.ArrayDeque`;
+  #L21d334.  call `<init>`(v3, v12) @signature `Ljava/util/ArrayDeque;.<init>:(Ljava/util/Collection;)V` @kind direct;
+  #L21d33a.  v4:= new `java.util.ArrayList`;
+  #L21d33e.  call `<init>`(v4) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L21d344.  call temp:= `removeFirst`(v3) @signature `Ljava/util/Deque;.removeFirst:()Ljava/lang/Object;` @kind interface;
+  #L21d34a.  v8:= temp @kind object;
+  #L21d34c.  call temp:= `add`(v4, v8) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L21d352.  v1:= 0I;
+  #L21d354.  v0:= 0I;
+  #L21d356.  v8:= 9I;
+  #L21d35a.  if v0 >= v8 then goto L21d42c;
+  #L21d35e.  call temp:= `size`(v4) @signature `Ljava/util/List;.size:()I` @kind interface;
+  #L21d364.  v8:= temp;
+  #L21d366.  v8:= v8 + -1;
+  #L21d36a.  call temp:= `get`(v4, v8) @signature `Ljava/util/List;.get:(I)Ljava/lang/Object;` @kind interface;
+  #L21d370.  v6:= temp @kind object;
+  #L21d372.  v6:= (`java.security.cert.X509Certificate`) v6 @kind object;
+  #L21d376.  v8:= v11.`okhttp3.internal.tls.BasicCertificateChainCleaner.trustRootIndex` @type ^`okhttp3.internal.tls.TrustRootIndex` @kind object;
+  #L21d37a.  call temp:= `findByIssuerAndSignature`(v8, v6) @signature `Lokhttp3/internal/tls/TrustRootIndex;.findByIssuerAndSignature:(Ljava/security/cert/X509Certificate;)Ljava/security/cert/X509Certificate;` @kind interface;
+  #L21d380.  v7:= temp @kind object;
+  #L21d382.  if v7 == 0 then goto L21d3bc;
+  #L21d386.  call temp:= `size`(v4) @signature `Ljava/util/List;.size:()I` @kind interface;
+  #L21d38c.  v8:= temp;
+  #L21d38e.  v9:= 1I;
+  #L21d390.  if v8 > v9 then goto L21d3a0;
+  #L21d394.  call temp:= `equals`(v6, v7) @signature `Ljava/security/cert/X509Certificate;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L21d39a.  v8:= temp;
+  #L21d39c.  if v8 != 0 then goto L21d3a6;
+  #L21d3a0.  call temp:= `add`(v4, v7) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L21d3a6.  call temp:= `verifySignature`(v11, v7, v7) @signature `Lokhttp3/internal/tls/BasicCertificateChainCleaner;.verifySignature:(Ljava/security/cert/X509Certificate;Ljava/security/cert/X509Certificate;)Z` @kind direct;
+  #L21d3ac.  v8:= temp;
+  #L21d3ae.  if v8 == 0 then goto L21d3b4;
+  #L21d3b2.  return v4 @kind object;
+  #L21d3b4.  v1:= 1I;
+  #L21d3b6.  v0:= v0 + 1;
+  #L21d3ba.  goto L21d356;
+  #L21d3bc.  call temp:= `iterator`(v3) @signature `Ljava/util/Deque;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L21d3c2.  v2:= temp @kind object;
+  #L21d3c4.  call temp:= `hasNext`(v2) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L21d3ca.  v8:= temp;
+  #L21d3cc.  if v8 == 0 then goto L21d3f6;
+  #L21d3d0.  call temp:= `next`(v2) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L21d3d6.  v5:= temp @kind object;
+  #L21d3d8.  v5:= (`java.security.cert.X509Certificate`) v5 @kind object;
+  #L21d3dc.  call temp:= `verifySignature`(v11, v6, v5) @signature `Lokhttp3/internal/tls/BasicCertificateChainCleaner;.verifySignature:(Ljava/security/cert/X509Certificate;Ljava/security/cert/X509Certificate;)Z` @kind direct;
+  #L21d3e2.  v8:= temp;
+  #L21d3e4.  if v8 == 0 then goto L21d3c4;
+  #L21d3e8.  call `remove`(v2) @signature `Ljava/util/Iterator;.remove:()V` @kind interface;
+  #L21d3ee.  call temp:= `add`(v4, v5) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L21d3f4.  goto L21d3b6;
+  #L21d3f6.  if v1 != 0 then goto L21d3b2;
+  #L21d3fa.  v8:= new `javax.net.ssl.SSLPeerUnverifiedException`;
+  #L21d3fe.  v9:= new `java.lang.StringBuilder`;
+  #L21d402.  call `<init>`(v9) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L21d408.  v10:= "Failed to find a trusted cert that signed " @kind object;
+  #L21d40c.  call temp:= `append`(v9, v10) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L21d412.  v9:= temp @kind object;
+  #L21d414.  call temp:= `append`(v9, v6) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L21d41a.  v9:= temp @kind object;
+  #L21d41c.  call temp:= `toString`(v9) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L21d422.  v9:= temp @kind object;
+  #L21d424.  call `<init>`(v8, v9) @signature `Ljavax/net/ssl/SSLPeerUnverifiedException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L21d42a.  throw v8;
+  #L21d42c.  v8:= new `javax.net.ssl.SSLPeerUnverifiedException`;
+  #L21d430.  v9:= new `java.lang.StringBuilder`;
+  #L21d434.  call `<init>`(v9) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L21d43a.  v10:= "Certificate chain too long: " @kind object;
+  #L21d43e.  call temp:= `append`(v9, v10) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L21d444.  v9:= temp @kind object;
+  #L21d446.  call temp:= `append`(v9, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L21d44c.  v9:= temp @kind object;
+  #L21d44e.  call temp:= `toString`(v9) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L21d454.  v9:= temp @kind object;
+  #L21d456.  call `<init>`(v8, v9) @signature `Ljavax/net/ssl/SSLPeerUnverifiedException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L21d45c.  throw v8;
+}
+procedure `boolean` `equals`(`okhttp3.internal.tls.BasicCertificateChainCleaner` v3 @kind this, `java.lang.Object` v4 @kind object @name `other`) @signature `Lokhttp3/internal/tls/BasicCertificateChainCleaner;.equals:(Ljava/lang/Object;)Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L21d470.  v0:= 1I;
+  #L21d472.  if v4 != v3 then goto L21d478;
+  #L21d476.  return v0;
+  #L21d478.  v1:= instanceof @variable v4 @type ^`okhttp3.internal.tls.BasicCertificateChainCleaner` @kind boolean;
+  #L21d47c.  if v1 == 0 then goto L21d498;
+  #L21d480.  v4:= (`okhttp3.internal.tls.BasicCertificateChainCleaner`) v4 @kind object;
+  #L21d484.  v1:= v4.`okhttp3.internal.tls.BasicCertificateChainCleaner.trustRootIndex` @type ^`okhttp3.internal.tls.TrustRootIndex` @kind object;
+  #L21d488.  v2:= v3.`okhttp3.internal.tls.BasicCertificateChainCleaner.trustRootIndex` @type ^`okhttp3.internal.tls.TrustRootIndex` @kind object;
+  #L21d48c.  call temp:= `equals`(v1, v2) @signature `Ljava/lang/Object;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L21d492.  v1:= temp;
+  #L21d494.  if v1 != 0 then goto L21d476;
+  #L21d498.  v0:= 0I;
+  #L21d49a.  goto L21d476;
+}
+procedure `int` `hashCode`(`okhttp3.internal.tls.BasicCertificateChainCleaner` v1 @kind this) @signature `Lokhttp3/internal/tls/BasicCertificateChainCleaner;.hashCode:()I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L21d4ac.  v0:= v1.`okhttp3.internal.tls.BasicCertificateChainCleaner.trustRootIndex` @type ^`okhttp3.internal.tls.TrustRootIndex` @kind object;
+  #L21d4b0.  call temp:= `hashCode`(v0) @signature `Ljava/lang/Object;.hashCode:()I` @kind virtual;
+  #L21d4b6.  v0:= temp;
+  #L21d4b8.  return v0;
+}

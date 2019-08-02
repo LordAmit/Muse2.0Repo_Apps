@@ -1,12 +1,12 @@
 cd /home/amit/muse/output/NasaApod/schemas/SINK/NasaApod/
 /home/amit/muse/output/NasaApod/schemas/SINK/NasaApod/gradlew clean
-/home/amit/muse/output/NasaApod/schemas/SINK/NasaApod/gradlew build
+/home/amit/muse/output/NasaApod/schemas/SINK/NasaApod/gradlew assembleDebug
 cd /home/amit/muse/output/NasaApod/schemas/REACHABILITY/NasaApod/
 /home/amit/muse/output/NasaApod/schemas/REACHABILITY/NasaApod/gradlew clean
-/home/amit/muse/output/NasaApod/schemas/REACHABILITY/NasaApod/gradlew build
+/home/amit/muse/output/NasaApod/schemas/REACHABILITY/NasaApod/gradlew assembleDebug
 cd /home/amit/muse/output/NasaApod/schemas/TAINTSINK/NasaApod/
 /home/amit/muse/output/NasaApod/schemas/TAINTSINK/NasaApod/gradlew clean
-/home/amit/muse/output/NasaApod/schemas/TAINTSINK/NasaApod/gradlew build
+/home/amit/muse/output/NasaApod/schemas/TAINTSINK/NasaApod/gradlew assembleDebug
 cd /home/amit/muse/output/NasaApod/schemas/COMPLEXREACHABILITY/NasaApod/
 /home/amit/muse/output/NasaApod/schemas/COMPLEXREACHABILITY/NasaApod/gradlew clean
-/home/amit/muse/output/NasaApod/schemas/COMPLEXREACHABILITY/NasaApod/gradlew build
+/home/amit/muse/output/NasaApod/schemas/COMPLEXREACHABILITY/NasaApod/gradlew assembleDebug

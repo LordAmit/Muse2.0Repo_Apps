@@ -1,0 +1,352 @@
+record `okhttp3.internal.http2.Http2Stream$FramingSource` @kind class @AccessFlag FINAL extends `okio.Source` @kind interface {
+  `boolean` `okhttp3.internal.http2.Http2Stream$FramingSource.closed` @AccessFlag ;
+  `boolean` `okhttp3.internal.http2.Http2Stream$FramingSource.finished` @AccessFlag ;
+  `long` `okhttp3.internal.http2.Http2Stream$FramingSource.maxByteCount` @AccessFlag PRIVATE_FINAL;
+  `okio.Buffer` `okhttp3.internal.http2.Http2Stream$FramingSource.readBuffer` @AccessFlag PRIVATE_FINAL;
+  `okio.Buffer` `okhttp3.internal.http2.Http2Stream$FramingSource.receiveBuffer` @AccessFlag PRIVATE_FINAL;
+  `okhttp3.internal.http2.Http2Stream` `okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @AccessFlag FINAL_SYNTHETIC;
+}
+global `boolean` `@@okhttp3.internal.http2.Http2Stream$FramingSource.$assertionsDisabled` @AccessFlag STATIC_FINAL_SYNTHETIC;
+procedure `void` `<clinit>`() @signature `Lokhttp3/internal/http2/Http2Stream$FramingSource;.<clinit>:()V` @AccessFlag STATIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L21bb94.  v0:= constclass @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bb98.  call temp:= `desiredAssertionStatus`(v0) @signature `Ljava/lang/Class;.desiredAssertionStatus:()Z` @kind virtual;
+  #L21bb9e.  v0:= temp;
+  #L21bba0.  if v0 != 0 then goto L21bbac;
+  #L21bba4.  v0:= 1I;
+  #L21bba6.  `@@okhttp3.internal.http2.Http2Stream$FramingSource.$assertionsDisabled` @type ^`boolean` := v0 @kind boolean;
+  #L21bbaa.  return @kind void;
+  #L21bbac.  v0:= 0I;
+  #L21bbae.  goto L21bba6;
+}
+procedure `void` `<init>`(`okhttp3.internal.http2.Http2Stream$FramingSource` v2 @kind this, `okhttp3.internal.http2.Http2Stream` v3 @kind object, `long` v4 @name `maxByteCount`) @signature `Lokhttp3/internal/http2/Http2Stream$FramingSource;.<init>:(Lokhttp3/internal/http2/Http2Stream;J)V` @AccessFlag CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+
+  #L21bbc0.  v2.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` := v3 @kind object;
+  #L21bbc4.  call `<init>`(v2) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L21bbca.  v0:= new `okio.Buffer`;
+  #L21bbce.  call `<init>`(v0) @signature `Lokio/Buffer;.<init>:()V` @kind direct;
+  #L21bbd4.  v2.`okhttp3.internal.http2.Http2Stream$FramingSource.receiveBuffer` @type ^`okio.Buffer` := v0 @kind object;
+  #L21bbd8.  v0:= new `okio.Buffer`;
+  #L21bbdc.  call `<init>`(v0) @signature `Lokio/Buffer;.<init>:()V` @kind direct;
+  #L21bbe2.  v2.`okhttp3.internal.http2.Http2Stream$FramingSource.readBuffer` @type ^`okio.Buffer` := v0 @kind object;
+  #L21bbe6.  v2.`okhttp3.internal.http2.Http2Stream$FramingSource.maxByteCount` @type ^`long` := v4 @kind wide;
+  #L21bbea.  return @kind void;
+}
+procedure `void` `checkNotClosed`(`okhttp3.internal.http2.Http2Stream$FramingSource` v2 @kind this) @signature `Lokhttp3/internal/http2/Http2Stream$FramingSource;.checkNotClosed:()V` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+
+  #L21bbfc.  v0:= v2.`okhttp3.internal.http2.Http2Stream$FramingSource.closed` @type ^`boolean` @kind boolean;
+  #L21bc00.  if v0 == 0 then goto L21bc14;
+  #L21bc04.  v0:= new `java.io.IOException`;
+  #L21bc08.  v1:= "stream closed" @kind object;
+  #L21bc0c.  call `<init>`(v0, v1) @signature `Ljava/io/IOException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L21bc12.  throw v0;
+  #L21bc14.  v0:= v2.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bc18.  v0:= v0.`okhttp3.internal.http2.Http2Stream.errorCode` @type ^`okhttp3.internal.http2.ErrorCode` @kind object;
+  #L21bc1c.  if v0 == 0 then goto L21bc34;
+  #L21bc20.  v0:= new `okhttp3.internal.http2.StreamResetException`;
+  #L21bc24.  v1:= v2.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bc28.  v1:= v1.`okhttp3.internal.http2.Http2Stream.errorCode` @type ^`okhttp3.internal.http2.ErrorCode` @kind object;
+  #L21bc2c.  call `<init>`(v0, v1) @signature `Lokhttp3/internal/http2/StreamResetException;.<init>:(Lokhttp3/internal/http2/ErrorCode;)V` @kind direct;
+  #L21bc32.  throw v0;
+  #L21bc34.  return @kind void;
+}
+procedure `void` `waitUntilReadable`(`okhttp3.internal.http2.Http2Stream$FramingSource` v4 @kind this) @signature `Lokhttp3/internal/http2/Http2Stream$FramingSource;.waitUntilReadable:()V` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L21bc48.  v0:= v4.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bc4c.  v0:= v0.`okhttp3.internal.http2.Http2Stream.readTimeout` @type ^`okhttp3.internal.http2.Http2Stream$StreamTimeout` @kind object;
+  #L21bc50.  call `enter`(v0) @signature `Lokhttp3/internal/http2/Http2Stream$StreamTimeout;.enter:()V` @kind virtual;
+  #Try_start0.  
+  #L21bc56.  v0:= v4.`okhttp3.internal.http2.Http2Stream$FramingSource.readBuffer` @type ^`okio.Buffer` @kind object;
+  #L21bc5a.  call temp:= `size`(v0) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L21bc60.  v0:= temp @kind wide;
+  #L21bc62.  v2:= 0L;
+  #L21bc66.  v0:= lcmp(v0, v2);
+  #L21bc6a.  if v0 != 0 then goto L21bca8;
+  #L21bc6e.  v0:= v4.`okhttp3.internal.http2.Http2Stream$FramingSource.finished` @type ^`boolean` @kind boolean;
+  #L21bc72.  if v0 != 0 then goto L21bca8;
+  #L21bc76.  v0:= v4.`okhttp3.internal.http2.Http2Stream$FramingSource.closed` @type ^`boolean` @kind boolean;
+  #L21bc7a.  if v0 != 0 then goto L21bca8;
+  #L21bc7e.  v0:= v4.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bc82.  v0:= v0.`okhttp3.internal.http2.Http2Stream.errorCode` @type ^`okhttp3.internal.http2.ErrorCode` @kind object;
+  #L21bc86.  if v0 != 0 then goto L21bca8;
+  #L21bc8a.  v0:= v4.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bc8e.  call `waitForIo`(v0) @signature `Lokhttp3/internal/http2/Http2Stream;.waitForIo:()V` @kind virtual;
+  #Try_end0.  
+  #L21bc94.  goto L21bc56;
+  #L21bc96.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L21bc98.  v1:= v4.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bc9c.  v1:= v1.`okhttp3.internal.http2.Http2Stream.readTimeout` @type ^`okhttp3.internal.http2.Http2Stream$StreamTimeout` @kind object;
+  #L21bca0.  call `exitAndThrowIfTimedOut`(v1) @signature `Lokhttp3/internal/http2/Http2Stream$StreamTimeout;.exitAndThrowIfTimedOut:()V` @kind virtual;
+  #L21bca6.  throw v0;
+  #L21bca8.  v0:= v4.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bcac.  v0:= v0.`okhttp3.internal.http2.Http2Stream.readTimeout` @type ^`okhttp3.internal.http2.Http2Stream$StreamTimeout` @kind object;
+  #L21bcb0.  call `exitAndThrowIfTimedOut`(v0) @signature `Lokhttp3/internal/http2/Http2Stream$StreamTimeout;.exitAndThrowIfTimedOut:()V` @kind virtual;
+  #L21bcb6.  return @kind void;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L21bc96;
+}
+procedure `void` `close`(`okhttp3.internal.http2.Http2Stream$FramingSource` v2 @kind this) @signature `Lokhttp3/internal/http2/Http2Stream$FramingSource;.close:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L21bcd4.  v1:= v2.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bcd8.  @monitorenter v1
+  #L21bcda.  v0:= 1I;
+  #Try_start0.  
+  #L21bcdc.  v2.`okhttp3.internal.http2.Http2Stream$FramingSource.closed` @type ^`boolean` := v0 @kind boolean;
+  #L21bce0.  v0:= v2.`okhttp3.internal.http2.Http2Stream$FramingSource.readBuffer` @type ^`okio.Buffer` @kind object;
+  #L21bce4.  call `clear`(v0) @signature `Lokio/Buffer;.clear:()V` @kind virtual;
+  #L21bcea.  v0:= v2.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bcee.  call `notifyAll`(v0) @signature `Ljava/lang/Object;.notifyAll:()V` @kind virtual;
+  #L21bcf4.  @monitorexit v1
+  #Try_end0.  
+  #L21bcf6.  v0:= v2.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bcfa.  call `cancelStreamIfNecessary`(v0) @signature `Lokhttp3/internal/http2/Http2Stream;.cancelStreamIfNecessary:()V` @kind virtual;
+  #L21bd00.  return @kind void;
+  #L21bd02.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #Try_start1.  
+  #L21bd04.  @monitorexit v1
+  #Try_end1.  
+  #L21bd06.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L21bd02;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L21bd02;
+}
+procedure `long` `read`(`okhttp3.internal.http2.Http2Stream$FramingSource` v8 @kind this, `okio.Buffer` v9 @kind object @name `sink`, `long` v10 @name `byteCount`) @signature `Lokhttp3/internal/http2/Http2Stream$FramingSource;.read:(Lokio/Buffer;J)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+
+  #L21bd2c.  v6:= 0L;
+  #L21bd30.  v2:= lcmp(v10, v6);
+  #L21bd34.  if v2 >= 0 then goto L21bd6a;
+  #L21bd38.  v2:= new `java.lang.IllegalArgumentException`;
+  #L21bd3c.  v3:= new `java.lang.StringBuilder`;
+  #L21bd40.  call `<init>`(v3) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L21bd46.  v4:= "byteCount < 0: " @kind object;
+  #L21bd4a.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L21bd50.  v3:= temp @kind object;
+  #L21bd52.  call temp:= `append`(v3, v10) @signature `Ljava/lang/StringBuilder;.append:(J)Ljava/lang/StringBuilder;` @kind virtual;
+  #L21bd58.  v3:= temp @kind object;
+  #L21bd5a.  call temp:= `toString`(v3) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L21bd60.  v3:= temp @kind object;
+  #L21bd62.  call `<init>`(v2, v3) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L21bd68.  throw v2;
+  #L21bd6a.  v3:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bd6e.  @monitorenter v3
+  #Try_start0.  
+  #L21bd70.  call `waitUntilReadable`(v8) @signature `Lokhttp3/internal/http2/Http2Stream$FramingSource;.waitUntilReadable:()V` @kind direct;
+  #L21bd76.  call `checkNotClosed`(v8) @signature `Lokhttp3/internal/http2/Http2Stream$FramingSource;.checkNotClosed:()V` @kind direct;
+  #L21bd7c.  v2:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.readBuffer` @type ^`okio.Buffer` @kind object;
+  #L21bd80.  call temp:= `size`(v2) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L21bd86.  v4:= temp @kind wide;
+  #L21bd88.  v2:= lcmp(v4, v6);
+  #L21bd8c.  if v2 != 0 then goto L21bd98;
+  #L21bd90.  v0:= -1L;
+  #L21bd94.  @monitorexit v3
+  #L21bd96.  return v0 @kind wide;
+  #L21bd98.  v2:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.readBuffer` @type ^`okio.Buffer` @kind object;
+  #L21bd9c.  v4:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.readBuffer` @type ^`okio.Buffer` @kind object;
+  #L21bda0.  call temp:= `size`(v4) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L21bda6.  v4:= temp @kind wide;
+  #L21bda8.  call temp:= `min`(v10, v4) @signature `Ljava/lang/Math;.min:(JJ)J` @kind static;
+  #L21bdae.  v4:= temp @kind wide;
+  #L21bdb0.  call temp:= `read`(v2, v9, v4) @signature `Lokio/Buffer;.read:(Lokio/Buffer;J)J` @kind virtual;
+  #L21bdb6.  v0:= temp @kind wide;
+  #L21bdb8.  v2:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bdbc.  v4:= v2.`okhttp3.internal.http2.Http2Stream.unacknowledgedBytesRead` @type ^`long` @kind wide;
+  #L21bdc0.  v4:= v4 + v0 @kind long;
+  #L21bdc2.  v2.`okhttp3.internal.http2.Http2Stream.unacknowledgedBytesRead` @type ^`long` := v4 @kind wide;
+  #L21bdc6.  v2:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bdca.  v4:= v2.`okhttp3.internal.http2.Http2Stream.unacknowledgedBytesRead` @type ^`long` @kind wide;
+  #L21bdce.  v2:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bdd2.  v2:= v2.`okhttp3.internal.http2.Http2Stream.connection` @type ^`okhttp3.internal.http2.Http2Connection` @kind object;
+  #L21bdd6.  v2:= v2.`okhttp3.internal.http2.Http2Connection.okHttpSettings` @type ^`okhttp3.internal.http2.Settings` @kind object;
+  #L21bdda.  call temp:= `getInitialWindowSize`(v2) @signature `Lokhttp3/internal/http2/Settings;.getInitialWindowSize:()I` @kind virtual;
+  #L21bde0.  v2:= temp;
+  #L21bde2.  v2:= v2 / 2;
+  #L21bde6.  v6:= (`long`) v2 @kind i2l;
+  #L21bde8.  v2:= lcmp(v4, v6);
+  #L21bdec.  if v2 < 0 then goto L21be1a;
+  #L21bdf0.  v2:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bdf4.  v2:= v2.`okhttp3.internal.http2.Http2Stream.connection` @type ^`okhttp3.internal.http2.Http2Connection` @kind object;
+  #L21bdf8.  v4:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bdfc.  v4:= v4.`okhttp3.internal.http2.Http2Stream.id` @type ^`int`;
+  #L21be00.  v5:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21be04.  v6:= v5.`okhttp3.internal.http2.Http2Stream.unacknowledgedBytesRead` @type ^`long` @kind wide;
+  #L21be08.  call `writeWindowUpdateLater`(v2, v4, v6) @signature `Lokhttp3/internal/http2/Http2Connection;.writeWindowUpdateLater:(IJ)V` @kind virtual;
+  #L21be0e.  v2:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21be12.  v4:= 0L;
+  #L21be16.  v2.`okhttp3.internal.http2.Http2Stream.unacknowledgedBytesRead` @type ^`long` := v4 @kind wide;
+  #L21be1a.  @monitorexit v3
+  #Try_end0.  
+  #L21be1c.  v2:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21be20.  v3:= v2.`okhttp3.internal.http2.Http2Stream.connection` @type ^`okhttp3.internal.http2.Http2Connection` @kind object;
+  #L21be24.  @monitorenter v3
+  #Try_start1.  
+  #L21be26.  v2:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21be2a.  v2:= v2.`okhttp3.internal.http2.Http2Stream.connection` @type ^`okhttp3.internal.http2.Http2Connection` @kind object;
+  #L21be2e.  v4:= v2.`okhttp3.internal.http2.Http2Connection.unacknowledgedBytesRead` @type ^`long` @kind wide;
+  #L21be32.  v4:= v4 + v0 @kind long;
+  #L21be34.  v2.`okhttp3.internal.http2.Http2Connection.unacknowledgedBytesRead` @type ^`long` := v4 @kind wide;
+  #L21be38.  v2:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21be3c.  v2:= v2.`okhttp3.internal.http2.Http2Stream.connection` @type ^`okhttp3.internal.http2.Http2Connection` @kind object;
+  #L21be40.  v4:= v2.`okhttp3.internal.http2.Http2Connection.unacknowledgedBytesRead` @type ^`long` @kind wide;
+  #L21be44.  v2:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21be48.  v2:= v2.`okhttp3.internal.http2.Http2Stream.connection` @type ^`okhttp3.internal.http2.Http2Connection` @kind object;
+  #L21be4c.  v2:= v2.`okhttp3.internal.http2.Http2Connection.okHttpSettings` @type ^`okhttp3.internal.http2.Settings` @kind object;
+  #L21be50.  call temp:= `getInitialWindowSize`(v2) @signature `Lokhttp3/internal/http2/Settings;.getInitialWindowSize:()I` @kind virtual;
+  #L21be56.  v2:= temp;
+  #L21be58.  v2:= v2 / 2;
+  #L21be5c.  v6:= (`long`) v2 @kind i2l;
+  #L21be5e.  v2:= lcmp(v4, v6);
+  #L21be62.  if v2 < 0 then goto L21be92;
+  #L21be66.  v2:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21be6a.  v2:= v2.`okhttp3.internal.http2.Http2Stream.connection` @type ^`okhttp3.internal.http2.Http2Connection` @kind object;
+  #L21be6e.  v4:= 0I;
+  #L21be70.  v5:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21be74.  v5:= v5.`okhttp3.internal.http2.Http2Stream.connection` @type ^`okhttp3.internal.http2.Http2Connection` @kind object;
+  #L21be78.  v6:= v5.`okhttp3.internal.http2.Http2Connection.unacknowledgedBytesRead` @type ^`long` @kind wide;
+  #L21be7c.  call `writeWindowUpdateLater`(v2, v4, v6) @signature `Lokhttp3/internal/http2/Http2Connection;.writeWindowUpdateLater:(IJ)V` @kind virtual;
+  #L21be82.  v2:= v8.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21be86.  v2:= v2.`okhttp3.internal.http2.Http2Stream.connection` @type ^`okhttp3.internal.http2.Http2Connection` @kind object;
+  #L21be8a.  v4:= 0L;
+  #L21be8e.  v2.`okhttp3.internal.http2.Http2Connection.unacknowledgedBytesRead` @type ^`long` := v4 @kind wide;
+  #L21be92.  @monitorexit v3
+  #L21be94.  goto L21bd96;
+  #L21be96.  v2:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L21be98.  @monitorexit v3
+  #Try_end1.  
+  #L21be9a.  throw v2;
+  #L21be9c.  v2:= Exception @type ^`java.lang.Throwable` @kind object;
+  #Try_start2.  
+  #L21be9e.  @monitorexit v3
+  #Try_end2.  
+  #L21bea0.  throw v2;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L21be9c;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L21be96;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L21be9c;
+}
+procedure `void` `receive`(`okhttp3.internal.http2.Http2Stream$FramingSource` v12 @kind this, `okio.BufferedSource` v13 @kind object @name `in`, `long` v14 @name `byteCount`) @signature `Lokhttp3/internal/http2/Http2Stream$FramingSource;.receive:(Lokio/BufferedSource;J)V` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+    v11;
+
+  #L21bed4.  v5:= `@@okhttp3.internal.http2.Http2Stream$FramingSource.$assertionsDisabled` @type ^`boolean` @kind boolean;
+  #L21bed8.  if v5 != 0 then goto L21bf38;
+  #L21bedc.  v5:= v12.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bee0.  call temp:= `holdsLock`(v5) @signature `Ljava/lang/Thread;.holdsLock:(Ljava/lang/Object;)Z` @kind static;
+  #L21bee6.  v5:= temp;
+  #L21bee8.  if v5 == 0 then goto L21bf38;
+  #L21beec.  v5:= new `java.lang.AssertionError`;
+  #L21bef0.  call `<init>`(v5) @signature `Ljava/lang/AssertionError;.<init>:()V` @kind direct;
+  #L21bef6.  throw v5;
+  #L21bef8.  v14:= v14 - v2 @kind long;
+  #L21befa.  v6:= v12.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21befe.  @monitorenter v6
+  #Try_start0.  
+  #L21bf00.  v5:= v12.`okhttp3.internal.http2.Http2Stream$FramingSource.readBuffer` @type ^`okio.Buffer` @kind object;
+  #L21bf04.  call temp:= `size`(v5) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L21bf0a.  v8:= temp @kind wide;
+  #L21bf0c.  v10:= 0L;
+  #L21bf10.  v5:= lcmp(v8, v10);
+  #L21bf14.  if v5 != 0 then goto L21bfc0;
+  #L21bf18.  v4:= 1I;
+  #L21bf1a.  v5:= v12.`okhttp3.internal.http2.Http2Stream$FramingSource.readBuffer` @type ^`okio.Buffer` @kind object;
+  #L21bf1e.  v7:= v12.`okhttp3.internal.http2.Http2Stream$FramingSource.receiveBuffer` @type ^`okio.Buffer` @kind object;
+  #L21bf22.  call temp:= `writeAll`(v5, v7) @signature `Lokio/Buffer;.writeAll:(Lokio/Source;)J` @kind virtual;
+  #L21bf28.  if v4 == 0 then goto L21bf36;
+  #L21bf2c.  v5:= v12.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bf30.  call `notifyAll`(v5) @signature `Ljava/lang/Object;.notifyAll:()V` @kind virtual;
+  #L21bf36.  @monitorexit v6
+  #Try_end0.  
+  #L21bf38.  v6:= 0L;
+  #L21bf3c.  v5:= lcmp(v14, v6);
+  #L21bf40.  if v5 <= 0 then goto L21bf84;
+  #L21bf44.  v6:= v12.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bf48.  @monitorenter v6
+  #Try_start1.  
+  #L21bf4a.  v0:= v12.`okhttp3.internal.http2.Http2Stream$FramingSource.finished` @type ^`boolean` @kind boolean;
+  #L21bf4e.  v5:= v12.`okhttp3.internal.http2.Http2Stream$FramingSource.readBuffer` @type ^`okio.Buffer` @kind object;
+  #L21bf52.  call temp:= `size`(v5) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L21bf58.  v8:= temp @kind wide;
+  #L21bf5a.  v8:= v8 + v14 @kind long;
+  #L21bf5c.  v10:= v12.`okhttp3.internal.http2.Http2Stream$FramingSource.maxByteCount` @type ^`long` @kind wide;
+  #L21bf60.  v5:= lcmp(v8, v10);
+  #L21bf64.  if v5 <= 0 then goto L21bf86;
+  #L21bf68.  v1:= 1I;
+  #L21bf6a.  @monitorexit v6
+  #Try_end1.  
+  #L21bf6c.  if v1 == 0 then goto L21bf90;
+  #L21bf70.  call `skip`(v13, v14) @signature `Lokio/BufferedSource;.skip:(J)V` @kind interface;
+  #L21bf76.  v5:= v12.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21bf7a.  v6:= `@@okhttp3.internal.http2.ErrorCode.FLOW_CONTROL_ERROR` @type ^`okhttp3.internal.http2.ErrorCode` @kind object;
+  #L21bf7e.  call `closeLater`(v5, v6) @signature `Lokhttp3/internal/http2/Http2Stream;.closeLater:(Lokhttp3/internal/http2/ErrorCode;)V` @kind virtual;
+  #L21bf84.  return @kind void;
+  #L21bf86.  v1:= 0I;
+  #L21bf88.  goto L21bf6a;
+  #L21bf8a.  v5:= Exception @type ^`java.lang.Throwable` @kind object;
+  #Try_start2.  
+  #L21bf8c.  @monitorexit v6
+  #Try_end2.  
+  #L21bf8e.  throw v5;
+  #L21bf90.  if v0 == 0 then goto L21bf9c;
+  #L21bf94.  call `skip`(v13, v14) @signature `Lokio/BufferedSource;.skip:(J)V` @kind interface;
+  #L21bf9a.  goto L21bf84;
+  #L21bf9c.  v5:= v12.`okhttp3.internal.http2.Http2Stream$FramingSource.receiveBuffer` @type ^`okio.Buffer` @kind object;
+  #L21bfa0.  call temp:= `read`(v13, v5, v14) @signature `Lokio/BufferedSource;.read:(Lokio/Buffer;J)J` @kind interface;
+  #L21bfa6.  v2:= temp @kind wide;
+  #L21bfa8.  v6:= -1L;
+  #L21bfac.  v5:= lcmp(v2, v6);
+  #L21bfb0.  if v5 != 0 then goto L21bef8;
+  #L21bfb4.  v5:= new `java.io.EOFException`;
+  #L21bfb8.  call `<init>`(v5) @signature `Ljava/io/EOFException;.<init>:()V` @kind direct;
+  #L21bfbe.  throw v5;
+  #L21bfc0.  v4:= 0I;
+  #L21bfc2.  goto L21bf1a;
+  #L21bfc4.  v5:= Exception @type ^`java.lang.Throwable` @kind object;
+  #Try_start3.  
+  #L21bfc6.  @monitorexit v6
+  #Try_end3.  
+  #L21bfc8.  throw v5;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L21bfc4;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L21bf8a;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L21bf8a;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L21bfc4;
+}
+procedure `okio.Timeout` `timeout`(`okhttp3.internal.http2.Http2Stream$FramingSource` v1 @kind this) @signature `Lokhttp3/internal/http2/Http2Stream$FramingSource;.timeout:()Lokio/Timeout;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L21c004.  v0:= v1.`okhttp3.internal.http2.Http2Stream$FramingSource.this$0` @type ^`okhttp3.internal.http2.Http2Stream` @kind object;
+  #L21c008.  v0:= v0.`okhttp3.internal.http2.Http2Stream.readTimeout` @type ^`okhttp3.internal.http2.Http2Stream$StreamTimeout` @kind object;
+  #L21c00c.  return v0 @kind object;
+}

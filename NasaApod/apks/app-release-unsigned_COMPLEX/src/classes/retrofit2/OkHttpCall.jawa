@@ -1,0 +1,417 @@
+record `retrofit2.OkHttpCall` @kind class @AccessFlag FINAL extends `retrofit2.Call` @kind interface {
+  `java.lang.Object`[] `retrofit2.OkHttpCall.args` @AccessFlag PRIVATE_FINAL;
+  `boolean` `retrofit2.OkHttpCall.canceled` @AccessFlag PRIVATE_VOLATILE;
+  `java.lang.Throwable` `retrofit2.OkHttpCall.creationFailure` @AccessFlag PRIVATE;
+  `boolean` `retrofit2.OkHttpCall.executed` @AccessFlag PRIVATE;
+  `okhttp3.Call` `retrofit2.OkHttpCall.rawCall` @AccessFlag PRIVATE;
+  `retrofit2.ServiceMethod` `retrofit2.OkHttpCall.serviceMethod` @AccessFlag PRIVATE_FINAL;
+}
+procedure `void` `<init>`(`retrofit2.OkHttpCall` v0 @kind this, `retrofit2.ServiceMethod` v1 @kind object, `java.lang.Object`[] v2 @kind object @name `args`) @signature `Lretrofit2/OkHttpCall;.<init>:(Lretrofit2/ServiceMethod;[Ljava/lang/Object;)V` @AccessFlag CONSTRUCTOR {
+    temp;
+
+  #L220584.  call `<init>`(v0) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L22058a.  v0.`retrofit2.OkHttpCall.serviceMethod` @type ^`retrofit2.ServiceMethod` := v1 @kind object;
+  #L22058e.  v0.`retrofit2.OkHttpCall.args` @type ^`java.lang.Object`[] := v2 @kind object;
+  #L220592.  return @kind void;
+}
+procedure `okhttp3.Call` `createRawCall`(`retrofit2.OkHttpCall` v3 @kind this) @signature `Lretrofit2/OkHttpCall;.createRawCall:()Lokhttp3/Call;` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L2205a4.  v1:= v3.`retrofit2.OkHttpCall.serviceMethod` @type ^`retrofit2.ServiceMethod` @kind object;
+  #L2205a8.  v2:= v3.`retrofit2.OkHttpCall.args` @type ^`java.lang.Object`[] @kind object;
+  #L2205ac.  call temp:= `toCall`(v1, v2) @signature `Lretrofit2/ServiceMethod;.toCall:([Ljava/lang/Object;)Lokhttp3/Call;` @kind virtual;
+  #L2205b2.  v0:= temp @kind object;
+  #L2205b4.  if v0 != 0 then goto L2205c8;
+  #L2205b8.  v1:= new `java.lang.NullPointerException`;
+  #L2205bc.  v2:= "Call.Factory returned null." @kind object;
+  #L2205c0.  call `<init>`(v1, v2) @signature `Ljava/lang/NullPointerException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L2205c6.  throw v1;
+  #L2205c8.  return v0 @kind object;
+}
+procedure `void` `cancel`(`retrofit2.OkHttpCall` v2 @kind this) @signature `Lretrofit2/OkHttpCall;.cancel:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L2205dc.  v1:= 1I;
+  #L2205de.  v2.`retrofit2.OkHttpCall.canceled` @type ^`boolean` := v1 @kind boolean;
+  #L2205e2.  @monitorenter v2
+  #Try_start0.  
+  #L2205e4.  v0:= v2.`retrofit2.OkHttpCall.rawCall` @type ^`okhttp3.Call` @kind object;
+  #L2205e8.  @monitorexit v2
+  #Try_end0.  
+  #L2205ea.  if v0 == 0 then goto L2205f4;
+  #L2205ee.  call `cancel`(v0) @signature `Lokhttp3/Call;.cancel:()V` @kind interface;
+  #L2205f4.  return @kind void;
+  #L2205f6.  v1:= Exception @type ^`java.lang.Throwable` @kind object;
+  #Try_start1.  
+  #L2205f8.  @monitorexit v2
+  #Try_end1.  
+  #L2205fa.  throw v1;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L2205f6;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L2205f6;
+}
+procedure `java.lang.Object` `clone`(`retrofit2.OkHttpCall` v1 @kind this) @signature `Lretrofit2/OkHttpCall;.clone:()Ljava/lang/Object;` @AccessFlag PUBLIC_SYNTHETIC {
+    temp;
+    v0;
+
+  #L220620.  call temp:= `clone`(v1) @signature `Lretrofit2/OkHttpCall;.clone:()Lretrofit2/OkHttpCall;` @kind virtual;
+  #L220626.  v0:= temp @kind object;
+  #L220628.  return v0 @kind object;
+}
+procedure `retrofit2.Call` `clone`(`retrofit2.OkHttpCall` v1 @kind this) @signature `Lretrofit2/OkHttpCall;.clone:()Lretrofit2/Call;` @AccessFlag PUBLIC_SYNTHETIC {
+    temp;
+    v0;
+
+  #L22063c.  call temp:= `clone`(v1) @signature `Lretrofit2/OkHttpCall;.clone:()Lretrofit2/OkHttpCall;` @kind virtual;
+  #L220642.  v0:= temp @kind object;
+  #L220644.  return v0 @kind object;
+}
+procedure `retrofit2.OkHttpCall` `clone`(`retrofit2.OkHttpCall` v3 @kind this) @signature `Lretrofit2/OkHttpCall;.clone:()Lretrofit2/OkHttpCall;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L220658.  v0:= new `retrofit2.OkHttpCall`;
+  #L22065c.  v1:= v3.`retrofit2.OkHttpCall.serviceMethod` @type ^`retrofit2.ServiceMethod` @kind object;
+  #L220660.  v2:= v3.`retrofit2.OkHttpCall.args` @type ^`java.lang.Object`[] @kind object;
+  #L220664.  call `<init>`(v0, v1, v2) @signature `Lretrofit2/OkHttpCall;.<init>:(Lretrofit2/ServiceMethod;[Ljava/lang/Object;)V` @kind direct;
+  #L22066a.  return v0 @kind object;
+}
+procedure `void` `enqueue`(`retrofit2.OkHttpCall` v6 @kind this, `retrofit2.Callback` v7 @kind object) @signature `Lretrofit2/OkHttpCall;.enqueue:(Lretrofit2/Callback;)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L22067c.  v4:= "callback == null" @kind object;
+  #L220680.  call temp:= `checkNotNull`(v7, v4) @signature `Lretrofit2/Utils;.checkNotNull:(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;` @kind static;
+  #L220686.  @monitorenter v6
+  #Try_start0.  
+  #L220688.  v4:= v6.`retrofit2.OkHttpCall.executed` @type ^`boolean` @kind boolean;
+  #L22068c.  if v4 == 0 then goto L2206a6;
+  #L220690.  v4:= new `java.lang.IllegalStateException`;
+  #L220694.  v5:= "Already executed." @kind object;
+  #L220698.  call `<init>`(v4, v5) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L22069e.  throw v4;
+  #L2206a0.  v4:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L2206a2.  @monitorexit v6
+  #Try_end0.  
+  #L2206a4.  throw v4;
+  #L2206a6.  v4:= 1I;
+  #Try_start1.  
+  #L2206a8.  v6.`retrofit2.OkHttpCall.executed` @type ^`boolean` := v4 @kind boolean;
+  #L2206ac.  v0:= v6.`retrofit2.OkHttpCall.rawCall` @type ^`okhttp3.Call` @kind object;
+  #L2206b0.  v2:= v6.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` @kind object;
+  #Try_end1.  
+  #L2206b4.  if v0 != 0 then goto L2206ca;
+  #L2206b8.  if v2 != 0 then goto L2206ca;
+  #Try_start2.  
+  #L2206bc.  call temp:= `createRawCall`(v6) @signature `Lretrofit2/OkHttpCall;.createRawCall:()Lokhttp3/Call;` @kind direct;
+  #L2206c2.  v1:= temp @kind object;
+  #L2206c4.  v6.`retrofit2.OkHttpCall.rawCall` @type ^`okhttp3.Call` := v1 @kind object;
+  #Try_end2.  
+  #L2206c8.  v0:= v1 @kind object;
+  #Try_start3.  
+  #L2206ca.  @monitorexit v6
+  #Try_end3.  
+  #L2206cc.  if v2 == 0 then goto L2206e8;
+  #L2206d0.  call `onFailure`(v7, v6, v2) @signature `Lretrofit2/Callback;.onFailure:(Lretrofit2/Call;Ljava/lang/Throwable;)V` @kind interface;
+  #L2206d6.  return @kind void;
+  #L2206d8.  v3:= Exception @type ^`java.lang.Throwable` @kind object;
+  #Try_start4.  
+  #L2206da.  call `throwIfFatal`(v3) @signature `Lretrofit2/Utils;.throwIfFatal:(Ljava/lang/Throwable;)V` @kind static;
+  #L2206e0.  v6.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` := v3 @kind object;
+  #Try_end4.  
+  #L2206e4.  v2:= v3 @kind object;
+  #L2206e6.  goto L2206ca;
+  #L2206e8.  v4:= v6.`retrofit2.OkHttpCall.canceled` @type ^`boolean` @kind boolean;
+  #L2206ec.  if v4 == 0 then goto L2206f6;
+  #L2206f0.  call `cancel`(v0) @signature `Lokhttp3/Call;.cancel:()V` @kind interface;
+  #L2206f6.  v4:= new `retrofit2.OkHttpCall$1`;
+  #L2206fa.  call `<init>`(v4, v6, v7) @signature `Lretrofit2/OkHttpCall$1;.<init>:(Lretrofit2/OkHttpCall;Lretrofit2/Callback;)V` @kind direct;
+  #L220700.  call `enqueue`(v0, v4) @signature `Lokhttp3/Call;.enqueue:(Lokhttp3/Callback;)V` @kind interface;
+  #L220706.  goto L2206d6;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L2206a0;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L2206a0;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L2206d8;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L2206a0;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L2206a0;
+  catch `java.lang.Throwable` @[Try_start4..Try_end4] goto L2206a0;
+}
+procedure `retrofit2.Response` `execute`(`retrofit2.OkHttpCall` v4 @kind this) @signature `Lretrofit2/OkHttpCall;.execute:()Lretrofit2/Response;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L220748.  @monitorenter v4
+  #Try_start0.  
+  #L22074a.  v2:= v4.`retrofit2.OkHttpCall.executed` @type ^`boolean` @kind boolean;
+  #L22074e.  if v2 == 0 then goto L220768;
+  #L220752.  v2:= new `java.lang.IllegalStateException`;
+  #L220756.  v3:= "Already executed." @kind object;
+  #L22075a.  call `<init>`(v2, v3) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L220760.  throw v2;
+  #L220762.  v2:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L220764.  @monitorexit v4
+  #Try_end0.  
+  #L220766.  throw v2;
+  #L220768.  v2:= 1I;
+  #Try_start1.  
+  #L22076a.  v4.`retrofit2.OkHttpCall.executed` @type ^`boolean` := v2 @kind boolean;
+  #L22076e.  v2:= v4.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` @kind object;
+  #L220772.  if v2 == 0 then goto L2207ac;
+  #L220776.  v2:= v4.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` @kind object;
+  #L22077a.  v2:= instanceof @variable v2 @type ^`java.io.IOException` @kind boolean;
+  #L22077e.  if v2 == 0 then goto L22078c;
+  #L220782.  v2:= v4.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` @kind object;
+  #L220786.  v2:= (`java.io.IOException`) v2 @kind object;
+  #L22078a.  throw v2;
+  #L22078c.  v2:= v4.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` @kind object;
+  #L220790.  v2:= instanceof @variable v2 @type ^`java.lang.RuntimeException` @kind boolean;
+  #L220794.  if v2 == 0 then goto L2207a2;
+  #L220798.  v2:= v4.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` @kind object;
+  #L22079c.  v2:= (`java.lang.RuntimeException`) v2 @kind object;
+  #L2207a0.  throw v2;
+  #L2207a2.  v2:= v4.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` @kind object;
+  #L2207a6.  v2:= (`java.lang.Error`) v2 @kind object;
+  #L2207aa.  throw v2;
+  #L2207ac.  v0:= v4.`retrofit2.OkHttpCall.rawCall` @type ^`okhttp3.Call` @kind object;
+  #Try_end1.  
+  #L2207b0.  if v0 != 0 then goto L2207c0;
+  #Try_start2.  
+  #L2207b4.  call temp:= `createRawCall`(v4) @signature `Lretrofit2/OkHttpCall;.createRawCall:()Lokhttp3/Call;` @kind direct;
+  #L2207ba.  v0:= temp @kind object;
+  #L2207bc.  v4.`retrofit2.OkHttpCall.rawCall` @type ^`okhttp3.Call` := v0 @kind object;
+  #Try_end2.  
+  #Try_start3.  
+  #L2207c0.  @monitorexit v4
+  #Try_end3.  
+  #L2207c2.  v2:= v4.`retrofit2.OkHttpCall.canceled` @type ^`boolean` @kind boolean;
+  #L2207c6.  if v2 == 0 then goto L2207d0;
+  #L2207ca.  call `cancel`(v0) @signature `Lokhttp3/Call;.cancel:()V` @kind interface;
+  #L2207d0.  call temp:= `execute`(v0) @signature `Lokhttp3/Call;.execute:()Lokhttp3/Response;` @kind interface;
+  #L2207d6.  v2:= temp @kind object;
+  #L2207d8.  call temp:= `parseResponse`(v4, v2) @signature `Lretrofit2/OkHttpCall;.parseResponse:(Lokhttp3/Response;)Lretrofit2/Response;` @kind virtual;
+  #L2207de.  v2:= temp @kind object;
+  #L2207e0.  return v2 @kind object;
+  #L2207e2.  v2:= Exception @type ^`java.io.IOException` @kind object;
+  #L2207e4.  v1:= v2 @kind object;
+  #Try_start4.  
+  #L2207e6.  call `throwIfFatal`(v1) @signature `Lretrofit2/Utils;.throwIfFatal:(Ljava/lang/Throwable;)V` @kind static;
+  #L2207ec.  v4.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` := v1 @kind object;
+  #L2207f0.  throw v1;
+  #Try_end4.  
+  #L2207f2.  v2:= Exception @type ^`java.lang.RuntimeException` @kind object;
+  #L2207f4.  v1:= v2 @kind object;
+  #L2207f6.  goto L2207e6;
+  #L2207f8.  v2:= Exception @type ^`java.lang.Error` @kind object;
+  #L2207fa.  v1:= v2 @kind object;
+  #L2207fc.  goto L2207e6;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L220762;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L220762;
+  catch `java.io.IOException` @[Try_start2..Try_end2] goto L2207e2;
+  catch `java.lang.RuntimeException` @[Try_start2..Try_end2] goto L2207f2;
+  catch `java.lang.Error` @[Try_start2..Try_end2] goto L2207f8;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L220762;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L220762;
+  catch `java.lang.Throwable` @[Try_start4..Try_end4] goto L220762;
+}
+procedure `boolean` `isCanceled`(`retrofit2.OkHttpCall` v2 @kind this) @signature `Lretrofit2/OkHttpCall;.isCanceled:()Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L220848.  v0:= 1I;
+  #L22084a.  v1:= v2.`retrofit2.OkHttpCall.canceled` @type ^`boolean` @kind boolean;
+  #L22084e.  if v1 == 0 then goto L220854;
+  #L220852.  return v0;
+  #L220854.  @monitorenter v2
+  #Try_start0.  
+  #L220856.  v1:= v2.`retrofit2.OkHttpCall.rawCall` @type ^`okhttp3.Call` @kind object;
+  #L22085a.  if v1 == 0 then goto L220878;
+  #L22085e.  v1:= v2.`retrofit2.OkHttpCall.rawCall` @type ^`okhttp3.Call` @kind object;
+  #L220862.  call temp:= `isCanceled`(v1) @signature `Lokhttp3/Call;.isCanceled:()Z` @kind interface;
+  #L220868.  v1:= temp;
+  #L22086a.  if v1 == 0 then goto L220878;
+  #L22086e.  @monitorexit v2
+  #L220870.  goto L220852;
+  #L220872.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L220874.  @monitorexit v2
+  #Try_end0.  
+  #L220876.  throw v0;
+  #L220878.  v0:= 0I;
+  #L22087a.  goto L22086e;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L220872;
+}
+procedure `boolean` `isExecuted`(`retrofit2.OkHttpCall` v1 @kind this) @signature `Lretrofit2/OkHttpCall;.isExecuted:()Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L220898.  @monitorenter v1
+  #Try_start0.  
+  #L22089a.  v0:= v1.`retrofit2.OkHttpCall.executed` @type ^`boolean` @kind boolean;
+  #Try_end0.  
+  #L22089e.  @monitorexit v1
+  #L2208a0.  return v0;
+  #L2208a2.  v0:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L2208a4.  @monitorexit v1
+  #L2208a6.  throw v0;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L2208a2;
+}
+procedure `retrofit2.Response` `parseResponse`(`retrofit2.OkHttpCall` v12 @kind this, `okhttp3.Response` v13 @kind object @name `rawResponse`) @signature `Lretrofit2/OkHttpCall;.parseResponse:(Lokhttp3/Response;)Lretrofit2/Response;` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+    v11;
+
+  #L2208c4.  call temp:= `body`(v13) @signature `Lokhttp3/Response;.body:()Lokhttp3/ResponseBody;` @kind virtual;
+  #L2208ca.  v5:= temp @kind object;
+  #L2208cc.  call temp:= `newBuilder`(v13) @signature `Lokhttp3/Response;.newBuilder:()Lokhttp3/Response$Builder;` @kind virtual;
+  #L2208d2.  v6:= temp @kind object;
+  #L2208d4.  v7:= new `retrofit2.OkHttpCall$NoContentResponseBody`;
+  #L2208d8.  call temp:= `contentType`(v5) @signature `Lokhttp3/ResponseBody;.contentType:()Lokhttp3/MediaType;` @kind virtual;
+  #L2208de.  v8:= temp @kind object;
+  #L2208e0.  call temp:= `contentLength`(v5) @signature `Lokhttp3/ResponseBody;.contentLength:()J` @kind virtual;
+  #L2208e6.  v10:= temp @kind wide;
+  #L2208e8.  call `<init>`(v7, v8, v10) @signature `Lretrofit2/OkHttpCall$NoContentResponseBody;.<init>:(Lokhttp3/MediaType;J)V` @kind direct;
+  #L2208ee.  call temp:= `body`(v6, v7) @signature `Lokhttp3/Response$Builder;.body:(Lokhttp3/ResponseBody;)Lokhttp3/Response$Builder;` @kind virtual;
+  #L2208f4.  v6:= temp @kind object;
+  #L2208f6.  call temp:= `build`(v6) @signature `Lokhttp3/Response$Builder;.build:()Lokhttp3/Response;` @kind virtual;
+  #L2208fc.  v13:= temp @kind object;
+  #L2208fe.  call temp:= `code`(v13) @signature `Lokhttp3/Response;.code:()I` @kind virtual;
+  #L220904.  v3:= temp;
+  #L220906.  v6:= 200I;
+  #L22090a.  if v3 < v6 then goto L220916;
+  #L22090e.  v6:= 300I;
+  #L220912.  if v3 < v6 then goto L220938;
+  #Try_start0.  
+  #L220916.  call temp:= `buffer`(v5) @signature `Lretrofit2/Utils;.buffer:(Lokhttp3/ResponseBody;)Lokhttp3/ResponseBody;` @kind static;
+  #L22091c.  v1:= temp @kind object;
+  #L22091e.  call temp:= `error`(v1, v13) @signature `Lretrofit2/Response;.error:(Lokhttp3/ResponseBody;Lokhttp3/Response;)Lretrofit2/Response;` @kind static;
+  #Try_end0.  
+  #L220924.  v6:= temp @kind object;
+  #L220926.  call `close`(v5) @signature `Lokhttp3/ResponseBody;.close:()V` @kind virtual;
+  #L22092c.  return v6 @kind object;
+  #L22092e.  v6:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L220930.  call `close`(v5) @signature `Lokhttp3/ResponseBody;.close:()V` @kind virtual;
+  #L220936.  throw v6;
+  #L220938.  v6:= 204I;
+  #L22093c.  if v3 == v6 then goto L220948;
+  #L220940.  v6:= 205I;
+  #L220944.  if v3 != v6 then goto L22095a;
+  #L220948.  call `close`(v5) @signature `Lokhttp3/ResponseBody;.close:()V` @kind virtual;
+  #L22094e.  v6:= 0I;
+  #L220950.  call temp:= `success`(v6, v13) @signature `Lretrofit2/Response;.success:(Ljava/lang/Object;Lokhttp3/Response;)Lretrofit2/Response;` @kind static;
+  #L220956.  v6:= temp @kind object;
+  #L220958.  goto L22092c;
+  #L22095a.  v2:= new `retrofit2.OkHttpCall$ExceptionCatchingRequestBody`;
+  #L22095e.  call `<init>`(v2, v5) @signature `Lretrofit2/OkHttpCall$ExceptionCatchingRequestBody;.<init>:(Lokhttp3/ResponseBody;)V` @kind direct;
+  #Try_start1.  
+  #L220964.  v6:= v12.`retrofit2.OkHttpCall.serviceMethod` @type ^`retrofit2.ServiceMethod` @kind object;
+  #L220968.  call temp:= `toResponse`(v6, v2) @signature `Lretrofit2/ServiceMethod;.toResponse:(Lokhttp3/ResponseBody;)Ljava/lang/Object;` @kind virtual;
+  #L22096e.  v0:= temp @kind object;
+  #L220970.  call temp:= `success`(v0, v13) @signature `Lretrofit2/Response;.success:(Ljava/lang/Object;Lokhttp3/Response;)Lretrofit2/Response;` @kind static;
+  #Try_end1.  
+  #L220976.  v6:= temp @kind object;
+  #L220978.  goto L22092c;
+  #L22097a.  v4:= Exception @type ^`java.lang.RuntimeException` @kind object;
+  #L22097c.  call `throwIfCaught`(v2) @signature `Lretrofit2/OkHttpCall$ExceptionCatchingRequestBody;.throwIfCaught:()V` @kind virtual;
+  #L220982.  throw v4;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L22092e;
+  catch `java.lang.RuntimeException` @[Try_start1..Try_end1] goto L22097a;
+}
+procedure `okhttp3.Request` `request`(`retrofit2.OkHttpCall` v5 @kind this) @signature `Lretrofit2/OkHttpCall;.request:()Lokhttp3/Request;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L2209ac.  @monitorenter v5
+  #Try_start0.  
+  #L2209ae.  v0:= v5.`retrofit2.OkHttpCall.rawCall` @type ^`okhttp3.Call` @kind object;
+  #L2209b2.  if v0 == 0 then goto L2209c2;
+  #L2209b6.  call temp:= `request`(v0) @signature `Lokhttp3/Call;.request:()Lokhttp3/Request;` @kind interface;
+  #Try_end0.  
+  #L2209bc.  v2:= temp @kind object;
+  #L2209be.  @monitorexit v5
+  #L2209c0.  return v2 @kind object;
+  #Try_start1.  
+  #L2209c2.  v2:= v5.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` @kind object;
+  #L2209c6.  if v2 == 0 then goto L220a10;
+  #L2209ca.  v2:= v5.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` @kind object;
+  #L2209ce.  v2:= instanceof @variable v2 @type ^`java.io.IOException` @kind boolean;
+  #L2209d2.  if v2 == 0 then goto L2209f0;
+  #L2209d6.  v2:= new `java.lang.RuntimeException`;
+  #L2209da.  v3:= "Unable to create request." @kind object;
+  #L2209de.  v4:= v5.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` @kind object;
+  #L2209e2.  call `<init>`(v2, v3, v4) @signature `Ljava/lang/RuntimeException;.<init>:(Ljava/lang/String;Ljava/lang/Throwable;)V` @kind direct;
+  #L2209e8.  throw v2;
+  #Try_end1.  
+  #L2209ea.  v2:= Exception @type ^`java.lang.Throwable` @kind object;
+  #L2209ec.  @monitorexit v5
+  #L2209ee.  throw v2;
+  #Try_start2.  
+  #L2209f0.  v2:= v5.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` @kind object;
+  #L2209f4.  v2:= instanceof @variable v2 @type ^`java.lang.RuntimeException` @kind boolean;
+  #L2209f8.  if v2 == 0 then goto L220a06;
+  #L2209fc.  v2:= v5.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` @kind object;
+  #L220a00.  v2:= (`java.lang.RuntimeException`) v2 @kind object;
+  #L220a04.  throw v2;
+  #L220a06.  v2:= v5.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` @kind object;
+  #L220a0a.  v2:= (`java.lang.Error`) v2 @kind object;
+  #L220a0e.  throw v2;
+  #Try_end2.  
+  #Try_start3.  
+  #L220a10.  call temp:= `createRawCall`(v5) @signature `Lretrofit2/OkHttpCall;.createRawCall:()Lokhttp3/Call;` @kind direct;
+  #L220a16.  v2:= temp @kind object;
+  #L220a18.  v5.`retrofit2.OkHttpCall.rawCall` @type ^`okhttp3.Call` := v2 @kind object;
+  #L220a1c.  call temp:= `request`(v2) @signature `Lokhttp3/Call;.request:()Lokhttp3/Request;` @kind interface;
+  #Try_end3.  
+  #L220a22.  v2:= temp @kind object;
+  #L220a24.  goto L2209be;
+  #L220a26.  v2:= Exception @type ^`java.lang.RuntimeException` @kind object;
+  #L220a28.  v1:= v2 @kind object;
+  #Try_start4.  
+  #L220a2a.  call `throwIfFatal`(v1) @signature `Lretrofit2/Utils;.throwIfFatal:(Ljava/lang/Throwable;)V` @kind static;
+  #L220a30.  v5.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` := v1 @kind object;
+  #L220a34.  throw v1;
+  #L220a36.  v1:= Exception @type ^`java.io.IOException` @kind object;
+  #L220a38.  v5.`retrofit2.OkHttpCall.creationFailure` @type ^`java.lang.Throwable` := v1 @kind object;
+  #L220a3c.  v2:= new `java.lang.RuntimeException`;
+  #L220a40.  v3:= "Unable to create request." @kind object;
+  #L220a44.  call `<init>`(v2, v3, v1) @signature `Ljava/lang/RuntimeException;.<init>:(Ljava/lang/String;Ljava/lang/Throwable;)V` @kind direct;
+  #L220a4a.  throw v2;
+  #Try_end4.  
+  #L220a4c.  v2:= Exception @type ^`java.lang.Error` @kind object;
+  #L220a4e.  v1:= v2 @kind object;
+  #L220a50.  goto L220a2a;
+  catch `java.lang.Throwable` @[Try_start0..Try_end0] goto L2209ea;
+  catch `java.lang.Throwable` @[Try_start1..Try_end1] goto L2209ea;
+  catch `java.lang.Throwable` @[Try_start2..Try_end2] goto L2209ea;
+  catch `java.lang.RuntimeException` @[Try_start3..Try_end3] goto L220a26;
+  catch `java.lang.Error` @[Try_start3..Try_end3] goto L220a4c;
+  catch `java.io.IOException` @[Try_start3..Try_end3] goto L220a36;
+  catch `java.lang.Throwable` @[Try_start3..Try_end3] goto L2209ea;
+  catch `java.lang.Throwable` @[Try_start4..Try_end4] goto L2209ea;
+}

@@ -1,12 +1,12 @@
 cd /home/amit/muse/output/kaltura/schemas/SINK/kaltura/
 /home/amit/muse/output/kaltura/schemas/SINK/kaltura/gradlew clean
-/home/amit/muse/output/kaltura/schemas/SINK/kaltura/gradlew build
+/home/amit/muse/output/kaltura/schemas/SINK/kaltura/gradlew assembleDebug
 cd /home/amit/muse/output/kaltura/schemas/REACHABILITY/kaltura/
 /home/amit/muse/output/kaltura/schemas/REACHABILITY/kaltura/gradlew clean
-/home/amit/muse/output/kaltura/schemas/REACHABILITY/kaltura/gradlew build
+/home/amit/muse/output/kaltura/schemas/REACHABILITY/kaltura/gradlew assembleDebug
 cd /home/amit/muse/output/kaltura/schemas/TAINTSINK/kaltura/
 /home/amit/muse/output/kaltura/schemas/TAINTSINK/kaltura/gradlew clean
-/home/amit/muse/output/kaltura/schemas/TAINTSINK/kaltura/gradlew build
+/home/amit/muse/output/kaltura/schemas/TAINTSINK/kaltura/gradlew assembleDebug
 cd /home/amit/muse/output/kaltura/schemas/COMPLEXREACHABILITY/kaltura/
 /home/amit/muse/output/kaltura/schemas/COMPLEXREACHABILITY/kaltura/gradlew clean
-/home/amit/muse/output/kaltura/schemas/COMPLEXREACHABILITY/kaltura/gradlew build
+/home/amit/muse/output/kaltura/schemas/COMPLEXREACHABILITY/kaltura/gradlew assembleDebug

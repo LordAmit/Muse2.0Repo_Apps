@@ -1,0 +1,71 @@
+record `okhttp3.internal.cache.CacheStrategy` @kind class @AccessFlag PUBLIC_FINAL {
+  `okhttp3.Response` `okhttp3.internal.cache.CacheStrategy.cacheResponse` @AccessFlag PUBLIC_FINAL;
+  `okhttp3.Request` `okhttp3.internal.cache.CacheStrategy.networkRequest` @AccessFlag PUBLIC_FINAL;
+}
+procedure `void` `<init>`(`okhttp3.internal.cache.CacheStrategy` v0 @kind this, `okhttp3.Request` v1 @kind object @name `networkRequest`, `okhttp3.Response` v2 @kind object @name `cacheResponse`) @signature `Lokhttp3/internal/cache/CacheStrategy;.<init>:(Lokhttp3/Request;Lokhttp3/Response;)V` @AccessFlag CONSTRUCTOR {
+    temp;
+
+  #L1a086c.  call `<init>`(v0) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L1a0872.  v0.`okhttp3.internal.cache.CacheStrategy.networkRequest` @type ^`okhttp3.Request` := v1 @kind object;
+  #L1a0876.  v0.`okhttp3.internal.cache.CacheStrategy.cacheResponse` @type ^`okhttp3.Response` := v2 @kind object;
+  #L1a087a.  return @kind void;
+}
+procedure `boolean` `isCacheable`(`okhttp3.Response` v3 @kind object @name `response`, `okhttp3.Request` v4 @kind object @name `request`) @signature `Lokhttp3/internal/cache/CacheStrategy;.isCacheable:(Lokhttp3/Response;Lokhttp3/Request;)Z` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L1a088c.  v0:= 0I;
+  #L1a088e.  call temp:= `code`(v3) @signature `Lokhttp3/Response;.code:()I` @kind virtual;
+  #L1a0894.  v1:= temp;
+  #L1a0896.  goto L1a0918;
+  #L1a089c.  return v0;
+  #L1a089e.  v1:= "Expires" @kind object;
+  #L1a08a2.  call temp:= `header`(v3, v1) @signature `Lokhttp3/Response;.header:(Ljava/lang/String;)Ljava/lang/String;` @kind virtual;
+  #L1a08a8.  v1:= temp @kind object;
+  #L1a08aa.  if v1 != 0 then goto L1a08ec;
+  #L1a08ae.  call temp:= `cacheControl`(v3) @signature `Lokhttp3/Response;.cacheControl:()Lokhttp3/CacheControl;` @kind virtual;
+  #L1a08b4.  v1:= temp @kind object;
+  #L1a08b6.  call temp:= `maxAgeSeconds`(v1) @signature `Lokhttp3/CacheControl;.maxAgeSeconds:()I` @kind virtual;
+  #L1a08bc.  v1:= temp;
+  #L1a08be.  v2:= -1I;
+  #L1a08c0.  if v1 != v2 then goto L1a08ec;
+  #L1a08c4.  call temp:= `cacheControl`(v3) @signature `Lokhttp3/Response;.cacheControl:()Lokhttp3/CacheControl;` @kind virtual;
+  #L1a08ca.  v1:= temp @kind object;
+  #L1a08cc.  call temp:= `isPublic`(v1) @signature `Lokhttp3/CacheControl;.isPublic:()Z` @kind virtual;
+  #L1a08d2.  v1:= temp;
+  #L1a08d4.  if v1 != 0 then goto L1a08ec;
+  #L1a08d8.  call temp:= `cacheControl`(v3) @signature `Lokhttp3/Response;.cacheControl:()Lokhttp3/CacheControl;` @kind virtual;
+  #L1a08de.  v1:= temp @kind object;
+  #L1a08e0.  call temp:= `isPrivate`(v1) @signature `Lokhttp3/CacheControl;.isPrivate:()Z` @kind virtual;
+  #L1a08e6.  v1:= temp;
+  #L1a08e8.  if v1 == 0 then goto L1a089c;
+  #L1a08ec.  call temp:= `cacheControl`(v3) @signature `Lokhttp3/Response;.cacheControl:()Lokhttp3/CacheControl;` @kind virtual;
+  #L1a08f2.  v1:= temp @kind object;
+  #L1a08f4.  call temp:= `noStore`(v1) @signature `Lokhttp3/CacheControl;.noStore:()Z` @kind virtual;
+  #L1a08fa.  v1:= temp;
+  #L1a08fc.  if v1 != 0 then goto L1a089c;
+  #L1a0900.  call temp:= `cacheControl`(v4) @signature `Lokhttp3/Request;.cacheControl:()Lokhttp3/CacheControl;` @kind virtual;
+  #L1a0906.  v1:= temp @kind object;
+  #L1a0908.  call temp:= `noStore`(v1) @signature `Lokhttp3/CacheControl;.noStore:()Z` @kind virtual;
+  #L1a090e.  v1:= temp;
+  #L1a0910.  if v1 != 0 then goto L1a089c;
+  #L1a0914.  v0:= 1I;
+  #L1a0916.  goto L1a089c;
+  #L1a0918.  switch v1
+                  | 200 => goto L1a08ec
+                  | 203 => goto L1a08ec
+                  | 204 => goto L1a08ec
+                  | 300 => goto L1a08ec
+                  | 301 => goto L1a08ec
+                  | 302 => goto L1a089e
+                  | 307 => goto L1a089e
+                  | 308 => goto L1a08ec
+                  | 404 => goto L1a08ec
+                  | 405 => goto L1a08ec
+                  | 410 => goto L1a08ec
+                  | 414 => goto L1a08ec
+                  | 501 => goto L1a08ec
+                  | else => goto L1a089c;
+}

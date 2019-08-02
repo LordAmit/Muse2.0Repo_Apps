@@ -1,0 +1,327 @@
+record `okhttp3.CertificatePinner` @kind class @AccessFlag PUBLIC_FINAL {
+  `okhttp3.internal.tls.CertificateChainCleaner` `okhttp3.CertificatePinner.certificateChainCleaner` @AccessFlag PRIVATE_FINAL;
+  `java.util.Set` `okhttp3.CertificatePinner.pins` @AccessFlag PRIVATE_FINAL;
+}
+global `okhttp3.CertificatePinner` `@@okhttp3.CertificatePinner.DEFAULT` @AccessFlag PUBLIC_STATIC_FINAL;
+procedure `void` `<clinit>`() @signature `Lokhttp3/CertificatePinner;.<clinit>:()V` @AccessFlag STATIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L194814.  v0:= new `okhttp3.CertificatePinner$Builder`;
+  #L194818.  call `<init>`(v0) @signature `Lokhttp3/CertificatePinner$Builder;.<init>:()V` @kind direct;
+  #L19481e.  call temp:= `build`(v0) @signature `Lokhttp3/CertificatePinner$Builder;.build:()Lokhttp3/CertificatePinner;` @kind virtual;
+  #L194824.  v0:= temp @kind object;
+  #L194826.  `@@okhttp3.CertificatePinner.DEFAULT` @type ^`okhttp3.CertificatePinner` := v0 @kind object;
+  #L19482a.  return @kind void;
+}
+procedure `void` `<init>`(`okhttp3.CertificatePinner` v0 @kind this, `java.util.Set` v1 @kind object, `okhttp3.internal.tls.CertificateChainCleaner` v2 @kind object @name `certificateChainCleaner`) @signature `Lokhttp3/CertificatePinner;.<init>:(Ljava/util/Set;Lokhttp3/internal/tls/CertificateChainCleaner;)V` @AccessFlag CONSTRUCTOR {
+    temp;
+
+  #L19483c.  call `<init>`(v0) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L194842.  v0.`okhttp3.CertificatePinner.pins` @type ^`java.util.Set` := v1 @kind object;
+  #L194846.  v0.`okhttp3.CertificatePinner.certificateChainCleaner` @type ^`okhttp3.internal.tls.CertificateChainCleaner` := v2 @kind object;
+  #L19484a.  return @kind void;
+}
+procedure `java.lang.String` `pin`(`java.security.cert.Certificate` v2 @kind object @name `certificate`) @signature `Lokhttp3/CertificatePinner;.pin:(Ljava/security/cert/Certificate;)Ljava/lang/String;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L19485c.  v0:= instanceof @variable v2 @type ^`java.security.cert.X509Certificate` @kind boolean;
+  #L194860.  if v0 != 0 then goto L194874;
+  #L194864.  v0:= new `java.lang.IllegalArgumentException`;
+  #L194868.  v1:= "Certificate pinning requires X509 certificates" @kind object;
+  #L19486c.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L194872.  throw v0;
+  #L194874.  v0:= new `java.lang.StringBuilder`;
+  #L194878.  call `<init>`(v0) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L19487e.  v1:= "sha256/" @kind object;
+  #L194882.  call temp:= `append`(v0, v1) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L194888.  v0:= temp @kind object;
+  #L19488a.  v2:= (`java.security.cert.X509Certificate`) v2 @kind object;
+  #L19488e.  call temp:= `sha256`(v2) @signature `Lokhttp3/CertificatePinner;.sha256:(Ljava/security/cert/X509Certificate;)Lokio/ByteString;` @kind static;
+  #L194894.  v1:= temp @kind object;
+  #L194896.  call temp:= `base64`(v1) @signature `Lokio/ByteString;.base64:()Ljava/lang/String;` @kind virtual;
+  #L19489c.  v1:= temp @kind object;
+  #L19489e.  call temp:= `append`(v0, v1) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L1948a4.  v0:= temp @kind object;
+  #L1948a6.  call temp:= `toString`(v0) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L1948ac.  v0:= temp @kind object;
+  #L1948ae.  return v0 @kind object;
+}
+procedure `okio.ByteString` `sha1`(`java.security.cert.X509Certificate` v1 @kind object @name `x509Certificate`) @signature `Lokhttp3/CertificatePinner;.sha1:(Ljava/security/cert/X509Certificate;)Lokio/ByteString;` @AccessFlag STATIC {
+    temp;
+    v0;
+
+  #L1948c0.  call temp:= `getPublicKey`(v1) @signature `Ljava/security/cert/X509Certificate;.getPublicKey:()Ljava/security/PublicKey;` @kind virtual;
+  #L1948c6.  v0:= temp @kind object;
+  #L1948c8.  call temp:= `getEncoded`(v0) @signature `Ljava/security/PublicKey;.getEncoded:()[B` @kind interface;
+  #L1948ce.  v0:= temp @kind object;
+  #L1948d0.  call temp:= `of`(v0) @signature `Lokio/ByteString;.of:([B)Lokio/ByteString;` @kind static;
+  #L1948d6.  v0:= temp @kind object;
+  #L1948d8.  call temp:= `sha1`(v0) @signature `Lokio/ByteString;.sha1:()Lokio/ByteString;` @kind virtual;
+  #L1948de.  v0:= temp @kind object;
+  #L1948e0.  return v0 @kind object;
+}
+procedure `okio.ByteString` `sha256`(`java.security.cert.X509Certificate` v1 @kind object @name `x509Certificate`) @signature `Lokhttp3/CertificatePinner;.sha256:(Ljava/security/cert/X509Certificate;)Lokio/ByteString;` @AccessFlag STATIC {
+    temp;
+    v0;
+
+  #L1948f4.  call temp:= `getPublicKey`(v1) @signature `Ljava/security/cert/X509Certificate;.getPublicKey:()Ljava/security/PublicKey;` @kind virtual;
+  #L1948fa.  v0:= temp @kind object;
+  #L1948fc.  call temp:= `getEncoded`(v0) @signature `Ljava/security/PublicKey;.getEncoded:()[B` @kind interface;
+  #L194902.  v0:= temp @kind object;
+  #L194904.  call temp:= `of`(v0) @signature `Lokio/ByteString;.of:([B)Lokio/ByteString;` @kind static;
+  #L19490a.  v0:= temp @kind object;
+  #L19490c.  call temp:= `sha256`(v0) @signature `Lokio/ByteString;.sha256:()Lokio/ByteString;` @kind virtual;
+  #L194912.  v0:= temp @kind object;
+  #L194914.  return v0 @kind object;
+}
+procedure `void` `check`(`okhttp3.CertificatePinner` v13 @kind this, `java.lang.String` v14 @kind object @name `hostname`, `java.util.List` v15 @kind object) @signature `Lokhttp3/CertificatePinner;.check:(Ljava/lang/String;Ljava/util/List;)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+    v11;
+    v12;
+
+  #L194928.  call temp:= `findMatchingPins`(v13, v14) @signature `Lokhttp3/CertificatePinner;.findMatchingPins:(Ljava/lang/String;)Ljava/util/List;` @kind virtual;
+  #L19492e.  v5:= temp @kind object;
+  #L194930.  call temp:= `isEmpty`(v5) @signature `Ljava/util/List;.isEmpty:()Z` @kind interface;
+  #L194936.  v10:= temp;
+  #L194938.  if v10 == 0 then goto L19493e;
+  #L19493c.  return @kind void;
+  #L19493e.  v10:= v13.`okhttp3.CertificatePinner.certificateChainCleaner` @type ^`okhttp3.internal.tls.CertificateChainCleaner` @kind object;
+  #L194942.  if v10 == 0 then goto L194952;
+  #L194946.  v10:= v13.`okhttp3.CertificatePinner.certificateChainCleaner` @type ^`okhttp3.internal.tls.CertificateChainCleaner` @kind object;
+  #L19494a.  call temp:= `clean`(v10, v15, v14) @signature `Lokhttp3/internal/tls/CertificateChainCleaner;.clean:(Ljava/util/List;Ljava/lang/String;)Ljava/util/List;` @kind virtual;
+  #L194950.  v15:= temp @kind object;
+  #L194952.  v0:= 0I;
+  #L194954.  call temp:= `size`(v15) @signature `Ljava/util/List;.size:()I` @kind interface;
+  #L19495a.  v1:= temp;
+  #L19495c.  if v0 >= v1 then goto L194a2e;
+  #L194960.  call temp:= `get`(v15, v0) @signature `Ljava/util/List;.get:(I)Ljava/lang/Object;` @kind interface;
+  #L194966.  v9:= temp @kind object;
+  #L194968.  v9:= (`java.security.cert.X509Certificate`) v9 @kind object;
+  #L19496c.  v7:= 0I;
+  #L19496e.  v8:= 0I;
+  #L194970.  v3:= 0I;
+  #L194972.  call temp:= `size`(v5) @signature `Ljava/util/List;.size:()I` @kind interface;
+  #L194978.  v6:= temp;
+  #L19497a.  if v3 >= v6 then goto L194a28;
+  #L19497e.  call temp:= `get`(v5, v3) @signature `Ljava/util/List;.get:(I)Ljava/lang/Object;` @kind interface;
+  #L194984.  v4:= temp @kind object;
+  #L194986.  v4:= (`okhttp3.CertificatePinner$Pin`) v4 @kind object;
+  #L19498a.  v10:= v4.`okhttp3.CertificatePinner$Pin.hashAlgorithm` @type ^`java.lang.String` @kind object;
+  #L19498e.  v11:= "sha256/" @kind object;
+  #L194992.  call temp:= `equals`(v10, v11) @signature `Ljava/lang/String;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L194998.  v10:= temp;
+  #L19499a.  if v10 == 0 then goto L1949c0;
+  #L19499e.  if v8 != 0 then goto L1949aa;
+  #L1949a2.  call temp:= `sha256`(v9) @signature `Lokhttp3/CertificatePinner;.sha256:(Ljava/security/cert/X509Certificate;)Lokio/ByteString;` @kind static;
+  #L1949a8.  v8:= temp @kind object;
+  #L1949aa.  v10:= v4.`okhttp3.CertificatePinner$Pin.hash` @type ^`okio.ByteString` @kind object;
+  #L1949ae.  call temp:= `equals`(v10, v8) @signature `Lokio/ByteString;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L1949b4.  v10:= temp;
+  #L1949b6.  if v10 != 0 then goto L19493c;
+  #L1949ba.  v3:= v3 + 1;
+  #L1949be.  goto L19497a;
+  #L1949c0.  v10:= v4.`okhttp3.CertificatePinner$Pin.hashAlgorithm` @type ^`java.lang.String` @kind object;
+  #L1949c4.  v11:= "sha1/" @kind object;
+  #L1949c8.  call temp:= `equals`(v10, v11) @signature `Ljava/lang/String;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L1949ce.  v10:= temp;
+  #L1949d0.  if v10 == 0 then goto L1949f2;
+  #L1949d4.  if v7 != 0 then goto L1949e0;
+  #L1949d8.  call temp:= `sha1`(v9) @signature `Lokhttp3/CertificatePinner;.sha1:(Ljava/security/cert/X509Certificate;)Lokio/ByteString;` @kind static;
+  #L1949de.  v7:= temp @kind object;
+  #L1949e0.  v10:= v4.`okhttp3.CertificatePinner$Pin.hash` @type ^`okio.ByteString` @kind object;
+  #L1949e4.  call temp:= `equals`(v10, v7) @signature `Lokio/ByteString;.equals:(Ljava/lang/Object;)Z` @kind virtual;
+  #L1949ea.  v10:= temp;
+  #L1949ec.  if v10 == 0 then goto L1949ba;
+  #L1949f0.  goto L19493c;
+  #L1949f2.  v10:= new `java.lang.AssertionError`;
+  #L1949f6.  v11:= new `java.lang.StringBuilder`;
+  #L1949fa.  call `<init>`(v11) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L194a00.  v12:= "unsupported hashAlgorithm: " @kind object;
+  #L194a04.  call temp:= `append`(v11, v12) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L194a0a.  v11:= temp @kind object;
+  #L194a0c.  v12:= v4.`okhttp3.CertificatePinner$Pin.hashAlgorithm` @type ^`java.lang.String` @kind object;
+  #L194a10.  call temp:= `append`(v11, v12) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L194a16.  v11:= temp @kind object;
+  #L194a18.  call temp:= `toString`(v11) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L194a1e.  v11:= temp @kind object;
+  #L194a20.  call `<init>`(v10, v11) @signature `Ljava/lang/AssertionError;.<init>:(Ljava/lang/Object;)V` @kind direct;
+  #L194a26.  throw v10;
+  #L194a28.  v0:= v0 + 1;
+  #L194a2c.  goto L19495c;
+  #L194a2e.  v10:= new `java.lang.StringBuilder`;
+  #L194a32.  call `<init>`(v10) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L194a38.  v11:= "Certificate pinning failure!" @kind object;
+  #L194a3c.  call temp:= `append`(v10, v11) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L194a42.  v10:= temp @kind object;
+  #L194a44.  v11:= "\n  Peer certificate chain:" @kind object;
+  #L194a48.  call temp:= `append`(v10, v11) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L194a4e.  v2:= temp @kind object;
+  #L194a50.  v0:= 0I;
+  #L194a52.  call temp:= `size`(v15) @signature `Ljava/util/List;.size:()I` @kind interface;
+  #L194a58.  v1:= temp;
+  #L194a5a.  if v0 >= v1 then goto L194aae;
+  #L194a5e.  call temp:= `get`(v15, v0) @signature `Ljava/util/List;.get:(I)Ljava/lang/Object;` @kind interface;
+  #L194a64.  v9:= temp @kind object;
+  #L194a66.  v9:= (`java.security.cert.X509Certificate`) v9 @kind object;
+  #L194a6a.  v10:= "\n    " @kind object;
+  #L194a6e.  call temp:= `append`(v2, v10) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L194a74.  v10:= temp @kind object;
+  #L194a76.  call temp:= `pin`(v9) @signature `Lokhttp3/CertificatePinner;.pin:(Ljava/security/cert/Certificate;)Ljava/lang/String;` @kind static;
+  #L194a7c.  v11:= temp @kind object;
+  #L194a7e.  call temp:= `append`(v10, v11) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L194a84.  v10:= temp @kind object;
+  #L194a86.  v11:= ": " @kind object;
+  #L194a8a.  call temp:= `append`(v10, v11) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L194a90.  v10:= temp @kind object;
+  #L194a92.  call temp:= `getSubjectDN`(v9) @signature `Ljava/security/cert/X509Certificate;.getSubjectDN:()Ljava/security/Principal;` @kind virtual;
+  #L194a98.  v11:= temp @kind object;
+  #L194a9a.  call temp:= `getName`(v11) @signature `Ljava/security/Principal;.getName:()Ljava/lang/String;` @kind interface;
+  #L194aa0.  v11:= temp @kind object;
+  #L194aa2.  call temp:= `append`(v10, v11) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L194aa8.  v0:= v0 + 1;
+  #L194aac.  goto L194a5a;
+  #L194aae.  v10:= "\n  Pinned certificates for " @kind object;
+  #L194ab2.  call temp:= `append`(v2, v10) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L194ab8.  v10:= temp @kind object;
+  #L194aba.  call temp:= `append`(v10, v14) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L194ac0.  v10:= temp @kind object;
+  #L194ac2.  v11:= ":" @kind object;
+  #L194ac6.  call temp:= `append`(v10, v11) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L194acc.  v3:= 0I;
+  #L194ace.  call temp:= `size`(v5) @signature `Ljava/util/List;.size:()I` @kind interface;
+  #L194ad4.  v6:= temp;
+  #L194ad6.  if v3 >= v6 then goto L194afe;
+  #L194ada.  call temp:= `get`(v5, v3) @signature `Ljava/util/List;.get:(I)Ljava/lang/Object;` @kind interface;
+  #L194ae0.  v4:= temp @kind object;
+  #L194ae2.  v4:= (`okhttp3.CertificatePinner$Pin`) v4 @kind object;
+  #L194ae6.  v10:= "\n    " @kind object;
+  #L194aea.  call temp:= `append`(v2, v10) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L194af0.  v10:= temp @kind object;
+  #L194af2.  call temp:= `append`(v10, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L194af8.  v3:= v3 + 1;
+  #L194afc.  goto L194ad6;
+  #L194afe.  v10:= new `javax.net.ssl.SSLPeerUnverifiedException`;
+  #L194b02.  call temp:= `toString`(v2) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L194b08.  v11:= temp @kind object;
+  #L194b0a.  call `<init>`(v10, v11) @signature `Ljavax/net/ssl/SSLPeerUnverifiedException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L194b10.  throw v10;
+}
+procedure `void` `check`(`okhttp3.CertificatePinner` v1 @kind this, `java.lang.String` v2 @kind object @name `hostname`, `java.security.cert.Certificate`[] v3 @kind object @name `peerCertificates`) @signature `Lokhttp3/CertificatePinner;.check:(Ljava/lang/String;[Ljava/security/cert/Certificate;)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L194b24.  call temp:= `asList`(v3) @signature `Ljava/util/Arrays;.asList:([Ljava/lang/Object;)Ljava/util/List;` @kind static;
+  #L194b2a.  v0:= temp @kind object;
+  #L194b2c.  call `check`(v1, v2, v0) @signature `Lokhttp3/CertificatePinner;.check:(Ljava/lang/String;Ljava/util/List;)V` @kind virtual;
+  #L194b32.  return @kind void;
+}
+procedure `boolean` `equals`(`okhttp3.CertificatePinner` v3 @kind this, `java.lang.Object` v4 @kind object @name `other`) @signature `Lokhttp3/CertificatePinner;.equals:(Ljava/lang/Object;)Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L194b44.  v1:= 1I;
+  #L194b46.  if v4 != v3 then goto L194b4c;
+  #L194b4a.  return v1;
+  #L194b4c.  v0:= instanceof @variable v4 @type ^`okhttp3.CertificatePinner` @kind boolean;
+  #L194b50.  if v0 == 0 then goto L194b8c;
+  #L194b54.  v2:= v3.`okhttp3.CertificatePinner.certificateChainCleaner` @type ^`okhttp3.internal.tls.CertificateChainCleaner` @kind object;
+  #L194b58.  v0:= v4 @kind object;
+  #L194b5a.  v0:= (`okhttp3.CertificatePinner`) v0 @kind object;
+  #L194b5e.  v0:= v0.`okhttp3.CertificatePinner.certificateChainCleaner` @type ^`okhttp3.internal.tls.CertificateChainCleaner` @kind object;
+  #L194b62.  call temp:= `equal`(v2, v0) @signature `Lokhttp3/internal/Util;.equal:(Ljava/lang/Object;Ljava/lang/Object;)Z` @kind static;
+  #L194b68.  v0:= temp;
+  #L194b6a.  if v0 == 0 then goto L194b8c;
+  #L194b6e.  v0:= v3.`okhttp3.CertificatePinner.pins` @type ^`java.util.Set` @kind object;
+  #L194b72.  v4:= (`okhttp3.CertificatePinner`) v4 @kind object;
+  #L194b76.  v2:= v4.`okhttp3.CertificatePinner.pins` @type ^`java.util.Set` @kind object;
+  #L194b7a.  call temp:= `equals`(v0, v2) @signature `Ljava/util/Set;.equals:(Ljava/lang/Object;)Z` @kind interface;
+  #L194b80.  v0:= temp;
+  #L194b82.  if v0 == 0 then goto L194b8c;
+  #L194b86.  v0:= v1;
+  #L194b88.  v1:= v0;
+  #L194b8a.  goto L194b4a;
+  #L194b8c.  v0:= 0I;
+  #L194b8e.  goto L194b88;
+}
+procedure `java.util.List` `findMatchingPins`(`okhttp3.CertificatePinner` v4 @kind this, `java.lang.String` v5 @kind object @name `hostname`) @signature `Lokhttp3/CertificatePinner;.findMatchingPins:(Ljava/lang/String;)Ljava/util/List;` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L194ba0.  call temp:= `emptyList`() @signature `Ljava/util/Collections;.emptyList:()Ljava/util/List;` @kind static;
+  #L194ba6.  v1:= temp @kind object;
+  #L194ba8.  v2:= v4.`okhttp3.CertificatePinner.pins` @type ^`java.util.Set` @kind object;
+  #L194bac.  call temp:= `iterator`(v2) @signature `Ljava/util/Set;.iterator:()Ljava/util/Iterator;` @kind interface;
+  #L194bb2.  v2:= temp @kind object;
+  #L194bb4.  call temp:= `hasNext`(v2) @signature `Ljava/util/Iterator;.hasNext:()Z` @kind interface;
+  #L194bba.  v3:= temp;
+  #L194bbc.  if v3 == 0 then goto L194bf6;
+  #L194bc0.  call temp:= `next`(v2) @signature `Ljava/util/Iterator;.next:()Ljava/lang/Object;` @kind interface;
+  #L194bc6.  v0:= temp @kind object;
+  #L194bc8.  v0:= (`okhttp3.CertificatePinner$Pin`) v0 @kind object;
+  #L194bcc.  call temp:= `matches`(v0, v5) @signature `Lokhttp3/CertificatePinner$Pin;.matches:(Ljava/lang/String;)Z` @kind virtual;
+  #L194bd2.  v3:= temp;
+  #L194bd4.  if v3 == 0 then goto L194bb4;
+  #L194bd8.  call temp:= `isEmpty`(v1) @signature `Ljava/util/List;.isEmpty:()Z` @kind interface;
+  #L194bde.  v3:= temp;
+  #L194be0.  if v3 == 0 then goto L194bee;
+  #L194be4.  v1:= new `java.util.ArrayList`;
+  #L194be8.  call `<init>`(v1) @signature `Ljava/util/ArrayList;.<init>:()V` @kind direct;
+  #L194bee.  call temp:= `add`(v1, v0) @signature `Ljava/util/List;.add:(Ljava/lang/Object;)Z` @kind interface;
+  #L194bf4.  goto L194bb4;
+  #L194bf6.  return v1 @kind object;
+}
+procedure `int` `hashCode`(`okhttp3.CertificatePinner` v3 @kind this) @signature `Lokhttp3/CertificatePinner;.hashCode:()I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L194c08.  v1:= v3.`okhttp3.CertificatePinner.certificateChainCleaner` @type ^`okhttp3.internal.tls.CertificateChainCleaner` @kind object;
+  #L194c0c.  if v1 == 0 then goto L194c32;
+  #L194c10.  v1:= v3.`okhttp3.CertificatePinner.certificateChainCleaner` @type ^`okhttp3.internal.tls.CertificateChainCleaner` @kind object;
+  #L194c14.  call temp:= `hashCode`(v1) @signature `Ljava/lang/Object;.hashCode:()I` @kind virtual;
+  #L194c1a.  v0:= temp;
+  #L194c1c.  v1:= v0 * 31;
+  #L194c20.  v2:= v3.`okhttp3.CertificatePinner.pins` @type ^`java.util.Set` @kind object;
+  #L194c24.  call temp:= `hashCode`(v2) @signature `Ljava/util/Set;.hashCode:()I` @kind interface;
+  #L194c2a.  v2:= temp;
+  #L194c2c.  v0:= v1 + v2 @kind int;
+  #L194c30.  return v0;
+  #L194c32.  v0:= 0I;
+  #L194c34.  goto L194c1c;
+}
+procedure `okhttp3.CertificatePinner` `withCertificateChainCleaner`(`okhttp3.CertificatePinner` v2 @kind this, `okhttp3.internal.tls.CertificateChainCleaner` v3 @kind object @name `certificateChainCleaner`) @signature `Lokhttp3/CertificatePinner;.withCertificateChainCleaner:(Lokhttp3/internal/tls/CertificateChainCleaner;)Lokhttp3/CertificatePinner;` @AccessFlag  {
+    temp;
+    v0;
+    v1;
+
+  #L194c48.  v0:= v2.`okhttp3.CertificatePinner.certificateChainCleaner` @type ^`okhttp3.internal.tls.CertificateChainCleaner` @kind object;
+  #L194c4c.  call temp:= `equal`(v0, v3) @signature `Lokhttp3/internal/Util;.equal:(Ljava/lang/Object;Ljava/lang/Object;)Z` @kind static;
+  #L194c52.  v0:= temp;
+  #L194c54.  if v0 == 0 then goto L194c5a;
+  #L194c58.  return v2 @kind object;
+  #L194c5a.  v0:= new `okhttp3.CertificatePinner`;
+  #L194c5e.  v1:= v2.`okhttp3.CertificatePinner.pins` @type ^`java.util.Set` @kind object;
+  #L194c62.  call `<init>`(v0, v1, v3) @signature `Lokhttp3/CertificatePinner;.<init>:(Ljava/util/Set;Lokhttp3/internal/tls/CertificateChainCleaner;)V` @kind direct;
+  #L194c68.  v2:= v0 @kind object;
+  #L194c6a.  goto L194c58;
+}

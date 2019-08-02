@@ -1,0 +1,189 @@
+record `okio.HashingSource` @kind class @AccessFlag PUBLIC_FINAL extends `okio.ForwardingSource` @kind class {
+  `javax.crypto.Mac` `okio.HashingSource.mac` @AccessFlag PRIVATE_FINAL;
+  `java.security.MessageDigest` `okio.HashingSource.messageDigest` @AccessFlag PRIVATE_FINAL;
+}
+procedure `void` `<init>`(`okio.HashingSource` v2 @kind this, `okio.Source` v3 @kind object @name `source`, `java.lang.String` v4 @kind object @name `algorithm`) @signature `Lokio/HashingSource;.<init>:(Lokio/Source;Ljava/lang/String;)V` @AccessFlag PRIVATE_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+
+  #L24a7d4.  call `<init>`(v2, v3) @signature `Lokio/ForwardingSource;.<init>:(Lokio/Source;)V` @kind direct;
+  #Try_start0.  
+  #L24a7da.  call temp:= `getInstance`(v4) @signature `Ljava/security/MessageDigest;.getInstance:(Ljava/lang/String;)Ljava/security/MessageDigest;` @kind static;
+  #L24a7e0.  v1:= temp @kind object;
+  #L24a7e2.  v2.`okio.HashingSource.messageDigest` @type ^`java.security.MessageDigest` := v1 @kind object;
+  #L24a7e6.  v1:= 0I;
+  #L24a7e8.  v2.`okio.HashingSource.mac` @type ^`javax.crypto.Mac` := v1 @kind object;
+  #Try_end0.  
+  #L24a7ec.  return @kind void;
+  #L24a7ee.  v0:= Exception @type ^`java.security.NoSuchAlgorithmException` @kind object;
+  #L24a7f0.  v1:= new `java.lang.AssertionError`;
+  #L24a7f4.  call `<init>`(v1) @signature `Ljava/lang/AssertionError;.<init>:()V` @kind direct;
+  #L24a7fa.  throw v1;
+  catch `java.security.NoSuchAlgorithmException` @[Try_start0..Try_end0] goto L24a7ee;
+}
+procedure `void` `<init>`(`okio.HashingSource` v4 @kind this, `okio.Source` v5 @kind object @name `source`, `okio.ByteString` v6 @kind object @name `key`, `java.lang.String` v7 @kind object @name `algorithm`) @signature `Lokio/HashingSource;.<init>:(Lokio/Source;Lokio/ByteString;Ljava/lang/String;)V` @AccessFlag PRIVATE_CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L24a81c.  call `<init>`(v4, v5) @signature `Lokio/ForwardingSource;.<init>:(Lokio/Source;)V` @kind direct;
+  #Try_start0.  
+  #L24a822.  call temp:= `getInstance`(v7) @signature `Ljavax/crypto/Mac;.getInstance:(Ljava/lang/String;)Ljavax/crypto/Mac;` @kind static;
+  #L24a828.  v1:= temp @kind object;
+  #L24a82a.  v4.`okio.HashingSource.mac` @type ^`javax.crypto.Mac` := v1 @kind object;
+  #L24a82e.  v1:= v4.`okio.HashingSource.mac` @type ^`javax.crypto.Mac` @kind object;
+  #L24a832.  v2:= new `javax.crypto.spec.SecretKeySpec`;
+  #L24a836.  call temp:= `toByteArray`(v6) @signature `Lokio/ByteString;.toByteArray:()[B` @kind virtual;
+  #L24a83c.  v3:= temp @kind object;
+  #L24a83e.  call `<init>`(v2, v3, v7) @signature `Ljavax/crypto/spec/SecretKeySpec;.<init>:([BLjava/lang/String;)V` @kind direct;
+  #L24a844.  call `init`(v1, v2) @signature `Ljavax/crypto/Mac;.init:(Ljava/security/Key;)V` @kind virtual;
+  #L24a84a.  v1:= 0I;
+  #L24a84c.  v4.`okio.HashingSource.messageDigest` @type ^`java.security.MessageDigest` := v1 @kind object;
+  #Try_end0.  
+  #L24a850.  return @kind void;
+  #L24a852.  v0:= Exception @type ^`java.security.NoSuchAlgorithmException` @kind object;
+  #L24a854.  v1:= new `java.lang.AssertionError`;
+  #L24a858.  call `<init>`(v1) @signature `Ljava/lang/AssertionError;.<init>:()V` @kind direct;
+  #L24a85e.  throw v1;
+  #L24a860.  v0:= Exception @type ^`java.security.InvalidKeyException` @kind object;
+  #L24a862.  v1:= new `java.lang.IllegalArgumentException`;
+  #L24a866.  call `<init>`(v1, v0) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/Throwable;)V` @kind direct;
+  #L24a86c.  throw v1;
+  catch `java.security.NoSuchAlgorithmException` @[Try_start0..Try_end0] goto L24a852;
+  catch `java.security.InvalidKeyException` @[Try_start0..Try_end0] goto L24a860;
+}
+procedure `okio.HashingSource` `hmacSha1`(`okio.Source` v2 @kind object @name `source`, `okio.ByteString` v3 @kind object @name `key`) @signature `Lokio/HashingSource;.hmacSha1:(Lokio/Source;Lokio/ByteString;)Lokio/HashingSource;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L24a890.  v0:= new `okio.HashingSource`;
+  #L24a894.  v1:= "HmacSHA1" @kind object;
+  #L24a898.  call `<init>`(v0, v2, v3, v1) @signature `Lokio/HashingSource;.<init>:(Lokio/Source;Lokio/ByteString;Ljava/lang/String;)V` @kind direct;
+  #L24a89e.  return v0 @kind object;
+}
+procedure `okio.HashingSource` `hmacSha256`(`okio.Source` v2 @kind object @name `source`, `okio.ByteString` v3 @kind object @name `key`) @signature `Lokio/HashingSource;.hmacSha256:(Lokio/Source;Lokio/ByteString;)Lokio/HashingSource;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L24a8b0.  v0:= new `okio.HashingSource`;
+  #L24a8b4.  v1:= "HmacSHA256" @kind object;
+  #L24a8b8.  call `<init>`(v0, v2, v3, v1) @signature `Lokio/HashingSource;.<init>:(Lokio/Source;Lokio/ByteString;Ljava/lang/String;)V` @kind direct;
+  #L24a8be.  return v0 @kind object;
+}
+procedure `okio.HashingSource` `md5`(`okio.Source` v2 @kind object @name `source`) @signature `Lokio/HashingSource;.md5:(Lokio/Source;)Lokio/HashingSource;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L24a8d0.  v0:= new `okio.HashingSource`;
+  #L24a8d4.  v1:= "MD5" @kind object;
+  #L24a8d8.  call `<init>`(v0, v2, v1) @signature `Lokio/HashingSource;.<init>:(Lokio/Source;Ljava/lang/String;)V` @kind direct;
+  #L24a8de.  return v0 @kind object;
+}
+procedure `okio.HashingSource` `sha1`(`okio.Source` v2 @kind object @name `source`) @signature `Lokio/HashingSource;.sha1:(Lokio/Source;)Lokio/HashingSource;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L24a8f0.  v0:= new `okio.HashingSource`;
+  #L24a8f4.  v1:= "SHA-1" @kind object;
+  #L24a8f8.  call `<init>`(v0, v2, v1) @signature `Lokio/HashingSource;.<init>:(Lokio/Source;Ljava/lang/String;)V` @kind direct;
+  #L24a8fe.  return v0 @kind object;
+}
+procedure `okio.HashingSource` `sha256`(`okio.Source` v2 @kind object @name `source`) @signature `Lokio/HashingSource;.sha256:(Lokio/Source;)Lokio/HashingSource;` @AccessFlag PUBLIC_STATIC {
+    temp;
+    v0;
+    v1;
+
+  #L24a910.  v0:= new `okio.HashingSource`;
+  #L24a914.  v1:= "SHA-256" @kind object;
+  #L24a918.  call `<init>`(v0, v2, v1) @signature `Lokio/HashingSource;.<init>:(Lokio/Source;Ljava/lang/String;)V` @kind direct;
+  #L24a91e.  return v0 @kind object;
+}
+procedure `okio.ByteString` `hash`(`okio.HashingSource` v2 @kind this) @signature `Lokio/HashingSource;.hash:()Lokio/ByteString;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24a930.  v1:= v2.`okio.HashingSource.messageDigest` @type ^`java.security.MessageDigest` @kind object;
+  #L24a934.  if v1 == 0 then goto L24a94e;
+  #L24a938.  v1:= v2.`okio.HashingSource.messageDigest` @type ^`java.security.MessageDigest` @kind object;
+  #L24a93c.  call temp:= `digest`(v1) @signature `Ljava/security/MessageDigest;.digest:()[B` @kind virtual;
+  #L24a942.  v0:= temp @kind object;
+  #L24a944.  call temp:= `of`(v0) @signature `Lokio/ByteString;.of:([B)Lokio/ByteString;` @kind static;
+  #L24a94a.  v1:= temp @kind object;
+  #L24a94c.  return v1 @kind object;
+  #L24a94e.  v1:= v2.`okio.HashingSource.mac` @type ^`javax.crypto.Mac` @kind object;
+  #L24a952.  call temp:= `doFinal`(v1) @signature `Ljavax/crypto/Mac;.doFinal:()[B` @kind virtual;
+  #L24a958.  v0:= temp @kind object;
+  #L24a95a.  goto L24a944;
+}
+procedure `long` `read`(`okio.HashingSource` v12 @kind this, `okio.Buffer` v13 @kind object @name `sink`, `long` v14 @name `byteCount`) @signature `Lokio/HashingSource;.read:(Lokio/Buffer;J)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+    v11;
+
+  #L24a96c.  call temp:= `read`(v12, v13, v14) @signature `Lokio/ForwardingSource;.read:(Lokio/Buffer;J)J` @kind super;
+  #L24a972.  v4:= temp @kind wide;
+  #L24a974.  v8:= -1L;
+  #L24a978.  v8:= lcmp(v4, v8);
+  #L24a97c.  if v8 == 0 then goto L24aa0c;
+  #L24a980.  v8:= v13.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24a984.  v6:= v8 - v4 @kind long;
+  #L24a988.  v0:= v13.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24a98c.  v3:= v13.`okio.Buffer.head` @type ^`okio.Segment` @kind object;
+  #L24a990.  v8:= lcmp(v0, v6);
+  #L24a994.  if v8 <= 0 then goto L24a9ac;
+  #L24a998.  v3:= v3.`okio.Segment.prev` @type ^`okio.Segment` @kind object;
+  #L24a99c.  v8:= v3.`okio.Segment.limit` @type ^`int`;
+  #L24a9a0.  v9:= v3.`okio.Segment.pos` @type ^`int`;
+  #L24a9a4.  v8:= v8 - v9 @kind int;
+  #L24a9a6.  v8:= (`long`) v8 @kind i2l;
+  #L24a9a8.  v0:= v0 - v8 @kind long;
+  #L24a9aa.  goto L24a990;
+  #L24a9ac.  v8:= v13.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24a9b0.  v8:= lcmp(v0, v8);
+  #L24a9b4.  if v8 >= 0 then goto L24aa0c;
+  #L24a9b8.  v8:= v3.`okio.Segment.pos` @type ^`int`;
+  #L24a9bc.  v8:= (`long`) v8 @kind i2l;
+  #L24a9be.  v8:= v8 + v6 @kind long;
+  #L24a9c0.  v8:= v8 - v0 @kind long;
+  #L24a9c2.  v2:= (`int`) v8 @kind l2i;
+  #L24a9c4.  v8:= v12.`okio.HashingSource.messageDigest` @type ^`java.security.MessageDigest` @kind object;
+  #L24a9c8.  if v8 == 0 then goto L24a9f6;
+  #L24a9cc.  v8:= v12.`okio.HashingSource.messageDigest` @type ^`java.security.MessageDigest` @kind object;
+  #L24a9d0.  v9:= v3.`okio.Segment.data` @type ^`byte`[] @kind object;
+  #L24a9d4.  v10:= v3.`okio.Segment.limit` @type ^`int`;
+  #L24a9d8.  v10:= v10 - v2 @kind int;
+  #L24a9da.  call `update`(v8, v9, v2, v10) @signature `Ljava/security/MessageDigest;.update:([BII)V` @kind virtual;
+  #L24a9e0.  v8:= v3.`okio.Segment.limit` @type ^`int`;
+  #L24a9e4.  v9:= v3.`okio.Segment.pos` @type ^`int`;
+  #L24a9e8.  v8:= v8 - v9 @kind int;
+  #L24a9ea.  v8:= (`long`) v8 @kind i2l;
+  #L24a9ec.  v0:= v0 + v8 @kind long;
+  #L24a9ee.  v6:= v0 @kind wide;
+  #L24a9f0.  v3:= v3.`okio.Segment.next` @type ^`okio.Segment` @kind object;
+  #L24a9f4.  goto L24a9ac;
+  #L24a9f6.  v8:= v12.`okio.HashingSource.mac` @type ^`javax.crypto.Mac` @kind object;
+  #L24a9fa.  v9:= v3.`okio.Segment.data` @type ^`byte`[] @kind object;
+  #L24a9fe.  v10:= v3.`okio.Segment.limit` @type ^`int`;
+  #L24aa02.  v10:= v10 - v2 @kind int;
+  #L24aa04.  call `update`(v8, v9, v2, v10) @signature `Ljavax/crypto/Mac;.update:([BII)V` @kind virtual;
+  #L24aa0a.  goto L24a9e0;
+  #L24aa0c.  return v4 @kind wide;
+}

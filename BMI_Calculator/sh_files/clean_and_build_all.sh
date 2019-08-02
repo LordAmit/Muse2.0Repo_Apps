@@ -1,12 +1,12 @@
 cd /home/amit/muse/output/BMI_Calculator/schemas/SINK/BMI_Calculator/
 /home/amit/muse/output/BMI_Calculator/schemas/SINK/BMI_Calculator/gradlew clean
-/home/amit/muse/output/BMI_Calculator/schemas/SINK/BMI_Calculator/gradlew build
+/home/amit/muse/output/BMI_Calculator/schemas/SINK/BMI_Calculator/gradlew assembleDebug
 cd /home/amit/muse/output/BMI_Calculator/schemas/REACHABILITY/BMI_Calculator/
 /home/amit/muse/output/BMI_Calculator/schemas/REACHABILITY/BMI_Calculator/gradlew clean
-/home/amit/muse/output/BMI_Calculator/schemas/REACHABILITY/BMI_Calculator/gradlew build
+/home/amit/muse/output/BMI_Calculator/schemas/REACHABILITY/BMI_Calculator/gradlew assembleDebug
 cd /home/amit/muse/output/BMI_Calculator/schemas/TAINTSINK/BMI_Calculator/
 /home/amit/muse/output/BMI_Calculator/schemas/TAINTSINK/BMI_Calculator/gradlew clean
-/home/amit/muse/output/BMI_Calculator/schemas/TAINTSINK/BMI_Calculator/gradlew build
+/home/amit/muse/output/BMI_Calculator/schemas/TAINTSINK/BMI_Calculator/gradlew assembleDebug
 cd /home/amit/muse/output/BMI_Calculator/schemas/COMPLEXREACHABILITY/BMI_Calculator/
 /home/amit/muse/output/BMI_Calculator/schemas/COMPLEXREACHABILITY/BMI_Calculator/gradlew clean
-/home/amit/muse/output/BMI_Calculator/schemas/COMPLEXREACHABILITY/BMI_Calculator/gradlew build
+/home/amit/muse/output/BMI_Calculator/schemas/COMPLEXREACHABILITY/BMI_Calculator/gradlew assembleDebug

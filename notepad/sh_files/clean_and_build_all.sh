@@ -1,12 +1,12 @@
 cd /home/amit/muse/output/notepad/schemas/SINK/notepad/
 /home/amit/muse/output/notepad/schemas/SINK/notepad/gradlew clean
-/home/amit/muse/output/notepad/schemas/SINK/notepad/gradlew build
+/home/amit/muse/output/notepad/schemas/SINK/notepad/gradlew assembleDebug
 cd /home/amit/muse/output/notepad/schemas/REACHABILITY/notepad/
 /home/amit/muse/output/notepad/schemas/REACHABILITY/notepad/gradlew clean
-/home/amit/muse/output/notepad/schemas/REACHABILITY/notepad/gradlew build
+/home/amit/muse/output/notepad/schemas/REACHABILITY/notepad/gradlew assembleDebug
 cd /home/amit/muse/output/notepad/schemas/TAINTSINK/notepad/
 /home/amit/muse/output/notepad/schemas/TAINTSINK/notepad/gradlew clean
-/home/amit/muse/output/notepad/schemas/TAINTSINK/notepad/gradlew build
+/home/amit/muse/output/notepad/schemas/TAINTSINK/notepad/gradlew assembleDebug
 cd /home/amit/muse/output/notepad/schemas/COMPLEXREACHABILITY/notepad/
 /home/amit/muse/output/notepad/schemas/COMPLEXREACHABILITY/notepad/gradlew clean
-/home/amit/muse/output/notepad/schemas/COMPLEXREACHABILITY/notepad/gradlew build
+/home/amit/muse/output/notepad/schemas/COMPLEXREACHABILITY/notepad/gradlew assembleDebug

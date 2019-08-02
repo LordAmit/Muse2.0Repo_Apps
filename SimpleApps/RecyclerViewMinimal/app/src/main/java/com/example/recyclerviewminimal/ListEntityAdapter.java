@@ -9,7 +9,6 @@ import android.widget.TextView;
 import java.util.List;
 
 public class ListEntityAdapter extends RecyclerView.Adapter<ListEntityAdapter.ListViewHolder> {
-
     private List<ListEntity> entitiesList;
 
     public class ListViewHolder extends RecyclerView.ViewHolder {

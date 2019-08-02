@@ -1,12 +1,12 @@
 cd /home/amit/muse/output/device-explorer/schemas/SINK/device-explorer/
 /home/amit/muse/output/device-explorer/schemas/SINK/device-explorer/gradlew clean
-/home/amit/muse/output/device-explorer/schemas/SINK/device-explorer/gradlew build
+/home/amit/muse/output/device-explorer/schemas/SINK/device-explorer/gradlew assembleDebug
 cd /home/amit/muse/output/device-explorer/schemas/REACHABILITY/device-explorer/
 /home/amit/muse/output/device-explorer/schemas/REACHABILITY/device-explorer/gradlew clean
-/home/amit/muse/output/device-explorer/schemas/REACHABILITY/device-explorer/gradlew build
+/home/amit/muse/output/device-explorer/schemas/REACHABILITY/device-explorer/gradlew assembleDebug
 cd /home/amit/muse/output/device-explorer/schemas/TAINTSINK/device-explorer/
 /home/amit/muse/output/device-explorer/schemas/TAINTSINK/device-explorer/gradlew clean
-/home/amit/muse/output/device-explorer/schemas/TAINTSINK/device-explorer/gradlew build
+/home/amit/muse/output/device-explorer/schemas/TAINTSINK/device-explorer/gradlew assembleDebug
 cd /home/amit/muse/output/device-explorer/schemas/COMPLEXREACHABILITY/device-explorer/
 /home/amit/muse/output/device-explorer/schemas/COMPLEXREACHABILITY/device-explorer/gradlew clean
-/home/amit/muse/output/device-explorer/schemas/COMPLEXREACHABILITY/device-explorer/gradlew build
+/home/amit/muse/output/device-explorer/schemas/COMPLEXREACHABILITY/device-explorer/gradlew assembleDebug

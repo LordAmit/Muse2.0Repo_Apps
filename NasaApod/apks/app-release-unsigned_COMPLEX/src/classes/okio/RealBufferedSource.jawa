@@ -1,0 +1,1310 @@
+record `okio.RealBufferedSource` @kind class @AccessFlag FINAL extends `okio.BufferedSource` @kind interface {
+  `okio.Buffer` `okio.RealBufferedSource.buffer` @AccessFlag PUBLIC_FINAL;
+  `boolean` `okio.RealBufferedSource.closed` @AccessFlag ;
+  `okio.Source` `okio.RealBufferedSource.source` @AccessFlag PUBLIC_FINAL;
+}
+procedure `void` `<init>`(`okio.RealBufferedSource` v2 @kind this, `okio.Source` v3 @kind object @name `source`) @signature `Lokio/RealBufferedSource;.<init>:(Lokio/Source;)V` @AccessFlag CONSTRUCTOR {
+    temp;
+    v0;
+    v1;
+
+  #L24a1c4.  call `<init>`(v2) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L24a1ca.  v0:= new `okio.Buffer`;
+  #L24a1ce.  call `<init>`(v0) @signature `Lokio/Buffer;.<init>:()V` @kind direct;
+  #L24a1d4.  v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` := v0 @kind object;
+  #L24a1d8.  if v3 != 0 then goto L24a1ec;
+  #L24a1dc.  v0:= new `java.lang.NullPointerException`;
+  #L24a1e0.  v1:= "source == null" @kind object;
+  #L24a1e4.  call `<init>`(v0, v1) @signature `Ljava/lang/NullPointerException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24a1ea.  throw v0;
+  #L24a1ec.  v2.`okio.RealBufferedSource.source` @type ^`okio.Source` := v3 @kind object;
+  #L24a1f0.  return @kind void;
+}
+procedure `okio.Buffer` `buffer`(`okio.RealBufferedSource` v1 @kind this) @signature `Lokio/RealBufferedSource;.buffer:()Lokio/Buffer;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L24a204.  v0:= v1.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a208.  return v0 @kind object;
+}
+procedure `void` `close`(`okio.RealBufferedSource` v1 @kind this) @signature `Lokio/RealBufferedSource;.close:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L24a21c.  v0:= v1.`okio.RealBufferedSource.closed` @type ^`boolean` @kind boolean;
+  #L24a220.  if v0 == 0 then goto L24a226;
+  #L24a224.  return @kind void;
+  #L24a226.  v0:= 1I;
+  #L24a228.  v1.`okio.RealBufferedSource.closed` @type ^`boolean` := v0 @kind boolean;
+  #L24a22c.  v0:= v1.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24a230.  call `close`(v0) @signature `Lokio/Source;.close:()V` @kind interface;
+  #L24a236.  v0:= v1.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a23a.  call `clear`(v0) @signature `Lokio/Buffer;.clear:()V` @kind virtual;
+  #L24a240.  goto L24a224;
+}
+procedure `boolean` `exhausted`(`okio.RealBufferedSource` v4 @kind this) @signature `Lokio/RealBufferedSource;.exhausted:()Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L24a254.  v0:= v4.`okio.RealBufferedSource.closed` @type ^`boolean` @kind boolean;
+  #L24a258.  if v0 == 0 then goto L24a26c;
+  #L24a25c.  v0:= new `java.lang.IllegalStateException`;
+  #L24a260.  v1:= "closed" @kind object;
+  #L24a264.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24a26a.  throw v0;
+  #L24a26c.  v0:= v4.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a270.  call temp:= `exhausted`(v0) @signature `Lokio/Buffer;.exhausted:()Z` @kind virtual;
+  #L24a276.  v0:= temp;
+  #L24a278.  if v0 == 0 then goto L24a2a0;
+  #L24a27c.  v0:= v4.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24a280.  v1:= v4.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a284.  v2:= 8192L;
+  #L24a288.  call temp:= `read`(v0, v1, v2) @signature `Lokio/Source;.read:(Lokio/Buffer;J)J` @kind interface;
+  #L24a28e.  v0:= temp @kind wide;
+  #L24a290.  v2:= -1L;
+  #L24a294.  v0:= lcmp(v0, v2);
+  #L24a298.  if v0 != 0 then goto L24a2a0;
+  #L24a29c.  v0:= 1I;
+  #L24a29e.  return v0;
+  #L24a2a0.  v0:= 0I;
+  #L24a2a2.  goto L24a29e;
+}
+procedure `long` `indexOf`(`okio.RealBufferedSource` v6 @kind this, `byte` v7 @name `b`) @signature `Lokio/RealBufferedSource;.indexOf:(B)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L24a2b4.  v2:= 0L;
+  #L24a2b8.  v4:= 9223372036854775807L;
+  #L24a2c2.  v0:= v6 @kind object;
+  #L24a2c4.  v1:= v7;
+  #L24a2c6.  call temp:= `indexOf`(v0, v1, v2, v4) @signature `Lokio/RealBufferedSource;.indexOf:(BJJ)J` @kind virtual;
+  #L24a2cc.  v0:= temp @kind wide;
+  #L24a2ce.  return v0 @kind wide;
+}
+procedure `long` `indexOf`(`okio.RealBufferedSource` v6 @kind this, `byte` v7 @name `b`, `long` v8 @name `fromIndex`) @signature `Lokio/RealBufferedSource;.indexOf:(BJ)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L24a2e0.  v4:= 9223372036854775807L;
+  #L24a2ea.  v0:= v6 @kind object;
+  #L24a2ec.  v1:= v7;
+  #L24a2ee.  v2:= v8 @kind wide;
+  #L24a2f0.  call temp:= `indexOf`(v0, v1, v2, v4) @signature `Lokio/RealBufferedSource;.indexOf:(BJJ)J` @kind virtual;
+  #L24a2f6.  v0:= temp @kind wide;
+  #L24a2f8.  return v0 @kind wide;
+}
+procedure `long` `indexOf`(`okio.RealBufferedSource` v10 @kind this, `byte` v11 @name `b`, `long` v12 @name `fromIndex`, `long` v14 @name `toIndex`) @signature `Lokio/RealBufferedSource;.indexOf:(BJJ)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+
+  #L24a30c.  v0:= v10.`okio.RealBufferedSource.closed` @type ^`boolean` @kind boolean;
+  #L24a310.  if v0 == 0 then goto L24a324;
+  #L24a314.  v0:= new `java.lang.IllegalStateException`;
+  #L24a318.  v1:= "closed" @kind object;
+  #L24a31c.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24a322.  throw v0;
+  #L24a324.  v0:= 0L;
+  #L24a328.  v0:= lcmp(v12, v0);
+  #L24a32c.  if v0 < 0 then goto L24a338;
+  #L24a330.  v0:= lcmp(v14, v12);
+  #L24a334.  if v0 >= 0 then goto L24a37a;
+  #L24a338.  v0:= new `java.lang.IllegalArgumentException`;
+  #L24a33c.  v1:= "fromIndex=%s toIndex=%s" @kind object;
+  #L24a340.  v2:= 2I;
+  #L24a342.  v2:= new `java.lang.Object`[v2];
+  #L24a346.  v3:= 0I;
+  #L24a348.  call temp:= `valueOf`(v12) @signature `Ljava/lang/Long;.valueOf:(J)Ljava/lang/Long;` @kind static;
+  #L24a34e.  v4:= temp @kind object;
+  #L24a350.  v2[v3]:= v4 @kind object;
+  #L24a354.  v3:= 1I;
+  #L24a356.  call temp:= `valueOf`(v14) @signature `Ljava/lang/Long;.valueOf:(J)Ljava/lang/Long;` @kind static;
+  #L24a35c.  v4:= temp @kind object;
+  #L24a35e.  v2[v3]:= v4 @kind object;
+  #L24a362.  call temp:= `format`(v1, v2) @signature `Ljava/lang/String;.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;` @kind static;
+  #L24a368.  v1:= temp @kind object;
+  #L24a36a.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24a370.  throw v0;
+  #L24a372.  call temp:= `max`(v12, v6) @signature `Ljava/lang/Math;.max:(JJ)J` @kind static;
+  #L24a378.  v12:= temp @kind wide;
+  #L24a37a.  v0:= lcmp(v12, v14);
+  #L24a37e.  if v0 >= 0 then goto L24a3d8;
+  #L24a382.  v0:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a386.  v1:= v11;
+  #L24a388.  v2:= v12 @kind wide;
+  #L24a38a.  v4:= v14 @kind wide;
+  #L24a38c.  call temp:= `indexOf`(v0, v1, v2, v4) @signature `Lokio/Buffer;.indexOf:(BJJ)J` @kind virtual;
+  #L24a392.  v8:= temp @kind wide;
+  #L24a394.  v0:= -1L;
+  #L24a398.  v0:= lcmp(v8, v0);
+  #L24a39c.  if v0 == 0 then goto L24a3a2;
+  #L24a3a0.  return v8 @kind wide;
+  #L24a3a2.  v0:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a3a6.  v6:= v0.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24a3aa.  v0:= lcmp(v6, v14);
+  #L24a3ae.  if v0 >= 0 then goto L24a3d2;
+  #L24a3b2.  v0:= v10.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24a3b6.  v1:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a3ba.  v2:= 8192L;
+  #L24a3be.  call temp:= `read`(v0, v1, v2) @signature `Lokio/Source;.read:(Lokio/Buffer;J)J` @kind interface;
+  #L24a3c4.  v0:= temp @kind wide;
+  #L24a3c6.  v2:= -1L;
+  #L24a3ca.  v0:= lcmp(v0, v2);
+  #L24a3ce.  if v0 != 0 then goto L24a372;
+  #L24a3d2.  v8:= -1L;
+  #L24a3d6.  goto L24a3a0;
+  #L24a3d8.  v8:= -1L;
+  #L24a3dc.  goto L24a3a0;
+}
+procedure `long` `indexOf`(`okio.RealBufferedSource` v2 @kind this, `okio.ByteString` v3 @kind object @name `bytes`) @signature `Lokio/RealBufferedSource;.indexOf:(Lokio/ByteString;)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24a3f0.  v0:= 0L;
+  #L24a3f4.  call temp:= `indexOf`(v2, v3, v0) @signature `Lokio/RealBufferedSource;.indexOf:(Lokio/ByteString;J)J` @kind virtual;
+  #L24a3fa.  v0:= temp @kind wide;
+  #L24a3fc.  return v0 @kind wide;
+}
+procedure `long` `indexOf`(`okio.RealBufferedSource` v10 @kind this, `okio.ByteString` v11 @kind object @name `bytes`, `long` v12 @name `fromIndex`) @signature `Lokio/RealBufferedSource;.indexOf:(Lokio/ByteString;J)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+
+  #L24a410.  v4:= -1L;
+  #L24a414.  v6:= v10.`okio.RealBufferedSource.closed` @type ^`boolean` @kind boolean;
+  #L24a418.  if v6 == 0 then goto L24a448;
+  #L24a41c.  v4:= new `java.lang.IllegalStateException`;
+  #L24a420.  v5:= "closed" @kind object;
+  #L24a424.  call `<init>`(v4, v5) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24a42a.  throw v4;
+  #L24a42c.  call temp:= `size`(v11) @signature `Lokio/ByteString;.size:()I` @kind virtual;
+  #L24a432.  v6:= temp;
+  #L24a434.  v6:= (`long`) v6 @kind i2l;
+  #L24a436.  v6:= v0 - v6 @kind long;
+  #L24a43a.  v8:= 1L;
+  #L24a43e.  v6:= v6 + v8 @kind long;
+  #L24a440.  call temp:= `max`(v12, v6) @signature `Ljava/lang/Math;.max:(JJ)J` @kind static;
+  #L24a446.  v12:= temp @kind wide;
+  #L24a448.  v6:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a44c.  call temp:= `indexOf`(v6, v11, v12) @signature `Lokio/Buffer;.indexOf:(Lokio/ByteString;J)J` @kind virtual;
+  #L24a452.  v2:= temp @kind wide;
+  #L24a454.  v6:= lcmp(v2, v4);
+  #L24a458.  if v6 == 0 then goto L24a45e;
+  #L24a45c.  return v2 @kind wide;
+  #L24a45e.  v6:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a462.  v0:= v6.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24a466.  v6:= v10.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24a46a.  v7:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a46e.  v8:= 8192L;
+  #L24a472.  call temp:= `read`(v6, v7, v8) @signature `Lokio/Source;.read:(Lokio/Buffer;J)J` @kind interface;
+  #L24a478.  v6:= temp @kind wide;
+  #L24a47a.  v6:= lcmp(v6, v4);
+  #L24a47e.  if v6 != 0 then goto L24a42c;
+  #L24a482.  v2:= v4 @kind wide;
+  #L24a484.  goto L24a45c;
+}
+procedure `long` `indexOfElement`(`okio.RealBufferedSource` v2 @kind this, `okio.ByteString` v3 @kind object @name `targetBytes`) @signature `Lokio/RealBufferedSource;.indexOfElement:(Lokio/ByteString;)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24a498.  v0:= 0L;
+  #L24a49c.  call temp:= `indexOfElement`(v2, v3, v0) @signature `Lokio/RealBufferedSource;.indexOfElement:(Lokio/ByteString;J)J` @kind virtual;
+  #L24a4a2.  v0:= temp @kind wide;
+  #L24a4a4.  return v0 @kind wide;
+}
+procedure `long` `indexOfElement`(`okio.RealBufferedSource` v10 @kind this, `okio.ByteString` v11 @kind object @name `targetBytes`, `long` v12 @name `fromIndex`) @signature `Lokio/RealBufferedSource;.indexOfElement:(Lokio/ByteString;J)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+
+  #L24a4b8.  v4:= -1L;
+  #L24a4bc.  v6:= v10.`okio.RealBufferedSource.closed` @type ^`boolean` @kind boolean;
+  #L24a4c0.  if v6 == 0 then goto L24a4dc;
+  #L24a4c4.  v4:= new `java.lang.IllegalStateException`;
+  #L24a4c8.  v5:= "closed" @kind object;
+  #L24a4cc.  call `<init>`(v4, v5) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24a4d2.  throw v4;
+  #L24a4d4.  call temp:= `max`(v12, v0) @signature `Ljava/lang/Math;.max:(JJ)J` @kind static;
+  #L24a4da.  v12:= temp @kind wide;
+  #L24a4dc.  v6:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a4e0.  call temp:= `indexOfElement`(v6, v11, v12) @signature `Lokio/Buffer;.indexOfElement:(Lokio/ByteString;J)J` @kind virtual;
+  #L24a4e6.  v2:= temp @kind wide;
+  #L24a4e8.  v6:= lcmp(v2, v4);
+  #L24a4ec.  if v6 == 0 then goto L24a4f2;
+  #L24a4f0.  return v2 @kind wide;
+  #L24a4f2.  v6:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a4f6.  v0:= v6.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24a4fa.  v6:= v10.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24a4fe.  v7:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a502.  v8:= 8192L;
+  #L24a506.  call temp:= `read`(v6, v7, v8) @signature `Lokio/Source;.read:(Lokio/Buffer;J)J` @kind interface;
+  #L24a50c.  v6:= temp @kind wide;
+  #L24a50e.  v6:= lcmp(v6, v4);
+  #L24a512.  if v6 != 0 then goto L24a4d4;
+  #L24a516.  v2:= v4 @kind wide;
+  #L24a518.  goto L24a4f0;
+}
+procedure `java.io.InputStream` `inputStream`(`okio.RealBufferedSource` v1 @kind this) @signature `Lokio/RealBufferedSource;.inputStream:()Ljava/io/InputStream;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L24a52c.  v0:= new `okio.RealBufferedSource$1`;
+  #L24a530.  call `<init>`(v0, v1) @signature `Lokio/RealBufferedSource$1;.<init>:(Lokio/RealBufferedSource;)V` @kind direct;
+  #L24a536.  return v0 @kind object;
+}
+procedure `boolean` `isOpen`(`okio.RealBufferedSource` v1 @kind this) @signature `Lokio/RealBufferedSource;.isOpen:()Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L24a548.  v0:= v1.`okio.RealBufferedSource.closed` @type ^`boolean` @kind boolean;
+  #L24a54c.  if v0 != 0 then goto L24a554;
+  #L24a550.  v0:= 1I;
+  #L24a552.  return v0;
+  #L24a554.  v0:= 0I;
+  #L24a556.  goto L24a552;
+}
+procedure `boolean` `rangeEquals`(`okio.RealBufferedSource` v7 @kind this, `long` v8 @name `offset`, `okio.ByteString` v10 @kind object @name `bytes`) @signature `Lokio/RealBufferedSource;.rangeEquals:(JLokio/ByteString;)Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L24a568.  v5:= 0I;
+  #L24a56a.  call temp:= `size`(v10) @signature `Lokio/ByteString;.size:()I` @kind virtual;
+  #L24a570.  v6:= temp;
+  #L24a572.  v1:= v7 @kind object;
+  #L24a574.  v2:= v8 @kind wide;
+  #L24a576.  v4:= v10 @kind object;
+  #L24a578.  call temp:= `rangeEquals`(v1, v2, v4, v5, v6) @signature `Lokio/RealBufferedSource;.rangeEquals:(JLokio/ByteString;II)Z` @kind virtual;
+  #L24a57e.  v0:= temp;
+  #L24a580.  return v0;
+}
+procedure `boolean` `rangeEquals`(`okio.RealBufferedSource` v7 @kind this, `long` v8 @name `offset`, `okio.ByteString` v10 @kind object @name `bytes`, `int` v11 @name `bytesOffset`, `int` v12 @name `byteCount`) @signature `Lokio/RealBufferedSource;.rangeEquals:(JLokio/ByteString;II)Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L24a594.  v3:= 0I;
+  #L24a596.  v4:= v7.`okio.RealBufferedSource.closed` @type ^`boolean` @kind boolean;
+  #L24a59a.  if v4 == 0 then goto L24a5ae;
+  #L24a59e.  v3:= new `java.lang.IllegalStateException`;
+  #L24a5a2.  v4:= "closed" @kind object;
+  #L24a5a6.  call `<init>`(v3, v4) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24a5ac.  throw v3;
+  #L24a5ae.  v4:= 0L;
+  #L24a5b2.  v4:= lcmp(v8, v4);
+  #L24a5b6.  if v4 < 0 then goto L24a5d0;
+  #L24a5ba.  if v11 < 0 then goto L24a5d0;
+  #L24a5be.  if v12 < 0 then goto L24a5d0;
+  #L24a5c2.  call temp:= `size`(v10) @signature `Lokio/ByteString;.size:()I` @kind virtual;
+  #L24a5c8.  v4:= temp;
+  #L24a5ca.  v4:= v4 - v11 @kind int;
+  #L24a5cc.  if v4 >= v12 then goto L24a5d2;
+  #L24a5d0.  return v3;
+  #L24a5d2.  v2:= 0I;
+  #L24a5d4.  if v2 >= v12 then goto L24a612;
+  #L24a5d8.  v4:= (`long`) v2 @kind i2l;
+  #L24a5da.  v0:= v8 + v4 @kind long;
+  #L24a5de.  v4:= 1L;
+  #L24a5e2.  v4:= v4 + v0 @kind long;
+  #L24a5e4.  call temp:= `request`(v7, v4) @signature `Lokio/RealBufferedSource;.request:(J)Z` @kind virtual;
+  #L24a5ea.  v4:= temp;
+  #L24a5ec.  if v4 == 0 then goto L24a5d0;
+  #L24a5f0.  v4:= v7.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a5f4.  call temp:= `getByte`(v4, v0) @signature `Lokio/Buffer;.getByte:(J)B` @kind virtual;
+  #L24a5fa.  v4:= temp;
+  #L24a5fc.  v5:= v11 + v2 @kind int;
+  #L24a600.  call temp:= `getByte`(v10, v5) @signature `Lokio/ByteString;.getByte:(I)B` @kind virtual;
+  #L24a606.  v5:= temp;
+  #L24a608.  if v4 != v5 then goto L24a5d0;
+  #L24a60c.  v2:= v2 + 1;
+  #L24a610.  goto L24a5d4;
+  #L24a612.  v3:= 1I;
+  #L24a614.  goto L24a5d0;
+}
+procedure `int` `read`(`okio.RealBufferedSource` v6 @kind this, `java.nio.ByteBuffer` v7 @kind object @name `sink`) @signature `Lokio/RealBufferedSource;.read:(Ljava/nio/ByteBuffer;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L24a628.  v2:= v6.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a62c.  v2:= v2.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24a630.  v4:= 0L;
+  #L24a634.  v2:= lcmp(v2, v4);
+  #L24a638.  if v2 != 0 then goto L24a660;
+  #L24a63c.  v2:= v6.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24a640.  v3:= v6.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a644.  v4:= 8192L;
+  #L24a648.  call temp:= `read`(v2, v3, v4) @signature `Lokio/Source;.read:(Lokio/Buffer;J)J` @kind interface;
+  #L24a64e.  v0:= temp @kind wide;
+  #L24a650.  v2:= -1L;
+  #L24a654.  v2:= lcmp(v0, v2);
+  #L24a658.  if v2 != 0 then goto L24a660;
+  #L24a65c.  v2:= -1I;
+  #L24a65e.  return v2;
+  #L24a660.  v2:= v6.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a664.  call temp:= `read`(v2, v7) @signature `Lokio/Buffer;.read:(Ljava/nio/ByteBuffer;)I` @kind virtual;
+  #L24a66a.  v2:= temp;
+  #L24a66c.  goto L24a65e;
+}
+procedure `int` `read`(`okio.RealBufferedSource` v2 @kind this, `byte`[] v3 @kind object @name `sink`) @signature `Lokio/RealBufferedSource;.read:([B)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24a680.  v0:= 0I;
+  #L24a682.  v1:= length @variable v3;
+  #L24a684.  call temp:= `read`(v2, v3, v0, v1) @signature `Lokio/RealBufferedSource;.read:([BII)I` @kind virtual;
+  #L24a68a.  v0:= temp;
+  #L24a68c.  return v0;
+}
+procedure `int` `read`(`okio.RealBufferedSource` v9 @kind this, `byte`[] v10 @kind object @name `sink`, `int` v11 @name `offset`, `int` v12 @name `byteCount`) @signature `Lokio/RealBufferedSource;.read:([BII)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+
+  #L24a6a0.  v0:= length @variable v10;
+  #L24a6a2.  v0:= (`long`) v0 @kind i2l;
+  #L24a6a4.  v2:= (`long`) v11 @kind i2l;
+  #L24a6a6.  v4:= (`long`) v12 @kind i2l;
+  #L24a6a8.  call `checkOffsetAndCount`(v0, v2, v4) @signature `Lokio/Util;.checkOffsetAndCount:(JJJ)V` @kind static;
+  #L24a6ae.  v0:= v9.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a6b2.  v0:= v0.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24a6b6.  v2:= 0L;
+  #L24a6ba.  v0:= lcmp(v0, v2);
+  #L24a6be.  if v0 != 0 then goto L24a6e6;
+  #L24a6c2.  v0:= v9.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24a6c6.  v1:= v9.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a6ca.  v2:= 8192L;
+  #L24a6ce.  call temp:= `read`(v0, v1, v2) @signature `Lokio/Source;.read:(Lokio/Buffer;J)J` @kind interface;
+  #L24a6d4.  v6:= temp @kind wide;
+  #L24a6d6.  v0:= -1L;
+  #L24a6da.  v0:= lcmp(v6, v0);
+  #L24a6de.  if v0 != 0 then goto L24a6e6;
+  #L24a6e2.  v0:= -1I;
+  #L24a6e4.  return v0;
+  #L24a6e6.  v0:= (`long`) v12 @kind i2l;
+  #L24a6e8.  v2:= v9.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a6ec.  v2:= v2.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24a6f0.  call temp:= `min`(v0, v2) @signature `Ljava/lang/Math;.min:(JJ)J` @kind static;
+  #L24a6f6.  v0:= temp @kind wide;
+  #L24a6f8.  v8:= (`int`) v0 @kind l2i;
+  #L24a6fa.  v0:= v9.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a6fe.  call temp:= `read`(v0, v10, v11, v8) @signature `Lokio/Buffer;.read:([BII)I` @kind virtual;
+  #L24a704.  v0:= temp;
+  #L24a706.  goto L24a6e4;
+}
+procedure `long` `read`(`okio.RealBufferedSource` v10 @kind this, `okio.Buffer` v11 @kind object @name `sink`, `long` v12 @name `byteCount`) @signature `Lokio/RealBufferedSource;.read:(Lokio/Buffer;J)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+
+  #L24a718.  v8:= 0L;
+  #L24a71c.  v4:= -1L;
+  #L24a720.  if v11 != 0 then goto L24a734;
+  #L24a724.  v4:= new `java.lang.IllegalArgumentException`;
+  #L24a728.  v5:= "sink == null" @kind object;
+  #L24a72c.  call `<init>`(v4, v5) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24a732.  throw v4;
+  #L24a734.  v6:= lcmp(v12, v8);
+  #L24a738.  if v6 >= 0 then goto L24a76e;
+  #L24a73c.  v4:= new `java.lang.IllegalArgumentException`;
+  #L24a740.  v5:= new `java.lang.StringBuilder`;
+  #L24a744.  call `<init>`(v5) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L24a74a.  v6:= "byteCount < 0: " @kind object;
+  #L24a74e.  call temp:= `append`(v5, v6) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L24a754.  v5:= temp @kind object;
+  #L24a756.  call temp:= `append`(v5, v12) @signature `Ljava/lang/StringBuilder;.append:(J)Ljava/lang/StringBuilder;` @kind virtual;
+  #L24a75c.  v5:= temp @kind object;
+  #L24a75e.  call temp:= `toString`(v5) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L24a764.  v5:= temp @kind object;
+  #L24a766.  call `<init>`(v4, v5) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24a76c.  throw v4;
+  #L24a76e.  v6:= v10.`okio.RealBufferedSource.closed` @type ^`boolean` @kind boolean;
+  #L24a772.  if v6 == 0 then goto L24a786;
+  #L24a776.  v4:= new `java.lang.IllegalStateException`;
+  #L24a77a.  v5:= "closed" @kind object;
+  #L24a77e.  call `<init>`(v4, v5) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24a784.  throw v4;
+  #L24a786.  v6:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a78a.  v6:= v6.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24a78e.  v6:= lcmp(v6, v8);
+  #L24a792.  if v6 != 0 then goto L24a7b4;
+  #L24a796.  v6:= v10.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24a79a.  v7:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a79e.  v8:= 8192L;
+  #L24a7a2.  call temp:= `read`(v6, v7, v8) @signature `Lokio/Source;.read:(Lokio/Buffer;J)J` @kind interface;
+  #L24a7a8.  v0:= temp @kind wide;
+  #L24a7aa.  v6:= lcmp(v0, v4);
+  #L24a7ae.  if v6 != 0 then goto L24a7b4;
+  #L24a7b2.  return v4 @kind wide;
+  #L24a7b4.  v4:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a7b8.  v4:= v4.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24a7bc.  call temp:= `min`(v12, v4) @signature `Ljava/lang/Math;.min:(JJ)J` @kind static;
+  #L24a7c2.  v2:= temp @kind wide;
+  #L24a7c4.  v4:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a7c8.  call temp:= `read`(v4, v11, v2) @signature `Lokio/Buffer;.read:(Lokio/Buffer;J)J` @kind virtual;
+  #L24a7ce.  v4:= temp @kind wide;
+  #L24a7d0.  goto L24a7b2;
+}
+procedure `long` `readAll`(`okio.RealBufferedSource` v10 @kind this, `okio.Sink` v11 @kind object @name `sink`) @signature `Lokio/RealBufferedSource;.readAll:(Lokio/Sink;)J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+
+  #L24a7e4.  v8:= 0L;
+  #L24a7e8.  if v11 != 0 then goto L24a7fc;
+  #L24a7ec.  v4:= new `java.lang.IllegalArgumentException`;
+  #L24a7f0.  v5:= "sink == null" @kind object;
+  #L24a7f4.  call `<init>`(v4, v5) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24a7fa.  throw v4;
+  #L24a7fc.  v2:= 0L;
+  #L24a800.  v4:= v10.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24a804.  v5:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a808.  v6:= 8192L;
+  #L24a80c.  call temp:= `read`(v4, v5, v6) @signature `Lokio/Source;.read:(Lokio/Buffer;J)J` @kind interface;
+  #L24a812.  v4:= temp @kind wide;
+  #L24a814.  v6:= -1L;
+  #L24a818.  v4:= lcmp(v4, v6);
+  #L24a81c.  if v4 == 0 then goto L24a842;
+  #L24a820.  v4:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a824.  call temp:= `completeSegmentByteCount`(v4) @signature `Lokio/Buffer;.completeSegmentByteCount:()J` @kind virtual;
+  #L24a82a.  v0:= temp @kind wide;
+  #L24a82c.  v4:= lcmp(v0, v8);
+  #L24a830.  if v4 <= 0 then goto L24a800;
+  #L24a834.  v2:= v2 + v0 @kind long;
+  #L24a836.  v4:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a83a.  call `write`(v11, v4, v0) @signature `Lokio/Sink;.write:(Lokio/Buffer;J)V` @kind interface;
+  #L24a840.  goto L24a800;
+  #L24a842.  v4:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a846.  call temp:= `size`(v4) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L24a84c.  v4:= temp @kind wide;
+  #L24a84e.  v4:= lcmp(v4, v8);
+  #L24a852.  if v4 <= 0 then goto L24a87a;
+  #L24a856.  v4:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a85a.  call temp:= `size`(v4) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L24a860.  v4:= temp @kind wide;
+  #L24a862.  v2:= v2 + v4 @kind long;
+  #L24a864.  v4:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a868.  v5:= v10.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a86c.  call temp:= `size`(v5) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L24a872.  v6:= temp @kind wide;
+  #L24a874.  call `write`(v11, v4, v6) @signature `Lokio/Sink;.write:(Lokio/Buffer;J)V` @kind interface;
+  #L24a87a.  return v2 @kind wide;
+}
+procedure `byte` `readByte`(`okio.RealBufferedSource` v2 @kind this) @signature `Lokio/RealBufferedSource;.readByte:()B` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24a88c.  v0:= 1L;
+  #L24a890.  call `require`(v2, v0) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24a896.  v0:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a89a.  call temp:= `readByte`(v0) @signature `Lokio/Buffer;.readByte:()B` @kind virtual;
+  #L24a8a0.  v0:= temp;
+  #L24a8a2.  return v0;
+}
+procedure `byte`[] `readByteArray`(`okio.RealBufferedSource` v2 @kind this) @signature `Lokio/RealBufferedSource;.readByteArray:()[B` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24a8b4.  v0:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a8b8.  v1:= v2.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24a8bc.  call temp:= `writeAll`(v0, v1) @signature `Lokio/Buffer;.writeAll:(Lokio/Source;)J` @kind virtual;
+  #L24a8c2.  v0:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a8c6.  call temp:= `readByteArray`(v0) @signature `Lokio/Buffer;.readByteArray:()[B` @kind virtual;
+  #L24a8cc.  v0:= temp @kind object;
+  #L24a8ce.  return v0 @kind object;
+}
+procedure `byte`[] `readByteArray`(`okio.RealBufferedSource` v1 @kind this, `long` v2 @name `byteCount`) @signature `Lokio/RealBufferedSource;.readByteArray:(J)[B` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L24a8e0.  call `require`(v1, v2) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24a8e6.  v0:= v1.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a8ea.  call temp:= `readByteArray`(v0, v2) @signature `Lokio/Buffer;.readByteArray:(J)[B` @kind virtual;
+  #L24a8f0.  v0:= temp @kind object;
+  #L24a8f2.  return v0 @kind object;
+}
+procedure `okio.ByteString` `readByteString`(`okio.RealBufferedSource` v2 @kind this) @signature `Lokio/RealBufferedSource;.readByteString:()Lokio/ByteString;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24a904.  v0:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a908.  v1:= v2.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24a90c.  call temp:= `writeAll`(v0, v1) @signature `Lokio/Buffer;.writeAll:(Lokio/Source;)J` @kind virtual;
+  #L24a912.  v0:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a916.  call temp:= `readByteString`(v0) @signature `Lokio/Buffer;.readByteString:()Lokio/ByteString;` @kind virtual;
+  #L24a91c.  v0:= temp @kind object;
+  #L24a91e.  return v0 @kind object;
+}
+procedure `okio.ByteString` `readByteString`(`okio.RealBufferedSource` v1 @kind this, `long` v2 @name `byteCount`) @signature `Lokio/RealBufferedSource;.readByteString:(J)Lokio/ByteString;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L24a930.  call `require`(v1, v2) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24a936.  v0:= v1.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a93a.  call temp:= `readByteString`(v0, v2) @signature `Lokio/Buffer;.readByteString:(J)Lokio/ByteString;` @kind virtual;
+  #L24a940.  v0:= temp @kind object;
+  #L24a942.  return v0 @kind object;
+}
+procedure `long` `readDecimalLong`(`okio.RealBufferedSource` v7 @kind this) @signature `Lokio/RealBufferedSource;.readDecimalLong:()J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L24a954.  v2:= 1L;
+  #L24a958.  call `require`(v7, v2) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24a95e.  v1:= 0I;
+  #L24a960.  v2:= v1 + 1;
+  #L24a964.  v2:= (`long`) v2 @kind i2l;
+  #L24a966.  call temp:= `request`(v7, v2) @signature `Lokio/RealBufferedSource;.request:(J)Z` @kind virtual;
+  #L24a96c.  v2:= temp;
+  #L24a96e.  if v2 == 0 then goto L24a9d2;
+  #L24a972.  v2:= v7.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a976.  v4:= (`long`) v1 @kind i2l;
+  #L24a978.  call temp:= `getByte`(v2, v4) @signature `Lokio/Buffer;.getByte:(J)B` @kind virtual;
+  #L24a97e.  v0:= temp;
+  #L24a980.  v2:= 48I;
+  #L24a984.  if v0 < v2 then goto L24a990;
+  #L24a988.  v2:= 57I;
+  #L24a98c.  if v0 <= v2 then goto L24a9cc;
+  #L24a990.  if v1 != 0 then goto L24a99c;
+  #L24a994.  v2:= 45I;
+  #L24a998.  if v0 == v2 then goto L24a9cc;
+  #L24a99c.  if v1 != 0 then goto L24a9d2;
+  #L24a9a0.  v2:= new `java.lang.NumberFormatException`;
+  #L24a9a4.  v3:= "Expected leading [0-9] or '-' character but was %#x" @kind object;
+  #L24a9a8.  v4:= 1I;
+  #L24a9aa.  v4:= new `java.lang.Object`[v4];
+  #L24a9ae.  v5:= 0I;
+  #L24a9b0.  call temp:= `valueOf`(v0) @signature `Ljava/lang/Byte;.valueOf:(B)Ljava/lang/Byte;` @kind static;
+  #L24a9b6.  v6:= temp @kind object;
+  #L24a9b8.  v4[v5]:= v6 @kind object;
+  #L24a9bc.  call temp:= `format`(v3, v4) @signature `Ljava/lang/String;.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;` @kind static;
+  #L24a9c2.  v3:= temp @kind object;
+  #L24a9c4.  call `<init>`(v2, v3) @signature `Ljava/lang/NumberFormatException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24a9ca.  throw v2;
+  #L24a9cc.  v1:= v1 + 1;
+  #L24a9d0.  goto L24a960;
+  #L24a9d2.  v2:= v7.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a9d6.  call temp:= `readDecimalLong`(v2) @signature `Lokio/Buffer;.readDecimalLong:()J` @kind virtual;
+  #L24a9dc.  v2:= temp @kind wide;
+  #L24a9de.  return v2 @kind wide;
+}
+procedure `void` `readFully`(`okio.RealBufferedSource` v2 @kind this, `okio.Buffer` v3 @kind object @name `sink`, `long` v4 @name `byteCount`) @signature `Lokio/RealBufferedSource;.readFully:(Lokio/Buffer;J)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #Try_start0.  
+  #L24a9f0.  call `require`(v2, v4) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #Try_end0.  
+  #L24a9f6.  v1:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24a9fa.  call `readFully`(v1, v3, v4) @signature `Lokio/Buffer;.readFully:(Lokio/Buffer;J)V` @kind virtual;
+  #L24aa00.  return @kind void;
+  #L24aa02.  v0:= Exception @type ^`java.io.EOFException` @kind object;
+  #L24aa04.  v1:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24aa08.  call temp:= `writeAll`(v3, v1) @signature `Lokio/Buffer;.writeAll:(Lokio/Source;)J` @kind virtual;
+  #L24aa0e.  throw v0;
+  catch `java.io.EOFException` @[Try_start0..Try_end0] goto L24aa02;
+}
+procedure `void` `readFully`(`okio.RealBufferedSource` v8 @kind this, `byte`[] v9 @kind object @name `sink`) @signature `Lokio/RealBufferedSource;.readFully:([B)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+
+  #Try_start0.  
+  #L24aa30.  v3:= length @variable v9;
+  #L24aa32.  v4:= (`long`) v3 @kind i2l;
+  #L24aa34.  call `require`(v8, v4) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #Try_end0.  
+  #L24aa3a.  v3:= v8.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24aa3e.  call `readFully`(v3, v9) @signature `Lokio/Buffer;.readFully:([B)V` @kind virtual;
+  #L24aa44.  return @kind void;
+  #L24aa46.  v0:= Exception @type ^`java.io.EOFException` @kind object;
+  #L24aa48.  v1:= 0I;
+  #L24aa4a.  v3:= v8.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24aa4e.  v4:= v3.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24aa52.  v6:= 0L;
+  #L24aa56.  v3:= lcmp(v4, v6);
+  #L24aa5a.  if v3 <= 0 then goto L24aa8a;
+  #L24aa5e.  v3:= v8.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24aa62.  v4:= v8.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24aa66.  v4:= v4.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24aa6a.  v4:= (`int`) v4 @kind l2i;
+  #L24aa6c.  call temp:= `read`(v3, v9, v1, v4) @signature `Lokio/Buffer;.read:([BII)I` @kind virtual;
+  #L24aa72.  v2:= temp;
+  #L24aa74.  v3:= -1I;
+  #L24aa76.  if v2 != v3 then goto L24aa86;
+  #L24aa7a.  v3:= new `java.lang.AssertionError`;
+  #L24aa7e.  call `<init>`(v3) @signature `Ljava/lang/AssertionError;.<init>:()V` @kind direct;
+  #L24aa84.  throw v3;
+  #L24aa86.  v1:= v1 + v2 @kind int;
+  #L24aa88.  goto L24aa4a;
+  #L24aa8a.  throw v0;
+  catch `java.io.EOFException` @[Try_start0..Try_end0] goto L24aa46;
+}
+procedure `long` `readHexadecimalUnsignedLong`(`okio.RealBufferedSource` v7 @kind this) @signature `Lokio/RealBufferedSource;.readHexadecimalUnsignedLong:()J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+
+  #L24aaac.  v2:= 1L;
+  #L24aab0.  call `require`(v7, v2) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24aab6.  v1:= 0I;
+  #L24aab8.  v2:= v1 + 1;
+  #L24aabc.  v2:= (`long`) v2 @kind i2l;
+  #L24aabe.  call temp:= `request`(v7, v2) @signature `Lokio/RealBufferedSource;.request:(J)Z` @kind virtual;
+  #L24aac4.  v2:= temp;
+  #L24aac6.  if v2 == 0 then goto L24ab3e;
+  #L24aaca.  v2:= v7.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24aace.  v4:= (`long`) v1 @kind i2l;
+  #L24aad0.  call temp:= `getByte`(v2, v4) @signature `Lokio/Buffer;.getByte:(J)B` @kind virtual;
+  #L24aad6.  v0:= temp;
+  #L24aad8.  v2:= 48I;
+  #L24aadc.  if v0 < v2 then goto L24aae8;
+  #L24aae0.  v2:= 57I;
+  #L24aae4.  if v0 <= v2 then goto L24ab38;
+  #L24aae8.  v2:= 97I;
+  #L24aaec.  if v0 < v2 then goto L24aaf8;
+  #L24aaf0.  v2:= 102I;
+  #L24aaf4.  if v0 <= v2 then goto L24ab38;
+  #L24aaf8.  v2:= 65I;
+  #L24aafc.  if v0 < v2 then goto L24ab08;
+  #L24ab00.  v2:= 70I;
+  #L24ab04.  if v0 <= v2 then goto L24ab38;
+  #L24ab08.  if v1 != 0 then goto L24ab3e;
+  #L24ab0c.  v2:= new `java.lang.NumberFormatException`;
+  #L24ab10.  v3:= "Expected leading [0-9a-fA-F] character but was %#x" @kind object;
+  #L24ab14.  v4:= 1I;
+  #L24ab16.  v4:= new `java.lang.Object`[v4];
+  #L24ab1a.  v5:= 0I;
+  #L24ab1c.  call temp:= `valueOf`(v0) @signature `Ljava/lang/Byte;.valueOf:(B)Ljava/lang/Byte;` @kind static;
+  #L24ab22.  v6:= temp @kind object;
+  #L24ab24.  v4[v5]:= v6 @kind object;
+  #L24ab28.  call temp:= `format`(v3, v4) @signature `Ljava/lang/String;.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;` @kind static;
+  #L24ab2e.  v3:= temp @kind object;
+  #L24ab30.  call `<init>`(v2, v3) @signature `Ljava/lang/NumberFormatException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24ab36.  throw v2;
+  #L24ab38.  v1:= v1 + 1;
+  #L24ab3c.  goto L24aab8;
+  #L24ab3e.  v2:= v7.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24ab42.  call temp:= `readHexadecimalUnsignedLong`(v2) @signature `Lokio/Buffer;.readHexadecimalUnsignedLong:()J` @kind virtual;
+  #L24ab48.  v2:= temp @kind wide;
+  #L24ab4a.  return v2 @kind wide;
+}
+procedure `int` `readInt`(`okio.RealBufferedSource` v2 @kind this) @signature `Lokio/RealBufferedSource;.readInt:()I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24ab5c.  v0:= 4L;
+  #L24ab60.  call `require`(v2, v0) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24ab66.  v0:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24ab6a.  call temp:= `readInt`(v0) @signature `Lokio/Buffer;.readInt:()I` @kind virtual;
+  #L24ab70.  v0:= temp;
+  #L24ab72.  return v0;
+}
+procedure `int` `readIntLe`(`okio.RealBufferedSource` v2 @kind this) @signature `Lokio/RealBufferedSource;.readIntLe:()I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24ab84.  v0:= 4L;
+  #L24ab88.  call `require`(v2, v0) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24ab8e.  v0:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24ab92.  call temp:= `readIntLe`(v0) @signature `Lokio/Buffer;.readIntLe:()I` @kind virtual;
+  #L24ab98.  v0:= temp;
+  #L24ab9a.  return v0;
+}
+procedure `long` `readLong`(`okio.RealBufferedSource` v2 @kind this) @signature `Lokio/RealBufferedSource;.readLong:()J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24abac.  v0:= 8L;
+  #L24abb0.  call `require`(v2, v0) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24abb6.  v0:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24abba.  call temp:= `readLong`(v0) @signature `Lokio/Buffer;.readLong:()J` @kind virtual;
+  #L24abc0.  v0:= temp @kind wide;
+  #L24abc2.  return v0 @kind wide;
+}
+procedure `long` `readLongLe`(`okio.RealBufferedSource` v2 @kind this) @signature `Lokio/RealBufferedSource;.readLongLe:()J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24abd4.  v0:= 8L;
+  #L24abd8.  call `require`(v2, v0) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24abde.  v0:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24abe2.  call temp:= `readLongLe`(v0) @signature `Lokio/Buffer;.readLongLe:()J` @kind virtual;
+  #L24abe8.  v0:= temp @kind wide;
+  #L24abea.  return v0 @kind wide;
+}
+procedure `short` `readShort`(`okio.RealBufferedSource` v2 @kind this) @signature `Lokio/RealBufferedSource;.readShort:()S` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24abfc.  v0:= 2L;
+  #L24ac00.  call `require`(v2, v0) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24ac06.  v0:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24ac0a.  call temp:= `readShort`(v0) @signature `Lokio/Buffer;.readShort:()S` @kind virtual;
+  #L24ac10.  v0:= temp;
+  #L24ac12.  return v0;
+}
+procedure `short` `readShortLe`(`okio.RealBufferedSource` v2 @kind this) @signature `Lokio/RealBufferedSource;.readShortLe:()S` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24ac24.  v0:= 2L;
+  #L24ac28.  call `require`(v2, v0) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24ac2e.  v0:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24ac32.  call temp:= `readShortLe`(v0) @signature `Lokio/Buffer;.readShortLe:()S` @kind virtual;
+  #L24ac38.  v0:= temp;
+  #L24ac3a.  return v0;
+}
+procedure `java.lang.String` `readString`(`okio.RealBufferedSource` v3 @kind this, `long` v4 @name `byteCount`, `java.nio.charset.Charset` v6 @kind object @name `charset`) @signature `Lokio/RealBufferedSource;.readString:(JLjava/nio/charset/Charset;)Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+
+  #L24ac4c.  call `require`(v3, v4) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24ac52.  if v6 != 0 then goto L24ac66;
+  #L24ac56.  v0:= new `java.lang.IllegalArgumentException`;
+  #L24ac5a.  v1:= "charset == null" @kind object;
+  #L24ac5e.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24ac64.  throw v0;
+  #L24ac66.  v0:= v3.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24ac6a.  call temp:= `readString`(v0, v4, v6) @signature `Lokio/Buffer;.readString:(JLjava/nio/charset/Charset;)Ljava/lang/String;` @kind virtual;
+  #L24ac70.  v0:= temp @kind object;
+  #L24ac72.  return v0 @kind object;
+}
+procedure `java.lang.String` `readString`(`okio.RealBufferedSource` v2 @kind this, `java.nio.charset.Charset` v3 @kind object @name `charset`) @signature `Lokio/RealBufferedSource;.readString:(Ljava/nio/charset/Charset;)Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24ac84.  if v3 != 0 then goto L24ac98;
+  #L24ac88.  v0:= new `java.lang.IllegalArgumentException`;
+  #L24ac8c.  v1:= "charset == null" @kind object;
+  #L24ac90.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24ac96.  throw v0;
+  #L24ac98.  v0:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24ac9c.  v1:= v2.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24aca0.  call temp:= `writeAll`(v0, v1) @signature `Lokio/Buffer;.writeAll:(Lokio/Source;)J` @kind virtual;
+  #L24aca6.  v0:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24acaa.  call temp:= `readString`(v0, v3) @signature `Lokio/Buffer;.readString:(Ljava/nio/charset/Charset;)Ljava/lang/String;` @kind virtual;
+  #L24acb0.  v0:= temp @kind object;
+  #L24acb2.  return v0 @kind object;
+}
+procedure `java.lang.String` `readUtf8`(`okio.RealBufferedSource` v2 @kind this) @signature `Lokio/RealBufferedSource;.readUtf8:()Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24acc4.  v0:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24acc8.  v1:= v2.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24accc.  call temp:= `writeAll`(v0, v1) @signature `Lokio/Buffer;.writeAll:(Lokio/Source;)J` @kind virtual;
+  #L24acd2.  v0:= v2.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24acd6.  call temp:= `readUtf8`(v0) @signature `Lokio/Buffer;.readUtf8:()Ljava/lang/String;` @kind virtual;
+  #L24acdc.  v0:= temp @kind object;
+  #L24acde.  return v0 @kind object;
+}
+procedure `java.lang.String` `readUtf8`(`okio.RealBufferedSource` v1 @kind this, `long` v2 @name `byteCount`) @signature `Lokio/RealBufferedSource;.readUtf8:(J)Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L24acf0.  call `require`(v1, v2) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24acf6.  v0:= v1.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24acfa.  call temp:= `readUtf8`(v0, v2) @signature `Lokio/Buffer;.readUtf8:(J)Ljava/lang/String;` @kind virtual;
+  #L24ad00.  v0:= temp @kind object;
+  #L24ad02.  return v0 @kind object;
+}
+procedure `int` `readUtf8CodePoint`(`okio.RealBufferedSource` v4 @kind this) @signature `Lokio/RealBufferedSource;.readUtf8CodePoint:()I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L24ad14.  v2:= 1L;
+  #L24ad18.  call `require`(v4, v2) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24ad1e.  v1:= v4.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24ad22.  v2:= 0L;
+  #L24ad26.  call temp:= `getByte`(v1, v2) @signature `Lokio/Buffer;.getByte:(J)B` @kind virtual;
+  #L24ad2c.  v0:= temp;
+  #L24ad2e.  v1:= v0 ^& 224;
+  #L24ad32.  v2:= 192I;
+  #L24ad36.  if v1 != v2 then goto L24ad52;
+  #L24ad3a.  v2:= 2L;
+  #L24ad3e.  call `require`(v4, v2) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24ad44.  v1:= v4.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24ad48.  call temp:= `readUtf8CodePoint`(v1) @signature `Lokio/Buffer;.readUtf8CodePoint:()I` @kind virtual;
+  #L24ad4e.  v1:= temp;
+  #L24ad50.  return v1;
+  #L24ad52.  v1:= v0 ^& 240;
+  #L24ad56.  v2:= 224I;
+  #L24ad5a.  if v1 != v2 then goto L24ad6a;
+  #L24ad5e.  v2:= 3L;
+  #L24ad62.  call `require`(v4, v2) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24ad68.  goto L24ad44;
+  #L24ad6a.  v1:= v0 ^& 248;
+  #L24ad6e.  v2:= 240I;
+  #L24ad72.  if v1 != v2 then goto L24ad44;
+  #L24ad76.  v2:= 4L;
+  #L24ad7a.  call `require`(v4, v2) @signature `Lokio/RealBufferedSource;.require:(J)V` @kind virtual;
+  #L24ad80.  goto L24ad44;
+}
+procedure `java.lang.String` `readUtf8Line`(`okio.RealBufferedSource` v6 @kind this) @signature `Lokio/RealBufferedSource;.readUtf8Line:()Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L24ad94.  v2:= 10I;
+  #L24ad98.  call temp:= `indexOf`(v6, v2) @signature `Lokio/RealBufferedSource;.indexOf:(B)J` @kind virtual;
+  #L24ad9e.  v0:= temp @kind wide;
+  #L24ada0.  v2:= -1L;
+  #L24ada4.  v2:= lcmp(v0, v2);
+  #L24ada8.  if v2 != 0 then goto L24add6;
+  #L24adac.  v2:= v6.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24adb0.  v2:= v2.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24adb4.  v4:= 0L;
+  #L24adb8.  v2:= lcmp(v2, v4);
+  #L24adbc.  if v2 == 0 then goto L24add2;
+  #L24adc0.  v2:= v6.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24adc4.  v2:= v2.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24adc8.  call temp:= `readUtf8`(v6, v2) @signature `Lokio/RealBufferedSource;.readUtf8:(J)Ljava/lang/String;` @kind virtual;
+  #L24adce.  v2:= temp @kind object;
+  #L24add0.  return v2 @kind object;
+  #L24add2.  v2:= 0I;
+  #L24add4.  goto L24add0;
+  #L24add6.  v2:= v6.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24adda.  call temp:= `readUtf8Line`(v2, v0) @signature `Lokio/Buffer;.readUtf8Line:(J)Ljava/lang/String;` @kind virtual;
+  #L24ade0.  v2:= temp @kind object;
+  #L24ade2.  goto L24add0;
+}
+procedure `java.lang.String` `readUtf8LineStrict`(`okio.RealBufferedSource` v2 @kind this) @signature `Lokio/RealBufferedSource;.readUtf8LineStrict:()Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24adf4.  v0:= 9223372036854775807L;
+  #L24adfe.  call temp:= `readUtf8LineStrict`(v2, v0) @signature `Lokio/RealBufferedSource;.readUtf8LineStrict:(J)Ljava/lang/String;` @kind virtual;
+  #L24ae04.  v0:= temp @kind object;
+  #L24ae06.  return v0 @kind object;
+}
+procedure `java.lang.String` `readUtf8LineStrict`(`okio.RealBufferedSource` v17 @kind this, `long` v18 @name `limit`) @signature `Lokio/RealBufferedSource;.readUtf8LineStrict:(J)Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+    v9;
+    v10;
+    v11;
+    v12;
+    v13;
+    v14;
+    v15;
+    v16;
+
+  #L24ae18.  v2:= 0L;
+  #L24ae1c.  v2:= lcmp(v18, v2);
+  #L24ae20.  if v2 >= 0 then goto L24ae5a;
+  #L24ae24.  v2:= new `java.lang.IllegalArgumentException`;
+  #L24ae28.  v3:= new `java.lang.StringBuilder`;
+  #L24ae2c.  call `<init>`(v3) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L24ae32.  v4:= "limit < 0: " @kind object;
+  #L24ae36.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L24ae3c.  v3:= temp @kind object;
+  #L24ae3e.  v0:= v18 @kind wide;
+  #L24ae42.  call temp:= `append`(v3, v0) @signature `Ljava/lang/StringBuilder;.append:(J)Ljava/lang/StringBuilder;` @kind virtual;
+  #L24ae48.  v3:= temp @kind object;
+  #L24ae4a.  call temp:= `toString`(v3) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L24ae50.  v3:= temp @kind object;
+  #L24ae52.  call `<init>`(v2, v3) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24ae58.  throw v2;
+  #L24ae5a.  v2:= 9223372036854775807L;
+  #L24ae64.  v2:= lcmp(v18, v2);
+  #L24ae68.  if v2 != 0 then goto L24aea8;
+  #L24ae6c.  v6:= 9223372036854775807L;
+  #L24ae76.  v3:= 10I;
+  #L24ae7a.  v4:= 0L;
+  #L24ae7e.  v2:= v17 @kind object;
+  #L24ae82.  call temp:= `indexOf`(v2, v3, v4, v6) @signature `Lokio/RealBufferedSource;.indexOf:(BJJ)J` @kind virtual;
+  #L24ae88.  v14:= temp @kind wide;
+  #L24ae8a.  v2:= -1L;
+  #L24ae8e.  v2:= lcmp(v14, v2);
+  #L24ae92.  if v2 == 0 then goto L24aeb2;
+  #L24ae96.  v0:= v17 @kind object;
+  #L24ae9a.  v2:= v0.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24ae9e.  call temp:= `readUtf8Line`(v2, v14) @signature `Lokio/Buffer;.readUtf8Line:(J)Ljava/lang/String;` @kind virtual;
+  #L24aea4.  v2:= temp @kind object;
+  #L24aea6.  return v2 @kind object;
+  #L24aea8.  v2:= 1L;
+  #L24aeac.  v6:= v18 + v2 @kind long;
+  #L24aeb0.  goto L24ae76;
+  #L24aeb2.  v2:= 9223372036854775807L;
+  #L24aebc.  v2:= lcmp(v6, v2);
+  #L24aec0.  if v2 >= 0 then goto L24af34;
+  #L24aec4.  v0:= v17 @kind object;
+  #L24aec8.  call temp:= `request`(v0, v6) @signature `Lokio/RealBufferedSource;.request:(J)Z` @kind virtual;
+  #L24aece.  v2:= temp;
+  #L24aed0.  if v2 == 0 then goto L24af34;
+  #L24aed4.  v0:= v17 @kind object;
+  #L24aed8.  v2:= v0.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24aedc.  v4:= 1L;
+  #L24aee0.  v4:= v6 - v4 @kind long;
+  #L24aee4.  call temp:= `getByte`(v2, v4) @signature `Lokio/Buffer;.getByte:(J)B` @kind virtual;
+  #L24aeea.  v2:= temp;
+  #L24aeec.  v3:= 13I;
+  #L24aef0.  if v2 != v3 then goto L24af34;
+  #L24aef4.  v2:= 1L;
+  #L24aef8.  v2:= v2 + v6 @kind long;
+  #L24aefa.  v0:= v17 @kind object;
+  #L24aefe.  call temp:= `request`(v0, v2) @signature `Lokio/RealBufferedSource;.request:(J)Z` @kind virtual;
+  #L24af04.  v2:= temp;
+  #L24af06.  if v2 == 0 then goto L24af34;
+  #L24af0a.  v0:= v17 @kind object;
+  #L24af0e.  v2:= v0.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24af12.  call temp:= `getByte`(v2, v6) @signature `Lokio/Buffer;.getByte:(J)B` @kind virtual;
+  #L24af18.  v2:= temp;
+  #L24af1a.  v3:= 10I;
+  #L24af1e.  if v2 != v3 then goto L24af34;
+  #L24af22.  v0:= v17 @kind object;
+  #L24af26.  v2:= v0.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24af2a.  call temp:= `readUtf8Line`(v2, v6) @signature `Lokio/Buffer;.readUtf8Line:(J)Ljava/lang/String;` @kind virtual;
+  #L24af30.  v2:= temp @kind object;
+  #L24af32.  goto L24aea6;
+  #L24af34.  v9:= new `okio.Buffer`;
+  #L24af38.  call `<init>`(v9) @signature `Lokio/Buffer;.<init>:()V` @kind direct;
+  #L24af3e.  v0:= v17 @kind object;
+  #L24af42.  v8:= v0.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24af46.  v10:= 0L;
+  #L24af4a.  v2:= 32L;
+  #L24af4e.  v0:= v17 @kind object;
+  #L24af52.  v4:= v0.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24af56.  call temp:= `size`(v4) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L24af5c.  v4:= temp @kind wide;
+  #L24af5e.  call temp:= `min`(v2, v4) @signature `Ljava/lang/Math;.min:(JJ)J` @kind static;
+  #L24af64.  v12:= temp @kind wide;
+  #L24af66.  call temp:= `copyTo`(v8, v9, v10, v12) @signature `Lokio/Buffer;.copyTo:(Lokio/Buffer;JJ)Lokio/Buffer;` @kind virtual;
+  #L24af6c.  v2:= new `java.io.EOFException`;
+  #L24af70.  v3:= new `java.lang.StringBuilder`;
+  #L24af74.  call `<init>`(v3) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L24af7a.  v4:= "\\n not found: limit=" @kind object;
+  #L24af7e.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L24af84.  v3:= temp @kind object;
+  #L24af86.  v0:= v17 @kind object;
+  #L24af8a.  v4:= v0.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24af8e.  call temp:= `size`(v4) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L24af94.  v4:= temp @kind wide;
+  #L24af96.  v0:= v18 @kind wide;
+  #L24af9a.  call temp:= `min`(v4, v0) @signature `Ljava/lang/Math;.min:(JJ)J` @kind static;
+  #L24afa0.  v4:= temp @kind wide;
+  #L24afa2.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(J)Ljava/lang/StringBuilder;` @kind virtual;
+  #L24afa8.  v3:= temp @kind object;
+  #L24afaa.  v4:= " content=" @kind object;
+  #L24afae.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L24afb4.  v3:= temp @kind object;
+  #L24afb6.  call temp:= `readByteString`(v9) @signature `Lokio/Buffer;.readByteString:()Lokio/ByteString;` @kind virtual;
+  #L24afbc.  v4:= temp @kind object;
+  #L24afbe.  call temp:= `hex`(v4) @signature `Lokio/ByteString;.hex:()Ljava/lang/String;` @kind virtual;
+  #L24afc4.  v4:= temp @kind object;
+  #L24afc6.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L24afcc.  v3:= temp @kind object;
+  #L24afce.  v4:= 8230I;
+  #L24afd2.  call temp:= `append`(v3, v4) @signature `Ljava/lang/StringBuilder;.append:(C)Ljava/lang/StringBuilder;` @kind virtual;
+  #L24afd8.  v3:= temp @kind object;
+  #L24afda.  call temp:= `toString`(v3) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L24afe0.  v3:= temp @kind object;
+  #L24afe2.  call `<init>`(v2, v3) @signature `Ljava/io/EOFException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24afe8.  throw v2;
+}
+procedure `boolean` `request`(`okio.RealBufferedSource` v5 @kind this, `long` v6 @name `byteCount`) @signature `Lokio/RealBufferedSource;.request:(J)Z` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L24affc.  v0:= 0L;
+  #L24b000.  v0:= lcmp(v6, v0);
+  #L24b004.  if v0 >= 0 then goto L24b03a;
+  #L24b008.  v0:= new `java.lang.IllegalArgumentException`;
+  #L24b00c.  v1:= new `java.lang.StringBuilder`;
+  #L24b010.  call `<init>`(v1) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L24b016.  v2:= "byteCount < 0: " @kind object;
+  #L24b01a.  call temp:= `append`(v1, v2) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L24b020.  v1:= temp @kind object;
+  #L24b022.  call temp:= `append`(v1, v6) @signature `Ljava/lang/StringBuilder;.append:(J)Ljava/lang/StringBuilder;` @kind virtual;
+  #L24b028.  v1:= temp @kind object;
+  #L24b02a.  call temp:= `toString`(v1) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L24b030.  v1:= temp @kind object;
+  #L24b032.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalArgumentException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24b038.  throw v0;
+  #L24b03a.  v0:= v5.`okio.RealBufferedSource.closed` @type ^`boolean` @kind boolean;
+  #L24b03e.  if v0 == 0 then goto L24b052;
+  #L24b042.  v0:= new `java.lang.IllegalStateException`;
+  #L24b046.  v1:= "closed" @kind object;
+  #L24b04a.  call `<init>`(v0, v1) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24b050.  throw v0;
+  #L24b052.  v0:= v5.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24b056.  v0:= v0.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24b05a.  v0:= lcmp(v0, v6);
+  #L24b05e.  if v0 >= 0 then goto L24b086;
+  #L24b062.  v0:= v5.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24b066.  v1:= v5.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24b06a.  v2:= 8192L;
+  #L24b06e.  call temp:= `read`(v0, v1, v2) @signature `Lokio/Source;.read:(Lokio/Buffer;J)J` @kind interface;
+  #L24b074.  v0:= temp @kind wide;
+  #L24b076.  v2:= -1L;
+  #L24b07a.  v0:= lcmp(v0, v2);
+  #L24b07e.  if v0 != 0 then goto L24b052;
+  #L24b082.  v0:= 0I;
+  #L24b084.  return v0;
+  #L24b086.  v0:= 1I;
+  #L24b088.  goto L24b084;
+}
+procedure `void` `require`(`okio.RealBufferedSource` v1 @kind this, `long` v2 @name `byteCount`) @signature `Lokio/RealBufferedSource;.require:(J)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L24b09c.  call temp:= `request`(v1, v2) @signature `Lokio/RealBufferedSource;.request:(J)Z` @kind virtual;
+  #L24b0a2.  v0:= temp;
+  #L24b0a4.  if v0 != 0 then goto L24b0b4;
+  #L24b0a8.  v0:= new `java.io.EOFException`;
+  #L24b0ac.  call `<init>`(v0) @signature `Ljava/io/EOFException;.<init>:()V` @kind direct;
+  #L24b0b2.  throw v0;
+  #L24b0b4.  return @kind void;
+}
+procedure `int` `select`(`okio.RealBufferedSource` v8 @kind this, `okio.Options` v9 @kind object @name `options`) @signature `Lokio/RealBufferedSource;.select:(Lokio/Options;)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+
+  #L24b0c8.  v2:= -1I;
+  #L24b0ca.  v3:= v8.`okio.RealBufferedSource.closed` @type ^`boolean` @kind boolean;
+  #L24b0ce.  if v3 == 0 then goto L24b0e2;
+  #L24b0d2.  v2:= new `java.lang.IllegalStateException`;
+  #L24b0d6.  v3:= "closed" @kind object;
+  #L24b0da.  call `<init>`(v2, v3) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24b0e0.  throw v2;
+  #L24b0e2.  v3:= v8.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24b0e6.  call temp:= `selectPrefix`(v3, v9) @signature `Lokio/Buffer;.selectPrefix:(Lokio/Options;)I` @kind virtual;
+  #L24b0ec.  v0:= temp;
+  #L24b0ee.  if v0 != v2 then goto L24b0f6;
+  #L24b0f2.  v0:= v2;
+  #L24b0f4.  return v0;
+  #L24b0f6.  v3:= v9.`okio.Options.byteStrings` @type ^`okio.ByteString`[] @kind object;
+  #L24b0fa.  v3:= v3[v0] @kind object;
+  #L24b0fe.  call temp:= `size`(v3) @signature `Lokio/ByteString;.size:()I` @kind virtual;
+  #L24b104.  v1:= temp;
+  #L24b106.  v4:= (`long`) v1 @kind i2l;
+  #L24b108.  v3:= v8.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24b10c.  v6:= v3.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24b110.  v3:= lcmp(v4, v6);
+  #L24b114.  if v3 > 0 then goto L24b126;
+  #L24b118.  v2:= v8.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24b11c.  v4:= (`long`) v1 @kind i2l;
+  #L24b11e.  call `skip`(v2, v4) @signature `Lokio/Buffer;.skip:(J)V` @kind virtual;
+  #L24b124.  goto L24b0f4;
+  #L24b126.  v3:= v8.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24b12a.  v4:= v8.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24b12e.  v6:= 8192L;
+  #L24b132.  call temp:= `read`(v3, v4, v6) @signature `Lokio/Source;.read:(Lokio/Buffer;J)J` @kind interface;
+  #L24b138.  v4:= temp @kind wide;
+  #L24b13a.  v6:= -1L;
+  #L24b13e.  v3:= lcmp(v4, v6);
+  #L24b142.  if v3 != 0 then goto L24b0e2;
+  #L24b146.  v0:= v2;
+  #L24b148.  goto L24b0f4;
+}
+procedure `void` `skip`(`okio.RealBufferedSource` v9 @kind this, `long` v10 @name `byteCount`) @signature `Lokio/RealBufferedSource;.skip:(J)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+    v6;
+    v7;
+    v8;
+
+  #L24b15c.  v6:= 0L;
+  #L24b160.  v2:= v9.`okio.RealBufferedSource.closed` @type ^`boolean` @kind boolean;
+  #L24b164.  if v2 == 0 then goto L24b198;
+  #L24b168.  v2:= new `java.lang.IllegalStateException`;
+  #L24b16c.  v3:= "closed" @kind object;
+  #L24b170.  call `<init>`(v2, v3) @signature `Ljava/lang/IllegalStateException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L24b176.  throw v2;
+  #L24b178.  v2:= v9.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24b17c.  call temp:= `size`(v2) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L24b182.  v2:= temp @kind wide;
+  #L24b184.  call temp:= `min`(v10, v2) @signature `Ljava/lang/Math;.min:(JJ)J` @kind static;
+  #L24b18a.  v0:= temp @kind wide;
+  #L24b18c.  v2:= v9.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24b190.  call `skip`(v2, v0) @signature `Lokio/Buffer;.skip:(J)V` @kind virtual;
+  #L24b196.  v10:= v10 - v0 @kind long;
+  #L24b198.  v2:= lcmp(v10, v6);
+  #L24b19c.  if v2 <= 0 then goto L24b1dc;
+  #L24b1a0.  v2:= v9.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24b1a4.  v2:= v2.`okio.Buffer.size` @type ^`long` @kind wide;
+  #L24b1a8.  v2:= lcmp(v2, v6);
+  #L24b1ac.  if v2 != 0 then goto L24b178;
+  #L24b1b0.  v2:= v9.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24b1b4.  v3:= v9.`okio.RealBufferedSource.buffer` @type ^`okio.Buffer` @kind object;
+  #L24b1b8.  v4:= 8192L;
+  #L24b1bc.  call temp:= `read`(v2, v3, v4) @signature `Lokio/Source;.read:(Lokio/Buffer;J)J` @kind interface;
+  #L24b1c2.  v2:= temp @kind wide;
+  #L24b1c4.  v4:= -1L;
+  #L24b1c8.  v2:= lcmp(v2, v4);
+  #L24b1cc.  if v2 != 0 then goto L24b178;
+  #L24b1d0.  v2:= new `java.io.EOFException`;
+  #L24b1d4.  call `<init>`(v2) @signature `Ljava/io/EOFException;.<init>:()V` @kind direct;
+  #L24b1da.  throw v2;
+  #L24b1dc.  return @kind void;
+}
+procedure `okio.Timeout` `timeout`(`okio.RealBufferedSource` v1 @kind this) @signature `Lokio/RealBufferedSource;.timeout:()Lokio/Timeout;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L24b1f0.  v0:= v1.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24b1f4.  call temp:= `timeout`(v0) @signature `Lokio/Source;.timeout:()Lokio/Timeout;` @kind interface;
+  #L24b1fa.  v0:= temp @kind object;
+  #L24b1fc.  return v0 @kind object;
+}
+procedure `java.lang.String` `toString`(`okio.RealBufferedSource` v2 @kind this) @signature `Lokio/RealBufferedSource;.toString:()Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L24b210.  v0:= new `java.lang.StringBuilder`;
+  #L24b214.  call `<init>`(v0) @signature `Ljava/lang/StringBuilder;.<init>:()V` @kind direct;
+  #L24b21a.  v1:= "buffer(" @kind object;
+  #L24b21e.  call temp:= `append`(v0, v1) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L24b224.  v0:= temp @kind object;
+  #L24b226.  v1:= v2.`okio.RealBufferedSource.source` @type ^`okio.Source` @kind object;
+  #L24b22a.  call temp:= `append`(v0, v1) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L24b230.  v0:= temp @kind object;
+  #L24b232.  v1:= ")" @kind object;
+  #L24b236.  call temp:= `append`(v0, v1) @signature `Ljava/lang/StringBuilder;.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;` @kind virtual;
+  #L24b23c.  v0:= temp @kind object;
+  #L24b23e.  call temp:= `toString`(v0) @signature `Ljava/lang/StringBuilder;.toString:()Ljava/lang/String;` @kind virtual;
+  #L24b244.  v0:= temp @kind object;
+  #L24b246.  return v0 @kind object;
+}

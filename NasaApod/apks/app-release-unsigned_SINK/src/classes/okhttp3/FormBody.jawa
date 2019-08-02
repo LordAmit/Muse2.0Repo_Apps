@@ -1,0 +1,151 @@
+record `okhttp3.FormBody` @kind class @AccessFlag PUBLIC_FINAL extends `okhttp3.RequestBody` @kind class {
+  `java.util.List` `okhttp3.FormBody.encodedNames` @AccessFlag PRIVATE_FINAL;
+  `java.util.List` `okhttp3.FormBody.encodedValues` @AccessFlag PRIVATE_FINAL;
+}
+global `okhttp3.MediaType` `@@okhttp3.FormBody.CONTENT_TYPE` @AccessFlag PRIVATE_STATIC_FINAL;
+procedure `void` `<clinit>`() @signature `Lokhttp3/FormBody;.<clinit>:()V` @AccessFlag STATIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L2150e0.  v0:= "application/x-www-form-urlencoded" @kind object;
+  #L2150e4.  call temp:= `parse`(v0) @signature `Lokhttp3/MediaType;.parse:(Ljava/lang/String;)Lokhttp3/MediaType;` @kind static;
+  #L2150ea.  v0:= temp @kind object;
+  #L2150ec.  `@@okhttp3.FormBody.CONTENT_TYPE` @type ^`okhttp3.MediaType` := v0 @kind object;
+  #L2150f0.  return @kind void;
+}
+procedure `void` `<init>`(`okhttp3.FormBody` v1 @kind this, `java.util.List` v2 @kind object, `java.util.List` v3 @kind object) @signature `Lokhttp3/FormBody;.<init>:(Ljava/util/List;Ljava/util/List;)V` @AccessFlag CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L215104.  call `<init>`(v1) @signature `Lokhttp3/RequestBody;.<init>:()V` @kind direct;
+  #L21510a.  call temp:= `immutableList`(v2) @signature `Lokhttp3/internal/Util;.immutableList:(Ljava/util/List;)Ljava/util/List;` @kind static;
+  #L215110.  v0:= temp @kind object;
+  #L215112.  v1.`okhttp3.FormBody.encodedNames` @type ^`java.util.List` := v0 @kind object;
+  #L215116.  call temp:= `immutableList`(v3) @signature `Lokhttp3/internal/Util;.immutableList:(Ljava/util/List;)Ljava/util/List;` @kind static;
+  #L21511c.  v0:= temp @kind object;
+  #L21511e.  v1.`okhttp3.FormBody.encodedValues` @type ^`java.util.List` := v0 @kind object;
+  #L215122.  return @kind void;
+}
+procedure `long` `writeOrCountBytes`(`okhttp3.FormBody` v6 @kind this, `okio.BufferedSink` v7 @kind object @name `sink`, `boolean` v8 @name `countBytes`) @signature `Lokhttp3/FormBody;.writeOrCountBytes:(Lokio/BufferedSink;Z)J` @AccessFlag PRIVATE {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+    v5;
+
+  #L215134.  v2:= 0L;
+  #L215138.  if v8 == 0 then goto L2151a2;
+  #L21513c.  v0:= new `okio.Buffer`;
+  #L215140.  call `<init>`(v0) @signature `Lokio/Buffer;.<init>:()V` @kind direct;
+  #L215146.  v1:= 0I;
+  #L215148.  v5:= v6.`okhttp3.FormBody.encodedNames` @type ^`java.util.List` @kind object;
+  #L21514c.  call temp:= `size`(v5) @signature `Ljava/util/List;.size:()I` @kind interface;
+  #L215152.  v4:= temp;
+  #L215154.  if v1 >= v4 then goto L2151ac;
+  #L215158.  if v1 <= 0 then goto L215166;
+  #L21515c.  v5:= 38I;
+  #L215160.  call temp:= `writeByte`(v0, v5) @signature `Lokio/Buffer;.writeByte:(I)Lokio/Buffer;` @kind virtual;
+  #L215166.  v5:= v6.`okhttp3.FormBody.encodedNames` @type ^`java.util.List` @kind object;
+  #L21516a.  call temp:= `get`(v5, v1) @signature `Ljava/util/List;.get:(I)Ljava/lang/Object;` @kind interface;
+  #L215170.  v5:= temp @kind object;
+  #L215172.  v5:= (`java.lang.String`) v5 @kind object;
+  #L215176.  call temp:= `writeUtf8`(v0, v5) @signature `Lokio/Buffer;.writeUtf8:(Ljava/lang/String;)Lokio/Buffer;` @kind virtual;
+  #L21517c.  v5:= 61I;
+  #L215180.  call temp:= `writeByte`(v0, v5) @signature `Lokio/Buffer;.writeByte:(I)Lokio/Buffer;` @kind virtual;
+  #L215186.  v5:= v6.`okhttp3.FormBody.encodedValues` @type ^`java.util.List` @kind object;
+  #L21518a.  call temp:= `get`(v5, v1) @signature `Ljava/util/List;.get:(I)Ljava/lang/Object;` @kind interface;
+  #L215190.  v5:= temp @kind object;
+  #L215192.  v5:= (`java.lang.String`) v5 @kind object;
+  #L215196.  call temp:= `writeUtf8`(v0, v5) @signature `Lokio/Buffer;.writeUtf8:(Ljava/lang/String;)Lokio/Buffer;` @kind virtual;
+  #L21519c.  v1:= v1 + 1;
+  #L2151a0.  goto L215154;
+  #L2151a2.  call temp:= `buffer`(v7) @signature `Lokio/BufferedSink;.buffer:()Lokio/Buffer;` @kind interface;
+  #L2151a8.  v0:= temp @kind object;
+  #L2151aa.  goto L215146;
+  #L2151ac.  if v8 == 0 then goto L2151be;
+  #L2151b0.  call temp:= `size`(v0) @signature `Lokio/Buffer;.size:()J` @kind virtual;
+  #L2151b6.  v2:= temp @kind wide;
+  #L2151b8.  call `clear`(v0) @signature `Lokio/Buffer;.clear:()V` @kind virtual;
+  #L2151be.  return v2 @kind wide;
+}
+procedure `long` `contentLength`(`okhttp3.FormBody` v2 @kind this) @signature `Lokhttp3/FormBody;.contentLength:()J` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L2151d0.  v0:= 0I;
+  #L2151d2.  v1:= 1I;
+  #L2151d4.  call temp:= `writeOrCountBytes`(v2, v0, v1) @signature `Lokhttp3/FormBody;.writeOrCountBytes:(Lokio/BufferedSink;Z)J` @kind direct;
+  #L2151da.  v0:= temp @kind wide;
+  #L2151dc.  return v0 @kind wide;
+}
+procedure `okhttp3.MediaType` `contentType`(`okhttp3.FormBody` v1 @kind this) @signature `Lokhttp3/FormBody;.contentType:()Lokhttp3/MediaType;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L2151f0.  v0:= `@@okhttp3.FormBody.CONTENT_TYPE` @type ^`okhttp3.MediaType` @kind object;
+  #L2151f4.  return v0 @kind object;
+}
+procedure `java.lang.String` `encodedName`(`okhttp3.FormBody` v1 @kind this, `int` v2 @name `index`) @signature `Lokhttp3/FormBody;.encodedName:(I)Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L215208.  v0:= v1.`okhttp3.FormBody.encodedNames` @type ^`java.util.List` @kind object;
+  #L21520c.  call temp:= `get`(v0, v2) @signature `Ljava/util/List;.get:(I)Ljava/lang/Object;` @kind interface;
+  #L215212.  v0:= temp @kind object;
+  #L215214.  v0:= (`java.lang.String`) v0 @kind object;
+  #L215218.  return v0 @kind object;
+}
+procedure `java.lang.String` `encodedValue`(`okhttp3.FormBody` v1 @kind this, `int` v2 @name `index`) @signature `Lokhttp3/FormBody;.encodedValue:(I)Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L21522c.  v0:= v1.`okhttp3.FormBody.encodedValues` @type ^`java.util.List` @kind object;
+  #L215230.  call temp:= `get`(v0, v2) @signature `Ljava/util/List;.get:(I)Ljava/lang/Object;` @kind interface;
+  #L215236.  v0:= temp @kind object;
+  #L215238.  v0:= (`java.lang.String`) v0 @kind object;
+  #L21523c.  return v0 @kind object;
+}
+procedure `java.lang.String` `name`(`okhttp3.FormBody` v2 @kind this, `int` v3 @name `index`) @signature `Lokhttp3/FormBody;.name:(I)Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L215250.  call temp:= `encodedName`(v2, v3) @signature `Lokhttp3/FormBody;.encodedName:(I)Ljava/lang/String;` @kind virtual;
+  #L215256.  v0:= temp @kind object;
+  #L215258.  v1:= 1I;
+  #L21525a.  call temp:= `percentDecode`(v0, v1) @signature `Lokhttp3/HttpUrl;.percentDecode:(Ljava/lang/String;Z)Ljava/lang/String;` @kind static;
+  #L215260.  v0:= temp @kind object;
+  #L215262.  return v0 @kind object;
+}
+procedure `int` `size`(`okhttp3.FormBody` v1 @kind this) @signature `Lokhttp3/FormBody;.size:()I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L215274.  v0:= v1.`okhttp3.FormBody.encodedNames` @type ^`java.util.List` @kind object;
+  #L215278.  call temp:= `size`(v0) @signature `Ljava/util/List;.size:()I` @kind interface;
+  #L21527e.  v0:= temp;
+  #L215280.  return v0;
+}
+procedure `java.lang.String` `value`(`okhttp3.FormBody` v2 @kind this, `int` v3 @name `index`) @signature `Lokhttp3/FormBody;.value:(I)Ljava/lang/String;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+
+  #L215294.  call temp:= `encodedValue`(v2, v3) @signature `Lokhttp3/FormBody;.encodedValue:(I)Ljava/lang/String;` @kind virtual;
+  #L21529a.  v0:= temp @kind object;
+  #L21529c.  v1:= 1I;
+  #L21529e.  call temp:= `percentDecode`(v0, v1) @signature `Lokhttp3/HttpUrl;.percentDecode:(Ljava/lang/String;Z)Ljava/lang/String;` @kind static;
+  #L2152a4.  v0:= temp @kind object;
+  #L2152a6.  return v0 @kind object;
+}
+procedure `void` `writeTo`(`okhttp3.FormBody` v1 @kind this, `okio.BufferedSink` v2 @kind object @name `sink`) @signature `Lokhttp3/FormBody;.writeTo:(Lokio/BufferedSink;)V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L2152b8.  v0:= 0I;
+  #L2152ba.  call temp:= `writeOrCountBytes`(v1, v2, v0) @signature `Lokhttp3/FormBody;.writeOrCountBytes:(Lokio/BufferedSink;Z)J` @kind direct;
+  #L2152c0.  return @kind void;
+}

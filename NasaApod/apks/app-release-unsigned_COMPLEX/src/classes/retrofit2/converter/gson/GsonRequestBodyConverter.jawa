@@ -1,0 +1,64 @@
+record `retrofit2.converter.gson.GsonRequestBodyConverter` @kind class @AccessFlag FINAL extends `retrofit2.Converter` @kind interface {
+  `com.google.gson.TypeAdapter` `retrofit2.converter.gson.GsonRequestBodyConverter.adapter` @AccessFlag PRIVATE_FINAL;
+  `com.google.gson.Gson` `retrofit2.converter.gson.GsonRequestBodyConverter.gson` @AccessFlag PRIVATE_FINAL;
+}
+global `okhttp3.MediaType` `@@retrofit2.converter.gson.GsonRequestBodyConverter.MEDIA_TYPE` @AccessFlag PRIVATE_STATIC_FINAL;
+global `java.nio.charset.Charset` `@@retrofit2.converter.gson.GsonRequestBodyConverter.UTF_8` @AccessFlag PRIVATE_STATIC_FINAL;
+procedure `void` `<clinit>`() @signature `Lretrofit2/converter/gson/GsonRequestBodyConverter;.<clinit>:()V` @AccessFlag STATIC_CONSTRUCTOR {
+    temp;
+    v0;
+
+  #L22179c.  v0:= "application/json; charset=UTF-8" @kind object;
+  #L2217a0.  call temp:= `parse`(v0) @signature `Lokhttp3/MediaType;.parse:(Ljava/lang/String;)Lokhttp3/MediaType;` @kind static;
+  #L2217a6.  v0:= temp @kind object;
+  #L2217a8.  `@@retrofit2.converter.gson.GsonRequestBodyConverter.MEDIA_TYPE` @type ^`okhttp3.MediaType` := v0 @kind object;
+  #L2217ac.  v0:= "UTF-8" @kind object;
+  #L2217b0.  call temp:= `forName`(v0) @signature `Ljava/nio/charset/Charset;.forName:(Ljava/lang/String;)Ljava/nio/charset/Charset;` @kind static;
+  #L2217b6.  v0:= temp @kind object;
+  #L2217b8.  `@@retrofit2.converter.gson.GsonRequestBodyConverter.UTF_8` @type ^`java.nio.charset.Charset` := v0 @kind object;
+  #L2217bc.  return @kind void;
+}
+procedure `void` `<init>`(`retrofit2.converter.gson.GsonRequestBodyConverter` v0 @kind this, `com.google.gson.Gson` v1 @kind object @name `gson`, `com.google.gson.TypeAdapter` v2 @kind object) @signature `Lretrofit2/converter/gson/GsonRequestBodyConverter;.<init>:(Lcom/google/gson/Gson;Lcom/google/gson/TypeAdapter;)V` @AccessFlag CONSTRUCTOR {
+    temp;
+
+  #L2217d0.  call `<init>`(v0) @signature `Ljava/lang/Object;.<init>:()V` @kind direct;
+  #L2217d6.  v0.`retrofit2.converter.gson.GsonRequestBodyConverter.gson` @type ^`com.google.gson.Gson` := v1 @kind object;
+  #L2217da.  v0.`retrofit2.converter.gson.GsonRequestBodyConverter.adapter` @type ^`com.google.gson.TypeAdapter` := v2 @kind object;
+  #L2217de.  return @kind void;
+}
+procedure `java.lang.Object` `convert`(`retrofit2.converter.gson.GsonRequestBodyConverter` v1 @kind this, `java.lang.Object` v2 @kind object) @signature `Lretrofit2/converter/gson/GsonRequestBodyConverter;.convert:(Ljava/lang/Object;)Ljava/lang/Object;` @AccessFlag PUBLIC_SYNTHETIC {
+    temp;
+    v0;
+
+  #L2217f0.  call temp:= `convert`(v1, v2) @signature `Lretrofit2/converter/gson/GsonRequestBodyConverter;.convert:(Ljava/lang/Object;)Lokhttp3/RequestBody;` @kind virtual;
+  #L2217f6.  v0:= temp @kind object;
+  #L2217f8.  return v0 @kind object;
+}
+procedure `okhttp3.RequestBody` `convert`(`retrofit2.converter.gson.GsonRequestBodyConverter` v5 @kind this, `java.lang.Object` v6 @kind object) @signature `Lretrofit2/converter/gson/GsonRequestBodyConverter;.convert:(Ljava/lang/Object;)Lokhttp3/RequestBody;` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+    v4;
+
+  #L22180c.  v0:= new `okio.Buffer`;
+  #L221810.  call `<init>`(v0) @signature `Lokio/Buffer;.<init>:()V` @kind direct;
+  #L221816.  v2:= new `java.io.OutputStreamWriter`;
+  #L22181a.  call temp:= `outputStream`(v0) @signature `Lokio/Buffer;.outputStream:()Ljava/io/OutputStream;` @kind virtual;
+  #L221820.  v3:= temp @kind object;
+  #L221822.  v4:= `@@retrofit2.converter.gson.GsonRequestBodyConverter.UTF_8` @type ^`java.nio.charset.Charset` @kind object;
+  #L221826.  call `<init>`(v2, v3, v4) @signature `Ljava/io/OutputStreamWriter;.<init>:(Ljava/io/OutputStream;Ljava/nio/charset/Charset;)V` @kind direct;
+  #L22182c.  v3:= v5.`retrofit2.converter.gson.GsonRequestBodyConverter.gson` @type ^`com.google.gson.Gson` @kind object;
+  #L221830.  call temp:= `newJsonWriter`(v3, v2) @signature `Lcom/google/gson/Gson;.newJsonWriter:(Ljava/io/Writer;)Lcom/google/gson/stream/JsonWriter;` @kind virtual;
+  #L221836.  v1:= temp @kind object;
+  #L221838.  v3:= v5.`retrofit2.converter.gson.GsonRequestBodyConverter.adapter` @type ^`com.google.gson.TypeAdapter` @kind object;
+  #L22183c.  call `write`(v3, v1, v6) @signature `Lcom/google/gson/TypeAdapter;.write:(Lcom/google/gson/stream/JsonWriter;Ljava/lang/Object;)V` @kind virtual;
+  #L221842.  call `close`(v1) @signature `Lcom/google/gson/stream/JsonWriter;.close:()V` @kind virtual;
+  #L221848.  v3:= `@@retrofit2.converter.gson.GsonRequestBodyConverter.MEDIA_TYPE` @type ^`okhttp3.MediaType` @kind object;
+  #L22184c.  call temp:= `readByteString`(v0) @signature `Lokio/Buffer;.readByteString:()Lokio/ByteString;` @kind virtual;
+  #L221852.  v4:= temp @kind object;
+  #L221854.  call temp:= `create`(v3, v4) @signature `Lokhttp3/RequestBody;.create:(Lokhttp3/MediaType;Lokio/ByteString;)Lokhttp3/RequestBody;` @kind static;
+  #L22185a.  v3:= temp @kind object;
+  #L22185c.  return v3 @kind object;
+}

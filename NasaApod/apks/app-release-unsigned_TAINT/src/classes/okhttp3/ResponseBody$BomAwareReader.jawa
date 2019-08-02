@@ -1,0 +1,58 @@
+record `okhttp3.ResponseBody$BomAwareReader` @kind class @AccessFlag FINAL extends `java.io.Reader` @kind class {
+  `java.nio.charset.Charset` `okhttp3.ResponseBody$BomAwareReader.charset` @AccessFlag PRIVATE_FINAL;
+  `boolean` `okhttp3.ResponseBody$BomAwareReader.closed` @AccessFlag PRIVATE;
+  `java.io.Reader` `okhttp3.ResponseBody$BomAwareReader.delegate` @AccessFlag PRIVATE;
+  `okio.BufferedSource` `okhttp3.ResponseBody$BomAwareReader.source` @AccessFlag PRIVATE_FINAL;
+}
+procedure `void` `<init>`(`okhttp3.ResponseBody$BomAwareReader` v0 @kind this, `okio.BufferedSource` v1 @kind object @name `source`, `java.nio.charset.Charset` v2 @kind object @name `charset`) @signature `Lokhttp3/ResponseBody$BomAwareReader;.<init>:(Lokio/BufferedSource;Ljava/nio/charset/Charset;)V` @AccessFlag CONSTRUCTOR {
+    temp;
+
+  #L19e6c8.  call `<init>`(v0) @signature `Ljava/io/Reader;.<init>:()V` @kind direct;
+  #L19e6ce.  v0.`okhttp3.ResponseBody$BomAwareReader.source` @type ^`okio.BufferedSource` := v1 @kind object;
+  #L19e6d2.  v0.`okhttp3.ResponseBody$BomAwareReader.charset` @type ^`java.nio.charset.Charset` := v2 @kind object;
+  #L19e6d6.  return @kind void;
+}
+procedure `void` `close`(`okhttp3.ResponseBody$BomAwareReader` v1 @kind this) @signature `Lokhttp3/ResponseBody$BomAwareReader;.close:()V` @AccessFlag PUBLIC {
+    temp;
+    v0;
+
+  #L19e6e8.  v0:= 1I;
+  #L19e6ea.  v1.`okhttp3.ResponseBody$BomAwareReader.closed` @type ^`boolean` := v0 @kind boolean;
+  #L19e6ee.  v0:= v1.`okhttp3.ResponseBody$BomAwareReader.delegate` @type ^`java.io.Reader` @kind object;
+  #L19e6f2.  if v0 == 0 then goto L19e702;
+  #L19e6f6.  v0:= v1.`okhttp3.ResponseBody$BomAwareReader.delegate` @type ^`java.io.Reader` @kind object;
+  #L19e6fa.  call `close`(v0) @signature `Ljava/io/Reader;.close:()V` @kind virtual;
+  #L19e700.  return @kind void;
+  #L19e702.  v0:= v1.`okhttp3.ResponseBody$BomAwareReader.source` @type ^`okio.BufferedSource` @kind object;
+  #L19e706.  call `close`(v0) @signature `Lokio/BufferedSource;.close:()V` @kind interface;
+  #L19e70c.  goto L19e700;
+}
+procedure `int` `read`(`okhttp3.ResponseBody$BomAwareReader` v4 @kind this, `char`[] v5 @kind object @name `cbuf`, `int` v6 @name `off`, `int` v7 @name `len`) @signature `Lokhttp3/ResponseBody$BomAwareReader;.read:([CII)I` @AccessFlag PUBLIC {
+    temp;
+    v0;
+    v1;
+    v2;
+    v3;
+
+  #L19e720.  v2:= v4.`okhttp3.ResponseBody$BomAwareReader.closed` @type ^`boolean` @kind boolean;
+  #L19e724.  if v2 == 0 then goto L19e738;
+  #L19e728.  v2:= new `java.io.IOException`;
+  #L19e72c.  v3:= "Stream closed" @kind object;
+  #L19e730.  call `<init>`(v2, v3) @signature `Ljava/io/IOException;.<init>:(Ljava/lang/String;)V` @kind direct;
+  #L19e736.  throw v2;
+  #L19e738.  v1:= v4.`okhttp3.ResponseBody$BomAwareReader.delegate` @type ^`java.io.Reader` @kind object;
+  #L19e73c.  if v1 != 0 then goto L19e76a;
+  #L19e740.  v2:= v4.`okhttp3.ResponseBody$BomAwareReader.source` @type ^`okio.BufferedSource` @kind object;
+  #L19e744.  v3:= v4.`okhttp3.ResponseBody$BomAwareReader.charset` @type ^`java.nio.charset.Charset` @kind object;
+  #L19e748.  call temp:= `bomAwareCharset`(v2, v3) @signature `Lokhttp3/internal/Util;.bomAwareCharset:(Lokio/BufferedSource;Ljava/nio/charset/Charset;)Ljava/nio/charset/Charset;` @kind static;
+  #L19e74e.  v0:= temp @kind object;
+  #L19e750.  v1:= new `java.io.InputStreamReader`;
+  #L19e754.  v2:= v4.`okhttp3.ResponseBody$BomAwareReader.source` @type ^`okio.BufferedSource` @kind object;
+  #L19e758.  call temp:= `inputStream`(v2) @signature `Lokio/BufferedSource;.inputStream:()Ljava/io/InputStream;` @kind interface;
+  #L19e75e.  v2:= temp @kind object;
+  #L19e760.  call `<init>`(v1, v2, v0) @signature `Ljava/io/InputStreamReader;.<init>:(Ljava/io/InputStream;Ljava/nio/charset/Charset;)V` @kind direct;
+  #L19e766.  v4.`okhttp3.ResponseBody$BomAwareReader.delegate` @type ^`java.io.Reader` := v1 @kind object;
+  #L19e76a.  call temp:= `read`(v1, v5, v6, v7) @signature `Ljava/io/Reader;.read:([CII)I` @kind virtual;
+  #L19e770.  v2:= temp;
+  #L19e772.  return v2;
+}
