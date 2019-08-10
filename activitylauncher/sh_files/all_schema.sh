@@ -1,0 +1,9 @@
+sh clean_project_folder.sh
+echo activitylauncher SINK
+sh activitylauncher_SINK.sh
+echo activitylauncher REACHABILITY
+sh activitylauncher_REACHABILITY.sh
+echo activitylauncher TAINTSINK
+sh activitylauncher_TAINTSINK.sh
+echo activitylauncher COMPLEXREACHABILITY
+sh activitylauncher_COMPLEXREACHABILITY.sh
