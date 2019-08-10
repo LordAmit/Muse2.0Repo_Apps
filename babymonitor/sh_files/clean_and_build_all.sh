@@ -1,0 +1,12 @@
+cd /home/amit/muse/output/babymonitor/schemas/SINK/babymonitor/
+/home/amit/muse/output/babymonitor/schemas/SINK/babymonitor/gradlew clean
+/home/amit/muse/output/babymonitor/schemas/SINK/babymonitor/gradlew assembleDebug
+cd /home/amit/muse/output/babymonitor/schemas/REACHABILITY/babymonitor/
+/home/amit/muse/output/babymonitor/schemas/REACHABILITY/babymonitor/gradlew clean
+/home/amit/muse/output/babymonitor/schemas/REACHABILITY/babymonitor/gradlew assembleDebug
+cd /home/amit/muse/output/babymonitor/schemas/TAINTSINK/babymonitor/
+/home/amit/muse/output/babymonitor/schemas/TAINTSINK/babymonitor/gradlew clean
+/home/amit/muse/output/babymonitor/schemas/TAINTSINK/babymonitor/gradlew assembleDebug
+cd /home/amit/muse/output/babymonitor/schemas/COMPLEXREACHABILITY/babymonitor/
+/home/amit/muse/output/babymonitor/schemas/COMPLEXREACHABILITY/babymonitor/gradlew clean
+/home/amit/muse/output/babymonitor/schemas/COMPLEXREACHABILITY/babymonitor/gradlew assembleDebug
