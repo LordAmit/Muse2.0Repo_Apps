@@ -1,0 +1,12 @@
+cd /home/amit/muse/output/androidpn/schemas/SINK/androidpn/
+/home/amit/muse/output/androidpn/schemas/SINK/androidpn/gradlew clean
+/home/amit/muse/output/androidpn/schemas/SINK/androidpn/gradlew assembleDebug
+cd /home/amit/muse/output/androidpn/schemas/REACHABILITY/androidpn/
+/home/amit/muse/output/androidpn/schemas/REACHABILITY/androidpn/gradlew clean
+/home/amit/muse/output/androidpn/schemas/REACHABILITY/androidpn/gradlew assembleDebug
+cd /home/amit/muse/output/androidpn/schemas/TAINTSINK/androidpn/
+/home/amit/muse/output/androidpn/schemas/TAINTSINK/androidpn/gradlew clean
+/home/amit/muse/output/androidpn/schemas/TAINTSINK/androidpn/gradlew assembleDebug
+cd /home/amit/muse/output/androidpn/schemas/COMPLEXREACHABILITY/androidpn/
+/home/amit/muse/output/androidpn/schemas/COMPLEXREACHABILITY/androidpn/gradlew clean
+/home/amit/muse/output/androidpn/schemas/COMPLEXREACHABILITY/androidpn/gradlew assembleDebug
